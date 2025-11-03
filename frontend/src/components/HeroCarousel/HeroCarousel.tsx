@@ -72,26 +72,49 @@ export const HeroCarousel = () => {
         if (!res.ok) throw new Error("Failed to fetch carousel");
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          const mapped: HeroSlide[] = data.map((item: any) => ({
-            id: String(
-              item.movieId ||
-                item.movie_id ||
-                item.carouselId ||
-                item.carousel_id
-            ),
-            title: item.title || item.name || "",
-            description: item.shortDescription || item.short_description || "",
-            // Prefer backend-resolved backgroundImage (uses image2 when available). Support both camelCase and snake_case keys.
-            backgroundImage:
-              item.backgroundImage ||
-              item.background_image ||
-              (item.image2
-                ? getImageUrl("movies", item.image2)
-                : item.image1
-                ? getImageUrl("movies", item.image1)
-                : ""),
-            buttonText: "View Details",
-          }));
+          const mapped: HeroSlide[] = data.map((item: any) => {
+            // Helper to extract filename from legacy path and use getImageUrl
+            const resolveImageUrl = (path: string | undefined): string => {
+              if (!path) return "";
+
+              // Check if backend returned a legacy path like "/movies/filename.jpg"
+              const moviesMatch = path.match(/^\/movies\/(.+)$/);
+              if (moviesMatch) {
+                return getImageUrl("movies", moviesMatch[1]);
+              }
+
+              const charactersMatch = path.match(/^\/characters\/(.+)$/);
+              if (charactersMatch) {
+                return getImageUrl("characters", charactersMatch[1]);
+              }
+
+              // If it's already a full URL or doesn't match pattern, return as-is
+              return path;
+            };
+
+            return {
+              id: String(
+                item.movieId ||
+                  item.movie_id ||
+                  item.carouselId ||
+                  item.carousel_id
+              ),
+              title: item.title || item.name || "",
+              description:
+                item.shortDescription || item.short_description || "",
+              // Prefer backend-resolved backgroundImage, but convert legacy paths to use getImageUrl
+              backgroundImage:
+                resolveImageUrl(
+                  item.backgroundImage || item.background_image
+                ) ||
+                (item.image2
+                  ? getImageUrl("movies", item.image2)
+                  : item.image1
+                  ? getImageUrl("movies", item.image1)
+                  : ""),
+              buttonText: "View Details",
+            };
+          });
 
           // Preload images (resolve quickly on error to avoid blocking)
           const images = mapped.map((s) => s.backgroundImage).filter(Boolean);

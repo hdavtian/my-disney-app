@@ -4,9 +4,18 @@
 
 ### 1. Environment Variables
 
-- ✅ Created `.env.local` with `VITE_ASSETS_BASE_URL=http://localhost:5001`
-- ✅ Created `.env.production` with placeholder `VITE_ASSETS_BASE_URL=https://<prod-assets-host>`
+- ✅ Created `.env.local` (gitignored) - for local development overrides
+  - Default: `VITE_ASSETS_BASE_URL=http://localhost:5001`
+  - Can switch to Azure for testing: `https://disneyimages.blob.core.windows.net/images/disney-movies-app`
+- ✅ Created `.env.production` (tracked) - for production builds
+  - Configured: `VITE_ASSETS_BASE_URL=https://disneyimages.blob.core.windows.net/images/disney-movies-app`
 - ✅ Updated `.gitignore` to track `.env.production` but ignore `.env.local`
+
+**Environment Priority:**
+
+1. `.env.local` (highest - local overrides, gitignored)
+2. `.env.production` (tracked - used in production builds)
+3. Fallback defaults in `assets.ts`
 
 ### 2. Assets Config Module
 
@@ -67,29 +76,76 @@ All components now use `getImageUrl()` helper:
 - ✅ Filenames remain filename-only (no paths)
 - ✅ All existing functionality preserved
 
-## 🚀 Next Steps for Deployment
+## 🚀 Deployment & Usage
 
-### Local Development
+### Local Development Options
 
-1. Ensure local asset server runs on `http://localhost:5001`
+#### Option 1: Local Asset Server (Default)
+
+Edit `.env.local`:
+
+```bash
+VITE_ASSETS_BASE_URL=http://localhost:5001
+```
+
+1. Ensure local asset server runs on port 5001
 2. Verify `/movies/` and `/characters/` directories exist
 3. Run `npm run dev` in frontend directory
 
-### Production
+#### Option 2: Azure Blob Storage (Remote Testing)
 
-1. Update `.env.production` with actual CDN URL
-2. Upload assets to CDN preserving directory structure:
-   - `/movies/<filename>`
-   - `/characters/<filename>`
-3. Build: `npm run build`
-4. Deploy dist folder
+Edit `.env.local`:
 
-### Verification
+```bash
+VITE_ASSETS_BASE_URL=https://disneyimages.blob.core.windows.net/images/disney-movies-app
+```
 
-- Check browser console for `[Assets Config] Initialized:` message
-- Verify one movie image loads correctly
-- Verify one character image loads correctly
-- Watch for any 404s in network tab
+1. No local server needed
+2. Test with production assets
+3. Run `npm run dev` in frontend directory
+
+**Quick Switch**: Comment/uncomment lines in `.env.local` to switch between local and remote
+
+### Production Deployment
+
+✅ **Already Configured**: `.env.production` points to Azure Blob Storage
+
+Azure Configuration:
+
+- **URL**: `https://disneyimages.blob.core.windows.net/images/disney-movies-app`
+- **Structure**:
+  - `/movies/<filename>` (e.g., `101_dalmatians_1.jpg`)
+  - `/characters/<filename>` (e.g., `prf_3_peas-in-a-pod.png`)
+
+**Build & Deploy:**
+
+1. Assets already uploaded to Azure Blob Storage ✅
+2. Build: `npm run build` (uses `.env.production` automatically)
+3. Deploy `dist/` folder to hosting platform
+
+### Verification Checklist
+
+**Development Testing:**
+
+- ✅ Check browser console for `[Assets Config] Initialized:` message
+- ✅ Verify base URL matches your `.env.local` setting
+- ✅ Network tab shows images loading from correct source (localhost:5001 or Azure)
+- ✅ Hero carousel background displays
+- ✅ Movie images load correctly
+- ✅ Character images load correctly
+- ✅ No 404s in network tab
+
+**Production Build Testing:**
+
+```bash
+npm run build
+npm run preview
+```
+
+- ✅ Build uses `.env.production` (ignores `.env.local`)
+- ✅ All images load from Azure Blob Storage
+- ✅ No CORS errors
+- ✅ Console shows Azure URL in initialization message
 
 ## 📁 Files Created/Modified
 
@@ -118,7 +174,23 @@ All components now use `getImageUrl()` helper:
 
 1. **Centralized**: Single source of truth for image URLs
 2. **Secure**: Multiple layers of input validation
-3. **Flexible**: Easy to switch between dev/prod/staging
-4. **Maintainable**: No hardcoded paths in components
-5. **Type-safe**: Full TypeScript support
-6. **Cacheable**: Optional version prefix support
+3. **Flexible**: Easy to switch between local/Azure with one line change in `.env.local`
+4. **Production-Ready**: Azure Blob Storage configured and tested
+5. **Maintainable**: No hardcoded paths in components
+6. **Type-safe**: Full TypeScript support
+7. **Cacheable**: Optional version prefix support
+
+## 🎯 Current Configuration
+
+**Azure Blob Storage (Production)**
+
+- Base URL: `https://disneyimages.blob.core.windows.net/images/disney-movies-app`
+- Movie images: `.../movies/101_dalmatians_1.jpg`
+- Character images: `.../characters/prf_3_peas-in-a-pod.png`
+- Status: ✅ Configured and tested
+
+**Local Development**
+
+- Switch between local (port 5001) and Azure by editing `.env.local`
+- Changes take effect after dev server restart
+- `.env.local` is gitignored - safe to modify locally
