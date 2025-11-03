@@ -257,6 +257,16 @@ Notes
   - [x] Add CI job in assets repository to sync images with azcopy (delta uploads) and optional CDN purge
   - [x] Add app config: `VITE_ASSETS_BASE_URL` (FE) for environment-aware image loading
   - [x] Update all components to use centralized `getAssetUrl()` utility function
+- [ ] Backend deployment (movie-app)
+  - [x] Create Neon PostgreSQL project and `disneyapp` database
+  - [x] Configure Spring Boot profiles (local vs prod)
+  - [x] Test Flyway migrations on Neon database
+  - [ ] Create Dockerfile for Spring Boot backend
+  - [ ] Build and push Docker image to GHCR
+  - [ ] Create Azure Container Apps Environment
+  - [ ] Deploy backend container to Azure Container Apps
+  - [ ] Configure CORS for frontend domain
+  - [ ] Update frontend to use deployed backend API URL
 
 ## 15) Decision log
 
@@ -267,6 +277,7 @@ Notes
 - 2025-11-01: Temporary workaround using direct Azure Storage URLs (`https://disneyimages.blob.core.windows.net/images`) due to Azure CDN service outage; will migrate to CDN with custom domain once service is restored.
 - 2025-11-03: Created separate assets repository `hdavtian/my-disney-app-assets` to keep main codebase clean and small (~610 KB); all images moved to assets repo; main repo remains source-code only.
 - 2025-11-03: Implemented GitHub Actions workflow in assets repository to automatically sync images to Azure Storage using `azcopy`; workflow includes delta uploads and optional CDN purge when CDN is enabled.
+- 2025-11-03: Created Neon PostgreSQL project `hd` with `disneyapp` database (free tier, 0.5 GB, West US 3 region); configured Spring Boot with profile-based database connections (local Docker vs prod Neon); successfully tested Flyway migrations on Neon.
 
 Notes:
 
