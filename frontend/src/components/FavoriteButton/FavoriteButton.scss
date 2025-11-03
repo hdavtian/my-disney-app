@@ -1,0 +1,46 @@
+.favorite-btn {
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
+    border-radius: 50%;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    outline: none;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &:hover,
+    &:focus {
+        background: transparent;
+        transform: scale(1.1);
+    }
+
+    &__icon {
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    &--selected {
+        background: transparent;
+
+        &:hover {
+            background: transparent;
+        }
+
+        .favorite-btn__icon {
+            fill: #e63946;
+            stroke: #e63946;
+            filter: drop-shadow(0 0 6px rgba(230, 57, 70, 0.6));
+        }
+    }
+}

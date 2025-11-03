@@ -1,0 +1,204 @@
+// Responsive Breakpoints
+@mixin mobile {
+    @media (max-width: 480px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 481px) and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 769px) and (max-width: 1279px) {
+        @content;
+    }
+}
+
+@mixin large-desktop {
+    @media (min-width: 1280px) {
+        @content;
+    }
+}
+
+@mixin mobile-up {
+    @media (min-width: 481px) {
+        @content;
+    }
+}
+
+@mixin tablet-up {
+    @media (min-width: 769px) {
+        @content;
+    }
+}
+
+@mixin desktop-up {
+    @media (min-width: 1280px) {
+        @content;
+    }
+}
+
+// Animation Mixins
+@mixin hover-lift {
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+@mixin fade-in($duration: var(--transition-normal)) {
+    opacity: 0;
+    animation: fadeIn $duration ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@mixin slide-up($duration: var(--transition-normal)) {
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp $duration ease-out forwards;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+// Card Mixins
+@mixin card-base {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow var(--transition-normal);
+}
+
+@mixin card-hover {
+    &:hover {
+        box-shadow: var(--shadow-xl);
+    }
+}
+
+// Button Mixins
+@mixin btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius);
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: none;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+@mixin btn-primary {
+    @include btn-base;
+    background-color: var(--disney-blue);
+    color: var(--white);
+
+    &:hover:not(:disabled) {
+        background-color: var(--disney-blue-dark);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 107, 179, 0.3);
+    }
+}
+
+@mixin btn-secondary {
+    @include btn-base;
+    background-color: var(--white);
+    color: var(--disney-blue);
+    border: 1px solid var(--disney-blue);
+
+    &:hover:not(:disabled) {
+        background-color: var(--disney-blue);
+        color: var(--white);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 107, 179, 0.3);
+    }
+}
+
+// Grid Mixins
+@mixin grid-responsive($columns-mobile: 1, $columns-tablet: 2, $columns-desktop: 3, $columns-large: 4) {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat($columns-mobile, 1fr);
+
+    @include tablet-up {
+        grid-template-columns: repeat($columns-tablet, 1fr);
+    }
+
+    @include desktop {
+        grid-template-columns: repeat($columns-desktop, 1fr);
+    }
+
+    @include large-desktop {
+        grid-template-columns: repeat($columns-large, 1fr);
+    }
+}
+
+// Flexbox Utilities
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex-start {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+// Text Mixins
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// Accessibility Mixins
+@mixin focus-ring($color: var(--disney-blue)) {
+    &:focus {
+        outline: 2px solid $color;
+        outline-offset: 2px;
+    }
+}

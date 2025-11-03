@@ -1,0 +1,178 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.search-input {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    &__field {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-lg);
+        padding: 0 var(--space-3);
+        transition: all var(--transition-fast);
+        flex: 1;
+        backdrop-filter: blur(10px);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        &--focused {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--disney-gold);
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+        }
+    }
+
+    &__icon {
+        color: var(--gray-400);
+        flex-shrink: 0;
+        transition: color var(--transition-fast);
+
+        .search-input__field--focused & {
+            color: var(--disney-gold);
+        }
+    }
+
+    &__input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--white);
+        font-size: var(--text-sm);
+        padding: var(--space-2) var(--space-2);
+        min-width: 0;
+
+        &::placeholder {
+            color: var(--gray-400);
+        }
+
+        @include tablet-up {
+            font-size: var(--text-base);
+        }
+    }
+
+    &__clear {
+        background: transparent;
+        border: none;
+        color: var(--gray-400);
+        cursor: pointer;
+        padding: var(--space-1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all var(--transition-fast);
+        flex-shrink: 0;
+
+        &:hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    &__count {
+        font-size: var(--text-xs);
+        color: var(--gray-400);
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-weight: var(--font-medium);
+
+        @include tablet-up {
+            font-size: var(--text-sm);
+        }
+    }
+
+    &__dropdown {
+        position: absolute;
+        top: calc(100% + var(--space-2));
+        left: 0;
+        right: 0;
+        background: rgba(20, 20, 30, 0.98);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        z-index: 100;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        max-height: 400px;
+        overflow-y: auto;
+
+        /* Custom scrollbar */
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    &__item {
+        padding: var(--space-3) var(--space-4);
+        cursor: pointer;
+        transition: background var(--transition-fast);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover,
+        &--selected {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        &--selected {
+            border-left: 3px solid var(--disney-gold);
+        }
+    }
+
+    &__item-main {
+        color: var(--white);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        margin-bottom: 2px;
+
+        @include tablet-up {
+            font-size: var(--text-base);
+        }
+    }
+
+    &__item-secondary {
+        color: var(--gray-400);
+        font-size: var(--text-xs);
+        @include text-truncate;
+    }
+
+    &__more {
+        padding: var(--space-2) var(--space-4);
+        text-align: center;
+        font-size: var(--text-xs);
+        color: var(--gray-400);
+        background: rgba(255, 255, 255, 0.03);
+        font-style: italic;
+    }
+}

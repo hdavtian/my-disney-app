@@ -1,0 +1,101 @@
+// Import our custom styles first
+@import './variables';
+@import './mixins';
+@import './base';
+
+// Import component styles
+@import '../components/Navigation/Navigation.scss';
+@import '../components/HomePage/HomePage.scss';
+@import '../components/HeroCarousel/HeroCarousel.scss';
+@import '../components/MovieSlider/MovieSlider.scss';
+@import '../components/CharacterCircles/CharacterCircles.scss';
+@import '../components/Footer/Footer.scss';
+
+// Global App Styles
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    // overflow-x: hidden;
+}
+
+// Page Container
+.page-container {
+    width: 90%;
+    max-width: none;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+    top: var(--header-height);
+}
+
+@media (max-width: 480px) {
+    .page-container {
+        width: 100%;
+        padding: var(--space-8) var(--space-4);
+    }
+}
+
+@media (min-width: 768px) {
+    .page-container {
+        padding: var(--space-8) var(--space-6);
+    }
+}
+
+@media (min-width: 1280px) {
+    .page-container {
+        padding: var(--space-8) var(--space-8);
+    }
+}
+
+// Loading States
+.loading-spinner {
+    @include flex-center;
+    padding: var(--space-8);
+
+    &::after {
+        content: '';
+        width: 2rem;
+        height: 2rem;
+        border: 2px solid var(--gray-200);
+        border-top: 2px solid var(--disney-blue);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Error States
+.error-message {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: var(--space-4);
+    border-radius: var(--radius);
+    margin: var(--space-4) 0;
+}
+
+// Empty States
+.empty-state {
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+    color: var(--gray-500);
+
+    h3 {
+        color: var(--gray-700);
+        margin-bottom: var(--space-2);
+    }
+
+    p {
+        margin-bottom: var(--space-6);
+    }
+}

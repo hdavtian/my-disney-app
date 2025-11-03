@@ -1,0 +1,238 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.character-circles {
+    width: 100%;
+
+    &__loading,
+    &__error,
+    &__empty {
+        text-align: center;
+        padding: var(--space-12) var(--space-8);
+        color: var(--white);
+        font-size: var(--text-lg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 300px;
+
+        p {
+            margin: 0;
+            font-size: var(--text-xl);
+            font-weight: var(--font-medium);
+        }
+    }
+
+    &__error {
+        color: var(--error-light);
+    }
+
+    &__loading {
+        opacity: 0.7;
+    }
+
+    &__container {
+        position: relative;
+        width: 90%;
+        max-width: none;
+        margin: 0 auto;
+        padding: 0 var(--space-4);
+
+        @include mobile {
+            width: 100%;
+        }
+
+        @include tablet-up {
+            padding: 0 var(--space-6);
+        }
+    }
+
+    &__track {
+        overflow: hidden;
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+        border: 2px solid transparent;
+        transition: border-color 0.3s ease;
+    }
+
+    &__container--scrolling &__track {
+        border-color: var(--disney-blue);
+        box-shadow: 0 0 0 2px rgba(0, 107, 179, 0.2);
+    }
+
+    &__items {
+        display: flex;
+        width: 100%; // Adjust based on visible items
+
+        @include mobile {
+            width: calc(100% * 10); // Show 1 circle on mobile, 10 total circles
+        }
+    }
+
+    &__nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--white);
+        border: none;
+        color: var(--princess-pink);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        z-index: 20;
+        @include flex-center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+        &:hover {
+            background: var(--princess-pink);
+            color: var(--white);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        &:active {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        svg {
+            flex-shrink: 0;
+        }
+
+        &--prev {
+            left: -2.5rem;
+        }
+
+        &--next {
+            right: -2.5rem;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+}
+
+.character-circle {
+    flex: 0 0 10%;
+    padding: 0 var(--space-2);
+    text-align: center;
+    position: relative;
+
+    @include mobile {
+        flex: 0 0 100%;
+        padding: 0;
+    }
+
+    &__link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        outline: none; // Remove blue focus outline
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &:focus {
+            outline: none; // Remove focus outline on click
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--disney-gold); // Add visible focus for accessibility (keyboard navigation)
+            outline-offset: 2px;
+        }
+    }
+
+    &__image {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto var(--space-3);
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--gray-800);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        transition: border-color 0.5s ease, box-shadow 0.5s ease;
+
+        @include tablet-up {
+            width: 100px;
+            height: 100px;
+        }
+
+        @include desktop-up {
+            width: 120px;
+            height: 120px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+    }
+
+    &:hover &__image {
+        border-color: var(--disney-gold);
+        box-shadow: 0 0 15px 2px var(--princess-pink);
+    }
+
+    &:hover &__image img {
+        transform: scale(1.2);
+    }
+
+    &__favorite {
+        position: absolute;
+        right: 50%;
+        bottom: var(--space-12);
+        transform: translateX(50%);
+        z-index: 15;
+    }
+
+    &__overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        padding: var(--space-2) var(--space-1);
+        opacity: 0;
+        transition: opacity var(--transition-normal);
+
+        .character-circle:hover & {
+            opacity: 1;
+        }
+    }
+
+    &__category {
+        font-size: var(--text-xs);
+        color: var(--disney-gold);
+        font-weight: var(--font-semibold);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    &__name {
+        color: var(--white);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        margin: 0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        text-decoration: none;
+        @include text-truncate;
+
+        @include tablet-up {
+            font-size: var(--text-base);
+        }
+    }
+
+    &:hover {
+        .character-circle__name {
+            color: var(--disney-gold);
+        }
+    }
+}

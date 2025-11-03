@@ -1,0 +1,191 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+// PAGE LAYOUT: Full black background, edge-to-edge like home page
+.page-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: var(--header-height);
+}
+
+.movies-page {
+    background: var(--black);
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-6);
+        padding: var(--space-8) var(--space-6);
+        background: var(--black);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        /* On tablet+ make header a two-column row: left = title/desc, right = controls */
+        @include tablet-up {
+            flex-direction: row;
+            align-items: center;
+            /* vertical middle alignment */
+            justify-content: space-between;
+            gap: var(--space-6);
+            padding: var(--space-8) var(--space-6);
+        }
+
+        @media (max-width: 768px) {
+            padding: var(--space-6) var(--space-4);
+            gap: var(--space-4);
+        }
+    }
+
+    &__header-content {
+        text-align: center;
+        max-width: 800px;
+
+        /* Left column text becomes left-aligned on larger screens */
+        @include tablet-up {
+            text-align: left;
+            max-width: 720px;
+            flex: 1 1 auto;
+        }
+
+        h1 {
+            font-size: var(--text-5xl);
+            font-weight: var(--font-bold);
+            color: var(--white);
+            margin-bottom: var(--space-4);
+            font-family: var(--font-family-display);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+            @media (max-width: 768px) {
+                font-size: var(--text-3xl);
+            }
+        }
+
+        p {
+            font-size: var(--text-lg);
+            color: var(--gray-300);
+            line-height: var(--leading-relaxed);
+
+            @media (max-width: 768px) {
+                font-size: var(--text-base);
+            }
+        }
+    }
+
+    &__loading,
+    &__error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+        font-size: var(--text-xl);
+        color: var(--white);
+        text-align: center;
+        padding: var(--space-8);
+        background: var(--black);
+    }
+
+    &__error {
+        color: var(--error);
+    }
+
+    &__content {
+        position: relative;
+        width: 100%;
+        background: var(--black);
+    }
+
+    /* Controls row: page-scoped search + view toggle */
+    &__controls {
+        display: flex;
+        gap: var(--space-4);
+        align-items: center;
+        margin-top: var(--space-6);
+
+        @include tablet-up {
+            /* When header is a row, don't add extra top margin; align horizontally */
+            margin-top: 0;
+        }
+
+        /* Ensure the controls line up nicely on wide screens */
+        @include tablet-up {
+            justify-content: flex-end;
+            max-width: 480px;
+            flex: 0 0 auto;
+        }
+
+        /* Make SearchInput larger on Movies page only (keeps homepage intact) */
+        .search-input {
+            max-width: 700px;
+            width: 100%;
+
+            @media (min-width: 1200px) {
+                max-width: 900px;
+            }
+        }
+
+        /* De-emphasize the global view-mode toggle inside this page */
+        .view-mode-toggle {
+            padding: var(--space-1);
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+            border-radius: var(--radius-lg);
+
+            &__button {
+                padding: var(--space-2) var(--space-4);
+                min-width: 120px;
+                color: var(--gray-300);
+            }
+
+            /* Reduce icon size slightly on Movies page to save space */
+            &__icon {
+                width: 18px;
+                height: 18px;
+                /* ensure svg scales appropriately */
+                stroke-width: 1.6;
+            }
+        }
+    }
+
+    /* Controls row: page-scoped search + view toggle */
+    &__controls {
+        display: flex;
+        gap: var(--space-4);
+        align-items: center;
+        margin-top: var(--space-6);
+
+        /* Ensure the controls line up nicely on wide screens */
+        @include tablet-up {
+            justify-content: flex-end;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Make SearchInput larger on Movies page only (keeps homepage intact) */
+        .search-input {
+            max-width: 700px;
+            width: 100%;
+
+            @media (min-width: 1200px) {
+                max-width: 900px;
+            }
+        }
+
+        /* De-emphasize the global view-mode toggle inside this page */
+        .view-mode-toggle {
+            padding: var(--space-1);
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+            border-radius: var(--radius-lg);
+
+            &__button {
+                padding: var(--space-2) var(--space-4);
+                min-width: 120px;
+                color: var(--gray-300);
+            }
+        }
+    }
+}
