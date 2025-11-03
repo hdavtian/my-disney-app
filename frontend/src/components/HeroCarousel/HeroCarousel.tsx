@@ -63,6 +63,8 @@ export const HeroCarousel = () => {
   // Fetch carousel items from backend
   useEffect(() => {
     const controller = new AbortController();
+    let isMounted = true; // Track if component is still mounted
+
     async function fetchCarousel() {
       try {
         // Use relative API path; Vite dev server proxies /api to backend (configured in vite.config.ts)
@@ -71,6 +73,10 @@ export const HeroCarousel = () => {
         });
         if (!res.ok) throw new Error("Failed to fetch carousel");
         const data = await res.json();
+
+        // Check if component unmounted during fetch
+        if (!isMounted) return;
+
         if (Array.isArray(data) && data.length > 0) {
           const mapped: HeroSlide[] = data.map((item: any) => {
             // Helper to extract filename from legacy path and use getImageUrl
@@ -117,6 +123,8 @@ export const HeroCarousel = () => {
           });
 
           // Preload images (resolve quickly on error to avoid blocking)
+          // NOTE: Image preloading happens OUTSIDE the abort signal scope to prevent
+          // AbortError when loading remote Azure images takes longer than local images
           const images = mapped.map((s) => s.backgroundImage).filter(Boolean);
           await Promise.all(
             images.map(
@@ -130,21 +138,44 @@ export const HeroCarousel = () => {
             )
           );
 
-          setSlides(mapped);
-          setCurrentSlide(0);
+          // Only update state if component is still mounted
+          if (isMounted) {
+            setSlides(mapped);
+            setCurrentSlide(0);
+            setLoading(false);
+            // eslint-disable-next-line no-console
+            console.info(`Loaded ${mapped.length} carousel slides`);
+          }
+        } else if (isMounted) {
+          // No slides returned, hide loading spinner
           setLoading(false);
-          // eslint-disable-next-line no-console
-          console.info(`Loaded ${mapped.length} carousel slides`);
         }
       } catch (e) {
-        // keep mockSlides on error, but surface the error to console for debugging
-        // so developers can see why the API fetch failed (CORS/proxy/backend down etc.)
-        // eslint-disable-next-line no-console
-        console.error("Failed to fetch carousel items:", e);
+        // Only log and update state if component is still mounted
+        if (isMounted) {
+          // Ignore AbortError - it's expected during cleanup
+          if (e instanceof Error && e.name === "AbortError") {
+            // eslint-disable-next-line no-console
+            console.log("Carousel fetch aborted (component unmounted)");
+          } else {
+            // keep mockSlides on error, but surface the error to console for debugging
+            // so developers can see why the API fetch failed (CORS/proxy/backend down etc.)
+            // eslint-disable-next-line no-console
+            console.error("Failed to fetch carousel items:", e);
+          }
+
+          // Critical: Set loading to false even on error to hide spinner
+          // This prevents infinite spinner when using remote Azure images that take longer to load
+          setLoading(false);
+        }
       }
     }
     fetchCarousel();
-    return () => controller.abort();
+
+    return () => {
+      isMounted = false; // Mark component as unmounted
+      controller.abort(); // Abort fetch if still pending
+    };
   }, []);
 
   const nextSlide = () => {
