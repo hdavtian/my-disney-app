@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchMovies } from "../../store/slices/moviesSlice";
 import { Movie } from "../../types/Movie";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
+import { getImageUrl } from "../../config/assets";
 
 interface MovieSliderProps {
   movies?: Movie[];
@@ -180,9 +181,9 @@ export const MovieSlider = ({
                     <img
                       src={
                         movie.image_1
-                          ? `/movies/${movie.image_1}`
+                          ? getImageUrl("movies", movie.image_1)
                           : movie.image_2
-                          ? `/movies/${movie.image_2}`
+                          ? getImageUrl("movies", movie.image_2)
                           : movie.posterUrl ||
                             `https://picsum.photos/seed/${movie.id}-movie/400/300`
                       }

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getImageUrl } from "../../config/assets";
 
 interface HeroSlide {
   id: string;
@@ -62,6 +63,8 @@ export const HeroCarousel = () => {
   // Fetch carousel items from backend
   useEffect(() => {
     const controller = new AbortController();
+    let isMounted = true; // Track if component is still mounted
+
     async function fetchCarousel() {
       try {
         // Use relative API path; Vite dev server proxies /api to backend (configured in vite.config.ts)
@@ -70,29 +73,58 @@ export const HeroCarousel = () => {
         });
         if (!res.ok) throw new Error("Failed to fetch carousel");
         const data = await res.json();
+
+        // Check if component unmounted during fetch
+        if (!isMounted) return;
+
         if (Array.isArray(data) && data.length > 0) {
-          const mapped: HeroSlide[] = data.map((item: any) => ({
-            id: String(
-              item.movieId ||
-                item.movie_id ||
-                item.carouselId ||
-                item.carousel_id
-            ),
-            title: item.title || item.name || "",
-            description: item.shortDescription || item.short_description || "",
-            // Prefer backend-resolved backgroundImage (uses image2 when available). Support both camelCase and snake_case keys.
-            backgroundImage:
-              item.backgroundImage ||
-              item.background_image ||
-              (item.image2
-                ? `/movies/${item.image2}`
-                : item.image1
-                ? `/movies/${item.image1}`
-                : ""),
-            buttonText: "View Details",
-          }));
+          const mapped: HeroSlide[] = data.map((item: any) => {
+            // Helper to extract filename from legacy path and use getImageUrl
+            const resolveImageUrl = (path: string | undefined): string => {
+              if (!path) return "";
+
+              // Check if backend returned a legacy path like "/movies/filename.jpg"
+              const moviesMatch = path.match(/^\/movies\/(.+)$/);
+              if (moviesMatch) {
+                return getImageUrl("movies", moviesMatch[1]);
+              }
+
+              const charactersMatch = path.match(/^\/characters\/(.+)$/);
+              if (charactersMatch) {
+                return getImageUrl("characters", charactersMatch[1]);
+              }
+
+              // If it's already a full URL or doesn't match pattern, return as-is
+              return path;
+            };
+
+            return {
+              id: String(
+                item.movieId ||
+                  item.movie_id ||
+                  item.carouselId ||
+                  item.carousel_id
+              ),
+              title: item.title || item.name || "",
+              description:
+                item.shortDescription || item.short_description || "",
+              // Prefer backend-resolved backgroundImage, but convert legacy paths to use getImageUrl
+              backgroundImage:
+                resolveImageUrl(
+                  item.backgroundImage || item.background_image
+                ) ||
+                (item.image2
+                  ? getImageUrl("movies", item.image2)
+                  : item.image1
+                  ? getImageUrl("movies", item.image1)
+                  : ""),
+              buttonText: "View Details",
+            };
+          });
 
           // Preload images (resolve quickly on error to avoid blocking)
+          // NOTE: Image preloading happens OUTSIDE the abort signal scope to prevent
+          // AbortError when loading remote Azure images takes longer than local images
           const images = mapped.map((s) => s.backgroundImage).filter(Boolean);
           await Promise.all(
             images.map(
@@ -106,21 +138,44 @@ export const HeroCarousel = () => {
             )
           );
 
-          setSlides(mapped);
-          setCurrentSlide(0);
+          // Only update state if component is still mounted
+          if (isMounted) {
+            setSlides(mapped);
+            setCurrentSlide(0);
+            setLoading(false);
+            // eslint-disable-next-line no-console
+            console.info(`Loaded ${mapped.length} carousel slides`);
+          }
+        } else if (isMounted) {
+          // No slides returned, hide loading spinner
           setLoading(false);
-          // eslint-disable-next-line no-console
-          console.info(`Loaded ${mapped.length} carousel slides`);
         }
       } catch (e) {
-        // keep mockSlides on error, but surface the error to console for debugging
-        // so developers can see why the API fetch failed (CORS/proxy/backend down etc.)
-        // eslint-disable-next-line no-console
-        console.error("Failed to fetch carousel items:", e);
+        // Only log and update state if component is still mounted
+        if (isMounted) {
+          // Ignore AbortError - it's expected during cleanup
+          if (e instanceof Error && e.name === "AbortError") {
+            // eslint-disable-next-line no-console
+            console.log("Carousel fetch aborted (component unmounted)");
+          } else {
+            // keep mockSlides on error, but surface the error to console for debugging
+            // so developers can see why the API fetch failed (CORS/proxy/backend down etc.)
+            // eslint-disable-next-line no-console
+            console.error("Failed to fetch carousel items:", e);
+          }
+
+          // Critical: Set loading to false even on error to hide spinner
+          // This prevents infinite spinner when using remote Azure images that take longer to load
+          setLoading(false);
+        }
       }
     }
     fetchCarousel();
-    return () => controller.abort();
+
+    return () => {
+      isMounted = false; // Mark component as unmounted
+      controller.abort(); // Abort fetch if still pending
+    };
   }, []);
 
   const nextSlide = () => {

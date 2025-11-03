@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Character } from "../../types/Character";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
+import { getImageUrl } from "../../config/assets";
 import "./CharacterCard.scss";
 
 export interface CharacterCardProps {
@@ -44,7 +45,7 @@ export const CharacterCard = ({
           <img
             src={
               character.profile_image1
-                ? `/characters/${character.profile_image1}`
+                ? getImageUrl("characters", character.profile_image1)
                 : character.imageUrl ||
                   `https://picsum.photos/seed/${character.id}-character/400/400`
             }
