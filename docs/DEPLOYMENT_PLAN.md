@@ -254,7 +254,7 @@ Notes
   - [x] Create Storage account + container structure (public `images` with per-app folders)
   - [ ] Add Azure CDN endpoint with Storage as origin (Standard tier) - _Currently using direct Storage URLs due to Azure CDN service outage_
   - [ ] DNS: add `CNAME images.disney.harma.dev -> <CDN endpoint host>` and enable managed cert
-  - [ ] Add CI job in assets repository to sync images with azcopy (delta uploads) and optional CDN purge
+  - [x] Add CI job in assets repository to sync images with azcopy (delta uploads) and optional CDN purge
   - [x] Add app config: `VITE_ASSETS_BASE_URL` (FE) for environment-aware image loading
   - [x] Update all components to use centralized `getAssetUrl()` utility function
 
@@ -266,6 +266,7 @@ Notes
 - 2025-11-01: Adopt Azure Storage + Azure CDN for hosting images with vanity domain `images.disney.harma.dev`; apps use `VITE_ASSETS_BASE_URL`/`ASSETS_BASE_URL` to point to the CDN domain; hashed filenames recommended for long-lived caching.
 - 2025-11-01: Temporary workaround using direct Azure Storage URLs (`https://disneyimages.blob.core.windows.net/images`) due to Azure CDN service outage; will migrate to CDN with custom domain once service is restored.
 - 2025-11-03: Created separate assets repository `hdavtian/my-disney-app-assets` to keep main codebase clean and small (~610 KB); all images moved to assets repo; main repo remains source-code only.
+- 2025-11-03: Implemented GitHub Actions workflow in assets repository to automatically sync images to Azure Storage using `azcopy`; workflow includes delta uploads and optional CDN purge when CDN is enabled.
 
 Notes:
 
