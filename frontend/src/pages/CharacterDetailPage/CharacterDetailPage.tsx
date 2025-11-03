@@ -7,6 +7,7 @@ import { fetchMovies } from "../../store/slices/moviesSlice";
 import { FavoriteButton } from "../../components/FavoriteButton/FavoriteButton";
 import { MovieCard } from "../../components/MovieCard/MovieCard";
 import { Character } from "../../types/Character";
+import { getImageUrl } from "../../config/assets";
 import "./CharacterDetailPage.scss";
 
 export const CharacterDetailPage = () => {
@@ -92,7 +93,7 @@ export const CharacterDetailPage = () => {
         style={{
           backgroundImage: `url(${
             character.background_image1
-              ? `/characters/${character.background_image1}`
+              ? getImageUrl("characters", character.background_image1)
               : character.imageUrl ||
                 `https://picsum.photos/seed/${character.id}-bg/1920/1080`
           })`,
@@ -120,7 +121,7 @@ export const CharacterDetailPage = () => {
               <img
                 src={
                   character.profile_image1
-                    ? `/characters/${character.profile_image1}`
+                    ? getImageUrl("characters", character.profile_image1)
                     : character.imageUrl ||
                       `https://picsum.photos/seed/${character.id}/600/600`
                 }

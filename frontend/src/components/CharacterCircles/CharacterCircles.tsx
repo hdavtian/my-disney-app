@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCharacters } from "../../store/slices/charactersSlice";
 import { Character } from "../../types/Character";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
+import { getImageUrl } from "../../config/assets";
 
 interface CharacterCirclesProps {
   characters?: Character[];
@@ -189,7 +190,7 @@ export const CharacterCircles = ({
                     <img
                       src={
                         character.profile_image1
-                          ? `/characters/${character.profile_image1}`
+                          ? getImageUrl("characters", character.profile_image1)
                           : character.imageUrl ||
                             `https://picsum.photos/seed/${character.id}-char/300/300`
                       }

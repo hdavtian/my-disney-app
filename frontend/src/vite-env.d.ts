@@ -1,0 +1,13 @@
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_ASSETS_BASE_URL: string;
+  readonly VITE_ASSETS_PREFIX?: string;
+  readonly DEV: boolean;
+  readonly PROD: boolean;
+  readonly MODE: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}

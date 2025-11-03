@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getImageUrl } from "../../config/assets";
 
 interface HeroSlide {
   id: string;
@@ -85,9 +86,9 @@ export const HeroCarousel = () => {
               item.backgroundImage ||
               item.background_image ||
               (item.image2
-                ? `/movies/${item.image2}`
+                ? getImageUrl("movies", item.image2)
                 : item.image1
-                ? `/movies/${item.image1}`
+                ? getImageUrl("movies", item.image1)
                 : ""),
             buttonText: "View Details",
           }));

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../../types/Movie";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
+import { getImageUrl } from "../../config/assets";
 import "./MovieCard.scss";
 
 export interface MovieCardProps {
@@ -40,7 +41,7 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
           <img
             src={
               movie.image_1
-                ? `/movies/${movie.image_1}`
+                ? getImageUrl("movies", movie.image_1)
                 : movie.posterUrl ||
                   `https://picsum.photos/seed/${movie.id}-movie/400/300`
             }
