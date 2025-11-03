@@ -166,12 +166,19 @@ Goals
 
 - Decouple large, mostly-static media from app deploys to keep builds fast and artifacts small.
 - Keep costs near-zero for demo traffic. CDN selected for vanity domain + caching.
+- Maintain separate asset repository to keep main codebase clean and small.
+
+Repository structure
+
+- **Code repository**: `hdavtian/my-disney-app` - Contains source code, configuration, and documentation only (no images).
+- **Assets repository**: `hdavtian/my-disney-app-assets` - Contains all images for characters, movies, and other media assets.
+- This separation keeps the main repo lightweight (~610 KB) and enables independent asset management.
 
 Selected approach (for this project)
 
 - Azure Storage (Hot) + Azure CDN with vanity domain `images.disney.harma.dev`.
 - Public container with per-app folders, strong cache headers, and hashed filenames.
-- CI sync via azcopy; purge CDN only when not using hashed filenames.
+- CI sync via azcopy from assets repository; purge CDN only when not using hashed filenames.
 
 Default approach (simplest, no CDN)
 
@@ -204,9 +211,11 @@ Costs (approx., region-dependent)
 
 CI/CD for assets (sync-only)
 
+- Images are maintained in separate repository: `hdavtian/my-disney-app-assets`.
 - Keep images outside the frontend bundle to avoid redeploying the app for content-only updates.
-- Add a GitHub Actions job that uses `azcopy` (or Azure CLI + `az storage blob upload-batch`) to sync the local `assets/images/` directory to Storage (only changed files).
+- GitHub Actions job in assets repository uses `azcopy` (or Azure CLI + `az storage blob upload-batch`) to sync images to Azure Storage (only changed files).
 - If using CDN, purge changed paths after upload for immediate freshness.
+- Asset updates are independent from code deployments.
 
 App configuration
 
@@ -240,11 +249,14 @@ Notes
 - [x] Rollout timeline and next steps
 - [x] Create and maintain deployment plan doc (this file)
 - [ ] Media assets hosting
-  - Create Storage account + container structure (public `images` with per-app folders)
-  - Add Azure CDN endpoint with Storage as origin (Standard tier)
-  - DNS: add `CNAME images.disney.harma.dev -> <CDN endpoint host>` and enable managed cert
-  - Add CI job to sync images with azcopy (delta uploads) and optional CDN purge
-  - Add app config: `VITE_ASSETS_BASE_URL` (FE) and `ASSETS_BASE_URL` (BE)
+  - [x] Create separate assets repository: `hdavtian/my-disney-app-assets`
+  - [x] Move all images from `frontend/public` to assets repository
+  - [x] Create Storage account + container structure (public `images` with per-app folders)
+  - [ ] Add Azure CDN endpoint with Storage as origin (Standard tier) - _Currently using direct Storage URLs due to Azure CDN service outage_
+  - [ ] DNS: add `CNAME images.disney.harma.dev -> <CDN endpoint host>` and enable managed cert
+  - [ ] Add CI job in assets repository to sync images with azcopy (delta uploads) and optional CDN purge
+  - [x] Add app config: `VITE_ASSETS_BASE_URL` (FE) for environment-aware image loading
+  - [x] Update all components to use centralized `getAssetUrl()` utility function
 
 ## 15) Decision log
 
@@ -252,6 +264,8 @@ Notes
 - 2025-11-01: Use SWA Free for FE, ACA Consumption for APIs, GHCR for images, Neon Free for Postgres.
 - 2025-11-01: Keep harma.dev DNS at registrar; apex redirect to `www.harma.dev`.
 - 2025-11-01: Adopt Azure Storage + Azure CDN for hosting images with vanity domain `images.disney.harma.dev`; apps use `VITE_ASSETS_BASE_URL`/`ASSETS_BASE_URL` to point to the CDN domain; hashed filenames recommended for long-lived caching.
+- 2025-11-01: Temporary workaround using direct Azure Storage URLs (`https://disneyimages.blob.core.windows.net/images`) due to Azure CDN service outage; will migrate to CDN with custom domain once service is restored.
+- 2025-11-03: Created separate assets repository `hdavtian/my-disney-app-assets` to keep main codebase clean and small (~610 KB); all images moved to assets repo; main repo remains source-code only.
 
 Notes:
 
