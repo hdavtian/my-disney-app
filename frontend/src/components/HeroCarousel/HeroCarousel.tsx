@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getImageUrl } from "../../config/assets";
+import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
 interface HeroSlide {
   id: string;
@@ -67,10 +68,13 @@ export const HeroCarousel = () => {
 
     async function fetchCarousel() {
       try {
-        // Use relative API path; Vite dev server proxies /api to backend (configured in vite.config.ts)
-        const res = await fetch(`/api/carousels?location=homepage`, {
-          signal: controller.signal,
-        });
+        // Use configured API URL to work in both development and production environments
+        const res = await fetch(
+          getApiUrl(`${API_ENDPOINTS.CAROUSELS}?location=homepage`),
+          {
+            signal: controller.signal,
+          }
+        );
         if (!res.ok) throw new Error("Failed to fetch carousel");
         const data = await res.json();
 
