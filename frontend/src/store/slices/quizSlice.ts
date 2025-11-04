@@ -217,6 +217,20 @@ const quizSlice = createSlice({
 
       state.showAnswer = true;
       state.currentQuestion.answerRevealed = true;
+      state.questionAnswered = true;
+
+      // Add to history with no score change (answer revealed, not answered)
+      state.gameHistory.unshift({ ...state.currentQuestion });
+
+      // Keep the total score same since this wasn't answered
+      state.score.total += 1;
+      state.score.percentage =
+        state.score.total > 0
+          ? Math.round((state.score.correct / state.score.total) * 100)
+          : 0;
+
+      // Reset streak when answer is revealed without answering
+      state.streak.current = 0;
     },
 
     // Navigation

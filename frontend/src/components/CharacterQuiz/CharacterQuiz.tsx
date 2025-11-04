@@ -12,7 +12,10 @@ export const CharacterQuiz = () => {
     null
   );
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [submitButtonState, setSubmitButtonState] = useState<
+  const [characterAnimationState, setCharacterAnimationState] = useState<
+    "normal" | "correct" | "wrong"
+  >("normal");
+  const [sectionBackgroundState, setSectionBackgroundState] = useState<
     "normal" | "correct" | "wrong"
   >("normal");
 
@@ -80,24 +83,28 @@ export const CharacterQuiz = () => {
     console.log("Selected answer object:", selectedAnswerObj);
     console.log("Is correct:", selectedAnswerObj?.isCorrect);
 
-    // Set button animation state based on correctness
+    // Set animation states based on correctness
     if (selectedAnswerObj?.isCorrect) {
-      setSubmitButtonState("correct");
+      setCharacterAnimationState("correct");
+      setSectionBackgroundState("correct");
     } else {
-      setSubmitButtonState("wrong");
+      setCharacterAnimationState("wrong");
+      setSectionBackgroundState("wrong");
     }
 
     quiz.submitAnswer(selectedAnswer);
 
-    // Reset button state after animation
+    // Reset animation states after animation
     setTimeout(() => {
-      setSubmitButtonState("normal");
+      setCharacterAnimationState("normal");
+      setSectionBackgroundState("normal");
     }, 1000);
   };
 
   const handleNextQuestion = () => {
     setSelectedAnswer(null);
-    setSubmitButtonState("normal");
+    setCharacterAnimationState("normal");
+    setSectionBackgroundState("normal");
     quiz.nextQuestion();
 
     // Generate next question if we have more characters
@@ -125,7 +132,8 @@ export const CharacterQuiz = () => {
   const handleRestartGame = () => {
     setCurrentCharacter(null);
     setSelectedAnswer(null);
-    setSubmitButtonState("normal");
+    setCharacterAnimationState("normal");
+    setSectionBackgroundState("normal");
     // Use restart action specifically designed for this
     quiz.restartGame();
     // Then start a new game
@@ -221,11 +229,39 @@ export const CharacterQuiz = () => {
       {!quiz.isLoading && !quiz.error && quiz.isGameActive && (
         <div className="character-quiz__content">
           {/* Section 1: Character Display */}
-          <div className="character-quiz__section character-quiz__character-section">
+          <div
+            className={`
+              character-quiz__section 
+              character-quiz__character-section
+              ${
+                sectionBackgroundState === "correct"
+                  ? "character-quiz__character-section--correct"
+                  : ""
+              }
+              ${
+                sectionBackgroundState === "wrong"
+                  ? "character-quiz__character-section--wrong"
+                  : ""
+              }
+            `}
+          >
             <AnimatePresence mode="wait">
               {currentCharacter && (
                 <motion.div
                   key={currentCharacter.id}
+                  className={`
+                    character-quiz__character-wrapper
+                    ${
+                      characterAnimationState === "correct"
+                        ? "character-quiz__character-wrapper--correct"
+                        : ""
+                    }
+                    ${
+                      characterAnimationState === "wrong"
+                        ? "character-quiz__character-wrapper--wrong"
+                        : ""
+                    }
+                  `}
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.8, opacity: 0 }}
@@ -336,19 +372,7 @@ export const CharacterQuiz = () => {
 
                   {selectedAnswer && !quiz.showAnswer && (
                     <button
-                      className={`
-                        character-quiz__submit-button
-                        ${
-                          submitButtonState === "correct"
-                            ? "character-quiz__submit-button--correct"
-                            : ""
-                        }
-                        ${
-                          submitButtonState === "wrong"
-                            ? "character-quiz__submit-button--wrong"
-                            : ""
-                        }
-                      `}
+                      className="character-quiz__submit-button"
                       onClick={handleSubmitAnswer}
                     >
                       Submit Answer
@@ -429,12 +453,22 @@ export const CharacterQuiz = () => {
                     >
                       <div className="character-quiz__history-character">
                         {question.correctCharacterName}
+                        {question.answerRevealed && (
+                          <span className="character-quiz__history-revealed">
+                            {" "}
+                            (answer shown)
+                          </span>
+                        )}
                       </div>
                       <div className="character-quiz__history-correct">
-                        {question.isCorrect ? "✅" : ""}
+                        {question.isCorrect && !question.answerRevealed
+                          ? "✅"
+                          : ""}
                       </div>
                       <div className="character-quiz__history-wrong">
-                        {!question.isCorrect ? "❌" : ""}
+                        {!question.isCorrect && !question.answerRevealed
+                          ? "❌"
+                          : ""}
                       </div>
                     </div>
                   ))}
