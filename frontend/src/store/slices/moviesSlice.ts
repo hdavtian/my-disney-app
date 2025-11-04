@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Movie } from "../../types";
+import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
 interface MoviesState {
   movies: Movie[];
@@ -28,7 +29,7 @@ export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:8080/api/movies");
+      const response = await fetch(getApiUrl(API_ENDPOINTS.MOVIES));
       if (!response.ok) {
         throw new Error("Failed to fetch movies");
       }
@@ -47,7 +48,7 @@ export const fetchMovieById = createAsyncThunk(
   "movies/fetchMovieById",
   async (id: number, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/movies/${id}`);
+      const response = await fetch(getApiUrl(`${API_ENDPOINTS.MOVIES}/${id}`));
       if (!response.ok) {
         throw new Error("Failed to fetch movie");
       }

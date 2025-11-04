@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Character } from "../../types";
+import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
 interface CharactersState {
   characters: Character[];
@@ -28,7 +29,7 @@ export const fetchCharacters = createAsyncThunk(
   "characters/fetchCharacters",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:8080/api/characters");
+      const response = await fetch(getApiUrl(API_ENDPOINTS.CHARACTERS));
       if (!response.ok) {
         throw new Error("Failed to fetch characters");
       }
@@ -48,7 +49,7 @@ export const fetchCharacterById = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/characters/${id}`
+        getApiUrl(`${API_ENDPOINTS.CHARACTERS}/${id}`)
       );
       if (!response.ok) {
         throw new Error("Failed to fetch character");

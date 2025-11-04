@@ -4,11 +4,13 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./store/store.ts";
 import { initializeAssetsConfig } from "./config/assets";
+import { initializeApiConfig } from "./config/api";
 import App from "./App.tsx";
 import "./styles/main.scss";
 
-// Initialize assets configuration
+// Initialize configuration
 initializeAssetsConfig();
+initializeApiConfig();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
