@@ -13,6 +13,7 @@ export interface CharacterCardProps {
   showTitle?: boolean;
   enableFavoriting?: boolean;
   disableNavigation?: boolean;
+  size?: "normal" | "large";
 }
 
 export const CharacterCard = ({
@@ -22,6 +23,7 @@ export const CharacterCard = ({
   showTitle = true,
   enableFavoriting = true,
   disableNavigation = false,
+  size = "normal",
 }: CharacterCardProps) => {
   const navigate = useNavigate();
 
@@ -62,7 +64,9 @@ export const CharacterCard = ({
 
   return (
     <motion.div
-      className="character-card"
+      className={`character-card ${
+        size === "large" ? "character-card--large" : ""
+      }`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}

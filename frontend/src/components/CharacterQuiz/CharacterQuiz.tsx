@@ -12,6 +12,9 @@ export const CharacterQuiz = () => {
     null
   );
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [submitButtonState, setSubmitButtonState] = useState<
+    "normal" | "correct" | "wrong"
+  >("normal");
 
   // Load character for current question
   useEffect(() => {
@@ -51,22 +54,50 @@ export const CharacterQuiz = () => {
   ]);
 
   const handleAnswerSelect = (characterId: string) => {
-    if (quiz.questionAnswered) return;
+    if (quiz.questionAnswered || quiz.showAnswer) return;
     setSelectedAnswer(characterId);
     // Don't submit immediately - let user see their selection
   };
 
   const handleSubmitAnswer = () => {
     if (!selectedAnswer || quiz.questionAnswered) return;
+
+    // Debug logging
+    console.log("=== SUBMIT ANSWER DEBUG ===");
+    console.log("Selected answer ID:", selectedAnswer);
+    console.log("Current question:", quiz.currentQuestion);
+    console.log("All answers:", quiz.currentQuestion?.allAnswers);
+    console.log(
+      "Correct character ID:",
+      quiz.currentQuestion?.correctCharacterId
+    );
+
+    // Check if answer is correct
+    const selectedAnswerObj = quiz.currentQuestion?.allAnswers.find(
+      (answer) => answer.characterId === selectedAnswer
+    );
+
+    console.log("Selected answer object:", selectedAnswerObj);
+    console.log("Is correct:", selectedAnswerObj?.isCorrect);
+
+    // Set button animation state based on correctness
+    if (selectedAnswerObj?.isCorrect) {
+      setSubmitButtonState("correct");
+    } else {
+      setSubmitButtonState("wrong");
+    }
+
     quiz.submitAnswer(selectedAnswer);
-    // Clear selection after a brief delay to show the result
+
+    // Reset button state after animation
     setTimeout(() => {
-      // Keep selection visible for result display
-    }, 100);
+      setSubmitButtonState("normal");
+    }, 1000);
   };
 
   const handleNextQuestion = () => {
     setSelectedAnswer(null);
+    setSubmitButtonState("normal");
     quiz.nextQuestion();
 
     // Generate next question if we have more characters
@@ -84,20 +115,30 @@ export const CharacterQuiz = () => {
   };
 
   const handleShowAnswer = () => {
+    console.log("=== SHOW ANSWER DEBUG ===");
+    console.log("Current showAnswer state:", quiz.showAnswer);
+    console.log("Question answered:", quiz.questionAnswered);
     quiz.revealAnswer();
+    console.log("After reveal - showAnswer state:", quiz.showAnswer);
   };
 
   const handleRestartGame = () => {
     setCurrentCharacter(null);
     setSelectedAnswer(null);
-    // Start a new game (this will call initializeGame)
-    quiz.startGame();
+    setSubmitButtonState("normal");
+    // Use restart action specifically designed for this
+    quiz.restartGame();
+    // Then start a new game
+    setTimeout(() => {
+      quiz.startGame();
+    }, 100);
   };
 
   // Keyboard support for quiz
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (!quiz.currentQuestion || quiz.questionAnswered) return;
+      if (!quiz.currentQuestion || quiz.questionAnswered || quiz.showAnswer)
+        return;
 
       const key = event.key.toUpperCase();
       if (["A", "B", "C", "D"].includes(key)) {
@@ -107,14 +148,19 @@ export const CharacterQuiz = () => {
         if (answer) {
           handleAnswerSelect(answer.characterId);
         }
-      } else if (event.key === "Enter" && selectedAnswer) {
+      } else if (event.key === "Enter" && selectedAnswer && !quiz.showAnswer) {
         handleSubmitAnswer();
       }
     };
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [quiz.currentQuestion, quiz.questionAnswered, selectedAnswer]);
+  }, [
+    quiz.currentQuestion,
+    quiz.questionAnswered,
+    quiz.showAnswer,
+    selectedAnswer,
+  ]);
 
   if (!quiz.isVisible) {
     return (
@@ -189,7 +235,7 @@ export const CharacterQuiz = () => {
                     character={currentCharacter}
                     showTitle={false}
                     disableNavigation={true}
-                    onClick={handleAnswerSelect}
+                    size="large"
                   />
                 </motion.div>
               )}
@@ -222,6 +268,8 @@ export const CharacterQuiz = () => {
                     quiz.showHint &&
                     !isCorrect &&
                     wrongAnswers[0]?.id === answer.id;
+                  // When answer is revealed, highlight the correct answer
+                  const isRevealedCorrect = quiz.showAnswer && isCorrect;
 
                   return (
                     <button
@@ -240,9 +288,14 @@ export const CharacterQuiz = () => {
                             : ""
                         }
                         ${isHintAnswer ? "character-quiz__answer--hint" : ""}
+                        ${
+                          isRevealedCorrect
+                            ? "character-quiz__answer--revealed"
+                            : ""
+                        }
                       `}
                       onClick={() => handleAnswerSelect(answer.characterId)}
-                      disabled={quiz.questionAnswered}
+                      disabled={quiz.questionAnswered || quiz.showAnswer}
                     >
                       <span className="character-quiz__answer-label">
                         {answer.label})
@@ -263,7 +316,7 @@ export const CharacterQuiz = () => {
 
             {/* Action Buttons */}
             <div className="character-quiz__actions">
-              {!quiz.questionAnswered && (
+              {!quiz.questionAnswered && !quiz.showAnswer && (
                 <>
                   <button
                     className="character-quiz__hint-button"
@@ -281,9 +334,21 @@ export const CharacterQuiz = () => {
                     👁️ Show Answer
                   </button>
 
-                  {selectedAnswer && (
+                  {selectedAnswer && !quiz.showAnswer && (
                     <button
-                      className="character-quiz__submit-button"
+                      className={`
+                        character-quiz__submit-button
+                        ${
+                          submitButtonState === "correct"
+                            ? "character-quiz__submit-button--correct"
+                            : ""
+                        }
+                        ${
+                          submitButtonState === "wrong"
+                            ? "character-quiz__submit-button--wrong"
+                            : ""
+                        }
+                      `}
                       onClick={handleSubmitAnswer}
                     >
                       Submit Answer
@@ -292,7 +357,7 @@ export const CharacterQuiz = () => {
                 </>
               )}
 
-              {quiz.questionAnswered && (
+              {(quiz.questionAnswered || quiz.showAnswer) && (
                 <>
                   {quiz.questionsRemaining > 0 ? (
                     <button

@@ -51,18 +51,31 @@ export const generateQuizQuestion = createAsyncThunk(
       const answers: QuizAnswer[] = shuffledCharacters.map(
         (character, index) => ({
           id: `answer-${index}`,
-          characterId: character.id,
+          characterId: String(character.id), // Ensure string conversion
           characterName: character.name,
           label: ["A", "B", "C", "D"][index] as "A" | "B" | "C" | "D",
-          isCorrect: character.id === correctCharacterId,
+          isCorrect: String(character.id) === String(correctCharacterId), // Ensure both are strings
         })
+      );
+
+      console.log("=== GENERATE QUESTION DEBUG ===");
+      console.log(
+        "Correct character ID:",
+        correctCharacterId,
+        "type:",
+        typeof correctCharacterId
+      );
+      console.log("Generated answers:", answers);
+      console.log(
+        "Correct answers:",
+        answers.filter((a) => a.isCorrect)
       );
 
       const question: QuizQuestion = {
         id: `question-${Date.now()}`,
-        correctCharacterId: correctCharacter.id,
+        correctCharacterId: String(correctCharacter.id), // Ensure string conversion
         correctCharacterName: correctCharacter.name,
-        wrongAnswerIds: wrongCharacters.map((c) => c.id),
+        wrongAnswerIds: wrongCharacters.map((c) => String(c.id)), // Ensure string conversion
         wrongAnswerNames: wrongCharacters.map((c) => c.name),
         allAnswers: answers,
         hintUsed: false,
@@ -133,6 +146,9 @@ const quizSlice = createSlice({
         isVisible: currentVisibility,
         sessionId: generateSessionId(),
         isGameActive: false, // Will be set to true by startNewGame
+        characterQueue: [], // Clear the queue
+        currentQuestion: undefined, // Clear current question
+        currentQuestionIndex: 0,
       });
       clearGameState();
     },
@@ -153,7 +169,14 @@ const quizSlice = createSlice({
         (answer) => answer.characterId === action.payload
       );
 
-      if (!selectedAnswer) return;
+      if (!selectedAnswer) {
+        console.error(
+          "Selected answer not found:",
+          action.payload,
+          state.currentQuestion.allAnswers
+        );
+        return;
+      }
 
       // Update current question with user answer
       state.currentQuestion.userAnswer = action.payload;
@@ -175,8 +198,8 @@ const quizSlice = createSlice({
         (state.score.correct / state.score.total) * 100
       );
 
-      // Add to game history
-      state.gameHistory.unshift(state.currentQuestion);
+      // Add to game history (create copy to avoid reference issues)
+      state.gameHistory.unshift({ ...state.currentQuestion });
     },
 
     // Hint system
