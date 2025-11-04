@@ -261,7 +261,9 @@ Notes
   - [x] Create Neon PostgreSQL project and `disneyapp` database
   - [x] Configure Spring Boot profiles (local vs prod)
   - [x] Test Flyway migrations on Neon database
-  - [ ] Create Dockerfile for Spring Boot backend
+  - [x] Create Dockerfile for Spring Boot backend (multi-stage with Maven build + JRE runtime)
+  - [x] Add .dockerignore and docker-compose.yml for optional local testing
+  - [x] Test Docker build locally (successfully built movie-app-api:local)
   - [ ] Build and push Docker image to GHCR
   - [ ] Create Azure Container Apps Environment
   - [ ] Deploy backend container to Azure Container Apps
@@ -278,6 +280,7 @@ Notes
 - 2025-11-03: Created separate assets repository `hdavtian/my-disney-app-assets` to keep main codebase clean and small (~610 KB); all images moved to assets repo; main repo remains source-code only.
 - 2025-11-03: Implemented GitHub Actions workflow in assets repository to automatically sync images to Azure Storage using `azcopy`; workflow includes delta uploads and optional CDN purge when CDN is enabled.
 - 2025-11-03: Created Neon PostgreSQL project `hd` with `disneyapp` database (free tier, 0.5 GB, West US 3 region); configured Spring Boot with profile-based database connections (local Docker vs prod Neon); successfully tested Flyway migrations on Neon.
+- 2025-11-03: Dockerized Spring Boot backend with multi-stage Dockerfile (Maven build + JRE runtime); added docker-compose.yml for optional local containerized testing; successfully built image locally. Local development workflow unchanged (IntelliJ + native Java); Docker used only for deployment and optional production-parity testing.
 
 Notes:
 
