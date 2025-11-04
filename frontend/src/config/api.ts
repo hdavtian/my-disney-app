@@ -82,6 +82,7 @@ export function initializeApiConfig(): void {
 export const API_ENDPOINTS = {
   MOVIES: "/api/movies",
   CHARACTERS: "/api/characters",
+  CAROUSELS: "/api/carousels",
   HEALTH: "/actuator/health",
   INFO: "/actuator/info",
   METRICS: "/actuator/metrics",
