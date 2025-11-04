@@ -18,7 +18,12 @@ export const CharacterQuiz = () => {
     if (quiz.currentQuestion) {
       fetchCharacterById(quiz.currentQuestion.correctCharacterId)
         .then(setCurrentCharacter)
-        .catch(console.error);
+        .catch((error) => {
+          console.error("Failed to load character:", error);
+          setCurrentCharacter(null);
+        });
+    } else {
+      setCurrentCharacter(null);
     }
   }, [quiz.currentQuestion]);
 
@@ -54,16 +59,23 @@ export const CharacterQuiz = () => {
   const handleSubmitAnswer = () => {
     if (!selectedAnswer || quiz.questionAnswered) return;
     quiz.submitAnswer(selectedAnswer);
+    // Clear selection after a brief delay to show the result
+    setTimeout(() => {
+      // Keep selection visible for result display
+    }, 100);
   };
 
   const handleNextQuestion = () => {
-    quiz.nextQuestion();
     setSelectedAnswer(null);
+    quiz.nextQuestion();
+
     // Generate next question if we have more characters
-    if (quiz.characterQueue.length > quiz.currentQuestionIndex + 1) {
-      const nextCharacterId =
-        quiz.characterQueue[quiz.currentQuestionIndex + 1];
-      quiz.generateQuestion(nextCharacterId);
+    const nextIndex = quiz.currentQuestionIndex + 1;
+    if (quiz.characterQueue.length > nextIndex) {
+      const nextCharacterId = quiz.characterQueue[nextIndex];
+      if (nextCharacterId) {
+        quiz.generateQuestion(nextCharacterId.toString());
+      }
     }
   };
 
@@ -81,6 +93,28 @@ export const CharacterQuiz = () => {
     // Start a new game (this will call initializeGame)
     quiz.startGame();
   };
+
+  // Keyboard support for quiz
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (!quiz.currentQuestion || quiz.questionAnswered) return;
+
+      const key = event.key.toUpperCase();
+      if (["A", "B", "C", "D"].includes(key)) {
+        const answer = quiz.currentQuestion.allAnswers.find(
+          (a) => a.label === key
+        );
+        if (answer) {
+          handleAnswerSelect(answer.characterId);
+        }
+      } else if (event.key === "Enter" && selectedAnswer) {
+        handleSubmitAnswer();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [quiz.currentQuestion, quiz.questionAnswered, selectedAnswer]);
 
   if (!quiz.isVisible) {
     return (
@@ -164,18 +198,30 @@ export const CharacterQuiz = () => {
 
           {/* Section 2: Quiz Interface */}
           <div className="character-quiz__section character-quiz__interface-section">
-            <h3 className="character-quiz__interface-title">
-              Test your toon knowledge!
-            </h3>
+            <div className="character-quiz__progress">
+              <h3 className="character-quiz__interface-title">
+                Test your toon knowledge!
+              </h3>
+              <div className="character-quiz__progress-info">
+                Question {quiz.currentQuestionIndex + 1} of{" "}
+                {quiz.characterQueue.length}
+              </div>
+            </div>
 
             {quiz.currentQuestion && (
               <div className="character-quiz__answers">
-                {quiz.currentQuestion.allAnswers.map((answer, index) => {
+                {quiz.currentQuestion.allAnswers.map((answer) => {
                   const isSelected = selectedAnswer === answer.characterId;
                   const isCorrect = answer.isCorrect;
                   const showResult = quiz.questionAnswered || quiz.showAnswer;
+                  // For hint, highlight the first wrong answer that appears in the list
+                  const wrongAnswers = quiz.currentQuestion!.allAnswers.filter(
+                    (a) => !a.isCorrect
+                  );
                   const isHintAnswer =
-                    quiz.showHint && !isCorrect && index === 0; // Highlight first wrong answer as hint
+                    quiz.showHint &&
+                    !isCorrect &&
+                    wrongAnswers[0]?.id === answer.id;
 
                   return (
                     <button
@@ -246,13 +292,28 @@ export const CharacterQuiz = () => {
                 </>
               )}
 
-              {quiz.questionAnswered && quiz.questionsRemaining > 0 && (
-                <button
-                  className="character-quiz__next-button"
-                  onClick={handleNextQuestion}
-                >
-                  Next Question →
-                </button>
+              {quiz.questionAnswered && (
+                <>
+                  {quiz.questionsRemaining > 0 ? (
+                    <button
+                      className="character-quiz__next-button"
+                      onClick={handleNextQuestion}
+                    >
+                      Next Question →
+                    </button>
+                  ) : (
+                    <div className="character-quiz__game-complete">
+                      <h4>🎉 Quiz Complete!</h4>
+                      <p>
+                        Final Score: {quiz.score.correct} of {quiz.score.total}{" "}
+                        ({quiz.score.percentage}%)
+                      </p>
+                      {quiz.streak.current > 0 && (
+                        <p>🔥 Final Streak: {quiz.streak.current}</p>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

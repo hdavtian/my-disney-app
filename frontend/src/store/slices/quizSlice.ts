@@ -21,7 +21,8 @@ export const initializeQuizGame = createAsyncThunk(
     try {
       const characterIds = await fetchCharacterIds();
       const shuffledIds = shuffleArray(characterIds);
-      return shuffledIds;
+      // Limit to 10 questions per game for a good user experience
+      return shuffledIds.slice(0, 10);
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : "Failed to initialize game"
