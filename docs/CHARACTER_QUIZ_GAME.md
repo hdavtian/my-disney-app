@@ -73,10 +73,12 @@ GET /api/characters/ids
 - Returns: Array of all character IDs [1, 2, 3, ..., 180]
 - Purpose: Initialize game with complete character list
 
-POST /api/characters/random-except
-- Request: { "excludeId": number }
-- Returns: Array of 3 unique random character IDs (excluding submitted ID)
-- Purpose: Generate wrong answers for each question
+GET /api/characters/random-except/{excludeId}?count={number}
+- Path Param: excludeId (required) - Character ID to exclude from results
+- Query Param: count (optional, default: 3) - Number of random IDs to return
+- Returns: Array of random character IDs (excluding submitted ID)
+- Purpose: Generate wrong answers for quiz questions and other features
+- Example: GET /api/characters/random-except/1?count=3
 ```
 
 ### **Frontend Game State**
@@ -179,12 +181,14 @@ src/store/slices/quizSlice.ts   # Quiz state management
 
 ## 🚀 Implementation Phases
 
-### **Phase 1: Backend API Development** ⏳
+### **Phase 1: Backend API Development** ✅
 
-- [ ] Add `GET /api/characters/ids` endpoint
-- [ ] Add `POST /api/characters/random-except` endpoint
-- [ ] Test endpoints with existing data
-- [ ] Update CharacterService and CharacterController
+- [x] Add `GET /api/characters/ids` endpoint
+- [x] Add `GET /api/characters/random-except/{excludeId}?count={number}` endpoint
+- [x] Update CharacterService and CharacterRepository with flexible count parameter
+- [x] Update CharacterController with input validation and error handling
+- [x] **COMPILED IN INTELLIJ**: Backend project rebuilt and endpoints activated
+- [x] **TESTED**: All endpoints working correctly with proper validation
 
 ### **Phase 2: Frontend State Management** ⏳
 
