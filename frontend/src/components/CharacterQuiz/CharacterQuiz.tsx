@@ -22,12 +22,28 @@ export const CharacterQuiz = () => {
     }
   }, [quiz.currentQuestion]);
 
-  // Initialize game if not started
+  // Generate first question when game is initialized
   useEffect(() => {
-    if (!quiz.hasCharacters && !quiz.isLoading) {
-      quiz.initializeGame();
+    if (
+      quiz.hasCharacters &&
+      quiz.isGameActive &&
+      !quiz.currentQuestion &&
+      !quiz.isLoading
+    ) {
+      // Generate first question
+      const firstCharacterId = quiz.characterQueue[0];
+      if (firstCharacterId) {
+        quiz.generateQuestion(firstCharacterId.toString());
+      }
     }
-  }, [quiz.hasCharacters, quiz.isLoading, quiz.initializeGame]);
+  }, [
+    quiz.hasCharacters,
+    quiz.isGameActive,
+    quiz.currentQuestion,
+    quiz.isLoading,
+    quiz.characterQueue,
+    quiz.generateQuestion,
+  ]);
 
   const handleAnswerSelect = (characterId: string) => {
     if (quiz.questionAnswered) return;
@@ -60,9 +76,10 @@ export const CharacterQuiz = () => {
   };
 
   const handleRestartGame = () => {
-    quiz.restartGame();
     setCurrentCharacter(null);
     setSelectedAnswer(null);
+    // Start a new game (this will call initializeGame)
+    quiz.startGame();
   };
 
   if (!quiz.isVisible) {

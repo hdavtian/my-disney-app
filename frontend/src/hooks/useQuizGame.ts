@@ -26,7 +26,10 @@ export const useQuizGame = () => {
       dispatch(generateQuizQuestion(characterId)),
 
     // Game control
-    startGame: () => dispatch(startNewGame()),
+    startGame: () => {
+      dispatch(startNewGame());
+      dispatch(initializeQuizGame());
+    },
     restartGame: () => dispatch(restartGame()),
 
     // Question actions
