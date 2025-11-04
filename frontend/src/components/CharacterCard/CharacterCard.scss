@@ -8,7 +8,8 @@
     text-align: center;
     position: relative;
 
-    &__link {
+    &__link,
+    &__content {
         display: block;
         text-decoration: none;
         color: inherit;
