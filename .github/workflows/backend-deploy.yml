@@ -81,7 +81,7 @@ jobs:
           az containerapp update \
             --name ca-movie-app-api \
             --resource-group rg-disney-movies-app \
-            --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Verify deployment
         run: |
