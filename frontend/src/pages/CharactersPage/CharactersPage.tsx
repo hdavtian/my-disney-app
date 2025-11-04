@@ -8,6 +8,7 @@ import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
 import { CharactersGridView } from "../../components/CharactersGridView";
 import { CharactersListView } from "../../components/CharactersListView";
 import { SearchInput } from "../../components/SearchInput";
+import { CharacterQuiz } from "../../components/CharacterQuiz";
 import { Character } from "../../types/Character";
 
 export const CharactersPage = () => {
@@ -111,6 +112,8 @@ export const CharactersPage = () => {
       </div>
 
       <div className="characters-page__content">
+        <CharacterQuiz />
+
         {viewMode === "grid" ? (
           <CharactersGridView
             characters={filteredCharacters}

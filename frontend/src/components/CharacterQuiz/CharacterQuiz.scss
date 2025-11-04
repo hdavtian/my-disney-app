@@ -1,0 +1,449 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.character-quiz {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--gray-900) 100%);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &--hidden {
+        padding: var(--space-2);
+        background: rgba(var(--disney-gold-rgb), 0.1);
+        border: 1px solid var(--disney-gold);
+    }
+
+    &__show-button {
+        @include btn-base;
+        background: var(--disney-gold);
+        color: var(--dark-blue);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--border-radius);
+        font-weight: var(--font-semibold);
+        font-size: var(--text-sm);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+
+        &:hover {
+            background: var(--princess-pink);
+            transform: translateY(-1px);
+        }
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-4);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: var(--space-3);
+    }
+
+    &__title {
+        color: var(--disney-gold);
+        font-size: var(--text-xl);
+        font-weight: var(--font-bold);
+        margin: 0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    &__hide-button {
+        @include btn-base;
+        color: var(--gray-400);
+        font-size: var(--text-lg);
+        cursor: pointer;
+        padding: var(--space-1);
+        border-radius: var(--border-radius);
+        transition: all var(--transition-normal);
+
+        &:hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    &__loading {
+        text-align: center;
+        padding: var(--space-8);
+        color: var(--gray-300);
+
+        p {
+            margin-top: var(--space-2);
+            font-size: var(--text-base);
+        }
+    }
+
+    &__spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--gray-600);
+        border-top: 3px solid var(--disney-gold);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    &__error {
+        text-align: center;
+        padding: var(--space-6);
+        color: var(--error);
+
+        p {
+            margin-bottom: var(--space-3);
+            font-size: var(--text-base);
+        }
+    }
+
+    &__retry-button {
+        @include btn-primary;
+    }
+
+    &__content {
+        display: grid;
+        gap: var(--space-4);
+
+        // Mobile: vertical stacking
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+
+        @include tablet-up {
+            // Tablet+: horizontal layout
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr;
+            min-height: 400px;
+        }
+    }
+
+    &__section {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius);
+        padding: var(--space-4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    // Section 1: Character Display
+    &__character-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 200px;
+
+        @include tablet-up {
+            min-height: 300px;
+        }
+    }
+
+    // Section 2: Quiz Interface
+    &__interface-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__interface-title {
+        color: var(--disney-gold);
+        font-size: var(--text-lg);
+        font-weight: var(--font-semibold);
+        margin: 0 0 var(--space-4) 0;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    &__answers {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+    }
+
+    &__answer {
+        @include btn-base;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-3);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius);
+        color: var(--white);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        text-align: left;
+
+        &:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--disney-gold);
+            transform: translateX(2px);
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        &--selected {
+            background: rgba(253, 208, 23, 0.2); // disney-gold with opacity
+            border-color: var(--disney-gold);
+        }
+
+        &--correct {
+            background: rgba(16, 185, 129, 0.2); // success color with opacity
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        &--wrong {
+            background: rgba(239, 68, 68, 0.2); // error color with opacity
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        &--hint {
+            background: rgba(245, 158, 11, 0.2); // warning color with opacity
+            border-color: var(--warning);
+        }
+    }
+
+    &__answer-label {
+        font-weight: var(--font-bold);
+        font-size: var(--text-base);
+        min-width: 24px;
+    }
+
+    &__answer-text {
+        flex: 1;
+        font-size: var(--text-sm);
+    }
+
+    &__hint-text {
+        font-size: var(--text-xs);
+        color: var(--warning);
+        font-style: italic;
+        font-weight: var(--font-medium);
+    }
+
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        justify-content: center;
+    }
+
+    &__hint-button,
+    &__reveal-button,
+    &__submit-button,
+    &__next-button {
+        @include btn-base;
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--border-radius);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        border: 1px solid transparent;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__hint-button {
+        background: var(--warning);
+        color: var(--dark-blue);
+
+        &:hover:not(:disabled) {
+            background: #fbbf24;
+            /* lighter warning color */
+        }
+    }
+
+    &__reveal-button {
+        background: var(--info);
+        color: var(--white);
+
+        &:hover:not(:disabled) {
+            background: #3b82f6;
+            /* lighter info color */
+        }
+    }
+
+    &__submit-button {
+        background: var(--disney-gold);
+        color: var(--dark-blue);
+
+        &:hover:not(:disabled) {
+            background: var(--princess-pink);
+        }
+    }
+
+    &__next-button {
+        background: var(--success);
+        color: var(--white);
+
+        &:hover:not(:disabled) {
+            background: #34d399;
+            /* lighter success color */
+            transform: translateX(2px);
+        }
+    }
+
+    // Section 3: Score Tracking
+    &__score-section {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    &__restart-button {
+        @include btn-base;
+        background: var(--error);
+        color: var(--white);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--border-radius);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        margin-bottom: var(--space-3);
+        align-self: flex-start;
+
+        &:hover {
+            background: #f87171;
+            /* lighter error color */
+        }
+    }
+
+    &__score-display {
+        margin-bottom: var(--space-4);
+    }
+
+    &__overall-score {
+        font-size: var(--text-lg);
+        font-weight: var(--font-bold);
+        color: var(--disney-gold);
+        margin-bottom: var(--space-1);
+    }
+
+    &__percentage {
+        font-size: var(--text-sm);
+        color: var(--gray-300);
+    }
+
+    &__streak {
+        font-size: var(--text-base);
+        color: var(--white);
+    }
+
+    &__best-streak {
+        font-size: var(--text-sm);
+        color: var(--gray-300);
+    }
+
+    &__history {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__history-title {
+        color: var(--white);
+        font-size: var(--text-base);
+        font-weight: var(--font-medium);
+        margin: 0 0 var(--space-2) 0;
+    }
+
+    &__history-table {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__history-header {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: var(--space-2);
+        padding: var(--space-2);
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--text-xs);
+        font-weight: var(--font-semibold);
+        color: var(--disney-gold);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    &__history-body {
+        flex: 1;
+        overflow-y: auto;
+        margin-top: var(--space-2);
+        max-height: 200px;
+
+        @include tablet-up {
+            max-height: 300px;
+        }
+    }
+
+    &__history-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: var(--space-2);
+        padding: var(--space-2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: var(--text-sm);
+        color: var(--white);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    }
+
+    &__history-character {
+        @include text-truncate;
+    }
+
+    &__history-correct,
+    &__history-wrong {
+        text-align: center;
+        font-size: var(--text-base);
+    }
+
+    &__history-empty {
+        text-align: center;
+        color: var(--gray-400);
+        font-style: italic;
+        padding: var(--space-4);
+        font-size: var(--text-sm);
+    }
+
+    // Game Start State
+    &__start {
+        text-align: center;
+        padding: var(--space-8);
+
+        h3 {
+            color: var(--white);
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-4);
+        }
+    }
+
+    &__start-button {
+        @include btn-primary;
+        font-size: var(--text-lg);
+        padding: var(--space-3) var(--space-6);
+    }
+}

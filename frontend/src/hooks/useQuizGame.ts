@@ -1,9 +1,14 @@
 import { useAppSelector, useAppDispatch } from "./redux";
 import {
   initializeQuizGame,
+  generateQuizQuestion,
   toggleQuizVisibility,
   startNewGame,
   restartGame,
+  submitAnswer,
+  useHint,
+  revealAnswer,
+  nextQuestion,
 } from "../store/slices/quizSlice";
 
 /**
@@ -17,10 +22,18 @@ export const useQuizGame = () => {
   const actions = {
     // Game initialization
     initializeGame: () => dispatch(initializeQuizGame()),
+    generateQuestion: (characterId: string) =>
+      dispatch(generateQuizQuestion(characterId)),
 
     // Game control
     startGame: () => dispatch(startNewGame()),
     restartGame: () => dispatch(restartGame()),
+
+    // Question actions
+    submitAnswer: (characterId: string) => dispatch(submitAnswer(characterId)),
+    useHint: () => dispatch(useHint()),
+    revealAnswer: () => dispatch(revealAnswer()),
+    nextQuestion: () => dispatch(nextQuestion()),
 
     // Visibility
     toggleVisibility: () => dispatch(toggleQuizVisibility()),
@@ -37,6 +50,11 @@ export const useQuizGame = () => {
     hasCharacters: quizState.characterQueue.length > 0,
     questionsRemaining:
       quizState.characterQueue.length - quizState.currentQuestionIndex - 1,
+    showHint: quizState.showHint,
+    showAnswer: quizState.showAnswer,
+    questionAnswered: quizState.questionAnswered,
+    currentQuestionIndex: quizState.currentQuestionIndex,
+    characterQueue: quizState.characterQueue,
   };
 
   return {
