@@ -24,7 +24,7 @@ public class CorsConfig {
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
                 "http://localhost:5173",
-                "https://calm-ocean-0a6ef4d1e.3.azurestaticapps.io"));
+                "https://calm-ocean-0a6ef4d1e.3.azurestaticapps.net"));
 
         // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
