@@ -15,4 +15,12 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      // Ensure proper handling of dynamic imports
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
 });

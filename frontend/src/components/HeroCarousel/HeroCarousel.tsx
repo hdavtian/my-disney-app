@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../../config/assets";
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
@@ -16,6 +17,7 @@ const INITIAL_SLIDES: HeroSlide[] = [];
 const SLIDE_INTERVAL_MS = 8000; // 8 seconds between slides
 
 export const HeroCarousel = () => {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState<HeroSlide[]>(INITIAL_SLIDES);
   const [loading, setLoading] = useState<boolean>(true);
@@ -282,7 +284,7 @@ export const HeroCarousel = () => {
                     ? slides[currentSlide].id
                     : null;
                   if (movieId) {
-                    window.location.href = `/movie/${movieId}`;
+                    navigate(`/movie/${movieId}`);
                   }
                 }}
               >

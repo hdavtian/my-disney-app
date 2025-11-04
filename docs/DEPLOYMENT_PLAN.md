@@ -243,6 +243,7 @@ Notes
 - [x] Design GitHub Actions CI/CD
 - [x] Plan DNS and certificates
 - [x] Define environments and branching
+- [x] Backend deployment (movie-app) - **COMPLETED 2025-11-04**
 - [ ] Observability and alerts (implement Log Analytics + optional App Insights, define minimal alerts)
 - [x] Security and secrets plan
 - [x] Rough cost model
@@ -257,18 +258,18 @@ Notes
   - [x] Add CI job in assets repository to sync images with azcopy (delta uploads) and optional CDN purge
   - [x] Add app config: `VITE_ASSETS_BASE_URL` (FE) for environment-aware image loading
   - [x] Update all components to use centralized `getAssetUrl()` utility function
-- [ ] Backend deployment (movie-app)
+- [x] Backend deployment (movie-app)
   - [x] Create Neon PostgreSQL project and `disneyapp` database
   - [x] Configure Spring Boot profiles (local vs prod)
   - [x] Test Flyway migrations on Neon database
   - [x] Create Dockerfile for Spring Boot backend (multi-stage with Maven build + JRE runtime)
   - [x] Add .dockerignore and docker-compose.yml for optional local testing
   - [x] Test Docker build locally (successfully built movie-app-api:local)
-  - [ ] Build and push Docker image to GHCR
-  - [ ] Create Azure Container Apps Environment
-  - [ ] Deploy backend container to Azure Container Apps
-  - [ ] Configure CORS for frontend domain
-  - [ ] Update frontend to use deployed backend API URL
+  - [x] Build and push Docker image to GHCR
+  - [x] Create Azure Container Apps Environment (`cae-disney`)
+  - [x] Deploy backend container to Azure Container Apps (`ca-movie-app-api`)
+  - [x] Configure CORS for frontend domain
+  - [x] Update frontend to use deployed backend API URL
 
 ## 15) Decision log
 
@@ -281,6 +282,8 @@ Notes
 - 2025-11-03: Implemented GitHub Actions workflow in assets repository to automatically sync images to Azure Storage using `azcopy`; workflow includes delta uploads and optional CDN purge when CDN is enabled.
 - 2025-11-03: Created Neon PostgreSQL project `hd` with `disneyapp` database (free tier, 0.5 GB, West US 3 region); configured Spring Boot with profile-based database connections (local Docker vs prod Neon); successfully tested Flyway migrations on Neon.
 - 2025-11-03: Dockerized Spring Boot backend with multi-stage Dockerfile (Maven build + JRE runtime); added docker-compose.yml for optional local containerized testing; successfully built image locally. Local development workflow unchanged (IntelliJ + native Java); Docker used only for deployment and optional production-parity testing.
+- 2025-11-04: **Completed full deployment pipeline**: Created GitHub Actions workflows for both frontend (Azure Static Web Apps) and backend (Azure Container Apps via GHCR). Backend successfully deployed to `ca-movie-app-api` in `cae-disney` environment with GHCR image registry (`ghcr.io/hdavtian/movie-app-api`). Configured custom domains `movie-app.disney.harma.dev` (frontend) and `api.movie-app.disney.harma.dev` (backend) with managed SSL certificates. CORS configured for cross-domain communication. Full end-to-end deployment working with production database connectivity.
+- 2025-11-04: **Fixed hero carousel production bug**: Updated HeroCarousel component to use `getApiUrl()` configuration instead of relative paths, ensuring consistent API calls across development and production environments. Frontend now properly handles both camelCase and snake_case API responses for cross-compatibility.
 
 Notes:
 
