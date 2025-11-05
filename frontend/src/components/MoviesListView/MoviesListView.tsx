@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import DataGrid, {
   Column,
   Export,
@@ -30,16 +29,13 @@ export const MoviesListView = ({
   movies,
   onMovieClick,
 }: MoviesListViewProps) => {
-  const navigate = useNavigate();
-
   const handleViewClick = useCallback(
     (movie: Movie) => {
       if (onMovieClick) {
         onMovieClick(movie.id);
       }
-      navigate(`/movie/${movie.id}`);
     },
-    [navigate, onMovieClick]
+    [onMovieClick]
   );
 
   const onExporting = useCallback((e: any) => {
