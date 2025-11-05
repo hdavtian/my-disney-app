@@ -3,8 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuizGame } from "../../hooks/useQuizGame";
 import { CharacterCard } from "../CharacterCard/CharacterCard";
 import { Character } from "../../types";
-import { fetchCharacterById } from "../../utils/quizApi";
+import {
+  fetchCharacterById,
+  fetchCharactersByIds,
+  fetchRandomCharacterIds,
+} from "../../utils/quizApi";
 import { DIFFICULTY_CONFIGS } from "../../store/slices/quizSlice";
+import { getImageUrl } from "../../config/assets";
 import "./CharacterQuiz.scss";
 
 export const CharacterQuiz = React.memo(() => {
@@ -27,6 +32,9 @@ export const CharacterQuiz = React.memo(() => {
   const [isImageVisible, setIsImageVisible] = useState(true);
   const [timerIntervalId, setTimerIntervalId] = useState<number | null>(null);
 
+  // Banner state for random characters
+  const [bannerCharacters, setBannerCharacters] = useState<Character[]>([]);
+
   // Debug: Log re-renders to identify flash cause
   console.log("CharacterQuiz re-render:", {
     currentQuestionId: quiz.currentQuestion?.id,
@@ -39,6 +47,23 @@ export const CharacterQuiz = React.memo(() => {
   // Load preferences on component mount
   useEffect(() => {
     quiz.loadPreferences();
+  }, []);
+
+  // Load random characters for banner
+  useEffect(() => {
+    const loadBannerCharacters = async () => {
+      try {
+        // Get 5 random character IDs (excluding ID 1 arbitrarily since we just need random ones)
+        const randomIds = await fetchRandomCharacterIds("1", 5);
+        const characters = await fetchCharactersByIds(randomIds);
+        setBannerCharacters(characters);
+      } catch (error) {
+        console.error("Error loading banner characters:", error);
+        // Banner is not critical, so we don't need to show error to user
+      }
+    };
+
+    loadBannerCharacters();
   }, []);
 
   // ESC key support for modal
@@ -706,83 +731,146 @@ export const CharacterQuiz = React.memo(() => {
 
       {/* Game Not Started */}
       {!quiz.isGameActive && !quiz.isLoading && !quiz.error && (
-        <div className="character-quiz__start">
-          <div className="character-quiz__start-header">
-            <h3>Ready to test your Disney knowledge?</h3>
-            <button
-              type="button"
-              className="character-quiz__info-button"
-              onClick={() => setShowInstructions(true)}
-              title="View difficulty information"
-            >
-              ℹ️
-            </button>
+        <div className="character-quiz__start-wrapper">
+          {/* Banner Section */}
+          <div className="character-quiz__banner">
+            <div className="character-quiz__banner-backgrounds">
+              {bannerCharacters.length > 0
+                ? bannerCharacters.slice(0, 5).map((character) => (
+                    <div
+                      key={character.id}
+                      className="character-quiz__banner-background"
+                      style={{
+                        backgroundImage: character.profile_image1
+                          ? `url(${getImageUrl(
+                              "characters",
+                              character.profile_image1
+                            )})`
+                          : "linear-gradient(135deg, var(--disney-blue), var(--princess-pink))",
+                      }}
+                    />
+                  ))
+                : // Fallback gradient backgrounds while loading
+                  Array.from({ length: 5 }, (_, index) => (
+                    <div
+                      key={`fallback-${index}`}
+                      className="character-quiz__banner-background"
+                      style={{
+                        backgroundImage: `linear-gradient(135deg, 
+                        ${
+                          index === 0
+                            ? "var(--disney-blue), var(--disney-gold)"
+                            : ""
+                        }
+                        ${
+                          index === 1
+                            ? "var(--princess-pink), var(--villain-purple)"
+                            : ""
+                        }
+                        ${
+                          index === 2
+                            ? "var(--disney-gold), var(--disney-blue)"
+                            : ""
+                        }
+                        ${
+                          index === 3
+                            ? "var(--villain-purple), var(--princess-pink)"
+                            : ""
+                        }
+                        ${
+                          index === 4
+                            ? "var(--disney-gold), var(--villain-purple)"
+                            : ""
+                        }
+                      )`,
+                      }}
+                    />
+                  ))}
+            </div>
+            <div className="character-quiz__banner-title">
+              <h2>Toon Quiz</h2>
+            </div>
           </div>
 
-          <div className="character-quiz__game-setup">
-            <div className="character-quiz__questions-selector">
-              <label className="character-quiz__selector-label">
-                Choose number of questions:
-              </label>
-              <div className="character-quiz__selector-options">
-                {[10, 20, 50].map((count) => (
-                  <button
-                    key={count}
-                    type="button"
-                    className={`
-                      character-quiz__selector-option
-                      ${
-                        quiz.selectedQuestionsCount === count
-                          ? "character-quiz__selector-option--selected"
-                          : ""
-                      }
-                    `}
-                    onClick={() => quiz.setQuestionsCount(count)}
-                  >
-                    {count} Questions
-                  </button>
-                ))}
-              </div>
+          {/* Start Section */}
+          <div className="character-quiz__start">
+            <div className="character-quiz__start-header">
+              <h3>Ready to test your Disney knowledge?</h3>
+              <button
+                type="button"
+                className="character-quiz__info-button"
+                onClick={() => setShowInstructions(true)}
+                title="View difficulty information"
+              >
+                ℹ️
+              </button>
             </div>
 
-            <div className="character-quiz__difficulty-selector">
-              <label className="character-quiz__selector-label">
-                Choose difficulty level:
-              </label>
-              <div className="character-quiz__selector-options">
-                {["easy", "medium", "hard", "harder"].map((difficulty) => (
-                  <button
-                    key={difficulty}
-                    type="button"
-                    className={`
-                      character-quiz__selector-option
-                      character-quiz__selector-option--difficulty
-                      ${
-                        quiz.selectedDifficulty === difficulty
-                          ? "character-quiz__selector-option--selected"
-                          : ""
-                      }
-                    `}
-                    onClick={() =>
-                      quiz.setDifficulty(
-                        difficulty as "easy" | "medium" | "hard"
-                      )
-                    }
-                  >
-                    {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-                  </button>
-                ))}
+            <div className="character-quiz__game-setup">
+              <div className="character-quiz__questions-selector">
+                <label className="character-quiz__selector-label">
+                  Choose number of questions:
+                </label>
+                <div className="character-quiz__selector-options">
+                  {[10, 20, 50].map((count) => (
+                    <button
+                      key={count}
+                      type="button"
+                      className={`
+                        character-quiz__selector-option
+                        ${
+                          quiz.selectedQuestionsCount === count
+                            ? "character-quiz__selector-option--selected"
+                            : ""
+                        }
+                      `}
+                      onClick={() => quiz.setQuestionsCount(count)}
+                    >
+                      {count} Questions
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <button
-              type="button"
-              className="character-quiz__start-button"
-              onClick={quiz.startGame}
-            >
-              🎮 Start {quiz.selectedQuestionsCount} Question Quiz (
-              {quiz.selectedDifficulty} mode)
-            </button>
+              <div className="character-quiz__difficulty-selector">
+                <label className="character-quiz__selector-label">
+                  Choose difficulty level:
+                </label>
+                <div className="character-quiz__selector-options">
+                  {["easy", "medium", "hard", "harder"].map((difficulty) => (
+                    <button
+                      key={difficulty}
+                      type="button"
+                      className={`
+                        character-quiz__selector-option
+                        character-quiz__selector-option--difficulty
+                        ${
+                          quiz.selectedDifficulty === difficulty
+                            ? "character-quiz__selector-option--selected"
+                            : ""
+                        }
+                      `}
+                      onClick={() =>
+                        quiz.setDifficulty(
+                          difficulty as "easy" | "medium" | "hard"
+                        )
+                      }
+                    >
+                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="character-quiz__start-button"
+                onClick={quiz.startGame}
+              >
+                🎮 Start {quiz.selectedQuestionsCount} Question Quiz (
+                {quiz.selectedDifficulty} mode)
+              </button>
+            </div>
           </div>
         </div>
       )}
