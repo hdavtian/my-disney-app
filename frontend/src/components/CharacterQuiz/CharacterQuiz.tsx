@@ -746,7 +746,10 @@ export const CharacterQuiz = React.memo(() => {
                               "characters",
                               character.profile_image1
                             )})`
-                          : "linear-gradient(135deg, var(--disney-blue), var(--princess-pink))",
+                          : "none",
+                        backgroundColor: character.profile_image1
+                          ? "transparent"
+                          : "#1e40af", /* Blue fallback */
                       }}
                     />
                   ))
@@ -756,33 +759,10 @@ export const CharacterQuiz = React.memo(() => {
                       key={`fallback-${index}`}
                       className="character-quiz__banner-background"
                       style={{
-                        backgroundImage: `linear-gradient(135deg, 
-                        ${
-                          index === 0
-                            ? "var(--disney-blue), var(--disney-gold)"
-                            : ""
-                        }
-                        ${
-                          index === 1
-                            ? "var(--princess-pink), var(--villain-purple)"
-                            : ""
-                        }
-                        ${
-                          index === 2
-                            ? "var(--disney-gold), var(--disney-blue)"
-                            : ""
-                        }
-                        ${
-                          index === 3
-                            ? "var(--villain-purple), var(--princess-pink)"
-                            : ""
-                        }
-                        ${
-                          index === 4
-                            ? "var(--disney-gold), var(--villain-purple)"
-                            : ""
-                        }
-                      )`,
+                        backgroundColor: 
+                          index % 3 === 0 ? "#dc2626" : // Red
+                          index % 3 === 1 ? "#f8fafc" : // White  
+                          "#1e40af", // Blue
                       }}
                     />
                   ))}

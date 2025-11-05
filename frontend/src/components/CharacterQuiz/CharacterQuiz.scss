@@ -893,19 +893,33 @@
 
     &__banner-background {
         flex: 1;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        transition: all var(--transition-normal);
         position: relative;
         border-left: 1px solid var(--disney-gold);
         border-right: 1px solid var(--disney-gold);
+        overflow: hidden;
+        /* Prevent zoom from showing outside div */
 
         // Better skew handling to prevent empty corners - wider overlap
         transform: skew(-10deg);
         margin: 0 -20px;
         padding: 0 10px;
         min-height: 100%;
+
+        // Background image as pseudo-element for better zoom control
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: inherit;
+            transition: transform var(--transition-normal);
+            z-index: -1;
+        }
 
         &:first-child {
             margin-left: -30px;
@@ -934,8 +948,12 @@
         }
 
         &:hover {
-            transform: skew(-10deg) scale(1.02);
-            z-index: 5;
+            transform: skew(-10deg);
+
+            &::before {
+                transform: scale(1.1);
+                /* Gentle zoom into the background image */
+            }
         }
     }
 
@@ -1108,14 +1126,61 @@
     &__selector-option--difficulty {
         position: relative;
 
+        // Difficulty-specific selected colors
         &.character-quiz__selector-option--selected {
-            &::after {
-                content: "✨";
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                font-size: 1.2em;
-                animation: sparkle 1.5s infinite;
+            // Default styling remains the same
+
+            // Easy difficulty - green
+            &:nth-child(1) {
+                background: var(--success-green);
+                border-color: var(--success-green);
+                color: var(--white);
+
+                &:hover {
+                    background: #34d399;
+                    /* lighter success green */
+                    border-color: #34d399;
+                }
+            }
+
+            // Medium difficulty - yellow/gold
+            &:nth-child(2) {
+                background: var(--disney-gold);
+                border-color: var(--disney-gold);
+                color: var(--dark-blue);
+
+                &:hover {
+                    background: #fbbf24;
+                    /* lighter gold */
+                    border-color: #fbbf24;
+                }
+            }
+
+            // Hard difficulty - red
+            &:nth-child(3) {
+                background: var(--danger-red);
+                border-color: var(--danger-red);
+                color: var(--white);
+
+                &:hover {
+                    background: #f87171;
+                    /* lighter red */
+                    border-color: #f87171;
+                }
+            }
+
+            // Harder difficulty - dark brown/maroon
+            &:nth-child(4) {
+                background: #8B4513;
+                /* saddle brown */
+                border-color: #8B4513;
+                color: var(--white);
+
+                &:hover {
+                    background: #A0522D;
+                    /* sandy brown - lighter */
+                    border-color: #A0522D;
+                }
             }
         }
     }
@@ -1307,20 +1372,7 @@
     }
 }
 
-// Sparkle animation for selected difficulty
-@keyframes sparkle {
-
-    0%,
-    100% {
-        transform: scale(1) rotate(0deg);
-        opacity: 0.8;
-    }
-
-    50% {
-        transform: scale(1.2) rotate(180deg);
-        opacity: 1;
-    }
-}
+// Sparkle animation removed - replaced with difficulty-specific colors
 
 // Timer pulse animation for danger state
 @keyframes timer-pulse {
