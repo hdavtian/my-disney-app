@@ -28,7 +28,7 @@ export interface QuizScore {
 
 export interface QuizStreak {
   current: number;
-  best: number;
+  longest: number;
 }
 
 export interface QuizGameState {
@@ -41,6 +41,10 @@ export interface QuizGameState {
   // Scoring
   score: QuizScore;
   streak: QuizStreak;
+
+  // Game statistics
+  hintsUsed: number;
+  answersRevealed: number;
 
   // Game state
   isGameActive: boolean;
@@ -62,7 +66,7 @@ export interface QuizGameState {
 export interface QuizPersistentData {
   // Historical data to persist across sessions
   allTimeScore: QuizScore;
-  bestStreak: number;
+  longestStreak: number;
   gamesPlayed: number;
   lastSessionId?: string;
   preferences: {

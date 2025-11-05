@@ -89,7 +89,7 @@ interface QuizGameState {
   currentQuestionIndex: number; // Current position in queue
   gameHistory: QuizQuestion[]; // Past questions with user answers
   currentStreak: number; // Current correct streak
-  bestStreak: number; // Historical best streak
+  longestStreak: number; // Historical longest streak across all games
   score: { correct: number; total: number };
   allTimeScore: { correct: number; total: number };
   isGameActive: boolean;

@@ -80,6 +80,8 @@ export const useQuizGame = () => {
     error: quizState.error,
     score: quizState.score,
     streak: quizState.streak,
+    hintsUsed: quizState.hintsUsed,
+    answersRevealed: quizState.answersRevealed,
     currentQuestion: quizState.currentQuestion,
     gameHistory: quizState.gameHistory,
     hasCharacters: quizState.characterQueue.length > 0,

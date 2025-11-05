@@ -74,7 +74,7 @@ export const savePersistentData = (data: QuizPersistentData): void => {
 export const loadPersistentData = (): QuizPersistentData => {
   const defaultData: QuizPersistentData = {
     allTimeScore: { correct: 0, total: 0, percentage: 0 },
-    bestStreak: 0,
+    longestStreak: 0,
     gamesPlayed: 0,
     preferences: {
       isVisible: true,
@@ -101,7 +101,7 @@ export const loadPersistentData = (): QuizPersistentData => {
  */
 export const updatePersistentData = (
   currentScore: QuizScore,
-  currentBestStreak: number
+  currentLongestStreak: number
 ): QuizPersistentData => {
   const existing = loadPersistentData();
 
@@ -112,7 +112,7 @@ export const updatePersistentData = (
       total: existing.allTimeScore.total + currentScore.total,
       percentage: 0, // Will be calculated below
     },
-    bestStreak: Math.max(existing.bestStreak, currentBestStreak),
+    longestStreak: Math.max(existing.longestStreak, currentLongestStreak),
     gamesPlayed: existing.gamesPlayed + 1,
   };
 

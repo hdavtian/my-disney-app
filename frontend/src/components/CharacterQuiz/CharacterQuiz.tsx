@@ -455,9 +455,13 @@ export const CharacterQuiz = React.memo(() => {
                         Final Score: {quiz.score.correct} of {quiz.score.total}{" "}
                         ({quiz.score.percentage}%)
                       </p>
-                      {quiz.streak.current > 0 && (
-                        <p>🔥 Final Streak: {quiz.streak.current}</p>
+                      {quiz.streak.longest > 0 && (
+                        <p>🔥 Longest Streak: {quiz.streak.longest}</p>
                       )}
+                      <div className="character-quiz__final-stats">
+                        <span>💡 Hints Used: {quiz.hintsUsed}</span>
+                        <span>👁️ Answers Revealed: {quiz.answersRevealed}</span>
+                      </div>
                     </div>
                   )}
                 </>
@@ -472,26 +476,44 @@ export const CharacterQuiz = React.memo(() => {
               className="character-quiz__restart-button"
               onClick={handleRestartGame}
             >
-              🔄 Restart
+              🔄 Restart Game
             </button>
 
-            <div className="character-quiz__score-display">
-              <div className="character-quiz__overall-score">
-                {quiz.score.correct} of {quiz.score.total}
-                {quiz.score.total > 0 && (
-                  <span className="character-quiz__percentage">
-                    ({quiz.score.percentage}%)
-                  </span>
-                )}
+            <div className="character-quiz__statistics">
+              <div className="character-quiz__stat">
+                <span className="character-quiz__stat-label">Score:</span>
+                <span className="character-quiz__stat-value">
+                  {quiz.score.correct}/{quiz.score.total}
+                  {quiz.score.total > 0 && (
+                    <span className="character-quiz__stat-percentage">
+                      ({quiz.score.percentage}%)
+                    </span>
+                  )}
+                </span>
               </div>
-
-              <div className="character-quiz__streak">
-                Streak: {quiz.streak.current}
-                {quiz.streak.best > 0 && (
-                  <span className="character-quiz__best-streak">
-                    (Best: {quiz.streak.best})
-                  </span>
-                )}
+              <div className="character-quiz__stat">
+                <span className="character-quiz__stat-label">Current:</span>
+                <span className="character-quiz__stat-value">
+                  {quiz.streak.current}
+                </span>
+              </div>
+              <div className="character-quiz__stat">
+                <span className="character-quiz__stat-label">Longest:</span>
+                <span className="character-quiz__stat-value">
+                  {quiz.streak.longest}
+                </span>
+              </div>
+              <div className="character-quiz__stat">
+                <span className="character-quiz__stat-label">Hints:</span>
+                <span className="character-quiz__stat-value">
+                  {quiz.hintsUsed}
+                </span>
+              </div>
+              <div className="character-quiz__stat">
+                <span className="character-quiz__stat-label">Revealed:</span>
+                <span className="character-quiz__stat-value">
+                  {quiz.answersRevealed}
+                </span>
               </div>
             </div>
 

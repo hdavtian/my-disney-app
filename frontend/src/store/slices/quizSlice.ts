@@ -98,7 +98,9 @@ const initialState: QuizGameState = {
   currentQuestionIndex: 0,
   gameHistory: [],
   score: { correct: 0, total: 0, percentage: 0 },
-  streak: { current: 0, best: 0 },
+  streak: { current: 0, longest: 0 },
+  hintsUsed: 0,
+  answersRevealed: 0,
   isGameActive: false,
   isVisible: true,
   isLoading: false,
@@ -128,7 +130,9 @@ const quizSlice = createSlice({
       state.currentQuestionIndex = 0;
       state.gameHistory = [];
       state.score = { correct: 0, total: 0, percentage: 0 };
-      state.streak = { current: 0, best: 0 };
+      state.streak = { current: 0, longest: 0 };
+      state.hintsUsed = 0;
+      state.answersRevealed = 0;
       state.gameStartTime = Date.now();
       state.sessionId = generateSessionId();
       state.isLoading = true; // Will be handled by initializeQuizGame
@@ -137,7 +141,7 @@ const quizSlice = createSlice({
 
     restartGame: (state) => {
       // Save final results to persistent storage before restart
-      updatePersistentData(state.score, state.streak.best);
+      updatePersistentData(state.score, state.streak.longest);
 
       // Reset to initial game state but keep visibility
       const currentVisibility = state.isVisible;
@@ -188,7 +192,10 @@ const quizSlice = createSlice({
       if (selectedAnswer.isCorrect) {
         state.score.correct += 1;
         state.streak.current += 1;
-        state.streak.best = Math.max(state.streak.best, state.streak.current);
+        state.streak.longest = Math.max(
+          state.streak.longest,
+          state.streak.current
+        );
       } else {
         state.streak.current = 0;
       }
@@ -209,6 +216,9 @@ const quizSlice = createSlice({
 
       state.showHint = true;
       state.currentQuestion.hintUsed = true;
+
+      // Track hint usage statistic
+      state.hintsUsed += 1;
     },
 
     // Show answer
@@ -218,6 +228,9 @@ const quizSlice = createSlice({
       state.showAnswer = true;
       state.currentQuestion.answerRevealed = true;
       state.questionAnswered = true;
+
+      // Track revealed answer statistic
+      state.answersRevealed += 1;
 
       // Add to history with no score change (answer revealed, not answered)
       state.gameHistory.unshift({ ...state.currentQuestion });
@@ -229,7 +242,7 @@ const quizSlice = createSlice({
           ? Math.round((state.score.correct / state.score.total) * 100)
           : 0;
 
-      // Reset streak when answer is revealed without answering
+      // Reset streak when answer is revealed without answering (breaks streak)
       state.streak.current = 0;
     },
 

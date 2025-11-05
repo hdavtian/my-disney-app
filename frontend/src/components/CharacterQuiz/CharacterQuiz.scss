@@ -296,18 +296,22 @@
 
     &__interface-title {
         color: var(--disney-gold);
-        font-size: var(--text-lg);
-        font-weight: var(--font-semibold);
+        font-size: var(--text-xl);
+        font-weight: var(--font-bold);
+        font-family: 'Georgia', 'Times New Roman', serif;
         margin: 0;
         text-align: center;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        letter-spacing: 0.5px;
     }
 
     &__progress-info {
         text-align: center;
-        font-size: var(--text-sm);
-        color: var(--gray-300);
-        font-weight: var(--font-medium);
+        font-size: var(--text-base);
+        color: var(--gray-200);
+        font-weight: var(--font-semibold);
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        letter-spacing: 0.25px;
     }
 
     &__answers {
@@ -379,7 +383,9 @@
 
     &__answer-text {
         flex: 1;
-        font-size: var(--text-sm);
+        font-size: var(--text-base);
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        font-weight: var(--font-medium);
     }
 
     &__hint-text {
@@ -489,34 +495,89 @@
         }
     }
 
-    &__score-display {
+
+
+    // Statistics display with scorecard styling
+    &__statistics {
+        display: grid;
+        gap: var(--space-2);
+        padding: var(--space-3);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius);
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: var(--text-sm);
+
+        // Mobile: 2 columns, stacked rows
+        grid-template-columns: 1fr 1fr;
+
+        @include tablet-up {
+            // Tablet+: 5 columns in a single row
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+
+    &__stat {
         display: flex;
         flex-direction: column;
-        gap: var(--space-2);
+        text-align: center;
+        padding: var(--space-2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius-sm);
+        background: rgba(0, 0, 0, 0.2);
+        transition: all var(--transition-normal);
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: var(--disney-gold);
+        }
     }
 
-    &__overall-score {
-        font-size: var(--text-lg);
-        font-weight: var(--font-bold);
+    &__stat-label {
+        color: var(--gray-300);
+        font-weight: var(--font-medium);
+        font-size: var(--text-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--space-1);
+    }
+
+    &__stat-value {
         color: var(--disney-gold);
-        margin: 0;
-    }
-
-    &__percentage {
-        font-size: var(--text-sm);
-        color: var(--gray-300);
-        margin-left: var(--space-2);
-    }
-
-    &__streak {
+        font-weight: var(--font-bold);
         font-size: var(--text-base);
-        color: var(--white);
+        font-family: 'Courier New', monospace;
     }
 
-    &__best-streak {
-        font-size: var(--text-sm);
+    &__stat-percentage {
+        font-size: var(--text-xs);
         color: var(--gray-300);
-        margin-left: var(--space-2);
+        font-family: 'Georgia', 'Times New Roman', serif;
+        margin-left: var(--space-1);
+        font-weight: var(--font-normal);
+    }
+
+    // Final stats display in game completion
+    &__final-stats {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        margin-top: var(--space-2);
+        padding: var(--space-2);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--text-sm);
+
+        @include tablet-up {
+            flex-direction: row;
+            justify-content: center;
+            gap: var(--space-4);
+        }
+
+        span {
+            color: var(--gray-300);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
     }
 
     &__history {
