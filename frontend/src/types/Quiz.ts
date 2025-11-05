@@ -52,6 +52,9 @@ export interface QuizGameState {
   isLoading: boolean;
   error?: string;
 
+  // Game preferences
+  selectedQuestionsCount: number; // Number of questions for current game
+
   // Current question state
   showHint: boolean; // Per-question hint usage
   showAnswer: boolean; // Answer revealed state
@@ -71,6 +74,7 @@ export interface QuizPersistentData {
   lastSessionId?: string;
   preferences: {
     isVisible: boolean;
+    questionsCount: number;
   };
 }
 

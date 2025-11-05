@@ -78,6 +78,7 @@ export const loadPersistentData = (): QuizPersistentData => {
     gamesPlayed: 0,
     preferences: {
       isVisible: true,
+      questionsCount: 10,
     },
   };
 
@@ -127,6 +128,25 @@ export const updatePersistentData = (
 
   savePersistentData(updatedData);
   return updatedData;
+};
+
+/**
+ * Save questions count preference
+ */
+export const saveQuestionsCount = (questionsCount: number): void => {
+  try {
+    const existingData = loadPersistentData();
+    const updatedData = {
+      ...existingData,
+      preferences: {
+        ...existingData.preferences,
+        questionsCount,
+      },
+    };
+    savePersistentData(updatedData);
+  } catch (error) {
+    console.warn("Failed to save questions count preference:", error);
+  }
 };
 
 /**

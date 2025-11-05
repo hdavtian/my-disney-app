@@ -4,6 +4,8 @@ import {
   initializeQuizGame,
   generateQuizQuestion,
   toggleQuizVisibility,
+  setQuestionsCount,
+  loadPreferences,
   startNewGame,
   restartGame,
   submitAnswer,
@@ -22,8 +24,11 @@ export const useQuizGame = () => {
 
   // Memoized action functions to prevent unnecessary re-renders
   const initializeGame = useCallback(
-    () => dispatch(initializeQuizGame()),
-    [dispatch]
+    (questionsCount?: number) =>
+      dispatch(
+        initializeQuizGame(questionsCount || quizState.selectedQuestionsCount)
+      ),
+    [dispatch, quizState.selectedQuestionsCount]
   );
   const generateQuestion = useCallback(
     (characterId: string) => dispatch(generateQuizQuestion(characterId)),
@@ -31,8 +36,16 @@ export const useQuizGame = () => {
   );
   const startGame = useCallback(() => {
     dispatch(startNewGame());
-    dispatch(initializeQuizGame());
-  }, [dispatch]);
+    dispatch(initializeQuizGame(quizState.selectedQuestionsCount));
+  }, [dispatch, quizState.selectedQuestionsCount]);
+  const setQuestionCountAction = useCallback(
+    (count: number) => dispatch(setQuestionsCount(count)),
+    [dispatch]
+  );
+  const loadPreferencesAction = useCallback(
+    () => dispatch(loadPreferences()),
+    [dispatch]
+  );
   const restartGameAction = useCallback(
     () => dispatch(restartGame()),
     [dispatch]
@@ -64,7 +77,9 @@ export const useQuizGame = () => {
     startGame,
     restartGame: restartGameAction,
 
-    // Question actions
+    // Game preferences
+    setQuestionsCount: setQuestionCountAction,
+    loadPreferences: loadPreferencesAction, // Question actions
     submitAnswer: submitAnswerAction,
     useHint: useHintAction,
     revealAnswer: revealAnswerAction,
@@ -78,6 +93,7 @@ export const useQuizGame = () => {
     isVisible: quizState.isVisible,
     isLoading: quizState.isLoading,
     error: quizState.error,
+    selectedQuestionsCount: quizState.selectedQuestionsCount,
     score: quizState.score,
     streak: quizState.streak,
     hintsUsed: quizState.hintsUsed,
@@ -86,7 +102,7 @@ export const useQuizGame = () => {
     gameHistory: quizState.gameHistory,
     hasCharacters: quizState.characterQueue.length > 0,
     questionsRemaining:
-      quizState.characterQueue.length - quizState.currentQuestionIndex - 1,
+      quizState.selectedQuestionsCount - quizState.currentQuestionIndex - 1,
     showHint: quizState.showHint,
     showAnswer: quizState.showAnswer,
     questionAnswered: quizState.questionAnswered,

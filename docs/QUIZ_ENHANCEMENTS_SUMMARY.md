@@ -81,6 +81,17 @@ This document summarizes the major enhancements implemented to the Disney Charac
 - **Consistent styling** with borders, hover effects, and typography
 - **Removed old scattered score displays** for cleaner, more professional appearance
 
+### 9. Customizable Question Count ✅
+
+**Game Length Options**:
+
+- **Pre-game setup screen** with question count selector before starting
+- **Three options available**: 10, 20, or 50 questions per game
+- **User preference persistence** - selection saves automatically across browser sessions
+- **Dynamic game experience** - progress display and completion adapt to selected count
+- **Professional selector UI** with Disney gold selection indicators and hover effects
+- **Smart initialization** - loads saved preference on app start (defaults to 10 questions)
+
 ## 🏗️ Technical Implementation
 
 ### Type System Updates
@@ -108,6 +119,15 @@ This document summarizes the major enhancements implemented to the Disney Charac
 - Added responsive statistics panel with scorecard styling
 - Improved game completion summary with comprehensive stats
 - Maintained existing performance optimizations
+
+### Question Count System
+
+- Added `selectedQuestionsCount` property to `QuizGameState`
+- Enhanced `questionsCount` preference in `QuizPersistentData`
+- Updated `initializeQuizGame` thunk to accept question count parameter
+- Added `setQuestionsCount` and `loadPreferences` Redux actions
+- Implemented automatic preference persistence in localStorage
+- Updated progress calculation to use selected count instead of character queue length
 
 ## 🎨 Design Specifications
 
@@ -148,9 +168,28 @@ submitAnswer(incorrect); // Breaks streak (resets to 0)
 interface QuizGameState {
   hintsUsed: number; // Total hints used this game
   answersRevealed: number; // Total answers revealed this game
+  selectedQuestionsCount: number; // Questions for current game
   streak: {
     current: number; // Current consecutive correct
     longest: number; // Best ever consecutive correct
+  };
+}
+```
+
+### Question Count Options
+
+```typescript
+// Available question count options
+const QUESTION_COUNT_OPTIONS = [10, 20, 50];
+
+// Default configuration
+const DEFAULT_QUESTIONS_COUNT = 10;
+
+// Preference persistence
+interface QuizPersistentData {
+  preferences: {
+    questionsCount: number; // User's preferred question count
+    isVisible: boolean; // Quiz visibility preference
   };
 }
 ```

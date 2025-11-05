@@ -29,6 +29,11 @@ export const CharacterQuiz = React.memo(() => {
     isLoading: quiz.isLoading,
   });
 
+  // Load preferences on component mount
+  useEffect(() => {
+    quiz.loadPreferences();
+  }, []);
+
   // Load character for current question (only if not already set)
   useEffect(() => {
     if (quiz.currentQuestion) {
@@ -270,7 +275,7 @@ export const CharacterQuiz = React.memo(() => {
           <p>❌ {quiz.error}</p>
           <button
             type="button"
-            onClick={quiz.initializeGame}
+            onClick={() => quiz.initializeGame()}
             className="character-quiz__retry-button"
           >
             Try Again
@@ -339,7 +344,7 @@ export const CharacterQuiz = React.memo(() => {
               </h3>
               <div className="character-quiz__progress-info">
                 Question {quiz.currentQuestionIndex + 1} of{" "}
-                {quiz.characterQueue.length}
+                {quiz.selectedQuestionsCount}
               </div>
             </div>
 
@@ -570,13 +575,41 @@ export const CharacterQuiz = React.memo(() => {
       {!quiz.isGameActive && !quiz.isLoading && !quiz.error && (
         <div className="character-quiz__start">
           <h3>Ready to test your Disney knowledge?</h3>
-          <button
-            type="button"
-            className="character-quiz__start-button"
-            onClick={quiz.startGame}
-          >
-            🎮 Start Quiz
-          </button>
+
+          <div className="character-quiz__game-setup">
+            <div className="character-quiz__questions-selector">
+              <label className="character-quiz__selector-label">
+                Choose number of questions:
+              </label>
+              <div className="character-quiz__selector-options">
+                {[10, 20, 50].map((count) => (
+                  <button
+                    key={count}
+                    type="button"
+                    className={`
+                      character-quiz__selector-option
+                      ${
+                        quiz.selectedQuestionsCount === count
+                          ? "character-quiz__selector-option--selected"
+                          : ""
+                      }
+                    `}
+                    onClick={() => quiz.setQuestionsCount(count)}
+                  >
+                    {count} Questions
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="character-quiz__start-button"
+              onClick={quiz.startGame}
+            >
+              🎮 Start {quiz.selectedQuestionsCount} Question Quiz
+            </button>
+          </div>
         </div>
       )}
     </motion.div>

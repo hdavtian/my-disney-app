@@ -721,4 +721,76 @@
         font-size: var(--text-lg);
         padding: var(--space-3) var(--space-6);
     }
+
+    // Game Setup Section
+    &__game-setup {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        align-items: center;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    &__questions-selector {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        width: 100%;
+    }
+
+    &__selector-label {
+        color: var(--disney-gold);
+        font-size: var(--text-base);
+        font-weight: var(--font-semibold);
+        font-family: 'Georgia', 'Times New Roman', serif;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    &__selector-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-2);
+        width: 100%;
+
+        @include mobile-only {
+            grid-template-columns: 1fr;
+            gap: var(--space-3);
+        }
+    }
+
+    &__selector-option {
+        @include btn-base;
+        padding: var(--space-3);
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius);
+        color: var(--white);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        text-align: center;
+
+        &:hover:not(&--selected) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--disney-gold);
+            transform: translateY(-1px);
+        }
+
+        &--selected {
+            background: var(--disney-gold);
+            border-color: var(--disney-gold);
+            color: var(--dark-blue);
+            font-weight: var(--font-bold);
+            box-shadow: 0 4px 12px rgba(253, 208, 23, 0.3);
+
+            &:hover {
+                background: var(--princess-pink);
+                border-color: var(--princess-pink);
+            }
+        }
+    }
 }
