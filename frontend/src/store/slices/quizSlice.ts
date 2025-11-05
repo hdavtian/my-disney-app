@@ -1,5 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { QuizGameState, QuizQuestion, QuizAnswer } from "../../types";
+import {
+  QuizGameState,
+  QuizQuestion,
+  QuizAnswer,
+  DifficultyMode,
+  DifficultyConfig,
+} from "../../types";
 import {
   fetchCharacterIds,
   fetchRandomCharacterIds,
@@ -12,9 +18,41 @@ import {
   updatePersistentData,
   loadPersistentData,
   saveQuestionsCount,
+  saveDifficulty,
   generateSessionId,
   shuffleArray,
 } from "../../utils/quizStorage";
+
+// Difficulty configurations
+export const DIFFICULTY_CONFIGS: Record<DifficultyMode, DifficultyConfig> = {
+  easy: {
+    mode: "easy",
+    answerChoices: 2,
+    showHints: true,
+    showRevealAnswer: true,
+    description: "2 choices, hints and show answer available",
+  },
+  medium: {
+    mode: "medium",
+    answerChoices: 5,
+    showHints: true,
+    showRevealAnswer: true,
+    description: "5 choices, hints and show answer available",
+  },
+  hard: {
+    mode: "hard",
+    answerChoices: 10,
+    showHints: false,
+    showRevealAnswer: false,
+    description: "10 choices, no hints or show answer",
+  },
+};
+
+// Helper function to get answer choice labels
+function getAnswerLabels(count: number): string[] {
+  const labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  return labels.slice(0, count);
+}
 
 // Async thunks for API calls
 export const initializeQuizGame = createAsyncThunk(
@@ -38,11 +76,18 @@ export const initializeQuizGame = createAsyncThunk(
 
 export const generateQuizQuestion = createAsyncThunk(
   "quiz/generateQuestion",
-  async (correctCharacterId: string, { rejectWithValue }) => {
+  async (
+    params: { correctCharacterId: string; difficulty: DifficultyMode },
+    { rejectWithValue }
+  ) => {
     try {
-      // Fetch the correct character and 3 random wrong answers
+      const { correctCharacterId, difficulty } = params;
+      const difficultyConfig = DIFFICULTY_CONFIGS[difficulty];
+      const wrongAnswersCount = difficultyConfig.answerChoices - 1; // Subtract 1 for correct answer
+
+      // Fetch the correct character and wrong answers based on difficulty
       const [wrongAnswerIds, characters] = await Promise.all([
-        fetchRandomCharacterIds(correctCharacterId, 3),
+        fetchRandomCharacterIds(correctCharacterId, wrongAnswersCount),
         fetchCharactersByIds([correctCharacterId]),
       ]);
 
@@ -52,13 +97,14 @@ export const generateQuizQuestion = createAsyncThunk(
       // Create the quiz answers
       const allCharacters = [correctCharacter, ...wrongCharacters];
       const shuffledCharacters = shuffleArray(allCharacters);
+      const answerLabels = getAnswerLabels(difficultyConfig.answerChoices);
 
       const answers: QuizAnswer[] = shuffledCharacters.map(
         (character, index) => ({
           id: `answer-${index}`,
           characterId: String(character.id), // Ensure string conversion
           characterName: character.name,
-          label: ["A", "B", "C", "D"][index] as "A" | "B" | "C" | "D",
+          label: answerLabels[index],
           isCorrect: String(character.id) === String(correctCharacterId), // Ensure both are strings
         })
       );
@@ -110,6 +156,7 @@ const initialState: QuizGameState = {
   isVisible: true,
   isLoading: false,
   selectedQuestionsCount: 10,
+  selectedDifficulty: "medium",
   showHint: false,
   showAnswer: false,
   questionAnswered: false,
@@ -136,9 +183,15 @@ const quizSlice = createSlice({
       saveQuestionsCount(action.payload);
     },
 
+    setDifficulty: (state, action: PayloadAction<DifficultyMode>) => {
+      state.selectedDifficulty = action.payload;
+      saveDifficulty(action.payload);
+    },
+
     loadPreferences: (state) => {
       const persistentData = loadPersistentData();
       state.selectedQuestionsCount = persistentData.preferences.questionsCount;
+      state.selectedDifficulty = persistentData.preferences.difficulty;
       state.isVisible = persistentData.preferences.isVisible;
     },
 
@@ -334,6 +387,7 @@ export const {
   toggleQuizVisibility,
   setQuizVisibility,
   setQuestionsCount,
+  setDifficulty,
   loadPreferences,
   startNewGame,
   restartGame,

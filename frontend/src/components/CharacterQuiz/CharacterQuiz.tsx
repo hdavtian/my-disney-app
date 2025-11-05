@@ -4,6 +4,7 @@ import { useQuizGame } from "../../hooks/useQuizGame";
 import { CharacterCard } from "../CharacterCard/CharacterCard";
 import { Character } from "../../types";
 import { fetchCharacterById } from "../../utils/quizApi";
+import { DIFFICULTY_CONFIGS } from "../../store/slices/quizSlice";
 import "./CharacterQuiz.scss";
 
 export const CharacterQuiz = React.memo(() => {
@@ -19,6 +20,7 @@ export const CharacterQuiz = React.memo(() => {
     "normal" | "correct" | "wrong"
   >("normal");
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   // Debug: Log re-renders to identify flash cause
   console.log("CharacterQuiz re-render:", {
@@ -33,6 +35,23 @@ export const CharacterQuiz = React.memo(() => {
   useEffect(() => {
     quiz.loadPreferences();
   }, []);
+
+  // ESC key support for modal
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && showInstructions) {
+        setShowInstructions(false);
+      }
+    };
+
+    if (showInstructions) {
+      document.addEventListener("keydown", handleEscapeKey);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [showInstructions]);
 
   // Load character for current question (only if not already set)
   useEffect(() => {
@@ -188,12 +207,9 @@ export const CharacterQuiz = React.memo(() => {
     setSelectedAnswer(null);
     setCharacterAnimationState("normal");
     setSectionBackgroundState("normal");
-    // Use restart action specifically designed for this
+    // Use restart action to return to game setup screen
     quiz.restartGame();
-    // Then start a new game
-    setTimeout(() => {
-      quiz.startGame();
-    }, 100);
+    // No longer auto-starting game - user can choose new options
   };
 
   // Keyboard support for quiz
@@ -342,14 +358,36 @@ export const CharacterQuiz = React.memo(() => {
               <h3 className="character-quiz__interface-title">
                 Test your toon knowledge!
               </h3>
-              <div className="character-quiz__progress-info">
-                Question {quiz.currentQuestionIndex + 1} of{" "}
-                {quiz.selectedQuestionsCount}
+              <div className="character-quiz__progress-details">
+                <div className="character-quiz__progress-info">
+                  Question {quiz.currentQuestionIndex + 1} of{" "}
+                  {quiz.selectedQuestionsCount}
+                </div>
+                <div
+                  className={`character-quiz__difficulty-indicator character-quiz__difficulty-indicator--${quiz.selectedDifficulty}`}
+                >
+                  <span className="character-quiz__difficulty-icon">
+                    {quiz.selectedDifficulty === "easy" && "🌟"}
+                    {quiz.selectedDifficulty === "medium" && "⚡"}
+                    {quiz.selectedDifficulty === "hard" && "🔥"}
+                  </span>
+                  <span className="character-quiz__difficulty-text">
+                    {quiz.selectedDifficulty.charAt(0).toUpperCase() +
+                      quiz.selectedDifficulty.slice(1)}{" "}
+                    Mode
+                  </span>
+                </div>
               </div>
             </div>
 
             {quiz.currentQuestion && (
-              <div className="character-quiz__answers">
+              <div
+                className={`character-quiz__answers ${
+                  quiz.currentQuestion.allAnswers.length === 10
+                    ? "character-quiz__answers--two-columns"
+                    : ""
+                }`}
+              >
                 {quiz.currentQuestion.allAnswers.map((answer) => {
                   const isSelected = selectedAnswer === answer.characterId;
                   const isCorrect = answer.isCorrect;
@@ -413,23 +451,28 @@ export const CharacterQuiz = React.memo(() => {
             <div className="character-quiz__actions">
               {!quiz.questionAnswered && !quiz.showAnswer && (
                 <>
-                  <button
-                    type="button"
-                    className="character-quiz__hint-button"
-                    onClick={handleUseHint}
-                    disabled={quiz.showHint || !quiz.currentQuestion}
-                  >
-                    💡 Hint {quiz.showHint ? "(Used)" : ""}
-                  </button>
+                  {DIFFICULTY_CONFIGS[quiz.selectedDifficulty].showHints && (
+                    <button
+                      type="button"
+                      className="character-quiz__hint-button"
+                      onClick={handleUseHint}
+                      disabled={quiz.showHint || !quiz.currentQuestion}
+                    >
+                      💡 Hint {quiz.showHint ? "(Used)" : ""}
+                    </button>
+                  )}
 
-                  <button
-                    type="button"
-                    className="character-quiz__reveal-button"
-                    onClick={handleShowAnswer}
-                    disabled={quiz.showAnswer || !quiz.currentQuestion}
-                  >
-                    👁️ Show Answer
-                  </button>
+                  {DIFFICULTY_CONFIGS[quiz.selectedDifficulty]
+                    .showRevealAnswer && (
+                    <button
+                      type="button"
+                      className="character-quiz__reveal-button"
+                      onClick={handleShowAnswer}
+                      disabled={quiz.showAnswer || !quiz.currentQuestion}
+                    >
+                      👁️ Show Answer
+                    </button>
+                  )}
 
                   {selectedAnswer && !quiz.showAnswer && (
                     <button
@@ -574,7 +617,17 @@ export const CharacterQuiz = React.memo(() => {
       {/* Game Not Started */}
       {!quiz.isGameActive && !quiz.isLoading && !quiz.error && (
         <div className="character-quiz__start">
-          <h3>Ready to test your Disney knowledge?</h3>
+          <div className="character-quiz__start-header">
+            <h3>Ready to test your Disney knowledge?</h3>
+            <button
+              type="button"
+              className="character-quiz__info-button"
+              onClick={() => setShowInstructions(true)}
+              title="View difficulty information"
+            >
+              ℹ️
+            </button>
+          </div>
 
           <div className="character-quiz__game-setup">
             <div className="character-quiz__questions-selector">
@@ -602,16 +655,125 @@ export const CharacterQuiz = React.memo(() => {
               </div>
             </div>
 
+            <div className="character-quiz__difficulty-selector">
+              <label className="character-quiz__selector-label">
+                Choose difficulty level:
+              </label>
+              <div className="character-quiz__selector-options">
+                {["easy", "medium", "hard"].map((difficulty) => (
+                  <button
+                    key={difficulty}
+                    type="button"
+                    className={`
+                      character-quiz__selector-option
+                      character-quiz__selector-option--difficulty
+                      ${
+                        quiz.selectedDifficulty === difficulty
+                          ? "character-quiz__selector-option--selected"
+                          : ""
+                      }
+                    `}
+                    onClick={() =>
+                      quiz.setDifficulty(
+                        difficulty as "easy" | "medium" | "hard"
+                      )
+                    }
+                  >
+                    {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <button
               type="button"
               className="character-quiz__start-button"
               onClick={quiz.startGame}
             >
-              🎮 Start {quiz.selectedQuestionsCount} Question Quiz
+              🎮 Start {quiz.selectedQuestionsCount} Question Quiz (
+              {quiz.selectedDifficulty} mode)
             </button>
           </div>
         </div>
       )}
+
+      {/* Instructions Modal */}
+      <AnimatePresence>
+        {showInstructions && (
+          <motion.div
+            className="character-quiz__modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowInstructions(false)}
+          >
+            <motion.div
+              className="character-quiz__modal"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="character-quiz__modal-header">
+                <h3>Difficulty Levels</h3>
+                <button
+                  type="button"
+                  className="character-quiz__modal-close"
+                  onClick={() => setShowInstructions(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="character-quiz__modal-content">
+                <table className="character-quiz__difficulty-table">
+                  <thead>
+                    <tr>
+                      <th>Difficulty</th>
+                      <th>Answer Choices</th>
+                      <th>Hints Available</th>
+                      <th>Show Answer Available</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.values(DIFFICULTY_CONFIGS).map((config) => (
+                      <tr key={config.mode}>
+                        <td
+                          className={`character-quiz__difficulty-${config.mode}`}
+                        >
+                          {config.mode.charAt(0).toUpperCase() +
+                            config.mode.slice(1)}
+                        </td>
+                        <td>{config.answerChoices} choices</td>
+                        <td>{config.showHints ? "✅ Yes" : "❌ No"}</td>
+                        <td>{config.showRevealAnswer ? "✅ Yes" : "❌ No"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <div className="character-quiz__difficulty-descriptions">
+                  <h4>Details:</h4>
+                  <ul>
+                    <li>
+                      <strong>Easy (50% chance):</strong> Only 2 answer choices
+                      - perfect for beginners
+                    </li>
+                    <li>
+                      <strong>Medium (20% chance):</strong> 5 answer choices
+                      with helpful hints available
+                    </li>
+                    <li>
+                      <strong>Hard (10% chance):</strong> 10 answer choices, no
+                      assistance - for true Disney experts!
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 });

@@ -16,8 +16,18 @@ export interface QuizAnswer {
   id: string;
   characterId: string;
   characterName: string;
-  label: "A" | "B" | "C" | "D";
+  label: string; // Support more than A-D for harder difficulties
   isCorrect: boolean;
+}
+
+export type DifficultyMode = "easy" | "medium" | "hard";
+
+export interface DifficultyConfig {
+  mode: DifficultyMode;
+  answerChoices: number;
+  showHints: boolean;
+  showRevealAnswer: boolean;
+  description: string;
 }
 
 export interface QuizScore {
@@ -54,6 +64,7 @@ export interface QuizGameState {
 
   // Game preferences
   selectedQuestionsCount: number; // Number of questions for current game
+  selectedDifficulty: DifficultyMode; // Current difficulty setting
 
   // Current question state
   showHint: boolean; // Per-question hint usage
@@ -75,6 +86,7 @@ export interface QuizPersistentData {
   preferences: {
     isVisible: boolean;
     questionsCount: number;
+    difficulty: DifficultyMode;
   };
 }
 

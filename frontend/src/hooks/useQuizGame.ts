@@ -5,6 +5,7 @@ import {
   generateQuizQuestion,
   toggleQuizVisibility,
   setQuestionsCount,
+  setDifficulty,
   loadPreferences,
   startNewGame,
   restartGame,
@@ -31,8 +32,14 @@ export const useQuizGame = () => {
     [dispatch, quizState.selectedQuestionsCount]
   );
   const generateQuestion = useCallback(
-    (characterId: string) => dispatch(generateQuizQuestion(characterId)),
-    [dispatch]
+    (characterId: string) =>
+      dispatch(
+        generateQuizQuestion({
+          correctCharacterId: characterId,
+          difficulty: quizState.selectedDifficulty,
+        })
+      ),
+    [dispatch, quizState.selectedDifficulty]
   );
   const startGame = useCallback(() => {
     dispatch(startNewGame());
@@ -40,6 +47,11 @@ export const useQuizGame = () => {
   }, [dispatch, quizState.selectedQuestionsCount]);
   const setQuestionCountAction = useCallback(
     (count: number) => dispatch(setQuestionsCount(count)),
+    [dispatch]
+  );
+  const setDifficultyAction = useCallback(
+    (difficulty: "easy" | "medium" | "hard") =>
+      dispatch(setDifficulty(difficulty)),
     [dispatch]
   );
   const loadPreferencesAction = useCallback(
@@ -79,6 +91,7 @@ export const useQuizGame = () => {
 
     // Game preferences
     setQuestionsCount: setQuestionCountAction,
+    setDifficulty: setDifficultyAction,
     loadPreferences: loadPreferencesAction, // Question actions
     submitAnswer: submitAnswerAction,
     useHint: useHintAction,
@@ -94,6 +107,7 @@ export const useQuizGame = () => {
     isLoading: quizState.isLoading,
     error: quizState.error,
     selectedQuestionsCount: quizState.selectedQuestionsCount,
+    selectedDifficulty: quizState.selectedDifficulty,
     score: quizState.score,
     streak: quizState.streak,
     hintsUsed: quizState.hintsUsed,

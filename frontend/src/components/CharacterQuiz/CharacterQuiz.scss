@@ -305,6 +305,18 @@
         letter-spacing: 0.5px;
     }
 
+    &__progress-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-3);
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+    }
+
     &__progress-info {
         text-align: center;
         font-size: var(--text-base);
@@ -312,12 +324,73 @@
         font-weight: var(--font-semibold);
         font-family: 'Helvetica', 'Arial', sans-serif;
         letter-spacing: 0.25px;
+
+        @include mobile-only {
+            order: 2;
+        }
+    }
+
+    &__difficulty-indicator {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--border-radius);
+        font-size: var(--text-sm);
+        font-weight: var(--font-bold);
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        letter-spacing: 0.25px;
+        transition: all var(--transition-normal);
+
+        @include mobile-only {
+            order: 1;
+            justify-self: center;
+        }
+
+        &--easy {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success-green);
+        }
+
+        &--medium {
+            background: rgba(253, 208, 23, 0.15);
+            border: 1px solid rgba(253, 208, 23, 0.3);
+            color: var(--disney-gold);
+        }
+
+        &--hard {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--danger-red);
+        }
+    }
+
+    &__difficulty-icon {
+        font-size: 1.1em;
+        line-height: 1;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    }
+
+    &__difficulty-text {
+        white-space: nowrap;
     }
 
     &__answers {
         display: flex;
         flex-direction: column;
         gap: var(--space-2);
+
+        // Two-column layout for hard mode (10 answers)
+        &--two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2);
+
+            @include mobile-only {
+                grid-template-columns: 1fr;
+            }
+        }
     }
 
     &__answer {
@@ -400,6 +473,12 @@
         flex-wrap: wrap;
         gap: var(--space-2);
         justify-content: center;
+
+        .character-quiz__game-complete {
+            h4 {
+                color: var(--disney-gold);
+            }
+        }
     }
 
     &__hint-button,
@@ -792,5 +871,229 @@
                 border-color: var(--princess-pink);
             }
         }
+    }
+
+    // Difficulty selector specific styles
+    &__difficulty-selector {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+
+        .character-quiz__selector-label {
+            font-size: var(--text-base);
+            color: var(--white);
+            font-weight: var(--font-medium);
+        }
+    }
+
+    &__selector-option--difficulty {
+        position: relative;
+
+        &.character-quiz__selector-option--selected {
+            &::after {
+                content: "✨";
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                font-size: 1.2em;
+                animation: sparkle 1.5s infinite;
+            }
+        }
+    }
+
+    // Start header with info button
+    &__start-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+
+        h3 {
+            margin: 0;
+        }
+    }
+
+    &__info-button {
+        @include btn-base;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        color: var(--white);
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all var(--transition-normal);
+
+        &:hover {
+            background: var(--disney-gold);
+            border-color: var(--disney-gold);
+            color: var(--dark-blue);
+            transform: scale(1.1);
+        }
+    }
+
+    // Modal styles
+    &__modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: var(--space-4);
+    }
+
+    &__modal {
+        background: var(--dark-blue);
+        border: 2px solid var(--disney-gold);
+        border-radius: var(--border-radius-lg);
+        max-width: 600px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    &__modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-4);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(253, 208, 23, 0.1);
+
+        h3 {
+            margin: 0;
+            color: var(--disney-gold);
+            font-size: var(--text-xl);
+        }
+    }
+
+    &__modal-close {
+        @include btn-base;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: var(--white);
+        font-size: 1.5em;
+        line-height: 1;
+        cursor: pointer;
+        transition: all var(--transition-normal);
+
+        &:hover {
+            background: var(--danger-red);
+            border-color: var(--danger-red);
+            transform: rotate(90deg);
+        }
+    }
+
+    &__modal-content {
+        padding: var(--space-4);
+    }
+
+    &__difficulty-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: var(--space-4);
+
+        th,
+        td {
+            padding: var(--space-3);
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        th {
+            background: rgba(253, 208, 23, 0.1);
+            color: var(--disney-gold);
+            font-weight: var(--font-bold);
+            font-size: var(--text-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            font-size: var(--text-sm);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+    }
+
+    &__difficulty-easy {
+        color: var(--success-green) !important;
+        font-weight: var(--font-bold);
+    }
+
+    &__difficulty-medium {
+        color: var(--disney-gold) !important;
+        font-weight: var(--font-bold);
+    }
+
+    &__difficulty-hard {
+        color: var(--danger-red) !important;
+        font-weight: var(--font-bold);
+    }
+
+    &__difficulty-descriptions {
+        h4 {
+            color: var(--disney-gold);
+            margin-bottom: var(--space-2);
+            font-size: var(--text-base);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                color: var(--white);
+                font-size: var(--text-sm);
+                line-height: 1.6;
+                margin-bottom: var(--space-2);
+                padding-left: var(--space-3);
+                position: relative;
+
+                &::before {
+                    content: "🏰";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+
+                strong {
+                    color: var(--disney-gold);
+                }
+            }
+        }
+    }
+}
+
+// Sparkle animation for selected difficulty
+@keyframes sparkle {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 1;
     }
 }

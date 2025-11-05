@@ -79,6 +79,7 @@ export const loadPersistentData = (): QuizPersistentData => {
     preferences: {
       isVisible: true,
       questionsCount: 10,
+      difficulty: "medium",
     },
   };
 
@@ -146,6 +147,27 @@ export const saveQuestionsCount = (questionsCount: number): void => {
     savePersistentData(updatedData);
   } catch (error) {
     console.warn("Failed to save questions count preference:", error);
+  }
+};
+
+/**
+ * Save difficulty preference
+ */
+export const saveDifficulty = (
+  difficulty: "easy" | "medium" | "hard"
+): void => {
+  try {
+    const existingData = loadPersistentData();
+    const updatedData = {
+      ...existingData,
+      preferences: {
+        ...existingData.preferences,
+        difficulty,
+      },
+    };
+    savePersistentData(updatedData);
+  } catch (error) {
+    console.warn("Failed to save difficulty preference:", error);
   }
 };
 
