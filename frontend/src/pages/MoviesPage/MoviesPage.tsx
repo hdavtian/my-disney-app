@@ -31,8 +31,7 @@ export const MoviesPage = () => {
       const movie = movies.find((m: { id: string }) => m.id === movieId);
       if (movie) {
         dispatch(addRecentlyViewedMovie({ id: movie.id, name: movie.title }));
-        // Navigate to movie detail page
-        window.location.href = `/movie/${movieId}`;
+        // Navigation is handled by MovieCard component
       }
     },
     [movies, dispatch]

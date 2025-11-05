@@ -70,10 +70,10 @@ export const CharacterDetailPage = () => {
           <h2>Character Not Found</h2>
           <p>The character you're looking for doesn't exist.</p>
           <button
-            onClick={() => navigate("/characters")}
+            onClick={() => navigate(-1)}
             className="character-detail-page__back-button"
           >
-            Back to Characters
+            Back
           </button>
         </div>
       </div>
@@ -102,10 +102,10 @@ export const CharacterDetailPage = () => {
         {/* Back Button */}
         <div className="character-detail-page__back-wrapper">
           <button
-            onClick={() => navigate("/characters")}
+            onClick={() => navigate(-1)}
             className="character-detail-page__back-button"
           >
-            ← Back to Characters
+            ← Back
           </button>
         </div>
 

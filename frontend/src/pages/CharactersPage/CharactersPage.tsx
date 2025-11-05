@@ -40,8 +40,7 @@ export const CharactersPage = () => {
             name: character.name,
           })
         );
-        // Navigate to character detail page
-        window.location.href = `/character/${characterId}`;
+        // Navigation is handled by CharacterCard component
       }
     },
     [characters, dispatch]
