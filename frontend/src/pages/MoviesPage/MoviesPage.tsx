@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import "./MoviesPage.scss";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -12,6 +13,7 @@ import { Movie } from "../../types/Movie";
 
 export const MoviesPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { movies, loading, error } = useAppSelector((state) => state.movies);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   // local filtered list controlled by this page's SearchInput
@@ -31,15 +33,23 @@ export const MoviesPage = () => {
       const movie = movies.find((m: { id: string }) => m.id === movieId);
       if (movie) {
         dispatch(addRecentlyViewedMovie({ id: movie.id, name: movie.title }));
-        // Navigation is handled by MovieCard component
+        navigate(`/movie/${movie.id}`);
       }
     },
-    [movies, dispatch]
+    [movies, dispatch, navigate]
   );
 
   const handleSearch = useCallback((results: Movie[]) => {
     setFilteredMovies(results);
   }, []);
+
+  const handleSearchItemClick = useCallback(
+    (movie: Movie) => {
+      dispatch(addRecentlyViewedMovie({ id: movie.id, name: movie.title }));
+      navigate(`/movie/${movie.id}`);
+    },
+    [dispatch, navigate]
+  );
   if (loading) {
     return (
       <motion.div
@@ -93,7 +103,7 @@ export const MoviesPage = () => {
             getSecondaryText={(movie: Movie) =>
               `${movie.releaseYear} • ${movie.director}`
             }
-            onSelectItem={(movie: Movie) => handleMovieClick(movie.id)}
+            onSelectItem={handleSearchItemClick}
           />
 
           <ViewModeToggle currentMode={viewMode} onModeChange={setViewMode} />

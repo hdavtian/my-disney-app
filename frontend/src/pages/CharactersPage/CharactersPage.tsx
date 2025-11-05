@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import "./CharactersPage.scss";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -13,6 +14,7 @@ import { Character } from "../../types/Character";
 
 export const CharactersPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { characters, loading, error } = useAppSelector(
     (state) => state.characters
   );
@@ -40,15 +42,28 @@ export const CharactersPage = () => {
             name: character.name,
           })
         );
-        // Navigation is handled by CharacterCard component
+        navigate(`/character/${character.id}`);
       }
     },
-    [characters, dispatch]
+    [characters, dispatch, navigate]
   );
 
   const handleSearch = useCallback((results: Character[]) => {
     setFilteredCharacters(results);
   }, []);
+
+  const handleSearchItemClick = useCallback(
+    (character: Character) => {
+      dispatch(
+        addRecentlyViewedCharacter({
+          id: character.id,
+          name: character.name,
+        })
+      );
+      navigate(`/character/${character.id}`);
+    },
+    [dispatch, navigate]
+  );
 
   if (loading) {
     return (
@@ -103,7 +118,7 @@ export const CharactersPage = () => {
             getSecondaryText={(c: Character) =>
               `${c.debut || ""} • ${c.category}`
             }
-            onSelectItem={(c: Character) => handleCharacterClick(c.id)}
+            onSelectItem={handleSearchItemClick}
           />
 
           <ViewModeToggle currentMode={viewMode} onModeChange={setViewMode} />
