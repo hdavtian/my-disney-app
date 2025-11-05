@@ -43,8 +43,8 @@ export const CharactersGridView = ({
           <SearchInput
             items={characters}
             onSearch={handleSearch}
-            searchFields={["name", "short_description", "debut", "category"]}
-            placeholder="Search characters by name, description, or category..."
+            searchFields={["name"]}
+            placeholder="Search characters by name..."
             minCharacters={2}
             getDisplayText={(character) => character.name}
             getSecondaryText={(character) =>

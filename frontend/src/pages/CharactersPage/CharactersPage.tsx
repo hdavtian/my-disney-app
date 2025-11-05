@@ -40,8 +40,8 @@ export const CharactersPage = () => {
             name: character.name,
           })
         );
-        // TODO: Navigate to character detail page when implemented
-        console.log(`Navigate to character detail: ${characterId}`);
+        // Navigate to character detail page
+        window.location.href = `/character/${characterId}`;
       }
     },
     [characters, dispatch]
@@ -97,7 +97,7 @@ export const CharactersPage = () => {
           <SearchInput
             items={characters}
             onSearch={handleSearch}
-            searchFields={["name", "short_description", "category"]}
+            searchFields={["name"]}
             placeholder="Search characters..."
             minCharacters={2}
             getDisplayText={(c: Character) => c.name}
