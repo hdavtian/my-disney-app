@@ -154,7 +154,7 @@ export const saveQuestionsCount = (questionsCount: number): void => {
  * Save difficulty preference
  */
 export const saveDifficulty = (
-  difficulty: "easy" | "medium" | "hard"
+  difficulty: "easy" | "medium" | "hard" | "harder"
 ): void => {
   try {
     const existingData = loadPersistentData();

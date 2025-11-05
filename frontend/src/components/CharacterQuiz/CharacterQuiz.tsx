@@ -22,6 +22,11 @@ export const CharacterQuiz = React.memo(() => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
 
+  // Timer state for "harder" difficulty
+  const [timeRemaining, setTimeRemaining] = useState(3000); // 3000ms = 3 seconds
+  const [isImageVisible, setIsImageVisible] = useState(true);
+  const [timerIntervalId, setTimerIntervalId] = useState<number | null>(null);
+
   // Debug: Log re-renders to identify flash cause
   console.log("CharacterQuiz re-render:", {
     currentQuestionId: quiz.currentQuestion?.id,
@@ -52,6 +57,60 @@ export const CharacterQuiz = React.memo(() => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [showInstructions]);
+
+  // Timer logic for "harder" difficulty mode
+  useEffect(() => {
+    // Reset timer when new question starts
+    if (
+      quiz.currentQuestion &&
+      quiz.selectedDifficulty === "harder" &&
+      !quiz.questionAnswered &&
+      !quiz.showAnswer
+    ) {
+      setTimeRemaining(3000);
+      setIsImageVisible(true);
+
+      // Clear any existing timer
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+      }
+
+      // Start countdown timer (updates every 10ms for smooth display)
+      const intervalId = setInterval(() => {
+        setTimeRemaining((prevTime) => {
+          if (prevTime <= 0) {
+            setIsImageVisible(false);
+            clearInterval(intervalId);
+            setTimerIntervalId(null);
+            return 0;
+          }
+          return prevTime - 10;
+        });
+      }, 10);
+
+      setTimerIntervalId(intervalId);
+    } else if (quiz.selectedDifficulty !== "harder") {
+      // For non-harder modes, always show image
+      setIsImageVisible(true);
+      setTimeRemaining(3000);
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+        setTimerIntervalId(null);
+      }
+    }
+
+    // Cleanup timer on unmount or when question changes
+    return () => {
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+      }
+    };
+  }, [
+    quiz.currentQuestion?.id,
+    quiz.selectedDifficulty,
+    quiz.questionAnswered,
+    quiz.showAnswer,
+  ]);
 
   // Load character for current question (only if not already set)
   useEffect(() => {
@@ -341,12 +400,42 @@ export const CharacterQuiz = React.memo(() => {
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <CharacterCard
-                    character={currentCharacter}
-                    showTitle={false}
-                    disableNavigation={true}
-                    size="large"
-                  />
+                  <div className="character-quiz__character-container">
+                    <div
+                      className={`character-quiz__character-wrapper ${
+                        quiz.selectedDifficulty === "harder" &&
+                        !isImageVisible &&
+                        !quiz.questionAnswered &&
+                        !quiz.showAnswer
+                          ? "character-quiz__character-wrapper--hidden"
+                          : ""
+                      }`}
+                    >
+                      <CharacterCard
+                        character={currentCharacter}
+                        showTitle={false}
+                        disableNavigation={true}
+                        size="large"
+                      />
+                    </div>
+
+                    {/* Timer for "harder" difficulty */}
+                    {quiz.selectedDifficulty === "harder" && (
+                      <div className="character-quiz__timer">
+                        <div
+                          className={`character-quiz__timer-display ${
+                            timeRemaining < 1000
+                              ? "character-quiz__timer-display--danger"
+                              : timeRemaining < 2000
+                              ? "character-quiz__timer-display--warning"
+                              : ""
+                          }`}
+                        >
+                          {(timeRemaining / 1000).toFixed(2)}s
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -370,6 +459,7 @@ export const CharacterQuiz = React.memo(() => {
                     {quiz.selectedDifficulty === "easy" && "🌟"}
                     {quiz.selectedDifficulty === "medium" && "⚡"}
                     {quiz.selectedDifficulty === "hard" && "🔥"}
+                    {quiz.selectedDifficulty === "harder" && "✨"}
                   </span>
                   <span className="character-quiz__difficulty-text">
                     {quiz.selectedDifficulty.charAt(0).toUpperCase() +
@@ -660,7 +750,7 @@ export const CharacterQuiz = React.memo(() => {
                 Choose difficulty level:
               </label>
               <div className="character-quiz__selector-options">
-                {["easy", "medium", "hard"].map((difficulty) => (
+                {["easy", "medium", "hard", "harder"].map((difficulty) => (
                   <button
                     key={difficulty}
                     type="button"
@@ -731,6 +821,7 @@ export const CharacterQuiz = React.memo(() => {
                     <tr>
                       <th>Difficulty</th>
                       <th>Answer Choices</th>
+                      <th>Image Timer</th>
                       <th>Hints Available</th>
                       <th>Show Answer Available</th>
                     </tr>
@@ -745,6 +836,11 @@ export const CharacterQuiz = React.memo(() => {
                             config.mode.slice(1)}
                         </td>
                         <td>{config.answerChoices} choices</td>
+                        <td>
+                          {config.mode === "harder"
+                            ? "⏱️ 3 seconds"
+                            : "♾️ Unlimited"}
+                        </td>
                         <td>{config.showHints ? "✅ Yes" : "❌ No"}</td>
                         <td>{config.showRevealAnswer ? "✅ Yes" : "❌ No"}</td>
                       </tr>
@@ -766,6 +862,11 @@ export const CharacterQuiz = React.memo(() => {
                     <li>
                       <strong>Hard (10% chance):</strong> 10 answer choices, no
                       assistance - for true Disney experts!
+                    </li>
+                    <li>
+                      <strong>Harder (10% chance):</strong> 10 answer choices,
+                      image disappears after 3 seconds, no assistance - ultimate
+                      challenge!
                     </li>
                   </ul>
                 </div>
