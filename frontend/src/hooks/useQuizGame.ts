@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useAppSelector, useAppDispatch } from "./redux";
 import {
   initializeQuizGame,
@@ -19,27 +20,58 @@ export const useQuizGame = () => {
   const dispatch = useAppDispatch();
   const quizState = useAppSelector((state) => state.quiz);
 
+  // Memoized action functions to prevent unnecessary re-renders
+  const initializeGame = useCallback(
+    () => dispatch(initializeQuizGame()),
+    [dispatch]
+  );
+  const generateQuestion = useCallback(
+    (characterId: string) => dispatch(generateQuizQuestion(characterId)),
+    [dispatch]
+  );
+  const startGame = useCallback(() => {
+    dispatch(startNewGame());
+    dispatch(initializeQuizGame());
+  }, [dispatch]);
+  const restartGameAction = useCallback(
+    () => dispatch(restartGame()),
+    [dispatch]
+  );
+  const submitAnswerAction = useCallback(
+    (characterId: string) => dispatch(submitAnswer(characterId)),
+    [dispatch]
+  );
+  const useHintAction = useCallback(() => dispatch(useHint()), [dispatch]);
+  const revealAnswerAction = useCallback(
+    () => dispatch(revealAnswer()),
+    [dispatch]
+  );
+  const nextQuestionAction = useCallback(
+    () => dispatch(nextQuestion()),
+    [dispatch]
+  );
+  const toggleVisibilityAction = useCallback(
+    () => dispatch(toggleQuizVisibility()),
+    [dispatch]
+  );
+
   const actions = {
     // Game initialization
-    initializeGame: () => dispatch(initializeQuizGame()),
-    generateQuestion: (characterId: string) =>
-      dispatch(generateQuizQuestion(characterId)),
+    initializeGame,
+    generateQuestion,
 
     // Game control
-    startGame: () => {
-      dispatch(startNewGame());
-      dispatch(initializeQuizGame());
-    },
-    restartGame: () => dispatch(restartGame()),
+    startGame,
+    restartGame: restartGameAction,
 
     // Question actions
-    submitAnswer: (characterId: string) => dispatch(submitAnswer(characterId)),
-    useHint: () => dispatch(useHint()),
-    revealAnswer: () => dispatch(revealAnswer()),
-    nextQuestion: () => dispatch(nextQuestion()),
+    submitAnswer: submitAnswerAction,
+    useHint: useHintAction,
+    revealAnswer: revealAnswerAction,
+    nextQuestion: nextQuestionAction,
 
     // Visibility
-    toggleVisibility: () => dispatch(toggleQuizVisibility()),
+    toggleVisibility: toggleVisibilityAction,
 
     // Quiz state selectors
     isGameActive: quizState.isGameActive,

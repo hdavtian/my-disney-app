@@ -505,6 +505,7 @@
     &__percentage {
         font-size: var(--text-sm);
         color: var(--gray-300);
+        margin-left: var(--space-2);
     }
 
     &__streak {
@@ -515,13 +516,18 @@
     &__best-streak {
         font-size: var(--text-sm);
         color: var(--gray-300);
+        margin-left: var(--space-2);
     }
 
     &__history {
-        flex: 1;
+        height: 280px; // Fixed height to prevent parent growth
         overflow: hidden;
         display: flex;
         flex-direction: column;
+
+        @include tablet-up {
+            height: 350px;
+        }
     }
 
     &__history-title {
@@ -550,6 +556,25 @@
         color: var(--disney-gold);
         text-transform: uppercase;
         letter-spacing: 0.5px;
+
+        >div {
+            position: relative;
+
+            &:nth-child(2),
+            &:nth-child(3) {
+                text-align: center;
+            }
+
+            &:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                right: calc(var(--space-2) / -2);
+                top: -2px;
+                bottom: -2px;
+                width: 1px;
+                background: rgba(255, 255, 255, 0.2);
+            }
+        }
     }
 
     &__history-body {
@@ -574,6 +599,20 @@
 
         &:hover {
             background: rgba(255, 255, 255, 0.05);
+        }
+
+        >div {
+            position: relative;
+
+            &:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                right: calc(var(--space-2) / -2);
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                background: rgba(255, 255, 255, 0.1);
+            }
         }
     }
 

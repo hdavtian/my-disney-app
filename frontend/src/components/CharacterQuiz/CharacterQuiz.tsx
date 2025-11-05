@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuizGame } from "../../hooks/useQuizGame";
 import { CharacterCard } from "../CharacterCard/CharacterCard";
@@ -6,7 +6,7 @@ import { Character } from "../../types";
 import { fetchCharacterById } from "../../utils/quizApi";
 import "./CharacterQuiz.scss";
 
-export const CharacterQuiz = () => {
+export const CharacterQuiz = React.memo(() => {
   const quiz = useQuizGame();
   const [currentCharacter, setCurrentCharacter] = useState<Character | null>(
     null
@@ -18,20 +18,40 @@ export const CharacterQuiz = () => {
   const [sectionBackgroundState, setSectionBackgroundState] = useState<
     "normal" | "correct" | "wrong"
   >("normal");
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Load character for current question
+  // Debug: Log re-renders to identify flash cause
+  console.log("CharacterQuiz re-render:", {
+    currentQuestionId: quiz.currentQuestion?.id,
+    questionAnswered: quiz.questionAnswered,
+    showAnswer: quiz.showAnswer,
+    currentCharacter: currentCharacter?.id,
+    isLoading: quiz.isLoading,
+  });
+
+  // Load character for current question (only if not already set)
   useEffect(() => {
     if (quiz.currentQuestion) {
-      fetchCharacterById(quiz.currentQuestion.correctCharacterId)
-        .then(setCurrentCharacter)
-        .catch((error) => {
-          console.error("Failed to load character:", error);
-          setCurrentCharacter(null);
-        });
+      // Only fetch if we don't have the character or it's different
+      if (
+        !currentCharacter ||
+        currentCharacter.id !== quiz.currentQuestion.correctCharacterId
+      ) {
+        console.log(
+          "Fetching character in useEffect for ID:",
+          quiz.currentQuestion.correctCharacterId
+        );
+        fetchCharacterById(quiz.currentQuestion.correctCharacterId)
+          .then(setCurrentCharacter)
+          .catch((error) => {
+            console.error("Failed to load character:", error);
+            setCurrentCharacter(null);
+          });
+      }
     } else {
       setCurrentCharacter(null);
     }
-  }, [quiz.currentQuestion]);
+  }, [quiz.currentQuestion?.correctCharacterId]);
 
   // Generate first question when game is initialized
   useEffect(() => {
@@ -53,7 +73,6 @@ export const CharacterQuiz = () => {
     quiz.currentQuestion,
     quiz.isLoading,
     quiz.characterQueue,
-    quiz.generateQuestion,
   ]);
 
   const handleAnswerSelect = (characterId: string) => {
@@ -101,20 +120,50 @@ export const CharacterQuiz = () => {
     }, 1000);
   };
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
+    console.log("=== NEXT QUESTION CLICKED ===");
+
+    // Set transitioning flag to prevent flashing
+    setIsTransitioning(true);
+
+    // Reset UI state immediately
     setSelectedAnswer(null);
     setCharacterAnimationState("normal");
     setSectionBackgroundState("normal");
-    quiz.nextQuestion();
 
-    // Generate next question if we have more characters
+    // Get next character info BEFORE moving to next question
     const nextIndex = quiz.currentQuestionIndex + 1;
     if (quiz.characterQueue.length > nextIndex) {
       const nextCharacterId = quiz.characterQueue[nextIndex];
       if (nextCharacterId) {
-        quiz.generateQuestion(nextCharacterId.toString());
+        // Pre-fetch the next character to avoid loading flash
+        try {
+          const nextCharacter = await fetchCharacterById(
+            nextCharacterId.toString()
+          );
+
+          // Generate the question first
+          await quiz.generateQuestion(nextCharacterId.toString());
+
+          // Set the character immediately to avoid flash
+          setCurrentCharacter(nextCharacter);
+
+          // Now move to next question (this won't trigger character loading)
+          quiz.nextQuestion();
+        } catch (error) {
+          console.error("Failed to pre-load next character:", error);
+          // Fallback to original behavior
+          quiz.nextQuestion();
+          quiz.generateQuestion(nextCharacterId.toString());
+        }
       }
+    } else {
+      // No more questions, just move to next
+      quiz.nextQuestion();
     }
+
+    // Clear transition flag
+    setIsTransitioning(false);
   };
 
   const handleUseHint = () => {
@@ -174,6 +223,7 @@ export const CharacterQuiz = () => {
     return (
       <div className="character-quiz character-quiz--hidden">
         <button
+          type="button"
           className="character-quiz__show-button"
           onClick={quiz.toggleVisibility}
           aria-label="Show Character Quiz"
@@ -186,6 +236,7 @@ export const CharacterQuiz = () => {
 
   return (
     <motion.div
+      key="character-quiz-main"
       className="character-quiz"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -196,6 +247,7 @@ export const CharacterQuiz = () => {
       <div className="character-quiz__header">
         <h2 className="character-quiz__title">Character Quiz</h2>
         <button
+          type="button"
           className="character-quiz__hide-button"
           onClick={quiz.toggleVisibility}
           aria-label="Hide Character Quiz"
@@ -217,6 +269,7 @@ export const CharacterQuiz = () => {
         <div className="character-quiz__error">
           <p>❌ {quiz.error}</p>
           <button
+            type="button"
             onClick={quiz.initializeGame}
             className="character-quiz__retry-button"
           >
@@ -246,7 +299,7 @@ export const CharacterQuiz = () => {
             `}
           >
             <AnimatePresence mode="wait">
-              {currentCharacter && (
+              {currentCharacter && !isTransitioning && (
                 <motion.div
                   key={currentCharacter.id}
                   className={`
@@ -309,6 +362,7 @@ export const CharacterQuiz = () => {
 
                   return (
                     <button
+                      type="button"
                       key={answer.id}
                       className={`
                         character-quiz__answer
@@ -355,6 +409,7 @@ export const CharacterQuiz = () => {
               {!quiz.questionAnswered && !quiz.showAnswer && (
                 <>
                   <button
+                    type="button"
                     className="character-quiz__hint-button"
                     onClick={handleUseHint}
                     disabled={quiz.showHint || !quiz.currentQuestion}
@@ -363,6 +418,7 @@ export const CharacterQuiz = () => {
                   </button>
 
                   <button
+                    type="button"
                     className="character-quiz__reveal-button"
                     onClick={handleShowAnswer}
                     disabled={quiz.showAnswer || !quiz.currentQuestion}
@@ -372,6 +428,7 @@ export const CharacterQuiz = () => {
 
                   {selectedAnswer && !quiz.showAnswer && (
                     <button
+                      type="button"
                       className="character-quiz__submit-button"
                       onClick={handleSubmitAnswer}
                     >
@@ -385,6 +442,7 @@ export const CharacterQuiz = () => {
                 <>
                   {quiz.questionsRemaining > 0 ? (
                     <button
+                      type="button"
                       className="character-quiz__next-button"
                       onClick={handleNextQuestion}
                     >
@@ -410,6 +468,7 @@ export const CharacterQuiz = () => {
           {/* Section 3: Score Tracking */}
           <div className="character-quiz__section character-quiz__score-section">
             <button
+              type="button"
               className="character-quiz__restart-button"
               onClick={handleRestartGame}
             >
@@ -490,6 +549,7 @@ export const CharacterQuiz = () => {
         <div className="character-quiz__start">
           <h3>Ready to test your Disney knowledge?</h3>
           <button
+            type="button"
             className="character-quiz__start-button"
             onClick={quiz.startGame}
           >
@@ -499,4 +559,4 @@ export const CharacterQuiz = () => {
       )}
     </motion.div>
   );
-};
+});
