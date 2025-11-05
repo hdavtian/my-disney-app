@@ -749,7 +749,7 @@ export const CharacterQuiz = React.memo(() => {
                           : "none",
                         backgroundColor: character.profile_image1
                           ? "transparent"
-                          : "#1e40af", /* Blue fallback */
+                          : "#1e40af" /* Blue fallback */,
                       }}
                     />
                   ))
@@ -759,10 +759,12 @@ export const CharacterQuiz = React.memo(() => {
                       key={`fallback-${index}`}
                       className="character-quiz__banner-background"
                       style={{
-                        backgroundColor: 
-                          index % 3 === 0 ? "#dc2626" : // Red
-                          index % 3 === 1 ? "#f8fafc" : // White  
-                          "#1e40af", // Blue
+                        backgroundColor:
+                          index % 3 === 0
+                            ? "#dc2626" // Red
+                            : index % 3 === 1
+                            ? "#f8fafc" // White
+                            : "#1e40af", // Blue
                       }}
                     />
                   ))}
