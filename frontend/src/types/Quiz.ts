@@ -20,7 +20,7 @@ export interface QuizAnswer {
   isCorrect: boolean;
 }
 
-export type DifficultyMode = "easy" | "medium" | "hard";
+export type DifficultyMode = "easy" | "medium" | "hard" | "harder";
 
 export interface DifficultyConfig {
   mode: DifficultyMode;

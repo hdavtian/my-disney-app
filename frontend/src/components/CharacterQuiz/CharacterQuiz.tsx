@@ -3,8 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuizGame } from "../../hooks/useQuizGame";
 import { CharacterCard } from "../CharacterCard/CharacterCard";
 import { Character } from "../../types";
-import { fetchCharacterById } from "../../utils/quizApi";
+import {
+  fetchCharacterById,
+  fetchCharactersByIds,
+  fetchRandomCharacterIds,
+} from "../../utils/quizApi";
 import { DIFFICULTY_CONFIGS } from "../../store/slices/quizSlice";
+import { getImageUrl } from "../../config/assets";
 import "./CharacterQuiz.scss";
 
 export const CharacterQuiz = React.memo(() => {
@@ -22,6 +27,14 @@ export const CharacterQuiz = React.memo(() => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
 
+  // Timer state for "harder" difficulty
+  const [timeRemaining, setTimeRemaining] = useState(3000); // 3000ms = 3 seconds
+  const [isImageVisible, setIsImageVisible] = useState(true);
+  const [timerIntervalId, setTimerIntervalId] = useState<number | null>(null);
+
+  // Banner state for random characters
+  const [bannerCharacters, setBannerCharacters] = useState<Character[]>([]);
+
   // Debug: Log re-renders to identify flash cause
   console.log("CharacterQuiz re-render:", {
     currentQuestionId: quiz.currentQuestion?.id,
@@ -34,6 +47,23 @@ export const CharacterQuiz = React.memo(() => {
   // Load preferences on component mount
   useEffect(() => {
     quiz.loadPreferences();
+  }, []);
+
+  // Load random characters for banner
+  useEffect(() => {
+    const loadBannerCharacters = async () => {
+      try {
+        // Get 5 random character IDs (excluding ID 1 arbitrarily since we just need random ones)
+        const randomIds = await fetchRandomCharacterIds("1", 5);
+        const characters = await fetchCharactersByIds(randomIds);
+        setBannerCharacters(characters);
+      } catch (error) {
+        console.error("Error loading banner characters:", error);
+        // Banner is not critical, so we don't need to show error to user
+      }
+    };
+
+    loadBannerCharacters();
   }, []);
 
   // ESC key support for modal
@@ -52,6 +82,60 @@ export const CharacterQuiz = React.memo(() => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [showInstructions]);
+
+  // Timer logic for "harder" difficulty mode
+  useEffect(() => {
+    // Reset timer when new question starts
+    if (
+      quiz.currentQuestion &&
+      quiz.selectedDifficulty === "harder" &&
+      !quiz.questionAnswered &&
+      !quiz.showAnswer
+    ) {
+      setTimeRemaining(3000);
+      setIsImageVisible(true);
+
+      // Clear any existing timer
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+      }
+
+      // Start countdown timer (updates every 10ms for smooth display)
+      const intervalId = setInterval(() => {
+        setTimeRemaining((prevTime) => {
+          if (prevTime <= 0) {
+            setIsImageVisible(false);
+            clearInterval(intervalId);
+            setTimerIntervalId(null);
+            return 0;
+          }
+          return prevTime - 10;
+        });
+      }, 10);
+
+      setTimerIntervalId(intervalId);
+    } else if (quiz.selectedDifficulty !== "harder") {
+      // For non-harder modes, always show image
+      setIsImageVisible(true);
+      setTimeRemaining(3000);
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+        setTimerIntervalId(null);
+      }
+    }
+
+    // Cleanup timer on unmount or when question changes
+    return () => {
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+      }
+    };
+  }, [
+    quiz.currentQuestion?.id,
+    quiz.selectedDifficulty,
+    quiz.questionAnswered,
+    quiz.showAnswer,
+  ]);
 
   // Load character for current question (only if not already set)
   useEffect(() => {
@@ -341,12 +425,42 @@ export const CharacterQuiz = React.memo(() => {
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <CharacterCard
-                    character={currentCharacter}
-                    showTitle={false}
-                    disableNavigation={true}
-                    size="large"
-                  />
+                  <div className="character-quiz__character-container">
+                    <div
+                      className={`character-quiz__character-wrapper ${
+                        quiz.selectedDifficulty === "harder" &&
+                        !isImageVisible &&
+                        !quiz.questionAnswered &&
+                        !quiz.showAnswer
+                          ? "character-quiz__character-wrapper--hidden"
+                          : ""
+                      }`}
+                    >
+                      <CharacterCard
+                        character={currentCharacter}
+                        showTitle={false}
+                        disableNavigation={true}
+                        size="large"
+                      />
+                    </div>
+
+                    {/* Timer for "harder" difficulty */}
+                    {quiz.selectedDifficulty === "harder" && (
+                      <div className="character-quiz__timer">
+                        <div
+                          className={`character-quiz__timer-display ${
+                            timeRemaining < 1000
+                              ? "character-quiz__timer-display--danger"
+                              : timeRemaining < 2000
+                              ? "character-quiz__timer-display--warning"
+                              : ""
+                          }`}
+                        >
+                          {(timeRemaining / 1000).toFixed(2)}s
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -370,6 +484,7 @@ export const CharacterQuiz = React.memo(() => {
                     {quiz.selectedDifficulty === "easy" && "🌟"}
                     {quiz.selectedDifficulty === "medium" && "⚡"}
                     {quiz.selectedDifficulty === "hard" && "🔥"}
+                    {quiz.selectedDifficulty === "harder" && "✨"}
                   </span>
                   <span className="character-quiz__difficulty-text">
                     {quiz.selectedDifficulty.charAt(0).toUpperCase() +
@@ -616,83 +731,126 @@ export const CharacterQuiz = React.memo(() => {
 
       {/* Game Not Started */}
       {!quiz.isGameActive && !quiz.isLoading && !quiz.error && (
-        <div className="character-quiz__start">
-          <div className="character-quiz__start-header">
-            <h3>Ready to test your Disney knowledge?</h3>
-            <button
-              type="button"
-              className="character-quiz__info-button"
-              onClick={() => setShowInstructions(true)}
-              title="View difficulty information"
-            >
-              ℹ️
-            </button>
+        <div className="character-quiz__start-wrapper">
+          {/* Banner Section */}
+          <div className="character-quiz__banner">
+            <div className="character-quiz__banner-backgrounds">
+              {bannerCharacters.length > 0
+                ? bannerCharacters.slice(0, 5).map((character) => (
+                    <div
+                      key={character.id}
+                      className="character-quiz__banner-background"
+                      style={{
+                        backgroundImage: character.profile_image1
+                          ? `url(${getImageUrl(
+                              "characters",
+                              character.profile_image1
+                            )})`
+                          : "none",
+                        backgroundColor: character.profile_image1
+                          ? "transparent"
+                          : "#1e40af", /* Blue fallback */
+                      }}
+                    />
+                  ))
+                : // Fallback gradient backgrounds while loading
+                  Array.from({ length: 5 }, (_, index) => (
+                    <div
+                      key={`fallback-${index}`}
+                      className="character-quiz__banner-background"
+                      style={{
+                        backgroundColor: 
+                          index % 3 === 0 ? "#dc2626" : // Red
+                          index % 3 === 1 ? "#f8fafc" : // White  
+                          "#1e40af", // Blue
+                      }}
+                    />
+                  ))}
+            </div>
+            <div className="character-quiz__banner-title">
+              <h2>Toon Quiz</h2>
+            </div>
           </div>
 
-          <div className="character-quiz__game-setup">
-            <div className="character-quiz__questions-selector">
-              <label className="character-quiz__selector-label">
-                Choose number of questions:
-              </label>
-              <div className="character-quiz__selector-options">
-                {[10, 20, 50].map((count) => (
-                  <button
-                    key={count}
-                    type="button"
-                    className={`
-                      character-quiz__selector-option
-                      ${
-                        quiz.selectedQuestionsCount === count
-                          ? "character-quiz__selector-option--selected"
-                          : ""
-                      }
-                    `}
-                    onClick={() => quiz.setQuestionsCount(count)}
-                  >
-                    {count} Questions
-                  </button>
-                ))}
-              </div>
+          {/* Start Section */}
+          <div className="character-quiz__start">
+            <div className="character-quiz__start-header">
+              <h3>Ready to test your Disney knowledge?</h3>
+              <button
+                type="button"
+                className="character-quiz__info-button"
+                onClick={() => setShowInstructions(true)}
+                title="View difficulty information"
+              >
+                ℹ️
+              </button>
             </div>
 
-            <div className="character-quiz__difficulty-selector">
-              <label className="character-quiz__selector-label">
-                Choose difficulty level:
-              </label>
-              <div className="character-quiz__selector-options">
-                {["easy", "medium", "hard"].map((difficulty) => (
-                  <button
-                    key={difficulty}
-                    type="button"
-                    className={`
-                      character-quiz__selector-option
-                      character-quiz__selector-option--difficulty
-                      ${
-                        quiz.selectedDifficulty === difficulty
-                          ? "character-quiz__selector-option--selected"
-                          : ""
-                      }
-                    `}
-                    onClick={() =>
-                      quiz.setDifficulty(
-                        difficulty as "easy" | "medium" | "hard"
-                      )
-                    }
-                  >
-                    {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-                  </button>
-                ))}
+            <div className="character-quiz__game-setup">
+              <div className="character-quiz__questions-selector">
+                <label className="character-quiz__selector-label">
+                  Choose number of questions:
+                </label>
+                <div className="character-quiz__selector-options">
+                  {[10, 20, 50].map((count) => (
+                    <button
+                      key={count}
+                      type="button"
+                      className={`
+                        character-quiz__selector-option
+                        ${
+                          quiz.selectedQuestionsCount === count
+                            ? "character-quiz__selector-option--selected"
+                            : ""
+                        }
+                      `}
+                      onClick={() => quiz.setQuestionsCount(count)}
+                    >
+                      {count} Questions
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <button
-              type="button"
-              className="character-quiz__start-button"
-              onClick={quiz.startGame}
-            >
-              🎮 Start {quiz.selectedQuestionsCount} Question Quiz (
-              {quiz.selectedDifficulty} mode)
-            </button>
+              <div className="character-quiz__difficulty-selector">
+                <label className="character-quiz__selector-label">
+                  Choose difficulty level:
+                </label>
+                <div className="character-quiz__selector-options">
+                  {["easy", "medium", "hard", "harder"].map((difficulty) => (
+                    <button
+                      key={difficulty}
+                      type="button"
+                      className={`
+                        character-quiz__selector-option
+                        character-quiz__selector-option--difficulty
+                        ${
+                          quiz.selectedDifficulty === difficulty
+                            ? "character-quiz__selector-option--selected"
+                            : ""
+                        }
+                      `}
+                      onClick={() =>
+                        quiz.setDifficulty(
+                          difficulty as "easy" | "medium" | "hard"
+                        )
+                      }
+                    >
+                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="character-quiz__start-button"
+                onClick={quiz.startGame}
+              >
+                🎮 Start {quiz.selectedQuestionsCount} Question Quiz (
+                {quiz.selectedDifficulty} mode)
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -731,6 +889,7 @@ export const CharacterQuiz = React.memo(() => {
                     <tr>
                       <th>Difficulty</th>
                       <th>Answer Choices</th>
+                      <th>Image Timer</th>
                       <th>Hints Available</th>
                       <th>Show Answer Available</th>
                     </tr>
@@ -745,6 +904,11 @@ export const CharacterQuiz = React.memo(() => {
                             config.mode.slice(1)}
                         </td>
                         <td>{config.answerChoices} choices</td>
+                        <td>
+                          {config.mode === "harder"
+                            ? "⏱️ 3 seconds"
+                            : "♾️ Unlimited"}
+                        </td>
                         <td>{config.showHints ? "✅ Yes" : "❌ No"}</td>
                         <td>{config.showRevealAnswer ? "✅ Yes" : "❌ No"}</td>
                       </tr>
@@ -766,6 +930,11 @@ export const CharacterQuiz = React.memo(() => {
                     <li>
                       <strong>Hard (10% chance):</strong> 10 answer choices, no
                       assistance - for true Disney experts!
+                    </li>
+                    <li>
+                      <strong>Harder (10% chance):</strong> 10 answer choices,
+                      image disappears after 3 seconds, no assistance - ultimate
+                      challenge!
                     </li>
                   </ul>
                 </div>

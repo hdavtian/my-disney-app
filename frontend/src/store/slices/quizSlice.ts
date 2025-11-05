@@ -46,6 +46,13 @@ export const DIFFICULTY_CONFIGS: Record<DifficultyMode, DifficultyConfig> = {
     showRevealAnswer: false,
     description: "10 choices, no hints or show answer",
   },
+  harder: {
+    mode: "harder",
+    answerChoices: 10,
+    showHints: false,
+    showRevealAnswer: false,
+    description: "10 choices, 3-second timed image, no hints or show answer",
+  },
 };
 
 // Helper function to get answer choice labels

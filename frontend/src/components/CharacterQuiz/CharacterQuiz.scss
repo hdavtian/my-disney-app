@@ -270,8 +270,18 @@
         }
     }
 
-    // Character wrapper for animations
+    // Character container for timer layout
+    &__character-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    // Character wrapper for animations and hiding
     &__character-wrapper {
+        transition: all var(--transition-normal);
+
         &--correct {
             animation: grow-correct 1.2s ease-in-out;
         }
@@ -279,6 +289,61 @@
         &--wrong {
             animation: shake-gentle 1.2s ease-in-out;
         }
+
+        &--hidden {
+            background: #000;
+            border-radius: var(--border-radius);
+
+            // Hide the actual character card content
+            .character-card {
+                opacity: 0;
+                filter: brightness(0);
+            }
+        }
+    }
+
+    // Timer styles for "harder" difficulty
+    &__timer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+        min-width: 200px;
+    }
+
+    &__timer-display {
+        font-size: var(--text-2xl);
+        font-weight: var(--font-bold);
+        color: var(--disney-gold);
+        font-family: 'Courier New', monospace;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1px;
+
+        // Color changes based on time remaining
+        &.character-quiz__timer-display--warning {
+            color: #ff8c00; // Orange when < 2 seconds
+        }
+
+        &.character-quiz__timer-display--danger {
+            color: var(--danger-red); // Red when < 1 second
+            animation: timer-pulse 0.5s infinite;
+        }
+    }
+
+    &__timer-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    &__timer-progress {
+        height: 100%;
+        background: linear-gradient(90deg, var(--danger-red), #ff8c00, var(--disney-gold));
+        transition: width 0.1s linear;
+        border-radius: var(--border-radius);
     }
 
     // Section 2: Quiz Interface
@@ -363,6 +428,12 @@
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: var(--danger-red);
+        }
+
+        &--harder {
+            background: rgba(139, 69, 19, 0.15);
+            border: 1px solid rgba(139, 69, 19, 0.3);
+            color: #8B4513;
         }
     }
 
@@ -783,8 +854,165 @@
         font-size: var(--text-sm);
     }
 
+    // Game Start Wrapper (Banner + Start)
+    &__start-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+
+        @include tablet-up {
+            flex-direction: row;
+            gap: 0;
+        }
+    }
+
+    // Banner Section
+    &__banner {
+        flex: 1;
+        position: relative;
+        min-height: 300px;
+        overflow: hidden;
+        border-radius: var(--border-radius-lg);
+        margin-bottom: var(--space-4);
+
+        @include tablet-up {
+            margin-bottom: 0;
+            margin-right: var(--space-2);
+            border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg);
+        }
+    }
+
+    &__banner-backgrounds {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+
+    &__banner-background {
+        flex: 1;
+        position: relative;
+        border-left: 1px solid var(--disney-gold);
+        border-right: 1px solid var(--disney-gold);
+        overflow: hidden;
+        /* Prevent zoom from showing outside div */
+
+        // Better skew handling to prevent empty corners - wider overlap
+        transform: skew(-10deg);
+        margin: 0 -20px;
+        padding: 0 10px;
+        min-height: 100%;
+
+        // Background image as pseudo-element for better zoom control
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: inherit;
+            transition: transform var(--transition-normal);
+            z-index: -1;
+        }
+
+        &:first-child {
+            margin-left: -30px;
+            border-left: none;
+        }
+
+        &:nth-child(2) {
+            z-index: 4;
+        }
+
+        &:nth-child(3) {
+            z-index: 3;
+        }
+
+        &:nth-child(4) {
+            z-index: 2;
+        }
+
+        &:nth-child(5) {
+            z-index: 1;
+        }
+
+        &:last-child {
+            margin-right: -30px;
+            border-right: none;
+        }
+
+        &:hover {
+            transform: skew(-10deg);
+
+            &::before {
+                transform: scale(1.1);
+                /* Gentle zoom into the background image */
+            }
+        }
+    }
+
+    &__banner-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: var(--border-radius-lg);
+        padding: var(--space-1) var(--space-1);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        padding: .5rem;
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: var(--font-bold);
+            color: var(--white);
+            margin: 0;
+
+            // White 1px outline using text-stroke (preserves gradient background)
+            -webkit-text-stroke: 1px white;
+
+            background: linear-gradient(45deg,
+                    var(--disney-gold),
+                    var(--princess-pink),
+                    var(--disney-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+    }
+
+    // Animation for the title shimmer effect
+    @keyframes shimmer {
+
+        0%,
+        100% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+
     // Game Start State
     &__start {
+        flex: 1;
+
+        @include tablet-up {
+            margin-left: var(--space-2);
+        }
+
         text-align: center;
         padding: var(--space-8);
 
@@ -839,6 +1067,15 @@
         }
     }
 
+    // Special grid for difficulty selector (4 options)
+    &__difficulty-selector &__selector-options {
+        grid-template-columns: repeat(4, 1fr);
+
+        @include mobile-only {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
     &__selector-option {
         @include btn-base;
         padding: var(--space-3);
@@ -889,14 +1126,61 @@
     &__selector-option--difficulty {
         position: relative;
 
+        // Difficulty-specific selected colors
         &.character-quiz__selector-option--selected {
-            &::after {
-                content: "✨";
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                font-size: 1.2em;
-                animation: sparkle 1.5s infinite;
+            // Default styling remains the same
+
+            // Easy difficulty - green
+            &:nth-child(1) {
+                background: var(--success-green);
+                border-color: var(--success-green);
+                color: var(--white);
+
+                &:hover {
+                    background: #34d399;
+                    /* lighter success green */
+                    border-color: #34d399;
+                }
+            }
+
+            // Medium difficulty - yellow/gold
+            &:nth-child(2) {
+                background: var(--disney-gold);
+                border-color: var(--disney-gold);
+                color: var(--dark-blue);
+
+                &:hover {
+                    background: #fbbf24;
+                    /* lighter gold */
+                    border-color: #fbbf24;
+                }
+            }
+
+            // Hard difficulty - red
+            &:nth-child(3) {
+                background: var(--danger-red);
+                border-color: var(--danger-red);
+                color: var(--white);
+
+                &:hover {
+                    background: #f87171;
+                    /* lighter red */
+                    border-color: #f87171;
+                }
+            }
+
+            // Harder difficulty - dark brown/maroon
+            &:nth-child(4) {
+                background: #8B4513;
+                /* saddle brown */
+                border-color: #8B4513;
+                color: var(--white);
+
+                &:hover {
+                    background: #A0522D;
+                    /* sandy brown - lighter */
+                    border-color: #A0522D;
+                }
             }
         }
     }
@@ -1048,6 +1332,11 @@
         font-weight: var(--font-bold);
     }
 
+    &__difficulty-harder {
+        color: #8B4513 !important;
+        font-weight: var(--font-bold);
+    }
+
     &__difficulty-descriptions {
         h4 {
             color: var(--disney-gold);
@@ -1083,17 +1372,19 @@
     }
 }
 
-// Sparkle animation for selected difficulty
-@keyframes sparkle {
+// Sparkle animation removed - replaced with difficulty-specific colors
+
+// Timer pulse animation for danger state
+@keyframes timer-pulse {
 
     0%,
     100% {
-        transform: scale(1) rotate(0deg);
-        opacity: 0.8;
+        transform: scale(1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     50% {
-        transform: scale(1.2) rotate(180deg);
-        opacity: 1;
+        transform: scale(1.05);
+        text-shadow: 0 0 20px var(--danger-red);
     }
 }

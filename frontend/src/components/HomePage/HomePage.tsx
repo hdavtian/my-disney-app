@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
 import { HeroCarousel } from "../HeroCarousel/HeroCarousel";
 import { MovieSlider } from "../MovieSlider/MovieSlider";
@@ -14,6 +15,7 @@ import { fetchCharacters } from "../../store/slices/charactersSlice";
 
 export const HomePage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const allMovies = useAppSelector((state) => state.movies.movies);
   const moviesLoading = useAppSelector((state) => state.movies.loading);
   const allCharacters = useAppSelector((state) => state.characters.characters);
@@ -84,6 +86,10 @@ export const HomePage = () => {
                   movie.director ? `• ${movie.director}` : ""
                 }`
               }
+              onSelectItem={(movie) => {
+                // Navigate to movie detail page when item is selected from dropdown
+                navigate(`/movie/${movie.id}`);
+              }}
             />
           </div>
           <MovieSlider
@@ -100,7 +106,7 @@ export const HomePage = () => {
             <SearchInput<Character>
               items={allCharacters}
               onSearch={handleCharacterSearch}
-              searchFields={["name", "debut", "category"]}
+              searchFields={["name"]}
               placeholder="Search characters..."
               getDisplayText={(character) => character.name}
               getSecondaryText={(character) =>
@@ -108,6 +114,10 @@ export const HomePage = () => {
                   character.category ? `• ${character.category}` : ""
                 }`
               }
+              onSelectItem={(character) => {
+                // Navigate to character detail page when item is selected from dropdown
+                navigate(`/character/${character.id}`);
+              }}
             />
           </div>
           <CharacterCircles

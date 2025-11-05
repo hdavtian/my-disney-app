@@ -59,10 +59,10 @@ export const MovieDetailPage = () => {
           <h2>Movie Not Found</h2>
           <p>The movie you're looking for doesn't exist.</p>
           <button
-            onClick={() => navigate("/movies")}
+            onClick={() => navigate(-1)}
             className="movie-detail-page__back-button"
           >
-            Back to Movies
+            Back
           </button>
         </div>
       </div>
@@ -92,10 +92,10 @@ export const MovieDetailPage = () => {
         {/* Back Button */}
         <div className="movie-detail-page__back-wrapper">
           <button
-            onClick={() => navigate("/movies")}
+            onClick={() => navigate(-1)}
             className="movie-detail-page__back-button"
           >
-            ← Back to Movies
+            ← Back
           </button>
         </div>
 
