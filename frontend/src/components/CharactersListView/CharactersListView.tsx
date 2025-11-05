@@ -4,6 +4,7 @@ import DataGrid, {
   Column,
   Export,
   Grouping,
+  GroupPanel,
   FilterRow,
   SearchPanel,
   Paging,
@@ -166,6 +167,10 @@ export const CharactersListView = ({
           allowCollapsing={true}
           contextMenuEnabled={true}
           expandMode="buttonClick"
+        />
+        <GroupPanel
+          visible={true}
+          emptyPanelText="Drag a column header here to group by that column"
         />
         <FilterRow visible={true} />
         <SearchPanel
