@@ -3,10 +3,172 @@
 
 .characters-list-view {
     width: 100%;
-    padding: var(--space-8) var(--space-6);
-    max-width: 1400px;
-    margin: 0 auto;
+    background-color: var(--white);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
 
+    // DevExpress DataGrid customizations
+    :global(.dx-datagrid) {
+        background-color: var(--white);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+
+        .dx-datagrid-header-panel {
+            background-color: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .dx-datagrid-headers {
+            background-color: var(--disney-purple);
+            color: var(--white);
+
+            .dx-header-row {
+                background-color: var(--disney-purple);
+
+                td {
+                    background-color: var(--disney-purple);
+                    color: var(--white);
+                    font-weight: var(--font-semibold);
+                    border-right: 1px solid rgba(255, 255, 255, 0.2);
+                }
+            }
+        }
+
+        .dx-row-alt {
+            background-color: var(--gray-50);
+        }
+
+        .dx-row:hover {
+            background-color: var(--disney-purple-light) !important;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .dx-datagrid-search-panel {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: var(--space-4);
+
+            .dx-textbox {
+                border-radius: var(--radius-md);
+            }
+        }
+
+        .dx-datagrid-pager {
+            background-color: var(--white);
+            border-top: 1px solid var(--gray-200);
+            padding: var(--space-3);
+        }
+    }
+
+    // Custom cell templates
+    &__name-cell {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    &__character-thumbnail {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: var(--shadow-md);
+    }
+
+    &__name-text {
+        flex: 1;
+    }
+
+    &__description-cell {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: var(--leading-relaxed);
+    }
+
+    &__favorite-cell {
+        text-align: center;
+    }
+
+    &__favorite-icon {
+        color: var(--disney-gold);
+        font-size: var(--text-lg);
+    }
+
+    &__not-favorite-icon {
+        color: var(--gray-400);
+        font-size: var(--text-lg);
+    }
+
+    &__category-cell {
+        text-align: center;
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius-full);
+        font-size: var(--text-xs);
+        font-weight: var(--font-semibold);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    &__category-princess {
+        background-color: #f8b4d9;
+        color: #831843;
+    }
+
+    &__category-villain {
+        background-color: #fca5a5;
+        color: #991b1b;
+    }
+
+    &__category-hero {
+        background-color: #93c5fd;
+        color: #1e40af;
+    }
+
+    &__category-sidekick {
+        background-color: #fde047;
+        color: #a16207;
+    }
+
+    &__category-other {
+        background-color: var(--gray-200);
+        color: var(--gray-700);
+    }
+
+    &__view-cell {
+        text-align: center;
+    }
+
+    &__view-button {
+        background-color: var(--disney-purple);
+        color: var(--white);
+        border: none;
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-md);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+
+        &:hover {
+            background-color: var(--disney-purple-dark);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        &:focus {
+            outline: 2px solid var(--disney-purple-light);
+            outline-offset: 2px;
+        }
+    }
+
+    // Placeholder styles (keeping for fallback)
     &__placeholder {
         display: flex;
         flex-direction: column;

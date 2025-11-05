@@ -120,7 +120,10 @@ export const CharactersPage = () => {
             hideSearch={true}
           />
         ) : (
-          <CharactersListView />
+          <CharactersListView
+            characters={filteredCharacters}
+            onCharacterClick={handleCharacterClick}
+          />
         )}
       </div>
     </motion.div>

@@ -108,7 +108,10 @@ export const MoviesPage = () => {
             hideSearch={true}
           />
         ) : (
-          <MoviesListView />
+          <MoviesListView
+            movies={filteredMovies}
+            onMovieClick={handleMovieClick}
+          />
         )}
       </div>
     </motion.div>

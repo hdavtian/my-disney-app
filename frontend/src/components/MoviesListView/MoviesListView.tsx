@@ -1,42 +1,276 @@
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import DataGrid, {
+  Column,
+  Export,
+  Grouping,
+  FilterRow,
+  SearchPanel,
+  Paging,
+  Pager,
+  Sorting,
+  ColumnChooser,
+  Selection,
+  Scrolling,
+  ColumnFixing,
+} from "devextreme-react/data-grid";
+import { Workbook } from "exceljs";
+import { saveAs } from "file-saver";
+import { exportDataGrid } from "devextreme/excel_exporter";
+import { Movie } from "../../types/Movie";
 import "./MoviesListView.scss";
 
 export interface MoviesListViewProps {
-  // Props will be defined when implementing DevExpress components
+  movies: Movie[];
+  onMovieClick?: (movieId: string) => void;
 }
 
-export const MoviesListView = (_props: MoviesListViewProps) => {
-  return (
-    <div className="movies-list-view">
-      <div className="movies-list-view__placeholder">
-        <div className="movies-list-view__icon">
-          <svg
-            width="80"
-            height="80"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <line x1="8" y1="6" x2="21" y2="6" />
-            <line x1="8" y1="12" x2="21" y2="12" />
-            <line x1="8" y1="18" x2="21" y2="18" />
-            <line x1="3" y1="6" x2="3.01" y2="6" />
-            <line x1="3" y1="12" x2="3.01" y2="12" />
-            <line x1="3" y1="18" x2="3.01" y2="18" />
-          </svg>
-        </div>
-        <h2>List View Coming Soon</h2>
-        <p>
-          We're building a powerful data grid using DevExpress components for
-          advanced filtering, sorting, and analysis.
-        </p>
-        <div className="movies-list-view__features">
-          <div className="movies-list-view__feature">✓ Advanced filtering</div>
-          <div className="movies-list-view__feature">✓ Column sorting</div>
-          <div className="movies-list-view__feature">✓ Export to Excel</div>
-          <div className="movies-list-view__feature">✓ Grouping options</div>
+export const MoviesListView = ({
+  movies,
+  onMovieClick,
+}: MoviesListViewProps) => {
+  const navigate = useNavigate();
+
+  const handleViewClick = useCallback(
+    (movie: Movie) => {
+      if (onMovieClick) {
+        onMovieClick(movie.id);
+      }
+      navigate(`/movie/${movie.id}`);
+    },
+    [navigate, onMovieClick]
+  );
+
+  const onExporting = useCallback((e: any) => {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet("Disney Movies");
+
+    exportDataGrid({
+      component: e.component,
+      worksheet,
+      autoFilterEnabled: true,
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer: any) => {
+        saveAs(
+          new Blob([buffer], { type: "application/octet-stream" }),
+          "disney_movies.xlsx"
+        );
+      });
+    });
+  }, []);
+
+  const renderTitleCell = (cellData: any) => {
+    const movie = cellData.data as Movie;
+    return (
+      <div className="movies-list-view__title-cell">
+        {movie.posterUrl && (
+          <img
+            src={movie.posterUrl}
+            alt={movie.title}
+            className="movies-list-view__poster-thumbnail"
+          />
+        )}
+        <div className="movies-list-view__title-text">
+          <strong>{movie.title}</strong>
         </div>
       </div>
+    );
+  };
+
+  const renderDescriptionCell = (cellData: any) => {
+    const description = cellData.value;
+    return (
+      <div className="movies-list-view__description-cell" title={description}>
+        {description && description.length > 100
+          ? `${description.substring(0, 100)}...`
+          : description}
+      </div>
+    );
+  };
+
+  const renderFavoriteCell = (cellData: any) => {
+    return (
+      <div className="movies-list-view__favorite-cell">
+        {cellData.value ? (
+          <span className="movies-list-view__favorite-icon">⭐</span>
+        ) : (
+          <span className="movies-list-view__not-favorite-icon">☆</span>
+        )}
+      </div>
+    );
+  };
+
+  const renderViewButton = (cellData: any) => {
+    const movie = cellData.data as Movie;
+    return (
+      <div className="movies-list-view__view-cell">
+        <button
+          className="movies-list-view__view-button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleViewClick(movie);
+          }}
+          type="button"
+        >
+          View
+        </button>
+      </div>
+    );
+  };
+
+  return (
+    <div className="movies-list-view">
+      <DataGrid
+        dataSource={movies}
+        keyExpr="id"
+        onExporting={onExporting}
+        showBorders={true}
+        showRowLines={true}
+        showColumnLines={true}
+        rowAlternationEnabled={true}
+        columnAutoWidth={false}
+        wordWrapEnabled={true}
+        allowColumnReordering={true}
+        allowColumnResizing={true}
+        columnResizingMode="nextColumn"
+        hoverStateEnabled={true}
+      >
+        <Export enabled={true} allowExportSelectedData={true} />
+        <Grouping
+          autoExpandAll={false}
+          allowCollapsing={true}
+          contextMenuEnabled={true}
+          expandMode="buttonClick"
+        />
+        <FilterRow visible={true} />
+        <SearchPanel
+          visible={true}
+          width={300}
+          placeholder="Search movies..."
+          highlightCaseSensitive={false}
+        />
+        <Paging enabled={true} pageSize={20} />
+        <Pager
+          showPageSizeSelector={true}
+          allowedPageSizes={[10, 20, 50, 100]}
+          showInfo={true}
+          showNavigationButtons={true}
+        />
+        <Sorting mode="multiple" />
+        <ColumnChooser enabled={true} mode="select" />
+        <Selection mode="multiple" showCheckBoxesMode="always" />
+        <Scrolling mode="standard" />
+        <ColumnFixing enabled={true} />
+
+        <Column
+          dataField="title"
+          caption="Movie Title"
+          width={250}
+          fixed={true}
+          fixedPosition="left"
+          allowSorting={true}
+          allowFiltering={true}
+          allowGrouping={true}
+          cellRender={renderTitleCell}
+        />
+
+        <Column
+          dataField="releaseYear"
+          caption="Release Year"
+          width={120}
+          alignment="center"
+          allowSorting={true}
+          allowFiltering={true}
+          allowGrouping={true}
+        />
+
+        <Column
+          dataField="genre"
+          caption="Genre"
+          width={150}
+          allowSorting={true}
+          allowFiltering={true}
+          allowGrouping={true}
+          calculateDisplayValue={(data: Movie) =>
+            data.genre ? data.genre.join(", ") : ""
+          }
+        />
+
+        <Column
+          dataField="director"
+          caption="Director"
+          width={180}
+          allowSorting={true}
+          allowFiltering={true}
+          allowGrouping={true}
+        />
+
+        <Column
+          dataField="duration"
+          caption="Duration (min)"
+          width={130}
+          alignment="center"
+          allowSorting={true}
+          allowFiltering={true}
+          dataType="number"
+        />
+
+        <Column
+          dataField="rating"
+          caption="Rating"
+          width={100}
+          alignment="center"
+          allowSorting={true}
+          allowFiltering={true}
+          allowGrouping={true}
+        />
+
+        <Column
+          dataField="short_description"
+          caption="Description"
+          width={300}
+          allowFiltering={true}
+          cellRender={renderDescriptionCell}
+        />
+
+        <Column
+          dataField="characters"
+          caption="Main Characters"
+          width={200}
+          allowFiltering={true}
+          calculateDisplayValue={(data: Movie) =>
+            data.characters
+              ? data.characters.slice(0, 3).join(", ") +
+                (data.characters.length > 3 ? "..." : "")
+              : ""
+          }
+        />
+
+        <Column
+          dataField="isFavorite"
+          caption="Favorite"
+          width={100}
+          alignment="center"
+          allowSorting={true}
+          allowFiltering={true}
+          allowGrouping={true}
+          dataType="boolean"
+          cellRender={renderFavoriteCell}
+        />
+
+        <Column
+          caption="Actions"
+          width={100}
+          alignment="center"
+          allowSorting={false}
+          allowFiltering={false}
+          allowGrouping={false}
+          allowReordering={false}
+          allowResizing={false}
+          cellRender={renderViewButton}
+        />
+      </DataGrid>
     </div>
   );
 };

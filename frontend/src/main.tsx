@@ -6,6 +6,7 @@ import { store } from "./store/store.ts";
 import { initializeAssetsConfig } from "./config/assets";
 import { initializeApiConfig } from "./config/api";
 import App from "./App.tsx";
+import "devextreme/dist/css/dx.light.css";
 import "./styles/main.scss";
 
 // Initialize configuration
