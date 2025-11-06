@@ -26,7 +26,6 @@ export const CharacterCard = ({
   size = "normal",
 }: CharacterCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     // Always call the onClick callback if provided
@@ -44,7 +43,6 @@ export const CharacterCard = ({
   };
 
   const handleImageError = () => {
-    setImageError(true);
     setImageLoaded(true); // Still hide skeleton even on error
   };
 

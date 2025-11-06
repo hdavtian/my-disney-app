@@ -13,7 +13,6 @@ export interface MovieCardProps {
 
 export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -27,7 +26,6 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
   };
 
   const handleImageError = () => {
-    setImageError(true);
     setImageLoaded(true); // Still hide skeleton even on error
   };
 
