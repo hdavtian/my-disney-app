@@ -3,6 +3,9 @@
     "rewrite": "/index.html",
     "exclude": ["/images/*.{png,jpg,gif,webp,avif,svg}", "/api/*"]
   },
+  "environmentVariables": {
+    "SWA_ENVIRONMENT_AUTO_DELETE_DAYS": "1"
+  },
   "mimeTypes": {
     ".json": "application/json",
     ".js": "application/javascript",
