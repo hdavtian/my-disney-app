@@ -3,17 +3,49 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuizGame } from "../../hooks/useQuizGame";
 import { CharacterCard } from "../CharacterCard/CharacterCard";
 import { Character } from "../../types";
-import {
-  fetchCharacterById,
-  fetchCharactersByIds,
-  fetchRandomCharacterIds,
-} from "../../utils/quizApi";
+import { useAppSelector } from "../../hooks/redux";
 import { DIFFICULTY_CONFIGS } from "../../store/slices/quizSlice";
 import { getImageUrl } from "../../config/assets";
+import { initializeCachedCharacters } from "../../utils/quizApiCached";
 import "./CharacterQuiz.scss";
 
 export const CharacterQuiz = React.memo(() => {
   const quiz = useQuizGame();
+
+  // Get cached characters from Redux instead of making API calls
+  const { characters: cachedCharacters } = useAppSelector(
+    (state) => state.characters
+  );
+
+  // Helper functions to work with cached data instead of API calls
+  const getRandomCharacterIds = (
+    excludeId: string,
+    count: number = 5
+  ): string[] => {
+    const availableCharacters = cachedCharacters.filter(
+      (char) => String(char.id) !== String(excludeId)
+    );
+    const shuffled = [...availableCharacters].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count).map((char) => String(char.id));
+  };
+
+  const getCharacterById = (id: string): Character | null => {
+    const character = cachedCharacters.find(
+      (char) => String(char.id) === String(id)
+    );
+    if (!character) {
+      console.warn(
+        `Character ID ${id} not found in cache. Available IDs:`,
+        cachedCharacters.slice(0, 10).map((char) => String(char.id))
+      );
+    }
+    return character || null;
+  };
+
+  const getCharactersByIds = (ids: string[]): Character[] => {
+    return ids.map((id) => getCharacterById(id)).filter(Boolean) as Character[];
+  };
+
   const [currentCharacter, setCurrentCharacter] = useState<Character | null>(
     null
   );
@@ -35,36 +67,30 @@ export const CharacterQuiz = React.memo(() => {
   // Banner state for random characters
   const [bannerCharacters, setBannerCharacters] = useState<Character[]>([]);
 
-  // Debug: Log re-renders to identify flash cause
-  console.log("CharacterQuiz re-render:", {
-    currentQuestionId: quiz.currentQuestion?.id,
-    questionAnswered: quiz.questionAnswered,
-    showAnswer: quiz.showAnswer,
-    currentCharacter: currentCharacter?.id,
-    isLoading: quiz.isLoading,
-  });
-
   // Load preferences on component mount
   useEffect(() => {
     quiz.loadPreferences();
   }, []);
 
-  // Load random characters for banner
+  // Initialize cached characters for quiz API when available (only once)
   useEffect(() => {
-    const loadBannerCharacters = async () => {
-      try {
-        // Get 5 random character IDs (excluding ID 1 arbitrarily since we just need random ones)
-        const randomIds = await fetchRandomCharacterIds("1", 5);
-        const characters = await fetchCharactersByIds(randomIds);
-        setBannerCharacters(characters);
-      } catch (error) {
-        console.error("Error loading banner characters:", error);
-        // Banner is not critical, so we don't need to show error to user
-      }
-    };
+    if (cachedCharacters.length > 0) {
+      initializeCachedCharacters(cachedCharacters);
+      console.log(
+        `🎮 Quiz cache initialized with ${cachedCharacters.length} characters`
+      );
+    }
+  }, [cachedCharacters.length]);
 
-    loadBannerCharacters();
-  }, []);
+  // Load random characters for banner using cached data
+  useEffect(() => {
+    if (cachedCharacters.length > 0) {
+      // Get 5 random characters (excluding ID 1 arbitrarily since we just need random ones)
+      const randomIds = getRandomCharacterIds("1", 5);
+      const characters = getCharactersByIds(randomIds);
+      setBannerCharacters(characters);
+    }
+  }, [cachedCharacters.length]);
 
   // ESC key support for modal
   useEffect(() => {
@@ -137,51 +163,37 @@ export const CharacterQuiz = React.memo(() => {
     quiz.showAnswer,
   ]);
 
-  // Load character for current question (only if not already set)
+  // Load character for current question (only if not already set) using cached data
   useEffect(() => {
-    if (quiz.currentQuestion) {
-      // Only fetch if we don't have the character or it's different
+    if (quiz.currentQuestion && cachedCharacters.length > 0) {
+      // Only update if we don't have the character or it's different
       if (
         !currentCharacter ||
         currentCharacter.id !== quiz.currentQuestion.correctCharacterId
       ) {
         console.log(
-          "Fetching character in useEffect for ID:",
+          "Getting character from cache for ID:",
           quiz.currentQuestion.correctCharacterId
         );
-        fetchCharacterById(quiz.currentQuestion.correctCharacterId)
-          .then(setCurrentCharacter)
-          .catch((error) => {
-            console.error("Failed to load character:", error);
-            setCurrentCharacter(null);
-          });
+        const character = getCharacterById(
+          quiz.currentQuestion.correctCharacterId
+        );
+        if (character) {
+          setCurrentCharacter(character);
+        } else {
+          console.error(
+            "Character not found in cache:",
+            quiz.currentQuestion.correctCharacterId
+          );
+          setCurrentCharacter(null);
+        }
       }
     } else {
       setCurrentCharacter(null);
     }
-  }, [quiz.currentQuestion?.correctCharacterId]);
+  }, [quiz.currentQuestion?.correctCharacterId, cachedCharacters.length]);
 
-  // Generate first question when game is initialized
-  useEffect(() => {
-    if (
-      quiz.hasCharacters &&
-      quiz.isGameActive &&
-      !quiz.currentQuestion &&
-      !quiz.isLoading
-    ) {
-      // Generate first question
-      const firstCharacterId = quiz.characterQueue[0];
-      if (firstCharacterId) {
-        quiz.generateQuestion(firstCharacterId.toString());
-      }
-    }
-  }, [
-    quiz.hasCharacters,
-    quiz.isGameActive,
-    quiz.currentQuestion,
-    quiz.isLoading,
-    quiz.characterQueue,
-  ]);
+  // First question is now generated automatically by the startGame function
 
   const handleAnswerSelect = (characterId: string) => {
     if (quiz.questionAnswered || quiz.showAnswer) return;
@@ -244,12 +256,10 @@ export const CharacterQuiz = React.memo(() => {
     if (quiz.characterQueue.length > nextIndex) {
       const nextCharacterId = quiz.characterQueue[nextIndex];
       if (nextCharacterId) {
-        // Pre-fetch the next character to avoid loading flash
-        try {
-          const nextCharacter = await fetchCharacterById(
-            nextCharacterId.toString()
-          );
+        // Pre-get the next character from cache to avoid loading flash
+        const nextCharacter = getCharacterById(nextCharacterId.toString());
 
+        if (nextCharacter) {
           // Generate the question first
           await quiz.generateQuestion(nextCharacterId.toString());
 
@@ -258,8 +268,8 @@ export const CharacterQuiz = React.memo(() => {
 
           // Now move to next question (this won't trigger character loading)
           quiz.nextQuestion();
-        } catch (error) {
-          console.error("Failed to pre-load next character:", error);
+        } else {
+          console.error("Next character not found in cache:", nextCharacterId);
           // Fallback to original behavior
           quiz.nextQuestion();
           quiz.generateQuestion(nextCharacterId.toString());
@@ -286,7 +296,26 @@ export const CharacterQuiz = React.memo(() => {
     console.log("After reveal - showAnswer state:", quiz.showAnswer);
   };
 
+  const handleStartGame = () => {
+    // Check if cached characters are available
+    if (cachedCharacters.length === 0) {
+      alert("Please wait for characters to load before starting the quiz!");
+      return;
+    }
+
+    quiz.startGame();
+  };
+
   const handleRestartGame = () => {
+    // Check if cached characters are available
+    if (cachedCharacters.length === 0) {
+      console.warn(
+        "Cannot restart quiz: Characters not loaded yet. Please wait..."
+      );
+      alert("Please wait for characters to load before restarting the quiz!");
+      return;
+    }
+
     setCurrentCharacter(null);
     setSelectedAnswer(null);
     setCharacterAnimationState("normal");
@@ -847,10 +876,23 @@ export const CharacterQuiz = React.memo(() => {
               <button
                 type="button"
                 className="character-quiz__start-button"
-                onClick={quiz.startGame}
+                onClick={handleStartGame}
+                disabled={cachedCharacters.length === 0 || quiz.isLoading}
               >
-                🎮 Start {quiz.selectedQuestionsCount} Question Quiz (
-                {quiz.selectedDifficulty} mode)
+                {quiz.isLoading ? (
+                  "🔄 Starting Quiz..."
+                ) : (
+                  <>
+                    🎮 Start {quiz.selectedQuestionsCount} Question Quiz (
+                    {quiz.selectedDifficulty} mode)
+                    {cachedCharacters.length === 0 && (
+                      <span className="character-quiz__loading-text">
+                        {" "}
+                        - Loading characters...
+                      </span>
+                    )}
+                  </>
+                )}
               </button>
             </div>
           </div>

@@ -10,7 +10,8 @@ import {
   fetchCharacterIds,
   fetchRandomCharacterIds,
   fetchCharactersByIds,
-} from "../../utils/quizApi";
+  fetchCharacterById,
+} from "../../utils/quizApiCached";
 import {
   saveGameState,
   loadGameState,
@@ -68,12 +69,31 @@ export const initializeQuizGame = createAsyncThunk(
     try {
       const characterIds = await fetchCharacterIds();
       const shuffledIds = shuffleArray(characterIds);
-      // Use the specified number of questions
+      const selectedIds = shuffledIds.slice(0, questionsCount);
+
+      // Validate that all selected character IDs actually exist
+      const validatedIds = [];
+      for (const id of selectedIds) {
+        try {
+          await fetchCharacterById(id);
+          validatedIds.push(id);
+        } catch (error) {
+          console.warn(`Skipping invalid character ID: ${id}`);
+        }
+      }
+
+      if (validatedIds.length < questionsCount) {
+        console.warn(
+          `Only found ${validatedIds.length} valid characters out of ${questionsCount} requested`
+        );
+      }
+
       return {
-        characterQueue: shuffledIds.slice(0, questionsCount),
-        questionsCount,
+        characterQueue: validatedIds,
+        questionsCount: validatedIds.length,
       };
     } catch (error) {
+      console.error(`❌ Quiz initialization failed:`, error);
       return rejectWithValue(
         error instanceof Error ? error.message : "Failed to initialize game"
       );
@@ -99,7 +119,18 @@ export const generateQuizQuestion = createAsyncThunk(
       ]);
 
       const correctCharacter = characters[0];
+      if (!correctCharacter) {
+        throw new Error(
+          `Correct character with ID ${correctCharacterId} not found`
+        );
+      }
+
       const wrongCharacters = await fetchCharactersByIds(wrongAnswerIds);
+      if (wrongCharacters.length !== wrongAnswersCount) {
+        throw new Error(
+          `Expected ${wrongAnswersCount} wrong characters, got ${wrongCharacters.length}`
+        );
+      }
 
       // Create the quiz answers
       const allCharacters = [correctCharacter, ...wrongCharacters];

@@ -5,6 +5,7 @@ import { CacheService } from "../../utils/cacheService";
 
 interface CharactersState {
   characters: Character[];
+  displayedCharacters: Character[]; // Characters currently shown (paginated)
   loading: boolean;
   error: string | null;
   filters: {
@@ -12,16 +13,29 @@ interface CharactersState {
     movie: string;
     category: string;
   };
+  pagination: {
+    page: number;
+    pageSize: number;
+    hasMore: boolean;
+    isLoadingMore: boolean;
+  };
 }
 
 const initialState: CharactersState = {
   characters: [],
+  displayedCharacters: [],
   loading: false,
   error: null,
   filters: {
     search: "",
     movie: "",
     category: "",
+  },
+  pagination: {
+    page: 0,
+    pageSize: 20,
+    hasMore: true,
+    isLoadingMore: false,
   },
 };
 
@@ -91,18 +105,132 @@ export const fetchCharacterById = createAsyncThunk(
   }
 );
 
+// Async thunk to load more characters (pagination)
+export const loadMoreCharacters = createAsyncThunk(
+  "characters/loadMoreCharacters",
+  async (_, { getState, rejectWithValue, dispatch }) => {
+    try {
+      const state = getState() as { characters: CharactersState };
+      const { characters, pagination, filters } = state.characters;
+
+      // If no characters loaded yet, fetch them first
+      if (characters.length === 0) {
+        await dispatch(fetchCharacters());
+        return;
+      }
+
+      // Apply filters to characters
+      let filteredCharacters = characters;
+
+      if (filters.search) {
+        filteredCharacters = filteredCharacters.filter((character) =>
+          character.name.toLowerCase().includes(filters.search.toLowerCase())
+        );
+      }
+
+      if (filters.movie) {
+        filteredCharacters = filteredCharacters.filter((character) =>
+          character.movies?.some((movie) =>
+            movie.toLowerCase().includes(filters.movie.toLowerCase())
+          )
+        );
+      }
+
+      if (filters.category) {
+        filteredCharacters = filteredCharacters.filter(
+          (character) => character.category === filters.category
+        );
+      }
+
+      const nextPage = pagination.page + 1;
+      const startIndex = nextPage * pagination.pageSize;
+      const endIndex = startIndex + pagination.pageSize;
+      const newCharacters = filteredCharacters.slice(startIndex, endIndex);
+
+      return {
+        newCharacters,
+        hasMore: endIndex < filteredCharacters.length,
+        nextPage,
+      };
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "An error occurred"
+      );
+    }
+  }
+);
+
 const charactersSlice = createSlice({
   name: "characters",
   initialState,
   reducers: {
     setSearchFilter: (state, action: PayloadAction<string>) => {
       state.filters.search = action.payload;
+      // Reset pagination when filter changes
+      state.pagination.page = 0;
+      state.pagination.hasMore = true;
+      // Reapply pagination with new filter
+      const filteredCharacters = state.characters.filter(
+        (character) =>
+          character.name.toLowerCase().includes(action.payload.toLowerCase()) &&
+          (!state.filters.movie ||
+            character.movies?.some((movie) =>
+              movie.toLowerCase().includes(state.filters.movie.toLowerCase())
+            )) &&
+          (!state.filters.category ||
+            character.category === state.filters.category)
+      );
+      state.displayedCharacters = filteredCharacters.slice(
+        0,
+        state.pagination.pageSize
+      );
     },
     setMovieFilter: (state, action: PayloadAction<string>) => {
       state.filters.movie = action.payload;
+      // Reset pagination when filter changes
+      state.pagination.page = 0;
+      state.pagination.hasMore = true;
+      // Reapply pagination with new filter
+      const filteredCharacters = state.characters.filter(
+        (character) =>
+          (!state.filters.search ||
+            character.name
+              .toLowerCase()
+              .includes(state.filters.search.toLowerCase())) &&
+          (!action.payload ||
+            character.movies?.some((movie) =>
+              movie.toLowerCase().includes(action.payload.toLowerCase())
+            )) &&
+          (!state.filters.category ||
+            character.category === state.filters.category)
+      );
+      state.displayedCharacters = filteredCharacters.slice(
+        0,
+        state.pagination.pageSize
+      );
     },
     setCategoryFilter: (state, action: PayloadAction<string>) => {
       state.filters.category = action.payload;
+      // Reset pagination when filter changes
+      state.pagination.page = 0;
+      state.pagination.hasMore = true;
+      // Reapply pagination with new filter
+      const filteredCharacters = state.characters.filter(
+        (character) =>
+          (!state.filters.search ||
+            character.name
+              .toLowerCase()
+              .includes(state.filters.search.toLowerCase())) &&
+          (!state.filters.movie ||
+            character.movies?.some((movie) =>
+              movie.toLowerCase().includes(state.filters.movie.toLowerCase())
+            )) &&
+          (!action.payload || character.category === action.payload)
+      );
+      state.displayedCharacters = filteredCharacters.slice(
+        0,
+        state.pagination.pageSize
+      );
     },
     clearFilters: (state) => {
       state.filters = {
@@ -110,6 +238,21 @@ const charactersSlice = createSlice({
         movie: "",
         category: "",
       };
+      // Reset pagination and show initial characters
+      state.pagination.page = 0;
+      state.pagination.hasMore = true;
+      state.displayedCharacters = state.characters.slice(
+        0,
+        state.pagination.pageSize
+      );
+    },
+    resetPagination: (state) => {
+      state.pagination.page = 0;
+      state.pagination.hasMore = true;
+      state.displayedCharacters = state.characters.slice(
+        0,
+        state.pagination.pageSize
+      );
     },
   },
   extraReducers: (builder) => {
@@ -122,6 +265,14 @@ const charactersSlice = createSlice({
       state.loading = false;
       state.characters = action.payload;
       state.error = null;
+      // Initialize displayed characters with first page
+      state.displayedCharacters = action.payload.slice(
+        0,
+        state.pagination.pageSize
+      );
+      state.pagination.page = 0;
+      state.pagination.hasMore =
+        action.payload.length > state.pagination.pageSize;
     });
     builder.addCase(fetchCharacters.rejected, (state, action) => {
       state.loading = false;
@@ -150,6 +301,23 @@ const charactersSlice = createSlice({
       state.loading = false;
       state.error = action.payload as string;
     });
+
+    // Handle loadMoreCharacters
+    builder.addCase(loadMoreCharacters.pending, (state) => {
+      state.pagination.isLoadingMore = true;
+    });
+    builder.addCase(loadMoreCharacters.fulfilled, (state, action) => {
+      state.pagination.isLoadingMore = false;
+      if (action.payload) {
+        state.displayedCharacters.push(...action.payload.newCharacters);
+        state.pagination.page = action.payload.nextPage;
+        state.pagination.hasMore = action.payload.hasMore;
+      }
+    });
+    builder.addCase(loadMoreCharacters.rejected, (state, action) => {
+      state.pagination.isLoadingMore = false;
+      state.error = action.payload as string;
+    });
   },
 });
 
@@ -158,6 +326,7 @@ export const {
   setMovieFilter,
   setCategoryFilter,
   clearFilters,
+  resetPagination,
 } = charactersSlice.actions;
 
 export default charactersSlice.reducer;

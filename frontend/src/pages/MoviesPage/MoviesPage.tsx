@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./MoviesPage.scss";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchMovies } from "../../store/slices/moviesSlice";
+import {
+  fetchMovies,
+  loadMoreMovies,
+  setSearchFilter,
+} from "../../store/slices/moviesSlice";
 import { addRecentlyViewedMovie } from "../../store/slices/recentlyViewedSlice";
 import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
 import { MoviesGridView } from "../../components/MoviesGridView";
@@ -14,19 +18,13 @@ import { Movie } from "../../types/Movie";
 export const MoviesPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { movies, loading, error } = useAppSelector((state) => state.movies);
+  const { movies, displayedMovies, loading, error, pagination } =
+    useAppSelector((state) => state.movies);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  // local filtered list controlled by this page's SearchInput
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies);
 
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
-
-  // sync filtered list when store movies update
-  useEffect(() => {
-    setFilteredMovies(movies);
-  }, [movies]);
 
   const handleMovieClick = useCallback(
     (movieId: string) => {
@@ -39,9 +37,13 @@ export const MoviesPage = () => {
     [movies, dispatch, navigate]
   );
 
-  const handleSearch = useCallback((results: Movie[]) => {
-    setFilteredMovies(results);
-  }, []);
+  const handleSearch = useCallback(
+    (_results: Movie[], query: string) => {
+      // SearchInput handles the filtering, but we update Redux state with the query
+      dispatch(setSearchFilter(query));
+    },
+    [dispatch]
+  );
 
   const handleSearchItemClick = useCallback(
     (movie: Movie) => {
@@ -50,6 +52,12 @@ export const MoviesPage = () => {
     },
     [dispatch, navigate]
   );
+
+  const handleLoadMore = useCallback(() => {
+    if (pagination.hasMore && !pagination.isLoadingMore) {
+      dispatch(loadMoreMovies());
+    }
+  }, [dispatch, pagination.hasMore, pagination.isLoadingMore]);
   if (loading) {
     return (
       <motion.div
@@ -113,13 +121,16 @@ export const MoviesPage = () => {
       <div className="movies-page__content">
         {viewMode === "grid" ? (
           <MoviesGridView
-            movies={filteredMovies}
+            movies={displayedMovies}
             onMovieClick={handleMovieClick}
+            onLoadMore={handleLoadMore}
+            hasMore={pagination.hasMore}
+            isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
           />
         ) : (
           <MoviesListView
-            movies={filteredMovies}
+            movies={displayedMovies}
             onMovieClick={handleMovieClick}
           />
         )}

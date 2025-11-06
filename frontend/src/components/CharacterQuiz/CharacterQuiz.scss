@@ -1027,6 +1027,24 @@
         @include btn-primary;
         font-size: var(--text-lg);
         padding: var(--space-3) var(--space-6);
+        position: relative;
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--gray-600);
+
+            &:hover {
+                background: var(--gray-600);
+                transform: none;
+            }
+        }
+    }
+
+    &__loading-text {
+        color: var(--disney-gold);
+        font-size: var(--text-sm);
+        font-style: italic;
     }
 
     // Game Setup Section
