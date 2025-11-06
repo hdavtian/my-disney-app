@@ -195,6 +195,7 @@ export const CharacterCircles = ({
                             `https://picsum.photos/seed/${character.id}-char/300/300`
                       }
                       alt={character.name}
+                      loading="lazy"
                     />
                     <div className="character-circle__overlay">
                       <span className="character-circle__category">

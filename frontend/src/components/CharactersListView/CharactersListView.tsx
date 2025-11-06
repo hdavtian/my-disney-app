@@ -65,6 +65,7 @@ export const CharactersListView = ({
             src={character.imageUrl}
             alt={character.name}
             className="characters-list-view__character-thumbnail"
+            loading="lazy"
           />
         )}
         <div className="characters-list-view__name-text">

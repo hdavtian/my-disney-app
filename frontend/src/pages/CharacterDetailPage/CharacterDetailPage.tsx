@@ -126,6 +126,7 @@ export const CharacterDetailPage = () => {
                       `https://picsum.photos/seed/${character.id}/600/600`
                 }
                 alt={character.name}
+                loading="lazy"
               />
               <div className="character-detail-page__favorite">
                 <FavoriteButton

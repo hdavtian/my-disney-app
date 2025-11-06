@@ -10,12 +10,19 @@ export interface MoviesGridViewProps {
   onMovieClick?: (movieId: string) => void;
   /** When true, the page owns the search input and results — hide internal search UI */
   hideSearch?: boolean;
+  /** Pagination support for infinite scroll */
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
 }
 
 export const MoviesGridView = ({
   movies,
   onMovieClick,
   hideSearch,
+  onLoadMore,
+  hasMore,
+  isLoadingMore,
 }: MoviesGridViewProps) => {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies);
 
@@ -28,6 +35,26 @@ export const MoviesGridView = ({
   const handleSearch = useCallback((results: Movie[]) => {
     setFilteredMovies(results);
   }, []);
+
+  // Infinite scroll handler for window scroll
+  useEffect(() => {
+    if (!onLoadMore || !hasMore || hideSearch) return;
+
+    const handleScroll = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 200; // 200px threshold
+
+      if (isNearBottom && !isLoadingMore) {
+        onLoadMore();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [onLoadMore, hasMore, isLoadingMore, hideSearch]);
 
   return (
     <div className="movies-grid-view">
@@ -70,16 +97,47 @@ export const MoviesGridView = ({
           <p>Try adjusting your search criteria</p>
         </motion.div>
       ) : (
-        <div className="movies-grid-view__grid">
-          {filteredMovies.map((movie, index) => (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-              onClick={onMovieClick}
-              index={index}
-            />
-          ))}
-        </div>
+        <>
+          <div className="movies-grid-view__grid">
+            {filteredMovies.map((movie, index) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                onClick={onMovieClick}
+                index={index}
+              />
+            ))}
+          </div>
+
+          {/* Load More Section */}
+          {hideSearch && onLoadMore && (
+            <div className="movies-grid-view__load-more">
+              {isLoadingMore && (
+                <div className="movies-grid-view__loading">
+                  <div className="spinner"></div>
+                  Loading more movies...
+                </div>
+              )}
+
+              {!isLoadingMore && hasMore && (
+                <motion.button
+                  className="movies-grid-view__load-more-btn"
+                  onClick={onLoadMore}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Load More Movies
+                </motion.button>
+              )}
+
+              {!hasMore && filteredMovies.length > 20 && (
+                <div className="movies-grid-view__end-message">
+                  You've seen all movies!
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

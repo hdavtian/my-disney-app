@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { store } from "./store/store.ts";
 import { initializeAssetsConfig } from "./config/assets";
 import { initializeApiConfig } from "./config/api";
+import { PerformanceMonitor } from "./utils/performanceMonitor";
 import App from "./App.tsx";
 import "devextreme/dist/css/dx.light.css";
 import "./styles/main.scss";
@@ -12,6 +13,7 @@ import "./styles/main.scss";
 // Initialize configuration
 initializeAssetsConfig();
 initializeApiConfig();
+PerformanceMonitor.init();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

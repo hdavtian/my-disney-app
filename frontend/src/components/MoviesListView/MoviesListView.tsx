@@ -65,6 +65,7 @@ export const MoviesListView = ({
             src={movie.posterUrl}
             alt={movie.title}
             className="movies-list-view__poster-thumbnail"
+            loading="lazy"
           />
         )}
         <div className="movies-list-view__title-text">

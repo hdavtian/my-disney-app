@@ -116,6 +116,7 @@ export const MovieDetailPage = () => {
                       `https://picsum.photos/seed/${movie.id}/600/600`
                 }
                 alt={movie.title}
+                loading="lazy"
               />
               <div className="movie-detail-page__favorite">
                 <FavoriteButton

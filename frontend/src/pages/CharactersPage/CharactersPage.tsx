@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "./CharactersPage.scss";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchCharacters } from "../../store/slices/charactersSlice";
+import {
+  fetchCharacters,
+  loadMoreCharacters,
+  setSearchFilter,
+} from "../../store/slices/charactersSlice";
+import { initializeCachedCharacters } from "../../utils/quizApiCached";
 import { addRecentlyViewedCharacter } from "../../store/slices/recentlyViewedSlice";
 import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
 import { CharactersGridView } from "../../components/CharactersGridView";
@@ -15,20 +20,23 @@ import { Character } from "../../types/Character";
 export const CharactersPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { characters, loading, error } = useAppSelector(
-    (state) => state.characters
-  );
+  const { characters, displayedCharacters, loading, error, pagination } =
+    useAppSelector((state) => state.characters);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  const [filteredCharacters, setFilteredCharacters] =
-    useState<Character[]>(characters);
 
   useEffect(() => {
     dispatch(fetchCharacters());
   }, [dispatch]);
 
+  // Initialize cached characters for quiz when characters are loaded
   useEffect(() => {
-    setFilteredCharacters(characters);
-  }, [characters]);
+    if (characters.length > 0) {
+      initializeCachedCharacters(characters);
+      console.log(
+        `🎮 Quiz cache initialized with ${characters.length} characters`
+      );
+    }
+  }, [characters.length]);
 
   const handleCharacterClick = useCallback(
     (characterId: string) => {
@@ -48,9 +56,13 @@ export const CharactersPage = () => {
     [characters, dispatch, navigate]
   );
 
-  const handleSearch = useCallback((results: Character[]) => {
-    setFilteredCharacters(results);
-  }, []);
+  const handleSearch = useCallback(
+    (_results: Character[], query: string) => {
+      // SearchInput handles the filtering, but we update Redux state with the query
+      dispatch(setSearchFilter(query));
+    },
+    [dispatch]
+  );
 
   const handleSearchItemClick = useCallback(
     (character: Character) => {
@@ -64,6 +76,12 @@ export const CharactersPage = () => {
     },
     [dispatch, navigate]
   );
+
+  const handleLoadMore = useCallback(() => {
+    if (pagination.hasMore && !pagination.isLoadingMore) {
+      dispatch(loadMoreCharacters());
+    }
+  }, [dispatch, pagination.hasMore, pagination.isLoadingMore]);
 
   if (loading) {
     return (
@@ -130,13 +148,16 @@ export const CharactersPage = () => {
 
         {viewMode === "grid" ? (
           <CharactersGridView
-            characters={filteredCharacters}
+            characters={displayedCharacters}
             onCharacterClick={handleCharacterClick}
+            onLoadMore={handleLoadMore}
+            hasMore={pagination.hasMore}
+            isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
           />
         ) : (
           <CharactersListView
-            characters={filteredCharacters}
+            characters={displayedCharacters}
             onCharacterClick={handleCharacterClick}
           />
         )}

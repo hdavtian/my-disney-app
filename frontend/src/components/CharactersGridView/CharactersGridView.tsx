@@ -10,21 +10,48 @@ export interface CharactersGridViewProps {
   onCharacterClick?: (characterId: string) => void;
   /** When true, parent page controls search and results */
   hideSearch?: boolean;
+  /** Pagination support for infinite scroll */
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
 }
 
 export const CharactersGridView = ({
   characters,
   onCharacterClick,
   hideSearch,
+  onLoadMore,
+  hasMore,
+  isLoadingMore,
 }: CharactersGridViewProps) => {
   const [filteredCharacters, setFilteredCharacters] =
     useState<Character[]>(characters);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // keep internal list in sync when parent passes new characters (or filtered list)
   useEffect(() => {
     setFilteredCharacters(characters);
   }, [characters]);
-  const [searchQuery, setSearchQuery] = useState("");
+
+  // Infinite scroll handler for window scroll
+  useEffect(() => {
+    if (!onLoadMore || !hasMore || hideSearch) return;
+
+    const handleScroll = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 200; // 200px threshold
+
+      if (isNearBottom && !isLoadingMore) {
+        onLoadMore();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [onLoadMore, hasMore, isLoadingMore, hideSearch]);
 
   const handleSearch = useCallback((results: Character[], query: string) => {
     setFilteredCharacters(results);
@@ -76,16 +103,47 @@ export const CharactersGridView = ({
           <p>Try adjusting your search criteria</p>
         </motion.div>
       ) : (
-        <div className="characters-grid-view__grid">
-          {filteredCharacters.map((character, index) => (
-            <CharacterCard
-              key={character.id}
-              character={character}
-              onClick={onCharacterClick}
-              index={index}
-            />
-          ))}
-        </div>
+        <>
+          <div className="characters-grid-view__grid">
+            {filteredCharacters.map((character, index) => (
+              <CharacterCard
+                key={character.id}
+                character={character}
+                onClick={onCharacterClick}
+                index={index}
+              />
+            ))}
+          </div>
+
+          {/* Load More Section */}
+          {hideSearch && onLoadMore && (
+            <div className="characters-grid-view__load-more">
+              {isLoadingMore && (
+                <div className="characters-grid-view__loading">
+                  <div className="spinner"></div>
+                  Loading more characters...
+                </div>
+              )}
+
+              {!isLoadingMore && hasMore && (
+                <motion.button
+                  className="characters-grid-view__load-more-btn"
+                  onClick={onLoadMore}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Load More Characters
+                </motion.button>
+              )}
+
+              {!hasMore && filteredCharacters.length > 20 && (
+                <div className="characters-grid-view__end-message">
+                  You've seen all characters!
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -41,10 +41,28 @@ export const useQuizGame = () => {
       ),
     [dispatch, quizState.selectedDifficulty]
   );
-  const startGame = useCallback(() => {
+  const startGame = useCallback(async () => {
     dispatch(startNewGame());
-    dispatch(initializeQuizGame(quizState.selectedQuestionsCount));
-  }, [dispatch, quizState.selectedQuestionsCount]);
+    const result = await dispatch(
+      initializeQuizGame(quizState.selectedQuestionsCount)
+    );
+    // If initialization was successful, generate first question
+    if (initializeQuizGame.fulfilled.match(result)) {
+      const firstCharacterId = result.payload.characterQueue[0];
+      if (firstCharacterId) {
+        dispatch(
+          generateQuizQuestion({
+            correctCharacterId: firstCharacterId.toString(),
+            difficulty: quizState.selectedDifficulty,
+          })
+        );
+      }
+    }
+  }, [
+    dispatch,
+    quizState.selectedQuestionsCount,
+    quizState.selectedDifficulty,
+  ]);
   const setQuestionCountAction = useCallback(
     (count: number) => dispatch(setQuestionsCount(count)),
     [dispatch]
