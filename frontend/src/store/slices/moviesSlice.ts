@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Movie } from "../../types";
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
+import { CacheService } from "../../utils/cacheService";
 
 interface MoviesState {
   movies: Movie[];
@@ -24,17 +25,30 @@ const initialState: MoviesState = {
   },
 };
 
-// Async thunk to fetch all movies from the API
+// Async thunk to fetch all movies from the API with caching
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
   async (_, { rejectWithValue }) => {
     try {
+      const cacheKey = "movies_list";
+
+      // Check cache first
+      const cachedData = CacheService.get<Movie[]>(cacheKey);
+      if (cachedData) {
+        return cachedData;
+      }
+
+      // If no cache, fetch from API
       const response = await fetch(getApiUrl(API_ENDPOINTS.MOVIES));
       if (!response.ok) {
         throw new Error("Failed to fetch movies");
       }
-      const data = await response.json();
-      return data as Movie[];
+      const data = (await response.json()) as Movie[];
+
+      // Cache the response
+      CacheService.set(cacheKey, data);
+
+      return data;
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : "An error occurred"
@@ -43,17 +57,30 @@ export const fetchMovies = createAsyncThunk(
   }
 );
 
-// Async thunk to fetch a single movie by ID
+// Async thunk to fetch a single movie by ID with caching
 export const fetchMovieById = createAsyncThunk(
   "movies/fetchMovieById",
   async (id: number, { rejectWithValue }) => {
     try {
+      const cacheKey = `movie_${id}`;
+
+      // Check cache first
+      const cachedData = CacheService.get<Movie>(cacheKey);
+      if (cachedData) {
+        return cachedData;
+      }
+
+      // If no cache, fetch from API
       const response = await fetch(getApiUrl(`${API_ENDPOINTS.MOVIES}/${id}`));
       if (!response.ok) {
         throw new Error("Failed to fetch movie");
       }
-      const data = await response.json();
-      return data as Movie;
+      const data = (await response.json()) as Movie;
+
+      // Cache the response
+      CacheService.set(cacheKey, data);
+
+      return data;
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : "An error occurred"
