@@ -3,10 +3,137 @@
 
 .movies-list-view {
     width: 100%;
-    padding: var(--space-8) var(--space-6);
-    max-width: 1400px;
-    margin: 0 auto;
+    background-color: var(--white);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
 
+    // DevExpress DataGrid customizations
+    :global(.dx-datagrid) {
+        background-color: var(--white);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+
+        .dx-datagrid-header-panel {
+            background-color: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .dx-datagrid-headers {
+            background-color: var(--disney-blue);
+            color: var(--white);
+
+            .dx-header-row {
+                background-color: var(--disney-blue);
+
+                td {
+                    background-color: var(--disney-blue);
+                    color: var(--white);
+                    font-weight: var(--font-semibold);
+                    border-right: 1px solid rgba(255, 255, 255, 0.2);
+                }
+            }
+        }
+
+        .dx-row-alt {
+            background-color: var(--gray-50);
+        }
+
+        .dx-row:hover {
+            background-color: var(--disney-blue-light) !important;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .dx-datagrid-search-panel {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: var(--space-4);
+
+            .dx-textbox {
+                border-radius: var(--radius-md);
+            }
+        }
+
+        .dx-datagrid-pager {
+            background-color: var(--white);
+            border-top: 1px solid var(--gray-200);
+            padding: var(--space-3);
+        }
+    }
+
+    // Custom cell templates
+    &__title-cell {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    &__poster-thumbnail {
+        width: 40px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-md);
+    }
+
+    &__title-text {
+        flex: 1;
+    }
+
+    &__description-cell {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: var(--leading-relaxed);
+    }
+
+    &__favorite-cell {
+        text-align: center;
+    }
+
+    &__favorite-icon {
+        color: var(--disney-gold);
+        font-size: var(--text-lg);
+    }
+
+    &__not-favorite-icon {
+        color: var(--gray-400);
+        font-size: var(--text-lg);
+    }
+
+    &__view-cell {
+        text-align: center;
+    }
+
+    &__view-button {
+        background-color: var(--disney-blue);
+        color: var(--white);
+        border: none;
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-md);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+
+        &:hover {
+            background-color: var(--disney-blue-dark);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        &:focus {
+            outline: 2px solid var(--disney-blue-light);
+            outline-offset: 2px;
+        }
+    }
+
+    // Placeholder styles (keeping for fallback)
     &__placeholder {
         display: flex;
         flex-direction: column;

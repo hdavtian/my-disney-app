@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { Movie } from "../../types/Movie";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
 import { getImageUrl } from "../../config/assets";
@@ -12,16 +11,11 @@ export interface MovieCardProps {
 }
 
 export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
-  const navigate = useNavigate();
-
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // Call the optional onClick callback if provided
+    // Call the optional onClick callback if provided (page handles navigation)
     onClick?.(movie.id);
-
-    // Navigate to the detail page
-    navigate(`/movie/${movie.id}`);
   };
 
   return (

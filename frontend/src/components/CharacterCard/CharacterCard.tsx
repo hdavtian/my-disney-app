@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { Character } from "../../types/Character";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
 import { getImageUrl } from "../../config/assets";
@@ -25,16 +24,14 @@ export const CharacterCard = ({
   disableNavigation = false,
   size = "normal",
 }: CharacterCardProps) => {
-  const navigate = useNavigate();
-
   const handleClick = (e: React.MouseEvent) => {
     // Always call the onClick callback if provided
     onClick?.(character.id);
 
-    // Only navigate if navigation is enabled
-    if (!disableNavigation) {
+    // Navigation is handled by the parent page, not here
+    // Only prevent default if navigation is disabled
+    if (disableNavigation) {
       e.preventDefault();
-      navigate(`/character/${character.id}`);
     }
   };
 

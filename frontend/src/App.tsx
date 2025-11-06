@@ -20,6 +20,15 @@ function App() {
         <Route path="/movie/:id" element={<MovieDetailPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/behind-the-magic" element={<BehindTheMagicPage />} />
+        <Route
+          path="*"
+          element={
+            <div style={{ padding: "2rem", textAlign: "center" }}>
+              <h1>404 - Page Not Found</h1>
+              <p>The requested page could not be found.</p>
+            </div>
+          }
+        />
       </Routes>
     </div>
   );
