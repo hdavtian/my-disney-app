@@ -528,6 +528,7 @@ npm install swiper
   - Enable Swiper Virtual module to render only visible slides
   - Reduces DOM nodes from 800+ to ~10-20 at any time
   - Dramatically improves scroll performance and memory usage
+  - **Image loading behavior**: Images are loaded when slides enter the viewport (lazy loading)
   ```typescript
   // MovieCarousel configuration
   virtual: true,
@@ -537,7 +538,12 @@ npm install swiper
   - Enable Virtual module for better performance
   - Reduces DOM nodes from 180+ to ~15-30
   - Optional but highly recommended for scalability
+  - **Image loading behavior**: Images load progressively as user scrolls
 - **No Virtual Slides for HeroCarousel**: Small dataset (10-15), not needed
+  - **Why not virtual slides?**: Background images need to be accessible for transitions
+  - All hero images are preloaded upfront for smooth background transitions
+  - Virtual slides would break the background image sync logic
+  - With only 10-15 slides, performance impact is negligible
 - **Caching**: Maintain existing CacheService integration (2-hour TTL)
   - Movies cached with key pattern: `disney_movies`
   - Characters cached with key pattern: `disney_characters`
@@ -547,9 +553,9 @@ npm install swiper
   - Local fallbacks for development
 - **Bundle Optimization**: Tree-shake unused Swiper modules
 - **Preload Strategy**:
-  - HeroCarousel: Preload all slides (small dataset)
-  - MovieCarousel: Use Virtual + lazy loading
-  - CharacterCarousel: Use Virtual + lazy loading
+  - HeroCarousel: Preload all slides (small dataset, needed for background sync)
+  - MovieCarousel: Use Virtual + lazy loading (images load on scroll)
+  - CharacterCarousel: Use Virtual + lazy loading (images load on scroll)
 
 ### Responsive Design
 

@@ -1,67 +1,45 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
 import { getImageUrl } from "../../config/assets";
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
+import { HeroCard, type HeroSlide } from "./HeroCard";
 
-interface HeroSlide {
-  id: string;
-  title: string;
-  description: string;
-  backgroundImage: string;
-  buttonText: string;
-}
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
 
 // Start empty; we fetch items from the backend and avoid hard-coded CDN fallbacks.
 const INITIAL_SLIDES: HeroSlide[] = [];
-const SLIDE_INTERVAL_MS = 8000; // 8 seconds between slides
 
 export const HeroCarousel = () => {
-  const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState<HeroSlide[]>(INITIAL_SLIDES);
   const [loading, setLoading] = useState<boolean>(true);
-  const timerRef = useRef<number | null>(null);
 
-  function clearTimer() {
-    if (timerRef.current != null) {
-      window.clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-  }
-
-  function startTimer() {
-    clearTimer();
-    if (slides.length <= 1) return;
-    timerRef.current = window.setInterval(() => {
-      setCurrentSlide((prev) =>
-        slides.length > 0 ? (prev + 1) % slides.length : 0
-      );
-    }, SLIDE_INTERVAL_MS);
-  }
-
-  useEffect(() => {
-    // Start the auto-advance when loading is finished. Restart whenever slides length changes.
-    if (!loading) {
-      startTimer();
-    }
-    return () => clearTimer();
-  }, [slides.length, loading]);
-
-  useEffect(() => {
-    // Update background image with fade effect
+  // Update background image when slide changes
+  const handleSlideChange = (swiper: SwiperType) => {
     const heroBackground = document.querySelector(
       ".hero-background-images"
     ) as HTMLElement;
-    if (!loading && heroBackground && slides.length > 0) {
-      heroBackground.style.opacity = "0.7";
 
+    if (!loading && heroBackground && slides.length > 0) {
+      // Use realIndex instead of activeIndex to handle loop mode correctly
+      // realIndex gives the actual slide index, while activeIndex can be a cloned slide
+      const currentIndex = swiper.realIndex;
+
+      // Fade out
+      heroBackground.style.opacity = "0";
+
+      // Change image and fade in
       setTimeout(() => {
-        heroBackground.style.backgroundImage = `url(${slides[currentSlide].backgroundImage})`;
+        heroBackground.style.backgroundImage = `url(${slides[currentIndex].backgroundImage})`;
         heroBackground.style.opacity = "1";
       }, 300);
     }
-  }, [currentSlide, slides]);
+  };
 
   // Fetch carousel items from backend
   useEffect(() => {
@@ -139,7 +117,6 @@ export const HeroCarousel = () => {
           // Show carousel content immediately, images will load progressively
           if (isMounted) {
             setSlides(mapped);
-            setCurrentSlide(0);
             setLoading(false);
             // eslint-disable-next-line no-console
             console.info(`Loaded ${mapped.length} carousel slides`);
@@ -175,30 +152,6 @@ export const HeroCarousel = () => {
       controller.abort(); // Abort fetch if still pending
     };
   }, []);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) =>
-      slides.length > 0 ? (prev + 1) % slides.length : 0
-    );
-    // restart the timer on manual interaction
-    clearTimer();
-    startTimer();
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => {
-      if (slides.length === 0) return 0;
-      return (prev - 1 + slides.length) % slides.length;
-    });
-    clearTimer();
-    startTimer();
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-    clearTimer();
-    startTimer();
-  };
 
   if (loading) {
     return (
@@ -237,66 +190,37 @@ export const HeroCarousel = () => {
   return (
     <div className="hero-carousel">
       <div className="hero-carousel__container">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            className="hero-slide"
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            {/* Left Column - 60% */}
-            <div className="hero-slide__content">
-              <motion.h1
-                className="hero-slide__title"
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-              >
-                {slides[currentSlide]?.title}
-              </motion.h1>
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          slidesPerView={1}
+          spaceBetween={0}
+          navigation={{
+            prevEl: ".hero-carousel__nav--prev",
+            nextEl: ".hero-carousel__nav--next",
+          }}
+          pagination={{
+            el: ".hero-carousel__dots",
+            clickable: true,
+            bulletClass: "hero-carousel__dot",
+            bulletActiveClass: "active",
+          }}
+          autoplay={{
+            delay: 8000,
+            disableOnInteraction: false,
+          }}
+          loop={slides.length > 1}
+          onSlideChange={handleSlideChange}
+        >
+          {slides.map((slide) => (
+            <SwiperSlide key={slide.id}>
+              <HeroCard slide={slide} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-              <motion.p
-                className="hero-slide__description"
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-              >
-                {slides[currentSlide]?.description}
-              </motion.p>
-
-              <motion.button
-                className="hero-slide__button"
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  const movieId = slides[currentSlide]
-                    ? slides[currentSlide].id
-                    : null;
-                  if (movieId) {
-                    navigate(`/movie/${movieId}`);
-                  }
-                }}
-              >
-                {slides[currentSlide]?.buttonText || "View Details"}
-              </motion.button>
-            </div>
-
-            {/* Right Column - 40% (blank for now) */}
-            <div className="hero-slide__media">
-              {/* This will be populated later */}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Navigation Controls */}
+        {/* Custom Navigation Controls */}
         <button
           className="hero-carousel__nav hero-carousel__nav--prev"
-          onClick={prevSlide}
           aria-label="Previous slide"
         >
           <svg
@@ -315,7 +239,6 @@ export const HeroCarousel = () => {
 
         <button
           className="hero-carousel__nav hero-carousel__nav--next"
-          onClick={nextSlide}
           aria-label="Next slide"
         >
           <svg
@@ -332,19 +255,8 @@ export const HeroCarousel = () => {
           </svg>
         </button>
 
-        {/* Dots Indicator */}
-        <div className="hero-carousel__dots">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              className={`hero-carousel__dot ${
-                index === currentSlide ? "active" : ""
-              }`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+        {/* Custom Pagination Dots */}
+        <div className="hero-carousel__dots"></div>
       </div>
     </div>
   );
