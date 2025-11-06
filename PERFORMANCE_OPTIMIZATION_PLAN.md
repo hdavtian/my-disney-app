@@ -29,49 +29,34 @@
 
 ## 🗓 Implementation Phases
 
-### Phase 1: Caching Infrastructure
+### Phase 1: Foundation (Caching + Core Infrastructure)
 
 **Files to modify:**
 
 - `src/utils/cacheService.ts` (new)
 - `src/store/slices/charactersSlice.ts`
 - `src/store/slices/moviesSlice.ts`
+- `src/utils/performanceMonitor.ts` (new)
 
 **Tasks:**
 
 - [ ] Create localStorage cache service with 2-hour TTL
 - [ ] Integrate cache with Redux character fetching
 - [ ] Integrate cache with Redux movie fetching
-- [ ] Test cache persistence across browser restart
-
-### Phase 2: Fix HeroCarousel Performance & Image Lazy Loading
-
-**Files to modify:**
-
-- `src/components/HeroCarousel/HeroCarousel.tsx`
-- `src/components/CharacterCard/CharacterCard.tsx`
-- `src/components/MovieCard/MovieCard.tsx`
-- `src/components/CharactersGridView/CharactersGridView.tsx`
-- `src/components/MoviesGridView/MoviesGridView.tsx`
-
-**Tasks:**
-
-- [ ] Remove blocking image preload from carousel
-- [ ] Add progressive loading with skeleton for carousel
-- [ ] Implement background image loading for carousel
-- [ ] Add proper loading states for carousel
 - [ ] Cache carousel API response
-- [ ] Add native lazy loading to CharacterCard images (`loading="lazy"`)
-- [ ] Add native lazy loading to MovieCard images (`loading="lazy"`)
-- [ ] Add native lazy loading to grid view components
-- [ ] Test image lazy loading across different screen sizes
-- [ ] Replace carousel loading spinner with skeleton + progressive loading
-- [ ] Add skeleton states for CharacterCard image loading
-- [ ] Add skeleton states for MovieCard image loading
-- [ ] Replace grid loading spinners with skeleton grids
-- [ ] Keep spinners only for user actions (clicks, submits)
+- [ ] Test cache persistence across browser restart
+- [ ] Add basic performance monitoring setup
 
-### Phase 3: Implement Pagination & Search Optimization
+**Phase 1 Testing:**
+
+- [ ] Load Characters page → Verify API call in Network tab
+- [ ] Navigate away and back → Verify no API call (cache hit)
+- [ ] Check DevTools Application → Local Storage → Verify cached data exists
+- [ ] Wait 2+ hours → Verify cache expires and fresh API call occurs
+- [ ] Test cache persistence across browser restart
+- [ ] Verify performance monitoring logs appear in console
+
+### Phase 2: Data Loading Optimization
 
 **Files to modify:**
 
@@ -89,10 +74,57 @@
 - [ ] Add "Load More" button fallback
 - [ ] Add search result caching for frequent queries
 - [ ] Optimize search algorithm for large datasets (800+ movies)
-- [ ] Add search loading skeleton states
 - [ ] Test search performance with paginated data
 
-### Phase 4: Bundle Optimization & Route Code Splitting
+**Phase 2 Testing:**
+
+- [ ] Characters page → Count cards (should be exactly 20 initially)
+- [ ] Scroll down → Verify additional 10 cards load automatically
+- [ ] Movies page → Verify pagination works with 800+ movies
+- [ ] Search "frozen" on movies → Verify results appear within 100ms
+- [ ] Test search with different queries → Verify result caching works
+- [ ] Navigate away and back → Verify pagination position preserved
+- [ ] Test "Load More" button fallback on slow connections
+
+### Phase 3: Visual & UX Improvements
+
+**Files to modify:**
+
+- `src/components/HeroCarousel/HeroCarousel.tsx`
+- `src/components/CharacterCard/CharacterCard.tsx`
+- `src/components/MovieCard/MovieCard.tsx`
+- `src/components/CharactersGridView/CharactersGridView.tsx`
+- `src/components/MoviesGridView/MoviesGridView.tsx`
+- `src/components/SearchInput/SearchInput.tsx`
+
+**Tasks:**
+
+- [ ] Remove blocking image preload from carousel
+- [ ] Add progressive loading with skeleton for carousel
+- [ ] Implement background image loading for carousel
+- [ ] Replace carousel loading spinner with skeleton + progressive loading
+- [ ] Add native lazy loading to CharacterCard images (`loading="lazy"`)
+- [ ] Add native lazy loading to MovieCard images (`loading="lazy"`)
+- [ ] Add native lazy loading to grid view components
+- [ ] Add skeleton states for CharacterCard image loading
+- [ ] Add skeleton states for MovieCard image loading
+- [ ] Add search loading skeleton states
+- [ ] Replace grid loading spinners with skeleton grids
+- [ ] Keep spinners only for user actions (clicks, submits)
+- [ ] Test image lazy loading across different screen sizes
+
+**Phase 3 Testing:**
+
+- [ ] Homepage → Verify carousel text appears immediately (<1s)
+- [ ] Homepage → Verify carousel images load progressively (no blocking)
+- [ ] Characters page → Verify skeleton grid appears before images load
+- [ ] Throttle network to Slow 3G → Verify smooth skeleton → content transitions
+- [ ] Scroll characters page → Verify only visible images load (check Network tab)
+- [ ] Test on mobile/tablet → Verify lazy loading works across screen sizes
+- [ ] Verify no long loading spinners anywhere in the app
+- [ ] Test button clicks → Verify action spinners still work for user interactions
+
+### Phase 4: Build & Code Optimization
 
 **Files to modify:**
 
@@ -115,8 +147,20 @@
 - [ ] Add Suspense fallbacks with loading skeletons
 - [ ] Update routing to use lazy-loaded components
 - [ ] Add bundle analysis script
-- [ ] Add basic performance monitoring
-- [ ] Final testing
+- [ ] Final testing and performance validation
+
+**Phase 4 Testing:**
+
+- [ ] Run `npm run build` → Verify dist folder size reduced by ~40-50%
+- [ ] Check DevTools Network → Verify separate vendor/component chunks load
+- [ ] Navigate to Characters page → Verify new chunk loads on-demand
+- [ ] Use React DevTools Profiler → Verify components wrapped with memo don't re-render unnecessarily
+- [ ] Test lazy route loading → Verify Suspense fallbacks appear briefly
+- [ ] Run bundle analyzer → Verify chunk sizes are optimized
+- [ ] Run final Lighthouse audit and save HTML report
+- [ ] Compare final Lighthouse report with baseline HTML report
+- [ ] Document performance improvements achieved (before vs after metrics)
+- [ ] Test entire app flow → Verify no regressions from optimizations
 
 ## 📋 Cache Strategy Details
 
