@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
 import { HeroCarousel } from "../HeroCarousel/HeroCarousel";
-import { MovieSlider } from "../MovieSlider/MovieSlider";
+import { MovieCarousel } from "../MovieCarousel/MovieCarousel";
 import { CharacterCircles } from "../CharacterCircles/CharacterCircles";
 import { Footer } from "../Footer/Footer";
 import { SearchInput } from "../SearchInput/SearchInput";
@@ -92,7 +92,7 @@ export const HomePage = () => {
               }}
             />
           </div>
-          <MovieSlider
+          <MovieCarousel
             movies={moviesToDisplay}
             isSearchActive={movieSearchQuery.length >= 3}
             loading={moviesLoading}
