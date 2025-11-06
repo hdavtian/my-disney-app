@@ -128,23 +128,15 @@ export const HeroCarousel = () => {
             };
           });
 
-          // Preload images (resolve quickly on error to avoid blocking)
-          // NOTE: Image preloading happens OUTSIDE the abort signal scope to prevent
-          // AbortError when loading remote Azure images takes longer than local images
+          // Start background image preloading without blocking (progressive loading)
           const images = mapped.map((s) => s.backgroundImage).filter(Boolean);
-          await Promise.all(
-            images.map(
-              (src) =>
-                new Promise((resolve) => {
-                  const img = new Image();
-                  img.onload = () => resolve(true);
-                  img.onerror = () => resolve(true);
-                  img.src = src as string;
-                })
-            )
-          );
+          images.forEach((src) => {
+            const img = new Image();
+            img.src = src as string;
+            // Images load in background, no blocking
+          });
 
-          // Only update state if component is still mounted
+          // Show carousel content immediately, images will load progressively
           if (isMounted) {
             setSlides(mapped);
             setCurrentSlide(0);
@@ -211,30 +203,32 @@ export const HeroCarousel = () => {
   if (loading) {
     return (
       <div className="hero-carousel">
-        <div
-          className="hero-carousel__loader"
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 40,
-            pointerEvents: "auto",
-            background: "rgba(0,0,0,0.35)",
-          }}
-        >
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 9999,
-              border: "4px solid rgba(255,255,255,0.2)",
-              borderTopColor: "#fff",
-              animation: "spin 1s linear infinite",
-            }}
-          />
-          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <div className="hero-carousel__container">
+          <div className="hero-slide hero-slide--skeleton">
+            {/* Left Column - Content Skeleton */}
+            <div className="hero-slide__content">
+              <div className="skeleton skeleton--title"></div>
+              <div className="skeleton skeleton--description"></div>
+              <div className="skeleton skeleton--description skeleton--description-short"></div>
+              <div className="skeleton skeleton--button"></div>
+            </div>
+
+            {/* Right Column - Empty for now */}
+            <div className="hero-slide__media">
+              {/* This will be populated later */}
+            </div>
+          </div>
+
+          {/* Skeleton Navigation Controls */}
+          <div className="hero-carousel__nav hero-carousel__nav--prev skeleton skeleton--nav"></div>
+          <div className="hero-carousel__nav hero-carousel__nav--next skeleton skeleton--nav"></div>
+
+          {/* Skeleton Dots */}
+          <div className="hero-carousel__dots">
+            <div className="skeleton skeleton--dot"></div>
+            <div className="skeleton skeleton--dot"></div>
+            <div className="skeleton skeleton--dot"></div>
+          </div>
         </div>
       </div>
     );

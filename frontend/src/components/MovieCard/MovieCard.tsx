@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Movie } from "../../types/Movie";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
 import { getImageUrl } from "../../config/assets";
@@ -11,11 +12,23 @@ export interface MovieCardProps {
 }
 
 export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
     // Call the optional onClick callback if provided (page handles navigation)
     onClick?.(movie.id);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoaded(true); // Still hide skeleton even on error
   };
 
   return (
@@ -32,6 +45,11 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
         onClick={handleClick}
       >
         <div className="movie-card__image">
+          {!imageLoaded && (
+            <div className="movie-card__skeleton">
+              <div className="skeleton skeleton--image"></div>
+            </div>
+          )}
           <img
             src={
               movie.image_1
@@ -41,11 +59,28 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
             }
             alt={movie.title}
             loading="lazy"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            style={{ opacity: imageLoaded ? 1 : 0 }}
           />
         </div>
         <div className="movie-card__info">
-          <h3 className="movie-card__title">{movie.title}</h3>
-          <div className="movie-card__meta">
+          {!imageLoaded && (
+            <>
+              <div className="skeleton skeleton--title"></div>
+              <div className="skeleton skeleton--meta"></div>
+            </>
+          )}
+          <h3
+            className="movie-card__title"
+            style={{ opacity: imageLoaded ? 1 : 0 }}
+          >
+            {movie.title}
+          </h3>
+          <div
+            className="movie-card__meta"
+            style={{ opacity: imageLoaded ? 1 : 0 }}
+          >
             <span className="movie-card__year">{movie.releaseYear}</span>
             <span className="movie-card__rating">{movie.rating || "PG"}</span>
           </div>

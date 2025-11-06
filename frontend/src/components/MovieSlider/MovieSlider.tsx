@@ -188,6 +188,7 @@ export const MovieSlider = ({
                             `https://picsum.photos/seed/${movie.id}-movie/400/300`
                       }
                       alt={movie.title}
+                      loading="lazy"
                     />
                   </div>
                   <div className="movie-card__info">

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Character } from "../../types/Character";
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
 import { getImageUrl } from "../../config/assets";
@@ -24,6 +25,9 @@ export const CharacterCard = ({
   disableNavigation = false,
   size = "normal",
 }: CharacterCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   const handleClick = (e: React.MouseEvent) => {
     // Always call the onClick callback if provided
     onClick?.(character.id);
@@ -35,8 +39,22 @@ export const CharacterCard = ({
     }
   };
 
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoaded(true); // Still hide skeleton even on error
+  };
+
   const imageContent = (
     <div className="character-card__image">
+      {!imageLoaded && (
+        <div className="character-card__skeleton">
+          <div className="skeleton skeleton--image"></div>
+        </div>
+      )}
       <img
         src={
           character.profile_image1
@@ -46,6 +64,9 @@ export const CharacterCard = ({
         }
         alt={character.name}
         loading="lazy"
+        onLoad={handleImageLoad}
+        onError={handleImageError}
+        style={{ opacity: imageLoaded ? 1 : 0 }}
       />
       <div className="character-card__overlay">
         <div className="character-card__category-badge">
@@ -56,7 +77,15 @@ export const CharacterCard = ({
   );
 
   const titleContent = showTitle && (
-    <h3 className="character-card__name">{character.name}</h3>
+    <>
+      {!imageLoaded && <div className="skeleton skeleton--title"></div>}
+      <h3
+        className="character-card__name"
+        style={{ opacity: imageLoaded ? 1 : 0 }}
+      >
+        {character.name}
+      </h3>
+    </>
   );
 
   return (
