@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
 import { HeroCarousel } from "../HeroCarousel/HeroCarousel";
 import { MovieCarousel } from "../MovieCarousel/MovieCarousel";
-import { CharacterCircles } from "../CharacterCircles/CharacterCircles";
+import { CharacterCarousel } from "../CharacterCarousel/CharacterCarousel";
 import { Footer } from "../Footer/Footer";
 import { SearchInput } from "../SearchInput/SearchInput";
 import { Movie } from "../../types/Movie";
@@ -120,7 +120,7 @@ export const HomePage = () => {
               }}
             />
           </div>
-          <CharacterCircles
+          <CharacterCarousel
             characters={charactersToDisplay}
             isSearchActive={characterSearchQuery.length >= 3}
             loading={charactersLoading}

@@ -1,0 +1,1 @@
+export { CharacterCarousel } from "./CharacterCarousel";

@@ -110,18 +110,18 @@
         }
 
         &--prev {
-            left: -2.5rem;
+            left: -2.5rem !important;
 
             @include tablet-up {
-                left: -1.5rem;
+                left: -2.5rem !important;
             }
         }
 
         &--next {
-            right: -2.5rem;
+            right: -2.5rem !important;
 
             @include tablet-up {
-                right: -1.5rem;
+                right: -2.5rem !important;
             }
         }
 
@@ -135,5 +135,9 @@
             cursor: not-allowed;
             pointer-events: none;
         }
+    }
+
+    .swiper-wrapper {
+        padding-top: 1rem;
     }
 }
