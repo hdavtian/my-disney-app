@@ -137,9 +137,21 @@
 
     &__favorite {
         position: absolute;
-        top: var(--space-4);
-        right: var(--space-4);
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
         z-index: 10;
+
+        // Round div with light yellowish background
+        width: fit-content;
+        height: fit-content;
+        ;
+        border-radius: 50%;
+        background: rgba(255, 255, 224, 0.3); // Light yellow at 30% opacity
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &__info-section {

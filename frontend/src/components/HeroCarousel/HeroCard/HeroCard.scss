@@ -63,7 +63,12 @@
         opacity: 0.95;
 
         @include mobile {
+            display: none;
             font-size: var(--text-base);
+        }
+
+        @include tablet {
+            display: none;
         }
 
         @include tablet-up {

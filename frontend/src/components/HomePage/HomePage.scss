@@ -15,6 +15,18 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
+    @include mobile {
+        height: calc(50vh - var(--header-height));
+    }
+
+    @include tablet {
+        height: calc(50vh - var(--header-height));
+    }
+
+    @include desktop-up {
+        height: calc(70vh - var(--header-height));
+    }
 }
 
 .hero-background-images {
