@@ -1,0 +1,148 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.movie-carousel {
+    width: 100%;
+
+    &__loading,
+    &__error,
+    &__empty {
+        text-align: center;
+        padding: var(--space-12) var(--space-8);
+        color: var(--white);
+        font-size: var(--text-lg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 300px;
+
+        p {
+            margin: 0;
+            font-size: var(--text-xl);
+            font-weight: var(--font-medium);
+        }
+    }
+
+    &__error {
+        color: var(--error-light);
+    }
+
+    &__loading {
+        opacity: 0.7;
+    }
+
+    &__container {
+        position: relative;
+        width: 90%;
+        max-width: none;
+        margin: 0 auto;
+        padding: 1rem var(--space-4);
+
+        @include mobile {
+            width: 100%;
+        }
+
+        @include tablet-up {
+            padding: 1rem var(--space-6);
+        }
+
+        // Swiper container
+        .swiper {
+            width: 100%;
+
+            // Prevent layout shift by reserving space for card aspect ratio
+            // Cards are 4:3 ratio + info section (~60px)
+            min-height: 350px;
+
+            @include mobile {
+                min-height: 300px;
+            }
+
+            @media (min-width: 1024px) {
+                min-height: 380px;
+            }
+        }
+
+        .swiper-slide {
+            // Match original: flex: 0 0 auto with min-width, no explicit width
+            // Let Swiper's slidesPerView calculate the width naturally
+            height: auto;
+
+            // Ensure MovieCard fills the slide
+            >div {
+                height: 100%;
+            }
+        }
+    }
+
+    &__nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--white);
+        border: none;
+        color: var(--disney-blue);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        z-index: 20;
+        @include flex-center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin-top: -1.5rem; // Offset for padding, centers on visible cards
+
+        svg {
+            flex-shrink: 0;
+            transition: all var(--transition-fast);
+        }
+
+        &:hover {
+            background: var(--disney-gold);
+            color: var(--white);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        &:active {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        &--prev {
+            left: -2.5rem !important;
+
+            @include tablet-up {
+                left: -2.5rem !important;
+            }
+        }
+
+        &--next {
+            right: -2.5rem !important;
+
+            @include tablet-up {
+                right: -2.5rem !important;
+            }
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        // Hide when disabled (Swiper adds this class)
+        &.swiper-button-disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    }
+
+    .swiper-wrapper {
+        padding-top: 1rem;
+    }
+
+    .movie-card {
+        width: 100%;
+    }
+
+}

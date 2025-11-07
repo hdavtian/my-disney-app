@@ -21,6 +21,7 @@ export const CharacterDetailPage = () => {
     (state) => state.movies
   );
   const [character, setCharacter] = useState<Character | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (characters.length === 0) {
@@ -35,6 +36,7 @@ export const CharacterDetailPage = () => {
     if (id && characters.length > 0) {
       const foundCharacter = characters.find((c) => String(c.id) === id);
       setCharacter(foundCharacter || null);
+      setIsInitialized(true);
     }
   }, [id, characters]);
 
@@ -53,7 +55,8 @@ export const CharacterDetailPage = () => {
     return colors[category] || colors.other;
   };
 
-  if (charactersLoading || moviesLoading) {
+  // Show loading state if data is being fetched OR if we haven't initialized yet
+  if (charactersLoading || moviesLoading || !isInitialized) {
     return (
       <div className="character-detail-page">
         <div className="character-detail-page__loading">
@@ -63,6 +66,7 @@ export const CharacterDetailPage = () => {
     );
   }
 
+  // Only show "not found" after we've initialized and confirmed it doesn't exist
   if (!character) {
     return (
       <div className="character-detail-page">
@@ -117,6 +121,13 @@ export const CharacterDetailPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
+            <div className="character-detail-page__favorite">
+              <FavoriteButton
+                id={character.id}
+                type="character"
+                ariaLabel={`Favorite ${character.name}`}
+              />
+            </div>
             <div className="character-detail-page__character-image">
               <img
                 src={
@@ -128,13 +139,6 @@ export const CharacterDetailPage = () => {
                 alt={character.name}
                 loading="lazy"
               />
-              <div className="character-detail-page__favorite">
-                <FavoriteButton
-                  id={character.id}
-                  type="character"
-                  ariaLabel={`Favorite ${character.name}`}
-                />
-              </div>
             </div>
           </motion.div>
 

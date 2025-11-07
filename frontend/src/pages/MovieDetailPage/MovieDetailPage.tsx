@@ -21,6 +21,7 @@ export const MovieDetailPage = () => {
     (state) => state.characters
   );
   const [movie, setMovie] = useState<Movie | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (movies.length === 0) {
@@ -35,6 +36,7 @@ export const MovieDetailPage = () => {
     if (id && movies.length > 0) {
       const foundMovie = movies.find((m) => String(m.id) === id);
       setMovie(foundMovie || null);
+      setIsInitialized(true);
     }
   }, [id, movies]);
 
@@ -42,7 +44,8 @@ export const MovieDetailPage = () => {
     movie?.characters?.includes(String(char.id))
   );
 
-  if (moviesLoading || charactersLoading) {
+  // Show loading state if data is being fetched OR if we haven't initialized yet
+  if (moviesLoading || charactersLoading || !isInitialized) {
     return (
       <div className="movie-detail-page">
         <div className="movie-detail-page__loading">
@@ -52,6 +55,7 @@ export const MovieDetailPage = () => {
     );
   }
 
+  // Only show "not found" after we've initialized and confirmed it doesn't exist
   if (!movie) {
     return (
       <div className="movie-detail-page">

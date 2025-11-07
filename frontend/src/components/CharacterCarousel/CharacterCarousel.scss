@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
-.character-circles {
+.character-carousel {
     width: 100%;
 
     &__loading,
@@ -37,36 +37,39 @@
         width: 90%;
         max-width: none;
         margin: 0 auto;
-        padding: 0 var(--space-4);
+        padding: 1rem var(--space-4);
 
         @include mobile {
             width: 100%;
         }
 
         @include tablet-up {
-            padding: 0 var(--space-6);
+            padding: 1rem var(--space-6);
         }
-    }
 
-    &__track {
-        overflow: hidden;
-        padding: 1rem;
-        border-radius: var(--radius-lg);
-        border: 2px solid transparent;
-        transition: border-color 0.3s ease;
-    }
+        // Swiper container
+        .swiper {
+            width: 100%;
 
-    &__container--scrolling &__track {
-        border-color: var(--disney-blue);
-        box-shadow: 0 0 0 2px rgba(0, 107, 179, 0.2);
-    }
+            // Prevent layout shift - circles are smaller than movie cards
+            min-height: 200px;
 
-    &__items {
-        display: flex;
-        width: 100%; // Adjust based on visible items
+            @include mobile {
+                min-height: 180px;
+            }
 
-        @include mobile {
-            width: calc(100% * 10); // Show 1 circle on mobile, 10 total circles
+            @media (min-width: 1024px) {
+                min-height: 220px;
+            }
+        }
+
+        .swiper-slide {
+            height: auto;
+
+            // Center character circles within slides
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
     }
 
@@ -85,6 +88,12 @@
         z-index: 20;
         @include flex-center;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin-top: -1.5rem; // Offset for padding, centers on visible characters
+
+        svg {
+            flex-shrink: 0;
+            transition: all var(--transition-fast);
+        }
 
         &:hover {
             background: var(--princess-pink);
@@ -97,52 +106,64 @@
             transform: translateY(-50%) scale(1.05);
         }
 
-        svg {
-            flex-shrink: 0;
-        }
-
         &--prev {
             left: -2.5rem;
+
+            @include tablet-up {
+                left: -2.5rem;
+            }
         }
 
         &--next {
             right: -2.5rem;
+
+            @include tablet-up {
+                right: -2.5rem;
+            }
         }
 
         @include mobile {
             display: none;
         }
+
+        // Hide when disabled (Swiper adds this class)
+        &.swiper-button-disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    }
+
+    .swiper-wrapper {
+        padding-top: 1rem;
     }
 }
 
+// Character Circle Styles (reused from CharacterCircles)
 .character-circle {
-    flex: 0 0 10%;
-    padding: 0 var(--space-2);
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 0;
     text-align: center;
     position: relative;
-
-    @include mobile {
-        flex: 0 0 100%;
-        padding: 0;
-    }
 
     &__link {
         display: block;
         text-decoration: none;
         color: inherit;
         cursor: pointer;
-        outline: none; // Remove blue focus outline
+        outline: none;
 
         &:hover {
             text-decoration: none;
         }
 
         &:focus {
-            outline: none; // Remove focus outline on click
+            outline: none;
         }
 
         &:focus-visible {
-            outline: 2px solid var(--disney-gold); // Add visible focus for accessibility (keyboard navigation)
+            outline: 2px solid var(--disney-gold);
             outline-offset: 2px;
         }
     }

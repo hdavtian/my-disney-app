@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
 import { HeroCarousel } from "../HeroCarousel/HeroCarousel";
-import { MovieSlider } from "../MovieSlider/MovieSlider";
-import { CharacterCircles } from "../CharacterCircles/CharacterCircles";
+import { MovieCarousel } from "../MovieCarousel/MovieCarousel";
+import { CharacterCarousel } from "../CharacterCarousel/CharacterCarousel";
 import { Footer } from "../Footer/Footer";
 import { SearchInput } from "../SearchInput/SearchInput";
 import { Movie } from "../../types/Movie";
@@ -92,7 +92,7 @@ export const HomePage = () => {
               }}
             />
           </div>
-          <MovieSlider
+          <MovieCarousel
             movies={moviesToDisplay}
             isSearchActive={movieSearchQuery.length >= 3}
             loading={moviesLoading}
@@ -120,14 +120,14 @@ export const HomePage = () => {
               }}
             />
           </div>
-          <CharacterCircles
+          <CharacterCarousel
             characters={charactersToDisplay}
             isSearchActive={characterSearchQuery.length >= 3}
             loading={charactersLoading}
           />
         </div>
 
-        <div className="below-fold-row">
+        {/* <div className="below-fold-row">
           <h3>Coming Soon Content Row 1</h3>
           <p>This area will be populated with additional content.</p>
         </div>
@@ -135,7 +135,7 @@ export const HomePage = () => {
         <div className="below-fold-row">
           <h3>Coming Soon Content Row 2</h3>
           <p>This area will be populated with additional content.</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Footer */}
