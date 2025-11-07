@@ -127,7 +127,7 @@ export const HomePage = () => {
           />
         </div>
 
-        <div className="below-fold-row">
+        {/* <div className="below-fold-row">
           <h3>Coming Soon Content Row 1</h3>
           <p>This area will be populated with additional content.</p>
         </div>
@@ -135,7 +135,7 @@ export const HomePage = () => {
         <div className="below-fold-row">
           <h3>Coming Soon Content Row 2</h3>
           <p>This area will be populated with additional content.</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Footer */}
