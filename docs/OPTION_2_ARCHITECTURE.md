@@ -6,6 +6,28 @@
 
 ---
 
+## 🚀 How to Use This Document with AI
+
+**Just ask:** _"Perform Phase [number] of OPTION_2_ARCHITECTURE.md"_
+
+**Example:**
+
+```
+You: "Perform Phase 1 of OPTION_2_ARCHITECTURE.md"
+AI:  [Reads Phase 1 section below]
+     [Creates Azure resources and GitHub repos]
+     [Confirms completion]
+
+You: "Perform Phase 2 of OPTION_2_ARCHITECTURE.md"
+AI:  [Reads Phase 2 section below]
+     [Creates Java backend structure in VS Code]
+     "✅ All files created. Now open C:\sites\hd-demos-api in IntelliJ to run Maven builds."
+```
+
+**No copy/paste needed!** AI reads this file automatically and executes each phase.
+
+---
+
 ## Table of Contents
 
 1. [Architecture Overview](#architecture-overview)
@@ -810,6 +832,29 @@ None yet - awaiting approval to start
 
 **Rule #1: All Java/Maven/Spring Boot commands MUST be run in IntelliJ IDEA.**
 
+**EXCEPTION FOR WINDOWS ARM:** If IntelliJ Copilot won't login (Windows ARM compatibility issue):
+
+- ✅ VS Code Copilot CAN create all Java files, folders, POM files, configs
+- ❌ VS Code Copilot MUST NOT run any Maven commands
+- ✅ After VS Code creates files, user opens IntelliJ and runs Maven builds
+
+**Normal Flow (IntelliJ Copilot Working):**
+
+```
+IntelliJ Copilot → Creates all files AND runs Maven builds
+```
+
+**ARM Workaround Flow (IntelliJ Copilot Login Issue):**
+
+```
+VS Code Copilot → Creates all Java files, folders, POMs
+                → Tells user: "✅ Files created. Now open in IntelliJ to run Maven."
+User            → Opens IntelliJ IDEA manually
+User            → Runs Maven commands in IntelliJ terminal
+```
+
+**Commands VS Code MUST NEVER RUN:**
+
 ```
 ❌ DO NOT DO THIS IN VS CODE:
 - mvn clean install
@@ -820,8 +865,9 @@ None yet - awaiting approval to start
 - Any Maven or Java related commands
 
 ✅ INSTEAD:
-- Inform user: "Please run Maven commands in IntelliJ IDEA"
-- Provide the command for user to run manually in IntelliJ
+- Create all necessary files (Java, POM, properties, configs)
+- Inform user: "✅ All files created. Please open C:\sites\hd-demos-api in IntelliJ IDEA to run Maven builds."
+- Provide the commands for user to run manually in IntelliJ
 - NEVER attempt to execute Maven commands in VS Code terminal
 ```
 
@@ -831,6 +877,7 @@ None yet - awaiting approval to start
 - VS Code does not have Java development environment configured
 - Maven builds require specific Java version and environment variables
 - Running Maven in VS Code will cause build failures and confusion
+- Windows ARM users may not be able to login to IntelliJ Copilot, so VS Code creates files
 
 **Applies to these repositories:**
 
@@ -1024,39 +1071,32 @@ spring-boot:run
 
 ### 📋 Quick Reference: Using This Document with AI Assistants
 
-**This document contains COMPLETE, COPY-PASTE-READY instructions for AI assistants:**
+**Just ask: "Perform Phase [X] of OPTION_2_ARCHITECTURE.md"**
 
-| Phase                | IDE               | AI Tool            | What to Copy/Paste                                           |
-| -------------------- | ----------------- | ------------------ | ------------------------------------------------------------ |
-| **Pre-Migration**    | VS Code           | GitHub Copilot     | Read entire document for planning                            |
-| **Phase 1**          | VS Code           | Terminal Only      | Run Azure/GitHub CLI commands directly                       |
-| **Phase 2**          | **IntelliJ IDEA** | **GitHub Copilot** | Copy **"🤖 COPY THIS TO INTELLIJ COPILOT CHAT"** section     |
-| **Phase 3**          | VS Code           | Terminal Only      | Run file copy and Azure CLI commands                         |
-| **Phase 4 (Disney)** | VS Code           | GitHub Copilot     | Copy **"🤖 COPY THIS TO VS CODE (Disney Frontend)"** section |
-| **Phase 4 (Sierra)** | VS Code           | GitHub Copilot     | Copy **"🤖 COPY THIS TO VS CODE (Sierra Frontend)"** section |
-| **Phase 5-7**        | VS Code           | Terminal + Copilot | Copy test commands or ask Copilot for help                   |
+The AI will automatically:
 
-**✅ COPY/PASTE SECTIONS ARE COMPLETE - NO EXAMPLES, NO GUESSING!**
+1. Read this document
+2. Find the Phase instructions
+3. Execute all tasks
+4. Run tests
+5. Prompt you for commit
 
-Each copy/paste section includes:
+| Phase         | IDE                                       | What Happens When You Ask AI                               |
+| ------------- | ----------------------------------------- | ---------------------------------------------------------- |
+| **Phase 1**   | VS Code                                   | AI runs Azure/GitHub CLI commands                          |
+| **Phase 2**   | **VS Code** (files), **IntelliJ** (Maven) | AI creates all Java files, then tells you to open IntelliJ |
+| **Phase 3**   | VS Code                                   | AI copies assets to Azure Blob Storage                     |
+| **Phase 4A**  | VS Code                                   | AI creates Disney frontend repo                            |
+| **Phase 4B**  | VS Code                                   | AI creates Sierra frontend repo                            |
+| **Phase 5-7** | VS Code                                   | AI runs tests, configures DNS, cleans up                   |
 
-- ✅ Full context (what, where, why)
-- ✅ Reference code locations (absolute paths)
-- ✅ Target folder structure
-- ✅ Complete task list with specific actions
-- ✅ Test commands to run
-- ✅ Expected results
-- ✅ Commit instructions
+**Example Usage:**
 
-**How to Use:**
-
-1. Navigate to the phase you're working on
-2. Find the **"🤖 COPY THIS TO..."** section
-3. Copy the ENTIRE section (between the `---` separators)
-4. Paste into Copilot Chat in the appropriate IDE
-5. Let AI execute all tasks
-6. Verify tests pass
-7. Commit and push
+```
+You: "Perform Phase 2 of OPTION_2_ARCHITECTURE.md"
+AI:  [Creates all Java files in VS Code]
+     "✅ All files created. Open C:\sites\hd-demos-api in IntelliJ to run Maven."
+```
 
 ---
 
@@ -1100,13 +1140,13 @@ gh repo create hdavtian/hd-demos-api --public
 #### **Phase 2: Migrate Backend (Java/Spring Boot)**
 
 **Where:** `C:\sites\hd-demos-api` (new folder - same name as GitHub repo)  
-**IDE:** **IntelliJ IDEA Ultimate** (NOT VS Code)  
-**What:** Creating backend repository structure, Maven builds, Java development
+**IDE:** **VS Code for creating files, IntelliJ IDEA for running Maven**  
+**What:** Creating backend repository structure using VS Code, testing with IntelliJ
 
 **Git Strategy:**
 
-1. Create local folder structure first
-2. Build and test locally
+1. Create local folder structure first (VS Code)
+2. Build and test locally (IntelliJ)
 3. Initialize git and push to GitHub repo created in Phase 1
 
 **Setup:**
@@ -1132,24 +1172,26 @@ git remote add origin https://github.com/hdavtian/hd-demos-api.git
 
 **Then:**
 
-1. Open `C:\sites\hd-demos-api` in IntelliJ IDEA
-2. Build folder structure (Step 2.1 in Phase 2 migration steps)
+1. **Open `C:\sites\hd-demos-api` in VS Code** (use Copilot to create all Java files and structure)
+2. **Open `C:\sites\hd-demos-api` in IntelliJ IDEA** (after VS Code creates all files)
 3. Configure Maven, JDK in IntelliJ
-4. Test locally (mvn clean install)
+4. Test locally (mvn clean install) **in IntelliJ terminal ONLY**
 5. **Initial commit AFTER everything works locally**
-6. Keep VS Code open for reference (this document)
 
-**⚠️ CRITICAL:** Do NOT open `hd-demos-api` in VS Code for Java work. IntelliJ only.
+**⚠️ CRITICAL RULES:**
 
----
-
-### 🤖 COPY THIS TO INTELLIJ COPILOT CHAT (Phase 2)
-
-**When you open `C:\sites\hd-demos-api` in IntelliJ IDEA, copy/paste this entire section to Copilot Chat:**
+- ✅ **VS Code:** Creates all folders, Java files, POM files, configs (NO Maven commands)
+- ✅ **IntelliJ:** Runs Maven builds, tests, Spring Boot apps (NO file creation)
 
 ---
 
-I'm migrating a Spring Boot backend to a multi-module Maven structure for a multi-demo platform.
+---
+
+### Phase 2 Instructions (AI will read this section when you say "Perform Phase 2")
+
+**Context for AI:**
+
+I'm creating a Spring Boot backend with a multi-module Maven structure for a multi-demo platform.
 
 **Current Working Directory:** `C:\sites\hd-demos-api` (empty folder with git initialized)
 
@@ -1242,14 +1284,11 @@ hd-demos-api/
    - Update `application.properties` to use project-based migration paths
    - Flyway locations: `classpath:db/migration/project1-disney,classpath:db/migration/project2-sierra`
 
-6. **Test Locally**
-   - Run `mvn clean install` in parent directory (should build all 3 modules)
-   - Run backend-migrations: `cd backend-migrations && mvn spring-boot:run` (seeds databases)
-   - Run backend API: `cd backend && mvn spring-boot:run` (starts on port 8080)
-   - Test endpoints:
-     - `http://localhost:8080/api/disney/characters`
-     - `http://localhost:8080/api/sierra/games`
-     - `http://localhost:8080/swagger-ui.html`
+6. **Create All Files (NO MAVEN COMMANDS)**
+   - ⚠️ **DO NOT RUN ANY MAVEN COMMANDS IN VS CODE!**
+   - ⚠️ **DO NOT run mvn, ./mvnw, or any build/test commands!**
+   - Only create folders, Java files, POM files, properties files
+   - After creating all files, tell user: "✅ All files created. Now open C:\sites\hd-demos-api in IntelliJ IDEA to run Maven builds."
 
 **Important Configuration:**
 
@@ -1259,38 +1298,84 @@ hd-demos-api/
 - Use existing dependencies from temp-disney/backend/pom.xml as reference
 - Maintain same Spring Boot configuration structure
 
-**Once all tests pass locally, I will commit and push to GitHub.**
+**Your job ends here. Testing happens in IntelliJ (see instructions below).**
+
+**Reference Document:** Full details in `C:\sites\my-disney-app\docs\OPTION_2_ARCHITECTURE.md` Phase 2
+
+---
+
+**[END OF PHASE 2 INSTRUCTIONS FOR AI]**
+
+---
+
+### 🔧 User Manual Steps: Testing in IntelliJ IDEA
+
+**⚠️ This section is for YOU (the user), not AI. After AI creates all files in VS Code, follow these manual steps:**
+
+1. **Open Project in IntelliJ IDEA:**
+
+   - File → Open → Select `C:\sites\hd-demos-api`
+   - Wait for IntelliJ to index and detect Maven modules
+
+2. **Configure Maven and JDK:**
+
+   - Open Maven panel (right sidebar)
+   - Verify all 3 modules appear: parent, shared-models, backend, backend-migrations
+   - File → Project Structure → Project SDK: Java 21
+   - Settings → Build Tools → Maven: Verify Maven home path
+
+3. **Test Build (IntelliJ Terminal ONLY):**
+
+   ```powershell
+   mvn clean install
+   ```
+
+   - Should build all 3 modules successfully
+   - Check target/ folders exist in each module
+
+4. **Run Migrations (Seeds Database):**
+
+   ```powershell
+   cd backend-migrations
+   mvn spring-boot:run
+   ```
+
+   - Watch console for Flyway migration logs
+   - Should see: "V1**Create_disney_tables.sql" and "V1**Create_sierra_tables.sql" executed
+   - DataSeeder should load JSON files
+   - Press Ctrl+C when complete
+
+5. **Run Backend API:**
+
+   ```powershell
+   cd ..\backend
+   mvn spring-boot:run
+   ```
+
+   - Should start on port 8080
+   - Watch for "Started Application in X seconds"
+
+6. **Test Endpoints (Browser or Postman):**
+
+   - `http://localhost:8080/api/disney/characters` → Should return Disney characters JSON
+   - `http://localhost:8080/api/sierra/games` → Should return Sierra games JSON
+   - `http://localhost:8080/swagger-ui.html` → Should show Swagger UI with 2 tag groups
+
+7. **If All Tests Pass:**
+   - Stop Spring Boot (Ctrl+C in IntelliJ terminal)
+   - Open VS Code terminal in `C:\sites\hd-demos-api`
+   - Commit and push:
+     ```powershell
+     git add .
+     git commit -m "Initial commit: backend + migrations + shared-models"
+     git push -u origin main
+     ```
 
 **Reference Document:** Full details in `C:\sites\my-disney-app\docs\OPTION_2_ARCHITECTURE.md` Phase 2 (lines 1698-1856)
 
 ---
 
-**END OF INTELLIJ INSTRUCTIONS**
-
----
-
-**Workflow Summary:**
-
-- Copy and refactor code from temp repos
-- Update package names and imports
-- Add Swagger/OpenAPI configuration
-- Help with Maven commands
-
-**Pro Tip:** Keep this document (OPTION_2_ARCHITECTURE.md) open in VS Code on a second monitor or split screen for easy reference.
-
-**Workflow Summary:**
-
-```
-Phase 1: gh repo create hd-demos-api → Empty GitHub repo created ✅
-Phase 2: mkdir hd-demos-api → Local folder created
-         git init → Initialize local git
-         git remote add → Connect to GitHub
-         [Open in IntelliJ, share Phase 2 steps with Copilot]
-         [Build structure, copy files, test locally]
-         git add . → Stage all files
-         git commit -m "Initial commit: backend + migrations + shared-models"
-         git push -u origin main → Push to GitHub ✅
-```
+**END OF INTELLIJ TESTING INSTRUCTIONS**
 
 ---
 
@@ -1324,11 +1409,15 @@ git remote add origin https://github.com/hdavtian/hd-demos-assets.git
 
 ---
 
-#### **Phase 4: Migrate Frontends (React/Vite)**
+#### **Phase 4A: Migrate Disney Frontend**
 
-**Where:** `C:\sites\` (create 3 new folders - match GitHub repo names)  
+#### **Phase 4B: Migrate Sierra Frontend**
+
+**Where:** `C:\sites\` (create 2 new folders - match GitHub repo names)  
 **IDE:** VS Code with GitHub Copilot  
 **What:** Creating frontend repos, npm commands, React development
+
+**Note:** Ask AI to perform **Phase 4A** first (Disney), then **Phase 4B** (Sierra) separately.
 
 **Git Strategy:** Same as backend - build, test, then commit.
 
@@ -1340,10 +1429,9 @@ cd C:\sites\
 # Create folders (match GitHub repo names from Phase 1)
 mkdir hd-demo-disney-movie-character-app
 mkdir hd-demo-sierra-favorite-games-app
-mkdir hd-demo-resume-app
 
-# For EACH frontend:
-cd hd-demo-disney-movie-character-app
+# For EACH frontend (4A and 4B):
+cd hd-demo-disney-movie-character-app  # or sierra
 git init
 git remote add origin https://github.com/hdavtian/hd-demo-disney-movie-character-app.git
 
@@ -1361,11 +1449,9 @@ git remote add origin https://github.com/hdavtian/hd-demo-disney-movie-character
 
 ---
 
-### 🤖 COPY THIS TO VS CODE COPILOT CHAT (Phase 4 - Disney Frontend)
+### Phase 4A Instructions: Disney Frontend (AI will read this when you say "Perform Phase 4A")
 
-**When you open `C:\sites\hd-demo-disney-movie-character-app` in VS Code, copy/paste this to Copilot Chat:**
-
----
+**Context for AI:**
 
 I'm migrating the Disney Movie Character React frontend from a monorepo to a standalone repository.
 
@@ -1434,19 +1520,17 @@ git commit -m "Initial commit: Disney Movie Character frontend"
 git push -u origin main
 ```
 
-**Reference Document:** Full details in `C:\sites\my-disney-app\docs\OPTION_2_ARCHITECTURE.md` Phase 4 Step 4.1
+**Reference Document:** Full details in `C:\sites\my-disney-app\docs\OPTION_2_ARCHITECTURE.md` Phase 4A
 
 ---
 
-**END OF DISNEY FRONTEND INSTRUCTIONS**
+**[END OF PHASE 4A INSTRUCTIONS FOR AI]**
 
 ---
 
-### 🤖 COPY THIS TO VS CODE COPILOT CHAT (Phase 4 - Sierra Frontend)
+### Phase 4B Instructions: Sierra Frontend (AI will read this when you say "Perform Phase 4B")
 
-**When you open `C:\sites\hd-demo-sierra-favorite-games-app` in VS Code, copy/paste this to Copilot Chat:**
-
----
+**Context for AI:**
 
 I'm migrating the Sierra Favorite Games React frontend from a monorepo to a standalone repository.
 
@@ -1512,22 +1596,11 @@ git commit -m "Initial commit: Sierra Favorite Games frontend"
 git push -u origin main
 ```
 
-**Reference Document:** Full details in `C:\sites\my-disney-app\docs\OPTION_2_ARCHITECTURE.md` Phase 4 Step 4.2
+**Reference Document:** Full details in `C:\sites\my-disney-app\docs\OPTION_2_ARCHITECTURE.md` Phase 4B
 
 ---
 
-**END OF SIERRA FRONTEND INSTRUCTIONS**
-
----
-
-**VS Code Workspace Structure:**
-
-```
-VS Code Window 1: C:\sites\my-disney-app (this document)
-VS Code Window 2: C:\sites\hd-demo-disney-movie-character-app
-VS Code Window 3: C:\sites\hd-demo-sierra-favorite-games-app
-IntelliJ Window:  C:\sites\hd-demos-api
-```
+**[END OF PHASE 4B INSTRUCTIONS FOR AI]**
 
 ---
 
