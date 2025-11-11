@@ -1536,63 +1536,281 @@ I'm migrating the Sierra Favorite Games React frontend from a monorepo to a stan
 
 **Current Working Directory:** `C:\sites\hd-demo-sierra-favorite-games-app` (empty folder with git initialized)
 
-**Reference Code Location:** `C:\sites\temp-sierra\frontend` (React + Vite monorepo frontend)
+**Reference Code Location:** `C:\sites\sierra-games\sierra-games\front-end` (React + Vite monorepo frontend)
 
 **Goal:** Create a standalone React + Vite frontend that connects to the new unified API and Azure Blob Storage.
 
+**🚨 CRITICAL SIERRA-SPECIFIC REQUIREMENTS:**
+
+1. **Preserve ALL Existing Functionality (MANDATORY):**
+
+   - ⚠️ **NO functionality should be lost** from backend or frontend during migration
+   - All existing features, pages, components, API endpoints must remain functional
+   - Test thoroughly before committing to ensure nothing breaks
+
+2. **Naming Convention Standard (MANDATORY):**
+
+   - **Database:** Column names stay `snake_case` (e.g., `image_url`, `created_at`) - DO NOT change
+   - **Backend (Java):** Entity fields use `camelCase` (e.g., `imageUrl`, `createdAt`)
+   - **Frontend (React):** Properties use `camelCase` (e.g., `imageUrl`, `createdAt`)
+   - **Jackson Annotations:** Remove ALL `@JsonProperty("snake_case")` overrides from backend entities
+     - Example: Remove `@JsonProperty("image_url")` - let Jackson use default camelCase
+     - Keep only `@Column(name = "image_url")` for database mapping
+   - **Result:** Database ↔ Backend ↔ Frontend all communicate in camelCase via JSON
+
+3. **Database Migration (VERIFIED ✅):**
+
+   - Current Sierra backend already uses PostgreSQL (not MySQL)
+   - Local: `jdbc:postgresql://localhost:5432/sierra_games`
+   - Production: Neon PostgreSQL `sierra_games` database
+   - ✅ No database migration needed - already on PostgreSQL!
+
+4. **Assets Structure (VERIFIED ✅):**
+
+   - Assets already uploaded to `C:\sites\hd-demos-assets\sierra\`
+   - Structure: `sierra/games/backgrounds/` and `sierra/games/games/`
+   - Top-level prefix: `sierra` (confirmed)
+
+5. **Dynamic Image Serving (CRITICAL - NOT IMPLEMENTED):**
+
+   - Current Sierra frontend uses HARDCODED paths: `/images/games/${filename}`
+   - Disney frontend has dynamic asset config (assets.ts with baseUrl + prefix)
+   - ⚠️ **MUST IMPLEMENT:** Sierra needs same dynamic asset serving strategy
+   - Create `src/config/assets.js` matching Disney pattern
+   - Update all image references to use dynamic asset URLs
+
+6. **Image References to Update:**
+   - Game screenshots: `/images/games/${filename}` → `${ASSETS_BASE_URL}/sierra/games/games/${filename}`
+   - Background images: `/images/backgrounds/${filename}` → `${ASSETS_BASE_URL}/sierra/games/backgrounds/${filename}`
+   - Files to update: `GameDetailPage.jsx`, `gamesApi.js`, any components using images
+
 **Tasks to Execute:**
 
-1. **Copy Frontend Code**
+1. **⚠️ CRITICAL: Create .gitignore FIRST (Lesson from Disney!)**
 
-   - Copy ALL files from `C:\sites\temp-sierra\frontend` to current directory
-   - Include: `src/`, `public/`, `index.html`, `package.json`, `vite.config.ts`, `tsconfig.json`, etc.
+   ```bash
+   cat > .gitignore << 'EOF'
+   # Dependencies
+   node_modules/
+
+   # Production build
+   dist/
+   build/
+
+   # Environment files
+   .env
+   .env.local
+   .env.development.local
+   .env.test.local
+   .env.production.local
+
+   # Logs
+   npm-debug.log*
+   yarn-debug.log*
+   yarn-error.log*
+
+   # TypeScript
+   *.tsbuildinfo
+
+   # Editor
+   .vscode/*
+   !.vscode/extensions.json
+   .idea
+
+   # OS
+   .DS_Store
+   Thumbs.db
+   EOF
+   ```
+
+2. **Copy Frontend Code**
+
+   - Copy ALL files from `C:\sites\sierra-games\sierra-games\front-end` to current directory
+   - Include: `src/`, `public/`, `index.html`, `package.json`, `vite.config.js`, etc.
    - Preserve folder structure exactly
 
-2. **Update Environment Variables**
+3. **⚠️ CRITICAL: Verify Backend Jackson Annotations (DO THIS BEFORE FRONTEND)**
 
-   - Create `.env.production` file with:
+   **Check Sierra Backend Entities for @JsonProperty Overrides:**
+
+   ```powershell
+   # Search for Jackson annotations in Sierra backend
+   Get-ChildItem "C:\sites\hd-demos-api\shared-models\src\main\java" -Recurse -Filter "*.java" | Select-String "@JsonProperty"
+   ```
+
+   **Remove snake_case @JsonProperty annotations:**
+
+   - Find: `@JsonProperty("image_url")`, `@JsonProperty("created_at")`, etc.
+   - Remove these annotations entirely - let Jackson use default camelCase
+   - Keep: `@Column(name = "image_url")` for database mapping
+
+   **Example Fix:**
+
+   ```java
+   // ❌ WRONG (forces snake_case in JSON)
+   @Column(name = "image_url")
+   @JsonProperty("image_url")  // ← REMOVE THIS
+   private String imageUrl;
+
+   // ✅ CORRECT (camelCase in JSON, snake_case in DB)
+   @Column(name = "image_url")  // ← KEEP for DB mapping
+   private String imageUrl;     // ← Jackson auto-converts to "imageUrl" in JSON
+   ```
+
+   **Verify Sierra Game entity, Screenshot entity, Series entity, Publisher entity**
+
+   - All entities in `hd-demos-api/shared-models/` or backend models
+   - Remove ALL `@JsonProperty` with snake_case values
+   - Backend will return camelCase JSON by default
+
+4. **Create Dynamic Asset Configuration (NEW - CRITICAL)**
+
+   Create `src/config/assets.js`:
+
+   ```javascript
+   // Dynamic asset configuration based on environment
+   const ASSETS_BASE_URL =
+     import.meta.env.VITE_ASSETS_BASE_URL || "http://localhost:5001";
+   const ASSETS_PREFIX = import.meta.env.VITE_ASSETS_PREFIX || "sierra";
+
+   export const ASSETS_CONFIG = {
+     baseUrl: ASSETS_BASE_URL,
+     prefix: ASSETS_PREFIX,
+
+     // Helper functions for different asset types
+     getGameImage: (filename) =>
+       `${ASSETS_BASE_URL}/${ASSETS_PREFIX}/games/games/${filename}`,
+     getBackgroundImage: (filename) =>
+       `${ASSETS_BASE_URL}/${ASSETS_PREFIX}/games/backgrounds/${filename}`,
+
+     // Fallback images
+     fallbackGameImage: `${ASSETS_BASE_URL}/${ASSETS_PREFIX}/games/games/default.jpg`,
+     fallbackBackground: `${ASSETS_BASE_URL}/${ASSETS_PREFIX}/games/backgrounds/default.jpg`,
+   };
+   ```
+
+5. **Update Environment Variables**
+
+   Create `.env.development`:
+
+   ```
+   VITE_API_BASE_URL=http://localhost:8085/api/sierra
+   VITE_ASSETS_BASE_URL=http://localhost:5001
+   VITE_ASSETS_PREFIX=sierra
+   ```
+
+   Create `.env.production`:
+
+   ```
+   VITE_API_BASE_URL=https://ca-hd-demos-api.<hash>.westus2.azurecontainerapps.io/api/sierra
+   VITE_ASSETS_BASE_URL=https://hddemoassets.blob.core.windows.net/assets
+   VITE_ASSETS_PREFIX=sierra
+   ```
+
+6. **Update Image References in Code (CRITICAL)**
+
+   **File: `src/pages/GameDetailPage.jsx`**
+
+   - Find: `src={\`/images/games/${currentScreenshot.filename}\`}`
+   - Replace with: `src={ASSETS_CONFIG.getGameImage(currentScreenshot.filename)}`
+   - Find: `src={\`/images/games/${screenshot.filename}\`}`
+   - Replace with: `src={ASSETS_CONFIG.getGameImage(screenshot.filename)}`
+   - Add import: `import { ASSETS_CONFIG } from '../config/assets';`
+
+   **File: `src/services/gamesApi.js`**
+
+   - Find: `getSeriesBackgroundImage` function with hardcoded `/images/backgrounds/` paths
+   - Replace with: Return `ASSETS_CONFIG.getBackgroundImage(filename)` for each series
+   - Add import: `import { ASSETS_CONFIG } from '../config/assets';`
+   - Update imageMap to use dynamic URLs
+
+   **Search for all other image references:**
+
+   ```bash
+   grep -r "/images/" src/ --include="*.js" --include="*.jsx"
+   ```
+
+   Update each to use ASSETS_CONFIG helper functions.
+
+7. **Update API Endpoints in Code**
+
+   - Find all API calls in `src/services/` that reference game endpoints
+   - Current backend runs on port 8085 locally
+   - Check `src/services/gamesApi.js` for API base URL configuration
+   - Update to use environment variable: `const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8085';`
+
+8. **Verify Configuration Files**
+
+   - Check `vite.config.js` has correct port (recommend 3001 to avoid Disney's 3000)
+   - Update vite.config.js:
+     ```javascript
+     export default defineConfig({
+       server: {
+         port: 3001, // Different from Disney (3000)
+         proxy: {
+           "/api": {
+             target: "http://localhost:8085",
+             changeOrigin: true,
+           },
+         },
+       },
+     });
      ```
-     VITE_API_BASE_URL=https://ca-hd-demos-api.<hash>.westus2.azurecontainerapps.io/api/sierra
-     VITE_ASSETS_BASE_URL=https://hddemoassets.blob.core.windows.net/assets/sierra
-     ```
-   - Note: `<hash>` will be replaced after Azure deployment
-
-3. **Update API Endpoints in Code**
-
-   - Find all API calls in `src/` that reference game endpoints
-   - Update to `/api/sierra/games` (or similar sierra endpoints)
-   - Check files: `src/store/slices/*.ts`, `src/utils/*.ts`, `src/config/api.ts`
-
-4. **Verify Configuration Files**
-
-   - Check `vite.config.ts` has correct port (5174 or different from Disney)
    - Check `package.json` scripts are correct
-   - Update port in vite.config.ts to avoid conflict with Disney frontend
 
-5. **Test Build Process**
+9. **Test Build Process**
 
    - Run: `npm install` (install dependencies)
+   - **IMPORTANT:** Check port 3001 first with `netstat -ano | findstr :3001`
+   - Run: `npm run dev` (start dev server on port 3001)
+   - **Test image loading:** Open browser, check Network tab for asset requests
+   - Verify images load from `http://localhost:5001/sierra/games/...`
    - Run: `npm run build` (must succeed without errors)
    - Check `dist/` folder is created
-   - **IMPORTANT:** Check port before running dev server
-   - If needed: `npm run dev` (start dev server for testing)
 
-6. **Update staticwebapp.config.json**
-   - Located in `public/staticwebapp.config.json`
-   - Verify routes configuration
+10. **Verify Backend API URL Mapping**
+    - Ensure backend controller has `@RequestMapping("/api/sierra/games")` or similar
+    - Match frontend API calls to backend endpoints
+    - Test API calls work: `curl http://localhost:8085/api/sierra/games`
 
 **Expected Result:**
 
 - Clean build with no errors
 - `dist/` folder contains optimized production files
 - All imports resolved correctly
-- TypeScript compilation successful
+- Images load dynamically based on environment
+- Local dev: Images from `http://localhost:5001/sierra/`
+- Production: Images from Azure Blob Storage `https://hddemoassets.blob.core.windows.net/assets/sierra/`
+- API calls work to Sierra backend endpoints
 
-**Once build succeeds, I will:**
+**Testing Checklist:**
+
+- [ ] .gitignore created FIRST (no node_modules committed)
+- [ ] **Backend verified: All @JsonProperty("snake_case") annotations removed**
+- [ ] **Backend verified: Only @Column(name = "snake_case") remains for DB mapping**
+- [ ] **Backend entities return camelCase JSON (test with curl or Swagger)**
+- [ ] `src/config/assets.js` created with dynamic asset configuration
+- [ ] `.env.development` and `.env.production` files created
+- [ ] All image references updated to use ASSETS_CONFIG
+- [ ] GameDetailPage.jsx uses dynamic image URLs
+- [ ] gamesApi.js background images use dynamic URLs
+- [ ] API endpoints updated to use VITE_API_BASE_URL
+- [ ] vite.config.js port set to 3001
+- [ ] npm install successful
+- [ ] npm run dev works on port 3001
+- [ ] Images load from localhost:5001/sierra/games/
+- [ ] API calls work to localhost:8085/api/sierra/
+- [ ] npm run build successful
+- [ ] No console errors in browser
+- [ ] **ALL existing functionality preserved (no features lost)**
+- [ ] **All pages/routes working (games list, detail, admin, etc.)**
+- [ ] **Frontend receives camelCase JSON from backend**
+
+**Once all tests pass, I will:**
 
 ```powershell
 git add .
-git commit -m "Initial commit: Sierra Favorite Games frontend"
+git commit -m "Initial commit: Sierra Favorite Games frontend with dynamic asset serving"
 git push -u origin main
 ```
 
@@ -2047,13 +2265,13 @@ NEW (Built in Parallel):
 
 #### Phase 1: Setup New Infrastructure
 
-- [ ] **Step 1.1: Create New Azure Resource Group**
+- [x] **Step 1.1: Create New Azure Resource Group**
 
 ```powershell
 az group create --name rg-hd-demos --location westus2
 ```
 
-- [ ] **Step 1.2: Create New GitHub Repositories**
+- [x] **Step 1.2: Create New GitHub Repositories**
 
 ```bash
 # Backend + Migrations
@@ -2072,7 +2290,7 @@ gh repo rename sierra-games hd-demo-sierra-favorite-games-app
 gh repo create hdavtian/hd-demo-resume-app --public
 ```
 
-- [ ] **Step 1.3: Create Azure Container Apps Environment**
+- [x] **Step 1.3: Create Azure Container Apps Environment**
 
 ```powershell
 az containerapp env create \
@@ -2081,7 +2299,7 @@ az containerapp env create \
   --location westus2
 ```
 
-- [ ] **Step 1.4: Create Azure Storage Account**
+- [x] **Step 1.4: Create Azure Storage Account**
 
 ```powershell
 az storage account create \
@@ -2099,7 +2317,7 @@ az storage container create \
   --public-access blob
 ```
 
-- [ ] **✅ Phase 1 Testing:**
+- [x] **✅ Phase 1 Testing:**
 
 ```powershell
 # Verify resource group exists
@@ -2120,13 +2338,13 @@ gh repo view hdavtian/hd-demos-assets
 
 **📋 Phase 1 Completion Checklist:**
 
-- [ ] All 4 steps completed successfully
-- [ ] All testing commands passed
-- [ ] Azure resource group `rg-hd-demos` exists
-- [ ] Container Apps Environment `cae-hd-demos` ready
-- [ ] Storage account `hddemoassets` accessible
-- [ ] All 5 GitHub repositories created
-- [ ] ✅ **Mark Phase 1 as COMPLETE**
+- [x] All 4 steps completed successfully
+- [x] All testing commands passed
+- [x] Azure resource group `rg-hd-demos` exists
+- [x] Container Apps Environment `cae-hd-demos` ready
+- [x] Storage account `hddemoassets` accessible
+- [x] All 5 GitHub repositories created
+- [x] ✅ **Mark Phase 1 as COMPLETE**
 
 ---
 
@@ -2353,25 +2571,25 @@ curl https://ca-hd-demos-api.<hash>.westus2.azurecontainerapps.io/swagger-ui.htm
 
 **📋 Phase 2 Completion Checklist:**
 
-- [ ] All 6 steps completed successfully
-- [ ] All testing commands passed
-- [ ] Repository structure created with 3 modules
-- [ ] Backend code migrated (Disney + Sierra)
-- [ ] Swagger/OpenAPI configured
-- [ ] Parent POM created
-- [ ] CI/CD pipelines configured
-- [ ] Container Apps deployed (migrations + API)
-- [ ] Local testing successful (IntelliJ)
-- [ ] Azure deployment successful
-- [ ] API endpoints returning data
-- [ ] Swagger UI accessible
-- [ ] ✅ **Mark Phase 2 as COMPLETE**
+- [x] All 6 steps completed successfully
+- [x] All testing commands passed
+- [x] Repository structure created with 3 modules
+- [x] Backend code migrated (Disney + Sierra)
+- [x] Swagger/OpenAPI configured
+- [x] Parent POM created
+- [ ] CI/CD pipelines configured (deferred to Phase 5)
+- [ ] Container Apps deployed (migrations + API) (deferred to Phase 5)
+- [x] Local testing successful (IntelliJ)
+- [ ] Azure deployment successful (deferred to Phase 5)
+- [x] API endpoints returning data (180 characters, 831 movies)
+- [x] Swagger UI accessible (http://localhost:8080/swagger-ui.html)
+- [x] ✅ **Mark Phase 2 as COMPLETE** (local development complete, deployment in Phase 5)
 
 ---
 
 #### Phase 3: Migrate Assets
 
-- [ ] **Step 3.1: Extract Images from Sierra Repo**
+- [x] **Step 3.1: Extract Images from Sierra Repo**
 
 ```bash
 cd temp-sierra
@@ -2380,14 +2598,14 @@ mkdir -p ~/hd-demos-assets/sierra/games
 cp -r images/* ~/hd-demos-assets/sierra/games/
 ```
 
-- [ ] **Step 3.2: Copy Disney Assets**
+- [x] **Step 3.2: Copy Disney Assets**
 
 ```bash
 cd ~/my-disney-app-assets
 cp -r * ~/hd-demos-assets/disney/
 ```
 
-- [ ] **Step 3.3: Upload to Azure Blob Storage**
+- [x] **Step 3.3: Upload to Azure Blob Storage**
 
 ```powershell
 az storage blob upload-batch \
@@ -2397,7 +2615,7 @@ az storage blob upload-batch \
   --pattern "*"
 ```
 
-- [ ] **✅ Phase 3 Testing:**
+- [x] **✅ Phase 3 Testing:**
 
 ```powershell
 # List uploaded blobs
@@ -2428,20 +2646,35 @@ az storage blob list \
 
 **📋 Phase 3 Completion Checklist:**
 
-- [ ] All 3 steps completed successfully
-- [ ] All testing commands passed
-- [ ] Sierra images extracted from repo
-- [ ] Disney assets copied
-- [ ] All assets uploaded to Azure Blob Storage
-- [ ] Images publicly accessible via URLs
-- [ ] Folder structure correct (disney/, sierra/)
-- [ ] ✅ **Mark Phase 3 as COMPLETE**
+- [x] All 3 steps completed successfully
+- [x] All testing commands passed
+- [x] Sierra images extracted from repo (63 files)
+- [x] Disney assets copied (1,852 files)
+- [x] All assets uploaded to Azure Blob Storage (~817 MB)
+- [x] Images publicly accessible via URLs
+- [x] Folder structure correct (disney/, sierra/)
+- [x] GitHub repository created and committed
+- [x] ✅ **Mark Phase 3 as COMPLETE**
 
 ---
 
 #### Phase 4: Migrate Frontends
 
-- [ ] **Step 4.1: Disney Frontend**
+**⚠️ CRITICAL FOR ALL FRONTEND TASKS:**
+
+- **ALWAYS create a proper `.gitignore` file BEFORE committing**
+- `.gitignore` must exclude:
+  - `node_modules/` (dependency folder)
+  - `dist/` and `build/` (production builds)
+  - `*.tsbuildinfo` (TypeScript build info)
+  - `.env*` files (except `.env.production` if needed)
+  - Editor folders (`.vscode/`, `.idea/`)
+  - OS files (`.DS_Store`, `Thumbs.db`)
+- **Never commit `node_modules/` or build artifacts to Git**
+
+---
+
+- [x] **Step 4.1: Disney Frontend**
 
 ```bash
 # Extract from monorepo
@@ -2449,17 +2682,65 @@ cp -r temp-disney/frontend ~/hd-demo-disney-movie-character-app
 
 cd ~/hd-demo-disney-movie-character-app
 
+# ⚠️ CRITICAL: Create .gitignore BEFORE committing
+cat > .gitignore << 'EOF'
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+EOF
+
 # Update environment variables
 cat > .env.production << EOF
 VITE_API_BASE_URL=https://ca-hd-demos-api.<hash>.westus2.azurecontainerapps.io/api/disney
 VITE_ASSETS_BASE_URL=https://hddemoassets.blob.core.windows.net/assets/disney
 EOF
 
+# Update API endpoints to use /api/disney prefix
+# Check src/config/api.ts and update endpoints
+
+# Test build
+npm install
+npm run build
+
 # Create Azure Static Web App
 az staticwebapp create \
   --name swa-hd-demo-disney \
   --resource-group rg-hd-demos \
   --location westus2
+
+# Initialize git and commit
+git init
+git remote add origin https://github.com/hdavtian/hd-demo-disney-movie-character-app.git
+git add .
+git commit -m "Initial commit: Disney frontend"
+git push -u origin main
 ```
 
 - [ ] **Step 4.2: Sierra Frontend**
@@ -2468,16 +2749,66 @@ az staticwebapp create \
 # Extract from monorepo
 cp -r temp-sierra/frontend ~/hd-demo-sierra-favorite-games-app
 
+cd ~/hd-demo-sierra-favorite-games-app
+
+# ⚠️ CRITICAL: Create .gitignore BEFORE committing
+cat > .gitignore << 'EOF'
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+EOF
+
 # Update environment
 cat > .env.production << EOF
 VITE_API_BASE_URL=https://ca-hd-demos-api.<hash>.westus2.azurecontainerapps.io/api/sierra
 VITE_ASSETS_BASE_URL=https://hddemoassets.blob.core.windows.net/assets/sierra
 EOF
 
+# Update API endpoints to use /api/sierra prefix
+# Check src/config/api.ts and update endpoints
+
+# Test build
+npm install
+npm run build
+
 # Create Static Web App
 az staticwebapp create \
   --name swa-hd-demo-sierra \
   --resource-group rg-hd-demos
+
+# Initialize git and commit
+git init
+git remote add origin https://github.com/hdavtian/hd-demo-sierra-favorite-games-app.git
+git add .
+git commit -m "Initial commit: Sierra frontend"
+git push -u origin main
 ```
 
 - [ ] **✅ Phase 4 Testing:**
