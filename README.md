@@ -10,6 +10,7 @@ A modern, cinematic Disney character catalog web application combining **React**
 [![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk)](https://openjdk.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
 [![Swagger](https://img.shields.io/badge/OpenAPI-3.0-85EA2D?logo=swagger)](https://swagger.io/)
+[![Storybook](https://img.shields.io/badge/Storybook-10.0-FF4785?logo=storybook)](https://storybook.js.org/)
 
 </div>
 
@@ -24,6 +25,7 @@ Disney App is a creative and technical showcase demonstrating modern full-stack 
 - **Dynamic Carousels**: Featured content with smooth animations
 - **Responsive Design**: Mobile-first, works across all devices
 - **API Documentation**: Interactive Swagger UI for backend exploration
+- **Component Library**: Storybook documentation for React components
 
 ---
 
@@ -97,9 +99,14 @@ npm install
 
 # Start development server
 npm run dev
+
+# OR run Storybook component library
+npm run storybook
 ```
 
 Frontend will be available at: **http://localhost:5173**
+
+Storybook will be available at: **http://localhost:6006** 🎨
 
 #### 2. Backend Development
 
@@ -162,7 +169,62 @@ Features:
 
 ---
 
-## 📂 Project Structure
+## � Component Documentation (Storybook)
+
+### Interactive Component Library
+
+Explore all React components in an isolated, interactive environment:
+
+**🔗 Live Storybook**: [https://hdavtian.github.io/my-disney-app/](https://hdavtian.github.io/my-disney-app/) (Coming Soon)
+
+**Local Development**: `http://localhost:6006`
+
+Features:
+
+- ✅ Browse all 7+ documented React components
+- ✅ Interactive component playground
+- ✅ View all component states and variants
+- ✅ Copy-paste ready code examples
+- ✅ Accessibility testing built-in
+- ✅ Responsive viewport testing
+
+### Documented Components
+
+**Phase 1** (Current):
+
+- `CharacterCard` - Display character information with favorite toggle
+- `MovieCard` - Display movie details with poster and metadata
+- `FavoriteButton` - Toggle favorites for characters and movies
+- `SearchInput` - Generic search input with autocomplete
+- `Navigation` - Main navigation bar with responsive mobile menu
+- `Footer` - Site footer with links
+- `ViewModeToggle` - Switch between grid and list views
+
+**Phase 2-4** (Planned): Carousels, Grid Views, Quiz components, and more
+
+### Run Storybook Locally
+
+```bash
+cd frontend
+npm run storybook
+```
+
+Storybook will be available at: **http://localhost:6006** 🎨
+
+### Deploy Storybook
+
+Storybook automatically deploys to GitHub Pages via GitHub Actions on every push to `main` branch.
+
+Manual deployment:
+
+```bash
+cd frontend
+npm run deploy-storybook
+```
+
+---
+
+## �📂 Project Structure
 
 ### Frontend (`/frontend`)
 
@@ -252,6 +314,7 @@ npm run dev          # Start dev server
 npm run build        # Production build
 npm run preview      # Preview production build
 npm run lint         # Run ESLint
+npm run storybook    # Run Storybook component library
 ```
 
 ### Backend Development
@@ -276,6 +339,7 @@ docker-compose down  # Stop containers
 
 Comprehensive documentation available in `/docs`:
 
+- **[STORYBOOK_INTEGRATION_GUIDE.md](docs/STORYBOOK_INTEGRATION_GUIDE.md)** - Storybook setup and usage
 - **[SWAGGER_OPENAPI_INTEGRATION.md](docs/SWAGGER_OPENAPI_INTEGRATION.md)** - Swagger implementation guide
 - **[DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md)** - Deployment instructions
 - **[CHARACTER_QUIZ_GAME.md](docs/CHARACTER_QUIZ_GAME.md)** - Quiz feature documentation
@@ -382,6 +446,6 @@ MIT License - This is a portfolio/showcase project.
 
 **Built with ❤️ using React, Spring Boot, and PostgreSQL**
 
-[Frontend README](frontend/README.md) | [Backend README](backend/README.md) | [API Docs](http://localhost:8080/swagger-ui.html)
+[Frontend README](frontend/README.md) | [Backend README](backend/README.md) | [API Docs](http://localhost:8080/swagger-ui.html) | [Storybook](http://localhost:6006)
 
 </div>
