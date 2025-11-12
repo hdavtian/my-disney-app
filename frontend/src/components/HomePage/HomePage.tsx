@@ -5,7 +5,6 @@ import { useAppDispatch } from "../../hooks/redux";
 import { HeroCarousel } from "../HeroCarousel/HeroCarousel";
 import { MovieCarousel } from "../MovieCarousel/MovieCarousel";
 import { CharacterCarousel } from "../CharacterCarousel/CharacterCarousel";
-import { Footer } from "../Footer/Footer";
 import { SearchInput } from "../SearchInput/SearchInput";
 import { Movie } from "../../types/Movie";
 import { Character } from "../../types/Character";
@@ -137,9 +136,6 @@ export const HomePage = () => {
           <p>This area will be populated with additional content.</p>
         </div> */}
       </div>
-
-      {/* Footer */}
-      <Footer />
     </motion.div>
   );
 };

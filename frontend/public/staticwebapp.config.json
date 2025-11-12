@@ -20,7 +20,8 @@
     ".svg": "image/svg+xml"
   },
   "globalHeaders": {
-    "Cache-Control": "public, max-age=31536000, immutable"
+    "Cache-Control": "public, max-age=31536000, immutable",
+    "X-Robots-Tag": "noindex, nofollow, noarchive"
   },
   "routes": [
     {
