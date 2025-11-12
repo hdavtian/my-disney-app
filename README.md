@@ -21,7 +21,7 @@ A modern, cinematic Disney character catalog web application combining **React**
 Experience the Disney App in production:
 
 - **🎬 Live Application**: [https://movie-app.disney.harma.dev](https://movie-app.disney.harma.dev)
-- **📚 API Documentation (Swagger)**: [https://movie-app.disney.harma.dev/api/swagger-ui.html](https://movie-app.disney.harma.dev/api/swagger-ui.html)
+- **📚 API Documentation (Swagger)**: [https://api.movie-app.disney.harma.dev/swagger-ui/index.html](https://api.movie-app.disney.harma.dev/swagger-ui/index.html)
 - **🎨 Component Library (Storybook)**: [https://hdavtian.github.io/my-disney-app](https://hdavtian.github.io/my-disney-app)
 
 ---
@@ -147,7 +147,7 @@ Backend will be available at: **http://localhost:8080**
 
 Explore and test the API interactively:
 
-**Production (Live)**: [https://movie-app.disney.harma.dev/api/swagger-ui.html](https://movie-app.disney.harma.dev/api/swagger-ui.html) 🌐
+**Production (Live)**: [https://api.movie-app.disney.harma.dev/swagger-ui/index.html](https://api.movie-app.disney.harma.dev/swagger-ui/index.html) 🌐
 
 **Local Development**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 

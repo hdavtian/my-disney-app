@@ -17,33 +17,35 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
-    /**
-     * Configures the OpenAPI documentation for the Disney App API.
-     * 
-     * @return OpenAPI configuration with metadata and server information
-     */
-    @Bean
-    public OpenAPI disneyAppOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Disney App API")
-                        .description("Comprehensive API for Disney character catalog, movies, and carousel features. " +
-                                "This API provides endpoints for managing and retrieving Disney characters, movies, " +
-                                "and dynamic carousel content for an immersive Disney-themed web application.")
-                        .version("1.0.0")
-                        .contact(new Contact()
-                                .name("Disney App Development Team")
-                                .email("hdavtian@example.com")
-                                .url("https://github.com/hdavtian/my-disney-app"))
-                        .license(new License()
-                                .name("MIT License")
-                                .url("https://opensource.org/licenses/MIT")))
-                .servers(List.of(
-                        new Server()
-                                .url("http://localhost:8080")
-                                .description("Local Development Server"),
-                        new Server()
-                                .url("https://your-production-url.azurewebsites.net")
-                                .description("Production Server")));
-    }
+        /**
+         * Configures the OpenAPI documentation for the Disney App API.
+         * 
+         * @return OpenAPI configuration with metadata and server information
+         */
+        @Bean
+        public OpenAPI disneyAppOpenAPI() {
+                return new OpenAPI()
+                                .info(new Info()
+                                                .title("Disney App API")
+                                                .description("Comprehensive API for Disney character catalog, movies, and carousel features. "
+                                                                +
+                                                                "This API provides endpoints for managing and retrieving Disney characters, movies, "
+                                                                +
+                                                                "and dynamic carousel content for an immersive Disney-themed web application.")
+                                                .version("1.0.0")
+                                                .contact(new Contact()
+                                                                .name("Disney App Development Team")
+                                                                .email("hdavtian@example.com")
+                                                                .url("https://github.com/hdavtian/my-disney-app"))
+                                                .license(new License()
+                                                                .name("MIT License")
+                                                                .url("https://opensource.org/licenses/MIT")))
+                                .servers(List.of(
+                                                new Server()
+                                                                .url("http://localhost:8080")
+                                                                .description("Local Development Server"),
+                                                new Server()
+                                                                .url("https://api.movie-app.disney.harma.dev")
+                                                                .description("Production Server")));
+        }
 }
