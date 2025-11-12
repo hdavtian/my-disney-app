@@ -5,8 +5,7 @@
 .page-container {
     position: relative;
     width: 100%;
-    min-height: 100vh;
-    margin-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height));
 }
 
 .movies-page {

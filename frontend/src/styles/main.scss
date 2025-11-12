@@ -12,6 +12,10 @@
 @import '../components/CharacterCarousel/CharacterCarousel.scss';
 @import '../components/Footer/Footer.scss';
 
+// Utility Color Classes
+// Lightweight helpers for occasional inline semantic color usage
+.color-disney-gold { color: var(--disney-gold); }
+
 // Global App Styles
 .app {
     min-height: 100vh;
@@ -21,13 +25,20 @@
     // overflow-x: hidden;
 }
 
+// Main content area grows to push footer to bottom
+.app-content {
+    flex: 1 0 auto;
+    display: block;
+    /* Account for fixed header once at layout level */
+    padding-top: var(--header-height);
+}
+
 // Page Container
 .page-container {
     width: 90%;
     max-width: none;
     margin: 0 auto;
     padding: var(--space-8) var(--space-4);
-    top: var(--header-height);
 }
 
 @media (max-width: 480px) {
