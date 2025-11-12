@@ -41,6 +41,7 @@ my-disney-app/
 ### Technology Stack
 
 #### Frontend
+
 - **Framework**: React 19 with Vite
 - **Language**: TypeScript 5.x
 - **State Management**: Redux Toolkit
@@ -49,6 +50,7 @@ my-disney-app/
 - **Build Tool**: Vite
 
 #### Backend
+
 - **Framework**: Spring Boot 3.3.0
 - **Language**: Java 17
 - **Database**: PostgreSQL 16
@@ -58,6 +60,7 @@ my-disney-app/
 - **Build Tool**: Maven
 
 #### DevOps
+
 - **Containerization**: Docker & Docker Compose
 - **Cloud Database**: Neon PostgreSQL
 - **Deployment**: Azure Container Apps (planned)
@@ -70,10 +73,12 @@ my-disney-app/
 ### Prerequisites
 
 **Frontend**:
+
 - Node.js 18+ and npm
 - Visual Studio Code (recommended)
 
 **Backend**:
+
 - Java 17 JDK
 - Maven 3.8+
 - Docker Desktop (for local PostgreSQL)
@@ -126,6 +131,7 @@ Explore and test the API interactively:
 **🔗 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
 
 Features:
+
 - ✅ Try out endpoints directly in browser
 - ✅ Complete request/response documentation
 - ✅ Example values and schemas
@@ -134,19 +140,23 @@ Features:
 ### Available Endpoints
 
 **Characters API**:
+
 - `GET /api/characters` - Get all Disney characters
 - `GET /api/characters/{id}` - Get character by ID
 - `GET /api/characters/ids` - Get all character IDs
 - `GET /api/characters/random-except/{excludeId}?count=3` - Get random characters
 
 **Movies API**:
+
 - `GET /api/movies` - Get all Disney movies
 - `GET /api/movies/{id}` - Get movie by ID
 
 **Carousel API**:
+
 - `GET /api/carousels?location=homepage` - Get carousel items
 
 **OpenAPI Specification**:
+
 - JSON: `http://localhost:8080/v3/api-docs`
 - YAML: `http://localhost:8080/v3/api-docs.yaml`
 
@@ -155,6 +165,7 @@ Features:
 ## 📂 Project Structure
 
 ### Frontend (`/frontend`)
+
 ```
 frontend/
 ├── src/
@@ -171,6 +182,7 @@ frontend/
 ```
 
 ### Backend (`/backend`)
+
 ```
 backend/
 ├── src/main/java/com/harmadavtian/disneyapp/
@@ -193,6 +205,7 @@ backend/
 ## 🎨 Key Features
 
 ### Character Catalog
+
 - Browse 180+ Disney characters
 - Grid and list view modes
 - Advanced filtering and search
@@ -200,24 +213,28 @@ backend/
 - Favorite characters functionality
 
 ### Movie Collection
+
 - Comprehensive Disney movie database
 - Movie detail pages with cast
 - Release year, genre, and description
 - High-quality movie posters
 
 ### Character Quiz Game
+
 - Interactive quiz with multiple-choice questions
 - Real-time score tracking
 - Character image recognition
 - Progressive difficulty
 
 ### Dynamic Carousels
+
 - Hero carousel on homepage
 - Smooth transitions with Framer Motion
 - Location-based content
 - Featured characters and movies
 
 ### Responsive Design
+
 - Mobile-first approach
 - Breakpoints: 480px, 768px, 1280px
 - Touch-friendly interactions
@@ -228,6 +245,7 @@ backend/
 ## 🔧 Development
 
 ### Frontend Development
+
 ```bash
 cd frontend
 npm run dev          # Start dev server
@@ -237,6 +255,7 @@ npm run lint         # Run ESLint
 ```
 
 ### Backend Development
+
 ```bash
 cd backend
 mvn clean install    # Build project
@@ -245,6 +264,7 @@ mvn test            # Run tests
 ```
 
 ### Docker (Full Stack)
+
 ```bash
 docker-compose up    # Start backend + PostgreSQL
 docker-compose down  # Stop containers
@@ -267,12 +287,14 @@ Comprehensive documentation available in `/docs`:
 ## 🧪 Testing
 
 ### Frontend Testing
+
 ```bash
 cd frontend
 npm run test         # Run unit tests (when configured)
 ```
 
 ### Backend Testing
+
 ```bash
 cd backend
 mvn test            # Run all tests
@@ -284,11 +306,13 @@ mvn verify          # Run tests + integration tests
 ## 🚢 Deployment
 
 ### Frontend
+
 - Platform: Azure Static Web Apps (planned)
 - Build: Vite production build
 - CDN: Azure CDN for static assets
 
 ### Backend
+
 - Platform: Azure Container Apps
 - Database: Neon PostgreSQL (cloud)
 - CI/CD: GitHub Actions
@@ -297,6 +321,7 @@ mvn verify          # Run tests + integration tests
 ### Environment Variables
 
 **Backend Production** (`prod` profile):
+
 ```bash
 DATABASE_URL=jdbc:postgresql://your-neon-host:5432/disneyapp
 DATABASE_USERNAME=neondb_owner
@@ -313,6 +338,7 @@ This is a personal portfolio project, but feedback and suggestions are welcome!
 ### Development Guidelines
 
 **Frontend** (VS Code):
+
 - Follow React 19 conventions
 - Use functional components with hooks
 - TypeScript for type safety
@@ -320,6 +346,7 @@ This is a personal portfolio project, but feedback and suggestions are welcome!
 - Named exports preferred
 
 **Backend** (IntelliJ IDEA):
+
 - Follow Spring Boot best practices
 - Java 17 features encouraged
 - Javadoc for all public APIs
