@@ -8,7 +8,8 @@ import { BehindTheMagicPage } from "./pages/BehindTheMagicPage/BehindTheMagicPag
 import { MovieDetailPage } from "./pages/MovieDetailPage/MovieDetailPage";
 import { CharacterDetailPage } from "./pages/CharacterDetailPage/CharacterDetailPage";
 import { DisclaimerPage } from "./pages/DisclaimerPage";
-import { Footer } from "./components/Footer";
+import { Footer } from "./components/Footer/Footer";
+import { RequireDisclaimer } from "./components/AccessGate/RequireDisclaimer";
 
 function App() {
   return (
@@ -16,13 +17,15 @@ function App() {
       <Navigation />
       <main className="app-content">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/characters" element={<CharactersPage />} />
-          <Route path="/character/:id" element={<CharacterDetailPage />} />
-          <Route path="/movies" element={<MoviesPage />} />
-          <Route path="/movie/:id" element={<MovieDetailPage />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/behind-the-magic" element={<BehindTheMagicPage />} />
+          <Route element={<RequireDisclaimer />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/characters" element={<CharactersPage />} />
+            <Route path="/character/:id" element={<CharacterDetailPage />} />
+            <Route path="/movies" element={<MoviesPage />} />
+            <Route path="/movie/:id" element={<MovieDetailPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/behind-the-magic" element={<BehindTheMagicPage />} />
+          </Route>
           <Route path="/disclaimer" element={<DisclaimerPage />} />
           <Route
             path="*"
