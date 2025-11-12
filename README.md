@@ -1,0 +1,360 @@
+# 🏰 Disney App
+
+A modern, cinematic Disney character catalog web application combining **React** (frontend) and **Spring Boot** (backend) with comprehensive API documentation.
+
+<div align="center">
+
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.0-6DB33F?logo=springboot)](https://spring.io/projects/spring-boot)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk)](https://openjdk.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
+[![Swagger](https://img.shields.io/badge/OpenAPI-3.0-85EA2D?logo=swagger)](https://swagger.io/)
+
+</div>
+
+## 🎯 Project Overview
+
+Disney App is a creative and technical showcase demonstrating modern full-stack development with:
+
+- **Immersive UI/UX**: Cinematic design inspired by Disney+, Netflix, and Hulu
+- **Character Catalog**: Browse and explore 180+ Disney characters
+- **Movie Database**: Comprehensive Disney movie collection
+- **Interactive Quiz**: Test your Disney knowledge
+- **Dynamic Carousels**: Featured content with smooth animations
+- **Responsive Design**: Mobile-first, works across all devices
+- **API Documentation**: Interactive Swagger UI for backend exploration
+
+---
+
+## 🏗️ Architecture
+
+```
+my-disney-app/
+├── frontend/          # React 19 + Vite + TypeScript + Redux Toolkit
+├── backend/           # Spring Boot 3.3 + JPA + PostgreSQL
+├── database/          # Data files and migration scripts
+├── docs/              # Technical documentation
+└── scripts/           # Utility scripts
+```
+
+### Technology Stack
+
+#### Frontend
+- **Framework**: React 19 with Vite
+- **Language**: TypeScript 5.x
+- **State Management**: Redux Toolkit
+- **Styling**: SCSS + Bootstrap + CSS Variables
+- **Animations**: Framer Motion
+- **Build Tool**: Vite
+
+#### Backend
+- **Framework**: Spring Boot 3.3.0
+- **Language**: Java 17
+- **Database**: PostgreSQL 16
+- **ORM**: Spring Data JPA
+- **Migrations**: Flyway
+- **API Documentation**: SpringDoc OpenAPI 3
+- **Build Tool**: Maven
+
+#### DevOps
+- **Containerization**: Docker & Docker Compose
+- **Cloud Database**: Neon PostgreSQL
+- **Deployment**: Azure Container Apps (planned)
+- **Version Control**: Git + GitHub
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+**Frontend**:
+- Node.js 18+ and npm
+- Visual Studio Code (recommended)
+
+**Backend**:
+- Java 17 JDK
+- Maven 3.8+
+- Docker Desktop (for local PostgreSQL)
+- IntelliJ IDEA Ultimate (recommended)
+
+### Setup & Run
+
+#### 1. Frontend Development
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Frontend will be available at: **http://localhost:5173**
+
+#### 2. Backend Development
+
+```bash
+# Start local PostgreSQL
+docker run --name disney-postgres \
+  -e POSTGRES_DB=disneyapp \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=amelia \
+  -p 5432:5432 -d postgres:16
+
+# Navigate to backend directory (in IntelliJ IDEA)
+# Open backend/pom.xml
+# Run DisneyAppApplication.java with 'local' profile
+```
+
+Backend will be available at: **http://localhost:8080**
+
+**Swagger UI**: **http://localhost:8080/swagger-ui.html** 📚
+
+---
+
+## 📚 API Documentation
+
+### Interactive Swagger UI
+
+Explore and test the API interactively:
+
+**🔗 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+
+Features:
+- ✅ Try out endpoints directly in browser
+- ✅ Complete request/response documentation
+- ✅ Example values and schemas
+- ✅ No Postman required
+
+### Available Endpoints
+
+**Characters API**:
+- `GET /api/characters` - Get all Disney characters
+- `GET /api/characters/{id}` - Get character by ID
+- `GET /api/characters/ids` - Get all character IDs
+- `GET /api/characters/random-except/{excludeId}?count=3` - Get random characters
+
+**Movies API**:
+- `GET /api/movies` - Get all Disney movies
+- `GET /api/movies/{id}` - Get movie by ID
+
+**Carousel API**:
+- `GET /api/carousels?location=homepage` - Get carousel items
+
+**OpenAPI Specification**:
+- JSON: `http://localhost:8080/v3/api-docs`
+- YAML: `http://localhost:8080/v3/api-docs.yaml`
+
+---
+
+## 📂 Project Structure
+
+### Frontend (`/frontend`)
+```
+frontend/
+├── src/
+│   ├── components/        # Reusable React components
+│   ├── pages/            # Page components (routing)
+│   ├── store/            # Redux state management
+│   ├── hooks/            # Custom React hooks
+│   ├── styles/           # SCSS stylesheets
+│   ├── types/            # TypeScript type definitions
+│   ├── utils/            # Utility functions
+│   └── config/           # Configuration files
+├── public/               # Static assets
+└── vite.config.ts        # Vite configuration
+```
+
+### Backend (`/backend`)
+```
+backend/
+├── src/main/java/com/harmadavtian/disneyapp/
+│   ├── controller/       # REST API controllers
+│   ├── service/          # Business logic
+│   ├── repository/       # Data access layer
+│   ├── model/            # Entity classes
+│   └── config/           # Spring configuration
+├── src/main/resources/
+│   ├── application.properties              # Shared config
+│   ├── application-local.properties        # Local dev
+│   ├── application-prod.properties         # Production
+│   └── db/migration/                       # Flyway migrations
+├── Dockerfile            # Multi-stage Docker build
+└── pom.xml              # Maven dependencies
+```
+
+---
+
+## 🎨 Key Features
+
+### Character Catalog
+- Browse 180+ Disney characters
+- Grid and list view modes
+- Advanced filtering and search
+- Character detail pages with movies
+- Favorite characters functionality
+
+### Movie Collection
+- Comprehensive Disney movie database
+- Movie detail pages with cast
+- Release year, genre, and description
+- High-quality movie posters
+
+### Character Quiz Game
+- Interactive quiz with multiple-choice questions
+- Real-time score tracking
+- Character image recognition
+- Progressive difficulty
+
+### Dynamic Carousels
+- Hero carousel on homepage
+- Smooth transitions with Framer Motion
+- Location-based content
+- Featured characters and movies
+
+### Responsive Design
+- Mobile-first approach
+- Breakpoints: 480px, 768px, 1280px
+- Touch-friendly interactions
+- Optimized images for all devices
+
+---
+
+## 🔧 Development
+
+### Frontend Development
+```bash
+cd frontend
+npm run dev          # Start dev server
+npm run build        # Production build
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
+```
+
+### Backend Development
+```bash
+cd backend
+mvn clean install    # Build project
+mvn spring-boot:run  # Run application
+mvn test            # Run tests
+```
+
+### Docker (Full Stack)
+```bash
+docker-compose up    # Start backend + PostgreSQL
+docker-compose down  # Stop containers
+```
+
+---
+
+## 📖 Documentation
+
+Comprehensive documentation available in `/docs`:
+
+- **[SWAGGER_OPENAPI_INTEGRATION.md](docs/SWAGGER_OPENAPI_INTEGRATION.md)** - Swagger implementation guide
+- **[DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md)** - Deployment instructions
+- **[CHARACTER_QUIZ_GAME.md](docs/CHARACTER_QUIZ_GAME.md)** - Quiz feature documentation
+- **[IMAGE_SERVING_STRATEGY.md](docs/IMAGE_SERVING_STRATEGY.md)** - Image optimization
+- **[PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md)** - Performance tuning
+
+---
+
+## 🧪 Testing
+
+### Frontend Testing
+```bash
+cd frontend
+npm run test         # Run unit tests (when configured)
+```
+
+### Backend Testing
+```bash
+cd backend
+mvn test            # Run all tests
+mvn verify          # Run tests + integration tests
+```
+
+---
+
+## 🚢 Deployment
+
+### Frontend
+- Platform: Azure Static Web Apps (planned)
+- Build: Vite production build
+- CDN: Azure CDN for static assets
+
+### Backend
+- Platform: Azure Container Apps
+- Database: Neon PostgreSQL (cloud)
+- CI/CD: GitHub Actions
+- Container Registry: GitHub Container Registry (GHCR)
+
+### Environment Variables
+
+**Backend Production** (`prod` profile):
+```bash
+DATABASE_URL=jdbc:postgresql://your-neon-host:5432/disneyapp
+DATABASE_USERNAME=neondb_owner
+DATABASE_PASSWORD=your-secure-password
+SPRING_PROFILES_ACTIVE=prod
+```
+
+---
+
+## 🤝 Contributing
+
+This is a personal portfolio project, but feedback and suggestions are welcome!
+
+### Development Guidelines
+
+**Frontend** (VS Code):
+- Follow React 19 conventions
+- Use functional components with hooks
+- TypeScript for type safety
+- SCSS modules for styling
+- Named exports preferred
+
+**Backend** (IntelliJ IDEA):
+- Follow Spring Boot best practices
+- Java 17 features encouraged
+- Javadoc for all public APIs
+- Package structure: `controller`, `service`, `repository`, `model`, `config`
+
+---
+
+## 📝 License
+
+MIT License - This is a portfolio/showcase project.
+
+---
+
+## 👨‍💻 Author
+
+**Harma Davtian**
+
+- GitHub: [@hdavtian](https://github.com/hdavtian)
+- Project: [my-disney-app](https://github.com/hdavtian/my-disney-app)
+
+---
+
+## 🙏 Acknowledgments
+
+- Disney for inspiration and beloved characters
+- Spring Boot and React communities
+- PostgreSQL and Neon for database solutions
+- Swagger/OpenAPI for excellent API documentation tools
+
+---
+
+<div align="center">
+
+**Built with ❤️ using React, Spring Boot, and PostgreSQL**
+
+[Frontend README](frontend/README.md) | [Backend README](backend/README.md) | [API Docs](http://localhost:8080/swagger-ui.html)
+
+</div>
