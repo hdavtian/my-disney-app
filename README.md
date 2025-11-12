@@ -14,6 +14,18 @@ A modern, cinematic Disney character catalog web application combining **React**
 
 </div>
 
+---
+
+## 🚀 Live Demo
+
+Experience the Disney App in production:
+
+- **🎬 Live Application**: [https://movie-app.disney.harma.dev](https://movie-app.disney.harma.dev)
+- **📚 API Documentation (Swagger)**: [https://movie-app.disney.harma.dev/api/swagger-ui.html](https://movie-app.disney.harma.dev/api/swagger-ui.html)
+- **🎨 Component Library (Storybook)**: [https://hdavtian.github.io/my-disney-app](https://hdavtian.github.io/my-disney-app)
+
+---
+
 ## 🎯 Project Overview
 
 Disney App is a creative and technical showcase demonstrating modern full-stack development with:
@@ -135,7 +147,9 @@ Backend will be available at: **http://localhost:8080**
 
 Explore and test the API interactively:
 
-**🔗 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+**Production (Live)**: [https://movie-app.disney.harma.dev/api/swagger-ui.html](https://movie-app.disney.harma.dev/api/swagger-ui.html) 🌐
+
+**Local Development**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 Features:
 
