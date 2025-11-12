@@ -14,7 +14,9 @@
 
 // Utility Color Classes
 // Lightweight helpers for occasional inline semantic color usage
-.color-disney-gold { color: var(--disney-gold); }
+.color-disney-gold {
+    color: var(--disney-gold);
+}
 
 // Global App Styles
 .app {
