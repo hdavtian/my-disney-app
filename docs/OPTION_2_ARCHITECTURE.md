@@ -76,13 +76,17 @@ AI:  [Reads Phase 2 section below]
 ┌─────────────────────────────────────────────────────────────────┐
 │                    DATABASE LAYER (Shared)                      │
 ├─────────────────────────────────────────────────────────────────┤
-│              Neon PostgreSQL (Single Cluster)                   │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │  disney_db   │  │  sierra_db   │  │ portfolio_db │          │
-│  │              │  │              │  │              │          │
-│  │ • characters │  │ • games      │  │ • projects   │          │
-│  │ • movies     │  │ • publishers │  │ • skills     │          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│              Neon PostgreSQL (Single Database)                  │
+│  ┌────────────────────────────────────────────────────────────┐ │
+│  │                      hd_demos                              │ │
+│  │                                                            │ │
+│  │  • disney_characters      • sierra_games                  │ │
+│  │  • disney_movies          • sierra_screenshots            │ │
+│  │  • disney_hero_carousel   • portfolio_projects            │ │
+│  │                           • portfolio_skills              │ │
+│  │                                                            │ │
+│  │  All projects share one database with table prefixes      │ │
+│  └────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
                                 ↓
 ┌─────────────────────────────────────────────────────────────────┐
@@ -134,8 +138,8 @@ backend-migrations/
 **What it does:**
 
 1. Starts up
-2. Connects to ALL project databases (disney_db, sierra_db, portfolio_db)
-3. Runs pending Flyway migrations for each database
+2. Connects to the shared hd_demos database
+3. Runs pending Flyway migrations for all projects (organized in separate migration folders)
 4. Logs success/failure
 5. **Exits immediately** (does not stay running)
 
@@ -144,6 +148,14 @@ backend-migrations/
 - When you push new SQL migration files
 - Manually triggered before deploying main API
 - During initial setup of new project databases
+
+**Key Configuration:**
+
+All projects share a single datasource with table prefixes:
+
+- Disney tables: `disney_characters`, `disney_movies`, `disney_hero_carousel`
+- Sierra tables: `sierra_games`, `sierra_screenshots`
+- Portfolio tables: `portfolio_projects`, `portfolio_skills`
 
 **Dependencies:**
 
@@ -218,6 +230,7 @@ backend/
     │       └── portfolio/
     └── resources/
         └── application.yml              # spring.flyway.enabled=false
+                                         # Single datasource configuration
 ```
 
 **What it does:**
@@ -245,13 +258,13 @@ spring:
     enabled: false # ← CRITICAL: Main API does NOT run migrations
 
   datasource:
-    disney:
-      url: jdbc:postgresql://neon.tech/disney_db
-    sierra:
-      url: jdbc:postgresql://neon.tech/sierra_db
-    portfolio:
-      url: jdbc:postgresql://neon.tech/portfolio_db
+    url: jdbc:postgresql://neon.tech/hd_demos
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 ```
+
+**Note:** Single datasource configuration - all JPA entities use the same connection.
 
 ---
 
@@ -277,18 +290,20 @@ execution:
   parallelism: 1
 environment:
   - name: ACTIVE_PROJECTS
-    value: "project1,project2,project3"
-  - name: DISNEY_DB_URL
-    secretRef: disney-db-url
-  - name: SIERRA_DB_URL
-    secretRef: sierra-db-url
+    value: "disney,sierra,portfolio"
+  - name: DATABASE_URL
+    secretRef: database-url
+  - name: DB_USERNAME
+    secretRef: db-username
+  - name: DB_PASSWORD
+    secretRef: db-password
 ```
 
 **What it does:**
 
 1. Azure triggers the job (manual or via CI/CD)
 2. Container starts
-3. Runs migrations
+3. Runs migrations for all projects to single database
 4. Container exits with status code (0 = success, 1 = failure)
 5. Container is destroyed
 
@@ -330,10 +345,14 @@ ingress:
   targetPort: 8080
   allowInsecure: false
 environment:
-  - name: DISNEY_DB_URL
-    secretRef: disney-db-url
-  - name: SIERRA_DB_URL
-    secretRef: sierra-db-url
+  - name: DATABASE_URL
+    secretRef: database-url
+  - name: DB_USERNAME
+    secretRef: db-username
+  - name: DB_PASSWORD
+    secretRef: db-password
+  - name: AZURE_STORAGE_CONNECTION_STRING
+    secretRef: storage-connection
 ```
 
 **What it does:**
@@ -343,8 +362,9 @@ environment:
 3. Routes to appropriate controllers based on URL:
    - `api.harma.dev/api/disney/*` → DisneyController
    - `api.harma.dev/api/sierra/*` → SierraController
-4. Stays running 24/7
-5. Auto-scales if traffic increases
+4. All controllers use the same datasource (single database with table prefixes)
+5. Stays running 24/7
+6. Auto-scales if traffic increases
 
 **Cost:**
 
@@ -502,47 +522,47 @@ jobs:
 
 ---
 
-### 7. Neon PostgreSQL Databases
+### 7. Neon PostgreSQL Database
 
 **What it is:**
 
 - Single Neon PostgreSQL cluster (free tier)
-- Multiple databases (one per project)
+- Single database with table prefixes for organization
 
 **Structure:**
 
 ```
 Neon Cluster: ep-cool-cloud-12345678.us-east-2.aws.neon.tech
-├── disney_db
-│   ├── public schema
-│   │   ├── characters table
-│   │   ├── movies table
-│   │   └── flyway_schema_history
-│   └── Managed by: migration-service
-├── sierra_db
-│   ├── public schema
-│   │   ├── games table
-│   │   └── flyway_schema_history
-│   └── Managed by: migration-service
-└── portfolio_db
-    ├── public schema
-    │   ├── projects table
-    │   └── flyway_schema_history
-    └── Managed by: migration-service
+└── hd_demos (single database)
+    └── public schema
+        ├── disney_characters        (Disney project)
+        ├── disney_movies
+        ├── disney_hero_carousel
+        ├── sierra_games             (Sierra project)
+        ├── sierra_screenshots
+        ├── portfolio_projects       (Portfolio project - future)
+        ├── portfolio_skills
+        └── flyway_schema_history    (tracks all migrations)
 ```
 
-**Connection strings:**
+**Connection string:**
 
 ```
-DISNEY_DB_URL=postgresql://neon.tech/disney_db?user=harma&password=xxx
-SIERRA_DB_URL=postgresql://neon.tech/sierra_db?user=harma&password=xxx
-PORTFOLIO_DB_URL=postgresql://neon.tech/portfolio_db?user=harma&password=xxx
+DATABASE_URL=postgresql://neon.tech/hd_demos?user=harma&password=xxx
 ```
+
+**Benefits of single database:**
+
+- ✅ Simpler configuration (one connection string)
+- ✅ Works perfectly with Spring Boot defaults
+- ✅ Can query across projects if needed
+- ✅ Single backup/restore operation
+- ✅ Easier local development setup
 
 **Who accesses it:**
 
-- **Migration Service**: Writes schema changes (Flyway migrations)
-- **Main API**: Reads/writes data (JPA repositories)
+- **Migration Service**: Writes schema changes (Flyway migrations to all tables)
+- **Main API**: Reads/writes data via JPA repositories (all projects use same datasource)
 - **You (pgAdmin)**: Manual inspection and backups
 
 ---
@@ -619,9 +639,9 @@ export const ASSETS_CONFIG = {
    ↓
 6. Controller calls CharacterService
    ↓
-7. Service uses JPA Repository to query disney_db
+7. Service uses JPA Repository to query disney_characters table
    ↓
-8. PostgreSQL returns character data
+8. PostgreSQL (hd_demos database) returns character data
    ↓
 9. API returns JSON response
    ↓
@@ -643,12 +663,12 @@ export const ASSETS_CONFIG = {
    ↓
 5. Spring Boot routes to SierraGameController
    ↓
-6. Service queries sierra_db (different database)
+6. Service queries sierra_games table (same database, different tables)
    ↓
 7. Returns game data
 ```
 
-**Key Point**: Same API server, different URL paths and databases.
+**Key Point**: Same API server, same database, different URL paths and table prefixes.
 
 ---
 
@@ -703,11 +723,11 @@ export const ASSETS_CONFIG = {
    ↓
 8. Migration container starts
    ↓
-9. Connects to disney_db
+9. Connects to hd_demos database
    ↓
 10. Flyway detects V4__add_ratings_table.sql (new)
     ↓
-11. Executes: CREATE TABLE ratings (...)
+11. Executes: CREATE TABLE disney_ratings (...)
     ↓
 12. Updates flyway_schema_history table
     ↓
@@ -727,28 +747,28 @@ export const ASSETS_CONFIG = {
 ### Scenario 3: Adding Brand New Project (Sierra Games)
 
 ```
-1. Create new database: sierra_db in Neon
-   ↓
-2. Add migration files:
+1. Add migration files:
    - backend-migrations/src/main/resources/db/migration/project2-sierra/V1__initial_schema.sql
+   - SQL includes: CREATE TABLE sierra_games (...), CREATE TABLE sierra_screenshots (...)
    ↓
-3. Update migration-service application.yml:
-   - Add sierra_db datasource configuration
+2. Create JPA entities with @Table annotations:
+   - @Entity @Table(name="sierra_games") public class Game { ... }
+   - @Entity @Table(name="sierra_screenshots") public class Screenshot { ... }
    ↓
-4. Create controllers:
+3. Create controllers:
    - backend/src/.../controller/sierra/GameController.java
    ↓
-5. Create services and repositories
+4. Create services and repositories (use same datasource as Disney)
    ↓
-6. Add URL mapping: @RequestMapping("/api/sierra")
+5. Add URL mapping: @RequestMapping("/api/sierra")
    ↓
-7. Git commit + push
+6. Git commit + push
    ↓
-8. GitHub Actions runs:
-   - Migration pipeline → Creates sierra_db schema
+7. GitHub Actions runs:
+   - Migration pipeline → Creates sierra_games and sierra_screenshots tables in hd_demos
    - API pipeline → Deploys with new /api/sierra/* endpoints
    ↓
-9. Update ACTIVE_PROJECTS environment variable in Azure: "project1,project2"
+8. Update ACTIVE_PROJECTS environment variable in Azure: "disney,sierra"
    ↓
 10. Test: GET https://api.harma.dev/api/sierra/games
     ↓
@@ -761,31 +781,59 @@ export const ASSETS_CONFIG = {
 
 ## Implementation Progress
 
-### ✅ Completed Tasks
+### ✅ Phase 1: Initial Multi-Database Implementation (Completed)
 
-- [x] Architecture design finalized (Option 2)
-- [x] Progress tracking document created
+- [x] Architecture design finalized (Option 2 with single database)
+- [x] Created hd-demos-api multi-module Maven project structure
+- [x] Created shared-models module with Disney and Sierra entities
+- [x] Created backend module with controllers, services, repositories
+- [x] Created backend-migrations module with Flyway configuration
+- [x] Implemented MultiDatabaseFlywayConfig (working)
+- [x] Created migration SQL files for Disney (project1-disney/)
+- [x] Created migration SQL files for Sierra (project2-sierra/)
+- [x] Successfully ran migrations to both databases locally
+- [x] Copied Sierra backend code to unified API
 
-### 🔄 In Progress Tasks
+### ⚠️ Phase 2: Architecture Pivot (November 10, 2025)
 
-None yet - awaiting approval to start
+**Issue Discovered**: Spring Boot 3.x cannot easily isolate entities per datasource when all entities share the same package (`com.harmadavtian.shared.model`). Attempted multiple EntityManagerFactory configuration approaches—all failed or don't exist in Spring Boot 3.3.5.
 
-### 📋 Remaining Tasks
+**Decision**: Pivot from multi-database to **single database with table prefixes**.
 
-| #   | Task                                      | Estimated Time | Status         |
-| --- | ----------------------------------------- | -------------- | -------------- |
-| 1   | Create Migration Service Structure        | 45 min         | ⬜ Not Started |
-| 2   | Move Migrations to Project Folders        | 30 min         | ⬜ Not Started |
-| 3   | Configure Multi-DataSource for Migrations | 60 min         | ⬜ Not Started |
-| 4   | Disable Flyway in Main API                | 15 min         | ⬜ Not Started |
-| 5   | Add URL Namespacing to Controllers        | 45 min         | ⬜ Not Started |
-| 6   | Create Migration Service Dockerfile       | 20 min         | ⬜ Not Started |
-| 7   | Create Migration CI/CD Pipeline           | 60 min         | ⬜ Not Started |
-| 8   | Update Main API CI/CD Pipeline            | 30 min         | ⬜ Not Started |
-| 9   | Configure Azure Container Apps Jobs       | 45 min         | ⬜ Not Started |
-| 10  | Test Multi-Project Setup Locally          | 60 min         | ⬜ Not Started |
+**Benefits**:
 
-**Total Estimated Time**: ~6-7 hours (roughly 1 work day)
+- ✅ Works with Spring Boot defaults (no custom datasource configs)
+- ✅ Simpler configuration and deployment
+- ✅ Single connection string
+- ✅ Can still logically separate projects via table naming
+
+**Documentation**: See [SINGLE_DATABASE_REFACTOR_PLAN.md](./SINGLE_DATABASE_REFACTOR_PLAN.md) for detailed transition guide.
+
+### � Phase 3: Single Database Refactor (In Progress)
+
+| #   | Task                                     | Estimated Time | Status         |
+| --- | ---------------------------------------- | -------------- | -------------- |
+| 1   | Add @Table annotations to all entities   | 15 min         | ⬜ Not Started |
+| 2   | Update migration SQL with table prefixes | 30 min         | ⬜ Not Started |
+| 3   | Delete multi-datasource configs          | 10 min         | ⬜ Not Started |
+| 4   | Update application.properties            | 15 min         | ⬜ Not Started |
+| 5   | Simplify Flyway configuration            | 20 min         | ⬜ Not Started |
+| 6   | Create hd_demos database                 | 5 min          | ⬜ Not Started |
+| 7   | Run consolidated migrations              | 10 min         | ⬜ Not Started |
+| 8   | Test backend API startup                 | 15 min         | ⬜ Not Started |
+| 9   | Test all Disney + Sierra endpoints       | 20 min         | ⬜ Not Started |
+| 10  | Test frontend applications               | 30 min         | ⬜ Not Started |
+
+**Total Estimated Time**: ~2.5-3 hours
+
+### 📋 Phase 4: Production Deployment (Future)
+
+- [ ] Update Neon database (create hd_demos)
+- [ ] Update Azure Container Apps environment variables
+- [ ] Deploy migration service
+- [ ] Deploy unified API
+- [ ] Test production endpoints
+- [ ] Update GitHub Actions secrets
 
 ---
 
