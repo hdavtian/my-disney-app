@@ -80,3 +80,5 @@ frontend/dist/
 #backend specific
 backend/target/
 backend/.idea/
+*storybook.log
+storybook-static
