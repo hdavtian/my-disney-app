@@ -104,13 +104,43 @@ Use the PowerShell script to test connection to Neon:
 
 This script sets environment variables and runs Spring Boot with the `prod` profile.
 
-## API Endpoints
+## API Documentation
 
-Once running, the API is available at:
+### Swagger UI (Interactive API Documentation)
 
-- **Movies**: `http://localhost:8080/api/movies`
-- **Characters**: `http://localhost:8080/api/characters`
-- **Health Check**: `http://localhost:8080/actuator/health`
+Once running, explore and test the API interactively:
+
+**🔗 Swagger UI**: [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html)
+
+Features:
+- Interactive API testing with "Try it out" functionality
+- Complete endpoint documentation with examples
+- Request/response schemas
+- No Postman needed for basic API testing
+
+**OpenAPI Specification**:
+- JSON: `http://localhost:8080/v3/api-docs`
+- YAML: `http://localhost:8080/v3/api-docs.yaml`
+
+> **Note**: Swagger UI is automatically disabled in production (`prod` profile) for security.
+
+### API Endpoints
+
+**Characters API** (`/api/characters`):
+- `GET /api/characters` - Get all Disney characters
+- `GET /api/characters/{id}` - Get character by ID
+- `GET /api/characters/ids` - Get all character IDs (for quiz)
+- `GET /api/characters/random-except/{excludeId}?count=3` - Get random characters excluding one
+
+**Movies API** (`/api/movies`):
+- `GET /api/movies` - Get all Disney movies
+- `GET /api/movies/{id}` - Get movie by ID
+
+**Carousel API** (`/api/carousels`):
+- `GET /api/carousels?location=homepage` - Get carousel items by location
+
+**Health Check**:
+- `GET /actuator/health` - Application health status
 
 ## Development Workflow
 
