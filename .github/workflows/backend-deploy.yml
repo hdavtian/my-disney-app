@@ -81,7 +81,8 @@ jobs:
           az containerapp update \
             --name ca-movie-app-api \
             --resource-group rg-disney-movies-app \
-            --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+            --set-env-vars "SPRING_PROFILES_ACTIVE=prod"
 
       - name: Verify deployment
         run: |
