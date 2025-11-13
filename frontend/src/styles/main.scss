@@ -32,33 +32,33 @@
     flex: 1 0 auto;
     display: block;
     /* Account for fixed header once at layout level */
-    padding-top: var(--header-height);
+    margin-top: var(--header-height);
 }
 
 // Page Container
 .page-container {
-    width: 90%;
+    // width: 90%;
     max-width: none;
     margin: 0 auto;
-    padding: var(--space-8) var(--space-4);
+    //padding: var(--space-8) var(--space-4);
 }
 
 @media (max-width: 480px) {
     .page-container {
         width: 100%;
-        padding: var(--space-8) var(--space-4);
+        // padding: var(--space-8) var(--space-4);
     }
 }
 
 @media (min-width: 768px) {
     .page-container {
-        padding: var(--space-8) var(--space-6);
+        // padding: var(--space-8) var(--space-6);
     }
 }
 
 @media (min-width: 1280px) {
     .page-container {
-        padding: var(--space-8) var(--space-8);
+        // padding: var(--space-8) var(--space-8);
     }
 }
 

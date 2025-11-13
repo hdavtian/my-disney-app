@@ -69,7 +69,7 @@ export const CharacterDetailPage = () => {
   // Only show "not found" after we've initialized and confirmed it doesn't exist
   if (!character) {
     return (
-      <div className="character-detail-page">
+      <div className="page-container character-detail-page">
         <div className="character-detail-page__error">
           <h2>Character Not Found</h2>
           <p>The character you're looking for doesn't exist.</p>
@@ -86,7 +86,7 @@ export const CharacterDetailPage = () => {
 
   return (
     <motion.div
-      className="character-detail-page"
+      className="page-container character-detail-page"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

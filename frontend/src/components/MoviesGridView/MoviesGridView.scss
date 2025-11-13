@@ -58,15 +58,13 @@
     &__grid {
         display: grid;
         padding: 0.5rem;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
         gap: var(--space-3);
 
         /* Ensure content never forces tracks to grow unevenly */
         >* {
             min-width: 0; // allows proper shrinking
         }
-
-        /* Mobile: 1 column (0–480px) */
-        grid-template-columns: repeat(1, minmax(0, 1fr));
 
         /* Tablet: 2 columns (481–768px) */
         @media (min-width: 481px) {
