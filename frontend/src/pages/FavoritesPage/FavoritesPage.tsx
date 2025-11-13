@@ -1,8 +1,15 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { useFavorites } from "../../hooks/useFavorites";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { fetchMovies } from "../../store/slices/moviesSlice";
+import { fetchCharacters } from "../../store/slices/charactersSlice";
+import {
+  addRecentlyViewedMovie,
+  addRecentlyViewedCharacter,
+} from "../../store/slices/recentlyViewedSlice";
 import { Movie } from "../../types/Movie";
 import { Character } from "../../types/Character";
 import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
@@ -16,10 +23,22 @@ type FavoriteItem =
   | { type: "character"; data: Character };
 
 export const FavoritesPage = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { favorites } = useFavorites();
   const allMovies = useAppSelector((state) => state.movies.movies);
   const allCharacters = useAppSelector((state) => state.characters.characters);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
+
+  // Ensure movies and characters are loaded
+  useEffect(() => {
+    if (allMovies.length === 0) {
+      dispatch(fetchMovies());
+    }
+    if (allCharacters.length === 0) {
+      dispatch(fetchCharacters());
+    }
+  }, [dispatch, allMovies.length, allCharacters.length]);
 
   // Build a combined favorites array preserving the user's saved order
   const favoriteItems = useMemo<FavoriteItem[]>(() => {
@@ -73,6 +92,30 @@ export const FavoritesPage = () => {
     setFilteredFavorites(results.map((r) => r.original as FavoriteItem));
   }, []);
 
+  const handleMovieClick = useCallback(
+    (movieId: string) => {
+      const movie = allMovies.find((m) => m.id === movieId);
+      if (movie) {
+        dispatch(addRecentlyViewedMovie({ id: movie.id, name: movie.title }));
+        navigate(`/movie/${movie.id}`);
+      }
+    },
+    [allMovies, dispatch, navigate]
+  );
+
+  const handleCharacterClick = useCallback(
+    (characterId: string) => {
+      const character = allCharacters.find((c) => c.id === characterId);
+      if (character) {
+        dispatch(
+          addRecentlyViewedCharacter({ id: character.id, name: character.name })
+        );
+        navigate(`/character/${character.id}`);
+      }
+    },
+    [allCharacters, dispatch, navigate]
+  );
+
   return (
     <motion.div
       className="page-container favorites-page"
@@ -118,14 +161,14 @@ export const FavoritesPage = () => {
                   <MovieCard
                     key={`movie-${item.data.id}`}
                     movie={item.data}
-                    onClick={() => {}}
+                    onClick={() => handleMovieClick(item.data.id)}
                     index={idx}
                   />
                 ) : (
                   <CharacterCard
                     key={`char-${item.data.id}`}
                     character={item.data}
-                    onClick={() => {}}
+                    onClick={() => handleCharacterClick(item.data.id)}
                     index={idx}
                   />
                 )
@@ -139,11 +182,14 @@ export const FavoritesPage = () => {
                   className="favorites-list__row"
                 >
                   {item.type === "movie" ? (
-                    <MovieCard movie={item.data as Movie} onClick={() => {}} />
+                    <MovieCard
+                      movie={item.data as Movie}
+                      onClick={() => handleMovieClick(item.data.id)}
+                    />
                   ) : (
                     <CharacterCard
                       character={item.data as Character}
-                      onClick={() => {}}
+                      onClick={() => handleCharacterClick(item.data.id)}
                     />
                   )}
                 </div>

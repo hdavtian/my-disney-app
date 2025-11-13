@@ -10,10 +10,14 @@ import { CharacterDetailPage } from "./pages/CharacterDetailPage/CharacterDetail
 import { DisclaimerPage } from "./pages/DisclaimerPage";
 import { Footer } from "./components/Footer/Footer";
 import { RequireDisclaimer } from "./components/AccessGate/RequireDisclaimer";
+import { ScrollToTop } from "./components/ScrollToTop";
+import { AppInitializer } from "./components/AppInitializer";
 
 function App() {
   return (
     <div className="app">
+      <AppInitializer />
+      <ScrollToTop />
       <Navigation />
       <main className="app-content">
         <Routes>
