@@ -15,6 +15,14 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+
+    // Tablet and mobile: stack rows
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        text-align: center;
+    }
 }
 
 .leftColumn {
@@ -29,6 +37,12 @@
         &:hover {
             color: var(--text-color);
         }
+    }
+
+    // Mobile: wrap if needed
+    @media (max-width: 480px) {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 
@@ -48,5 +62,12 @@
 
     .separator {
         margin: 0 0.5rem;
+    }
+
+    // Mobile: wrap links if needed
+    @media (max-width: 480px) {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem;
     }
 }
