@@ -21,31 +21,25 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
         /* On tablet+ make header a two-column row: left = title/desc, right = controls */
-        @include tablet-up {
-            flex-direction: row;
-            align-items: center;
-            /* vertical middle alignment */
-            justify-content: space-between;
-            gap: var(--space-6);
-            padding: var(--space-8) var(--space-6);
-        }
+        // @include tablet-up {
+        //     flex-direction: row;
+        //     align-items: center;
+        //     justify-content: space-between;
+        //     gap: var(--space-6);
+        //     padding: var(--space-8) var(--space-6);
+        // }
 
-        @media (max-width: 768px) {
-            padding: var(--space-6) var(--space-4);
-            gap: var(--space-4);
-        }
+        // @media (max-width: 768px) {
+        //     padding: var(--space-6) var(--space-4);
+        //     gap: var(--space-4);
+        // }
     }
 
     &__header-content {
         text-align: center;
         max-width: 800px;
 
-        /* Left column text becomes left-aligned on larger screens */
-        @include tablet-up {
-            text-align: left;
-            max-width: 720px;
-            flex: 1 1 auto;
-        }
+
 
         h1 {
             font-size: var(--text-5xl);
@@ -131,6 +125,18 @@
             box-shadow: none;
             border-radius: var(--radius-lg);
 
+            @include mobile {
+                display: none !important;
+            }
+
+            @include tablet {
+                display: none !important;
+            }
+
+            @include desktop {
+                display: none !important;
+            }
+
             &__button {
                 padding: var(--space-2) var(--space-4);
                 min-width: 120px;
@@ -143,47 +149,6 @@
                 height: 18px;
                 /* ensure svg scales appropriately */
                 stroke-width: 1.6;
-            }
-        }
-    }
-
-    /* Controls row: page-scoped search + view toggle */
-    &__controls {
-        display: flex;
-        gap: var(--space-4);
-        align-items: center;
-        margin-top: var(--space-6);
-
-        /* Ensure the controls line up nicely on wide screens */
-        @include tablet-up {
-            justify-content: flex-end;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Make SearchInput larger on Movies page only (keeps homepage intact) */
-        .search-input {
-            max-width: 700px;
-            width: 100%;
-
-            @media (min-width: 1200px) {
-                max-width: 900px;
-            }
-        }
-
-        /* De-emphasize the global view-mode toggle inside this page */
-        .view-mode-toggle {
-            padding: var(--space-1);
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: none;
-            border-radius: var(--radius-lg);
-
-            &__button {
-                padding: var(--space-2) var(--space-4);
-                min-width: 120px;
-                color: var(--gray-300);
             }
         }
     }

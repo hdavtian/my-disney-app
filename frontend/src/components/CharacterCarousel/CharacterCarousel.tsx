@@ -108,8 +108,8 @@ export const CharacterCarousel = ({
               spaceBetween: 16,
             },
             481: {
-              slidesPerView: 4,
-              slidesPerGroup: 4,
+              slidesPerView: 3,
+              slidesPerGroup: 3,
               spaceBetween: 16,
             },
             768: {
