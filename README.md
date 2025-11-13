@@ -4,13 +4,13 @@ A modern, cinematic Disney character catalog web application combining **React**
 
 <div align="center">
 
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.0-6DB33F?logo=springboot)](https://spring.io/projects/spring-boot)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk)](https://openjdk.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
-[![Swagger](https://img.shields.io/badge/OpenAPI-3.0-85EA2D?logo=swagger)](https://swagger.io/)
-[![Storybook](https://img.shields.io/badge/Storybook-10.0-FF4785?logo=storybook)](https://storybook.js.org/)
+<a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/React-19-61DAFB?logo=react" alt="React"></a>
+<a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.3.0-6DB33F?logo=springboot" alt="Spring Boot"></a>
+<a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript" alt="TypeScript"></a>
+<a href="https://openjdk.org/" target="_blank"><img src="https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk" alt="Java"></a>
+<a href="https://www.postgresql.org/" target="_blank"><img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql" alt="PostgreSQL"></a>
+<a href="https://swagger.io/" target="_blank"><img src="https://img.shields.io/badge/OpenAPI-3.0-85EA2D?logo=swagger" alt="Swagger"></a>
+<a href="https://storybook.js.org/" target="_blank"><img src="https://img.shields.io/badge/Storybook-10.0-FF4785?logo=storybook" alt="Storybook"></a>
 
 </div>
 
@@ -20,9 +20,9 @@ A modern, cinematic Disney character catalog web application combining **React**
 
 Experience the Disney App in production:
 
-- **🎬 Live Application**: [https://movie-app.disney.harma.dev](https://movie-app.disney.harma.dev)
-- **📚 API Documentation (Swagger)**: [https://api.movie-app.disney.harma.dev/swagger-ui/index.html](https://api.movie-app.disney.harma.dev/swagger-ui/index.html)
-- **🎨 Component Library (Storybook)**: [https://hdavtian.github.io/my-disney-app](https://hdavtian.github.io/my-disney-app)
+- **🎬 Live Application**: <a href="https://movie-app.disney.harma.dev" target="_blank">https://movie-app.disney.harma.dev</a>
+- **📚 API Documentation (Swagger)**: <a href="https://api.movie-app.disney.harma.dev/swagger-ui/index.html" target="_blank">https://api.movie-app.disney.harma.dev/swagger-ui/index.html</a>
+- **🎨 Component Library (Storybook)**: <a href="https://hdavtian.github.io/my-disney-app" target="_blank">https://hdavtian.github.io/my-disney-app</a>
 
 ---
 
@@ -147,7 +147,7 @@ Backend will be available at: **http://localhost:8080**
 
 Explore and test the API interactively:
 
-**Production (Live)**: [https://api.movie-app.disney.harma.dev/swagger-ui/index.html](https://api.movie-app.disney.harma.dev/swagger-ui/index.html) 🌐
+**Production (Live)**: <a href="https://api.movie-app.disney.harma.dev/swagger-ui/index.html" target="_blank">https://api.movie-app.disney.harma.dev/swagger-ui/index.html</a> 🌐
 
 **Local Development**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
@@ -189,7 +189,7 @@ Features:
 
 Explore all React components in an isolated, interactive environment:
 
-**🔗 Live Storybook**: [https://hdavtian.github.io/my-disney-app/](https://hdavtian.github.io/my-disney-app/) (Coming Soon)
+**🔗 Live Storybook**: <a href="https://hdavtian.github.io/my-disney-app/" target="_blank">https://hdavtian.github.io/my-disney-app/</a> (Coming Soon)
 
 **Local Development**: `http://localhost:6006`
 
@@ -442,8 +442,8 @@ MIT License - This is a portfolio/showcase project.
 
 **Harma Davtian**
 
-- GitHub: [@hdavtian](https://github.com/hdavtian)
-- Project: [my-disney-app](https://github.com/hdavtian/my-disney-app)
+- GitHub: <a href="https://github.com/hdavtian" target="_blank">@hdavtian</a>
+- Project: <a href="https://github.com/hdavtian/my-disney-app" target="_blank">my-disney-app</a>
 
 ---
 
