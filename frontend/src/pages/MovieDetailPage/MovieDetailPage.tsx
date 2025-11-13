@@ -58,7 +58,7 @@ export const MovieDetailPage = () => {
   // Only show "not found" after we've initialized and confirmed it doesn't exist
   if (!movie) {
     return (
-      <div className="movie-detail-page">
+      <div className="page-container movie-detail-page">
         <div className="movie-detail-page__error">
           <h2>Movie Not Found</h2>
           <p>The movie you're looking for doesn't exist.</p>
@@ -75,7 +75,7 @@ export const MovieDetailPage = () => {
 
   return (
     <motion.div
-      className="movie-detail-page"
+      className="page-container movie-detail-page"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

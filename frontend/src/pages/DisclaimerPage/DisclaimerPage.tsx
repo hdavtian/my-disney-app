@@ -27,7 +27,7 @@ export const DisclaimerPage: React.FC = () => {
 
   return (
     <div
-      className={styles.disclaimerPage}
+      className={`page-container ${styles.disclaimerPage}`}
       role="dialog"
       aria-labelledby="disclaimerTitle"
       aria-modal="true"
