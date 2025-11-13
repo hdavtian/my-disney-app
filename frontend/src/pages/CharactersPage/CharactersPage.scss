@@ -20,15 +20,14 @@
         background: var(--black);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-        /* Two-column header on tablet+ */
-        @include tablet-up {
+        /* Large desktop: side by side layout */
+        @media (min-width: 1280px) {
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            gap: var(--space-6);
-            padding: var(--space-8) var(--space-6);
         }
 
+        /* Desktop and lower: stack as two rows, center aligned */
         @media (max-width: 768px) {
             padding: var(--space-6) var(--space-4);
             gap: var(--space-4);
@@ -39,7 +38,8 @@
         text-align: center;
         max-width: 800px;
 
-        @include tablet-up {
+        /* Large desktop: left aligned, first column */
+        @media (min-width: 1280px) {
             text-align: left;
             max-width: 720px;
             flex: 1 1 auto;
@@ -96,12 +96,13 @@
         display: flex;
         gap: var(--space-4);
         align-items: center;
-        margin-top: var(--space-6);
+        justify-content: center;
+        width: 100%;
 
-        @include tablet-up {
-            margin-top: 0;
+        /* Large desktop: right aligned, second column */
+        @media (min-width: 1280px) {
             justify-content: flex-end;
-            max-width: 480px;
+            width: auto;
             flex: 0 0 auto;
         }
 
@@ -110,12 +111,17 @@
             width: 100%;
         }
 
+        /* Hide view-mode toggle on tablet and lower */
         .view-mode-toggle {
             padding: var(--space-1);
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.06);
             box-shadow: none;
             border-radius: var(--radius-lg);
+
+            @media (max-width: 768px) {
+                display: none;
+            }
 
             &__button {
                 padding: var(--space-2) var(--space-4);

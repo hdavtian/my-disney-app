@@ -20,26 +20,30 @@
         background: var(--black);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-        /* On tablet+ make header a two-column row: left = title/desc, right = controls */
-        // @include tablet-up {
-        //     flex-direction: row;
-        //     align-items: center;
-        //     justify-content: space-between;
-        //     gap: var(--space-6);
-        //     padding: var(--space-8) var(--space-6);
-        // }
+        /* Large desktop: side by side layout */
+        @media (min-width: 1280px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-        // @media (max-width: 768px) {
-        //     padding: var(--space-6) var(--space-4);
-        //     gap: var(--space-4);
-        // }
+        /* Desktop and lower: stack as two rows, center aligned */
+        @media (max-width: 768px) {
+            padding: var(--space-6) var(--space-4);
+            gap: var(--space-4);
+        }
     }
 
     &__header-content {
         text-align: center;
         max-width: 800px;
 
-
+        /* Large desktop: left aligned, first column */
+        @media (min-width: 1280px) {
+            text-align: left;
+            max-width: 720px;
+            flex: 1 1 auto;
+        }
 
         h1 {
             font-size: var(--text-5xl);
@@ -93,17 +97,13 @@
         display: flex;
         gap: var(--space-4);
         align-items: center;
-        margin-top: var(--space-6);
+        justify-content: center;
+        width: 100%;
 
-        @include tablet-up {
-            /* When header is a row, don't add extra top margin; align horizontally */
-            margin-top: 0;
-        }
-
-        /* Ensure the controls line up nicely on wide screens */
-        @include tablet-up {
+        /* Large desktop: right aligned, second column */
+        @media (min-width: 1280px) {
             justify-content: flex-end;
-            max-width: 480px;
+            width: auto;
             flex: 0 0 auto;
         }
 
@@ -117,7 +117,7 @@
             }
         }
 
-        /* De-emphasize the global view-mode toggle inside this page */
+        /* Hide view-mode toggle on tablet and lower */
         .view-mode-toggle {
             padding: var(--space-1);
             background: transparent;
@@ -125,16 +125,8 @@
             box-shadow: none;
             border-radius: var(--radius-lg);
 
-            @include mobile {
-                display: none !important;
-            }
-
-            @include tablet {
-                display: none !important;
-            }
-
-            @include desktop {
-                display: none !important;
+            @media (max-width: 768px) {
+                display: none;
             }
 
             &__button {
@@ -143,11 +135,9 @@
                 color: var(--gray-300);
             }
 
-            /* Reduce icon size slightly on Movies page to save space */
             &__icon {
                 width: 18px;
                 height: 18px;
-                /* ensure svg scales appropriately */
                 stroke-width: 1.6;
             }
         }
