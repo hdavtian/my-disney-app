@@ -3,6 +3,9 @@
 @import './mixins';
 @import './base';
 
+// Import theme system (must come before components to ensure CSS variables are available)
+@import './themes/themes';
+
 // Import component styles
 @import '../components/Navigation/Navigation.scss';
 @import '../components/HomePage/HomePage.scss';

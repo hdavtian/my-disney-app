@@ -1,0 +1,60 @@
+// Dark Theme (Current Default)
+body.theme-dark {
+    // === VISUAL INDICATOR (TESTING) ===
+    border: 10px solid #4a90e2 !important;
+    box-sizing: border-box;
+
+    // === BACKGROUNDS ===
+    --bg-primary: #000000;
+    --bg-secondary: #0f172a;
+    --bg-tertiary: #1e293b;
+    --bg-overlay: rgba(0, 0, 0, 0.85);
+
+    // === TEXT COLORS ===
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-disabled: #64748b;
+
+    // === ACCENT COLORS ===
+    --accent-primary: #4a90e2;
+    --accent-primary-hover: #5fa3f5;
+    --accent-secondary: #fdd017;
+    --accent-secondary-hover: #ffed4e;
+
+    // === NAVIGATION ===
+    --nav-bg: #ffffff;
+    --nav-text: #334155;
+    --nav-text-hover: #006bb3;
+    --nav-text-active: #006bb3;
+    --nav-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    // === CARDS ===
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-bg-hover: rgba(255, 255, 255, 0.08);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    // === BUTTONS ===
+    --btn-primary-bg: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    --btn-primary-bg-hover: linear-gradient(135deg, #5fa3f5 0%, #4a90e2 100%);
+    --btn-primary-text: #ffffff;
+
+    // === MODALS ===
+    --modal-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --modal-border: rgba(255, 255, 255, 0.1);
+    --modal-backdrop: rgba(0, 0, 0, 0.85);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+    // === FORMS ===
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --input-border: rgba(255, 255, 255, 0.2);
+    --input-border-focus: #4a90e2;
+    --input-text: #ffffff;
+
+    // === SHADOWS ===
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --shadow-sm: 0 1px 2px var(--shadow-color);
+    --shadow-md: 0 4px 6px var(--shadow-color);
+    --shadow-lg: 0 10px 15px var(--shadow-color);
+}

@@ -1,0 +1,60 @@
+// Walt Disney Classic Theme
+body.theme-walt-disney {
+    // === VISUAL INDICATOR (TESTING) ===
+    border: 10px solid #fdd017 !important;
+    box-sizing: border-box;
+
+    // === BACKGROUNDS ===
+    --bg-primary: #003d6b;
+    --bg-secondary: #004d7a;
+    --bg-tertiary: #005d8a;
+    --bg-overlay: rgba(0, 61, 107, 0.95);
+
+    // === TEXT COLORS ===
+    --text-primary: #ffffff;
+    --text-secondary: #e0f0ff;
+    --text-tertiary: #b0d0f0;
+    --text-disabled: #80a0c0;
+
+    // === ACCENT COLORS (Disney Blue & Gold) ===
+    --accent-primary: #fdd017;
+    --accent-primary-hover: #ffed4e;
+    --accent-secondary: #006bb3;
+    --accent-secondary-hover: #0088e0;
+
+    // === NAVIGATION ===
+    --nav-bg: #004d7a;
+    --nav-text: #fdd017;
+    --nav-text-hover: #ffed4e;
+    --nav-text-active: #fdd017;
+    --nav-shadow: 0 1px 3px rgba(253, 208, 23, 0.3);
+
+    // === CARDS ===
+    --card-bg: rgba(253, 208, 23, 0.08);
+    --card-bg-hover: rgba(253, 208, 23, 0.12);
+    --card-border: rgba(253, 208, 23, 0.25);
+    --card-shadow: 0 4px 6px rgba(253, 208, 23, 0.2);
+
+    // === BUTTONS ===
+    --btn-primary-bg: linear-gradient(135deg, #fdd017 0%, #c4a500 100%);
+    --btn-primary-bg-hover: linear-gradient(135deg, #ffed4e 0%, #fdd017 100%);
+    --btn-primary-text: #003d6b;
+
+    // === MODALS ===
+    --modal-bg: linear-gradient(135deg, #004d7a 0%, #005d8a 100%);
+    --modal-border: rgba(253, 208, 23, 0.3);
+    --modal-backdrop: rgba(0, 61, 107, 0.9);
+    --modal-shadow: 0 25px 50px -12px rgba(253, 208, 23, 0.3);
+
+    // === FORMS ===
+    --input-bg: rgba(253, 208, 23, 0.08);
+    --input-border: rgba(253, 208, 23, 0.3);
+    --input-border-focus: #fdd017;
+    --input-text: #ffffff;
+
+    // === SHADOWS ===
+    --shadow-color: rgba(253, 208, 23, 0.25);
+    --shadow-sm: 0 1px 2px var(--shadow-color);
+    --shadow-md: 0 4px 6px var(--shadow-color);
+    --shadow-lg: 0 10px 15px var(--shadow-color);
+}

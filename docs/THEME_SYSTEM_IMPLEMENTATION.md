@@ -153,22 +153,36 @@ frontend/src/styles/
 
 ## Implementation Tasks
 
-### Phase 1: Infrastructure Setup ✅
+### Phase 1: Infrastructure Setup ✅ COMPLETED
 
-#### Task 1.1: Create Theme Files Structure
+#### Task 1.1: Create Theme Files Structure ✅
 
-- [ ] Create `frontend/src/styles/themes/` directory
-- [ ] Create `_theme-variables.scss` with base variable definitions
-- [ ] Create individual theme files for each theme
-- [ ] Create `_themes.scss` to import all theme files
-- [ ] Update `main.scss` to import `_themes.scss`
+- [x] Create `frontend/src/styles/themes/` directory
+- [x] Create individual theme files for each theme
+  - [x] `_theme-dark.scss`
+  - [x] `_theme-light.scss`
+  - [x] `_theme-star-wars.scss`
+  - [x] `_theme-marvel.scss`
+  - [x] `_theme-walt-disney.scss`
+  - [x] `_theme-pixar.scss`
+- [x] Create `_themes.scss` to import all theme files
+- [x] Update `main.scss` to import `_themes.scss`
 
-#### Task 1.2: Define Theme Variables
+#### Task 1.2: Define Theme Variables ✅
 
-- [ ] Extract current hardcoded colors from existing SCSS
-- [ ] Map to CSS custom properties (--var-name)
-- [ ] Define complete variable set for `theme-dark` (baseline)
-- [ ] Create variable mappings for all other themes
+- [x] Extract current colors and map to CSS custom properties
+- [x] Define complete variable set for `theme-dark` (baseline)
+- [x] Create variable mappings for all 6 themes
+- [x] Include all variable categories:
+  - [x] Backgrounds (primary, secondary, tertiary, overlay)
+  - [x] Text colors (primary, secondary, tertiary, disabled)
+  - [x] Accent colors (primary, secondary, hover states)
+  - [x] Navigation (bg, text, active, shadow)
+  - [x] Cards (bg, hover, border, shadow)
+  - [x] Buttons (bg, hover, text)
+  - [x] Modals (bg, border, backdrop, shadow)
+  - [x] Forms (bg, border, focus, text)
+  - [x] Shadows (color, sm, md, lg)
 
 #### Task 1.3: Refactor Existing Styles
 
@@ -178,87 +192,117 @@ frontend/src/styles/
   - [ ] HomePage
   - [ ] CharacterCard
   - [ ] MovieCard
-  - [ ] SiteSettings
   - [ ] Footer
   - [ ] Other components
 - [ ] Test that site looks identical with new variables
 
 ---
 
-### Phase 2: Redux State Management ✅
+### Phase 2: Redux State Management ✅ COMPLETED
 
-#### Task 2.1: Create Theme Slice
+#### Task 2.1: Create Theme Slice ✅
 
-- [ ] Create `frontend/src/store/slices/themeSlice.ts`
-- [ ] Define theme state interface
-- [ ] Create actions: `setTheme`, `initializeTheme`
-- [ ] Create selectors: `selectCurrentTheme`, `selectAvailableThemes`
+- [x] Create `frontend/src/store/slices/themeSlice.ts`
+- [x] Define theme state interface (ThemeState with selectedTheme, appliedTheme, availableThemes)
+- [x] Define ThemeOption type (auto | theme-dark | theme-light | etc.)
+- [x] Define Theme interface with id, name, description, preview
+- [x] Create AVAILABLE_THEMES array with all 7 themes (including auto)
+- [x] Create actions: `setTheme`, `setAppliedTheme`, `initializeTheme`, `resetTheme`
+- [x] Create selectors: `selectTheme`, `selectSelectedTheme`, `selectAppliedTheme`, `selectAvailableThemes`
 
-#### Task 2.2: Theme Persistence
+#### Task 2.2: Theme Persistence ✅
 
-- [ ] Add theme to localStorage sync middleware
-- [ ] Update `localStorageSyncMiddleware.ts` to handle theme
-- [ ] Add theme to rehydration logic
+- [x] Add THEME_STORAGE_KEY constant to middleware
+- [x] Update `localStorageSyncMiddleware.ts` to handle theme actions
+- [x] Add debounced theme saving to localStorage
+- [x] Create `loadThemeFromStorage()` function
+- [x] Add theme to rehydration logic
 
-#### Task 2.3: Integrate into Store
+#### Task 2.3: Integrate into Store ✅
 
-- [ ] Add theme reducer to store configuration
-- [ ] Test Redux DevTools for theme actions
-
----
-
-### Phase 3: Theme Detection & Application ✅
-
-#### Task 3.1: System Preference Detection
-
-- [ ] Create `frontend/src/utils/themeDetection.ts`
-- [ ] Implement `detectSystemTheme()` function
-- [ ] Implement `watchSystemTheme()` listener
-- [ ] Handle "auto" mode with real-time updates
-
-#### Task 3.2: Theme Application Hook
-
-- [ ] Create `frontend/src/hooks/useTheme.ts`
-- [ ] Implement body class manipulation
-- [ ] Handle theme switching logic
-- [ ] Export `useTheme()` hook with current theme and `setTheme()`
-
-#### Task 3.3: App-Level Theme Integration
-
-- [ ] Update `App.tsx` to use `useTheme()` hook
-- [ ] Apply theme class to body on mount
-- [ ] Handle theme changes reactively
-- [ ] Add cleanup on unmount
+- [x] Import themeReducer into store.ts
+- [x] Add theme reducer to store configuration
+- [x] Add theme rehydration on app initialization
+- [x] Verify types export correctly (RootState includes theme)
 
 ---
 
-### Phase 4: Theme Settings UI ✅
+### Phase 3: Theme Detection & Application ✅ COMPLETED
 
-#### Task 4.1: Theme Selector Component
+#### Task 3.1: System Preference Detection ✅
 
-- [ ] Create theme preview cards in Settings modal
-- [ ] Design theme card layout:
-  - Theme name
-  - Description
-  - Color preview
-  - Selected indicator
-- [ ] Add "Auto (System)" option
+- [x] Create `frontend/src/utils/themeDetection.ts`
+- [x] Implement `detectSystemTheme()` function
+  - [x] Check for `prefers-color-scheme: dark`
+  - [x] Check for `prefers-color-scheme: light`
+  - [x] Default to dark if no preference
+- [x] Implement `resolveTheme()` function to handle "auto" mode
+- [x] Implement `watchSystemTheme()` listener
+  - [x] Watch for media query changes
+  - [x] Call callback when system preference changes
+  - [x] Return cleanup function
+- [x] Handle "auto" mode with real-time updates
 
-#### Task 4.2: Update SiteSettings Component
+#### Task 3.2: Theme Application Hook ✅
 
-- [ ] Replace "Coming Soon" in Theme tab
-- [ ] Add theme grid/list display
-- [ ] Wire up theme selection to Redux
-- [ ] Add visual feedback for active theme
+- [x] Create `frontend/src/hooks/useTheme.ts`
+- [x] Implement body class manipulation (`applyThemeToBody`)
+  - [x] Remove all existing theme classes
+  - [x] Add new theme class to body
+- [x] Handle theme switching logic (`changeTheme`)
+  - [x] Dispatch setTheme action
+  - [x] Resolve theme (handle "auto")
+  - [x] Apply theme to body immediately
+- [x] Export `useTheme()` hook with:
+  - [x] `selectedTheme` (user's choice)
+  - [x] `appliedTheme` (actual applied theme)
+  - [x] `availableThemes` (all theme options)
+  - [x] `changeTheme()` function
 
-#### Task 4.3: Theme Preview
+#### Task 3.3: App-Level Theme Integration ✅
 
-- [ ] Show color swatches for each theme
-- [ ] Optional: Live preview on hover (advanced)
+- [x] Update `App.tsx` to use `useTheme()` hook
+- [x] Apply theme class to body on mount
+- [x] Handle theme changes reactively with useEffect
+- [x] Add system theme watcher when in "auto" mode
+- [x] Add cleanup on unmount (automatic via hook)
 
 ---
 
-### Phase 5: Testing & Polish ✅
+### Phase 4: Theme Settings UI ✅ COMPLETED
+
+#### Task 4.1: Theme Selector Component ✅
+
+- [x] Create theme preview cards in Settings modal
+- [x] Design theme card layout:
+  - [x] Theme name with icon (magic icon for "auto")
+  - [x] Description text
+  - [x] Color preview (background + text + accent bar)
+  - [x] Selected indicator badge (check circle)
+- [x] Add "Auto (System)" option as first theme
+- [x] Display all 7 themes in grid layout
+
+#### Task 4.2: Update SiteSettings Component ✅
+
+- [x] Import useTheme hook and ThemeOption type
+- [x] Replace "Coming Soon" in Theme tab with theme grid
+- [x] Add theme grid display with responsive layout
+- [x] Wire up theme selection to Redux via changeTheme()
+- [x] Add visual feedback for active theme (border + badge)
+- [x] Add section description for user guidance
+
+#### Task 4.3: Theme Preview ✅
+
+- [x] Show color swatches for each theme:
+  - [x] Background color fill
+  - [x] "Aa" text in theme's text color
+  - [x] Accent color bar at bottom
+- [x] Theme cards show live preview of colors
+- [x] Hover effects on theme cards
+
+---
+
+### Phase 5: Testing & Polish ⏳ PENDING
 
 #### Task 5.1: Theme Switching Tests
 

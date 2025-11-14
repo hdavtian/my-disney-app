@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { CacheService } from "../../utils/cacheService";
 import { clearPreferencesFromStorage } from "../../store/middleware/localStorageSyncMiddleware";
 import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
+import { useTheme } from "../../hooks/useTheme";
+import type { ThemeOption } from "../../store/slices/themeSlice";
 import "./SiteSettings.scss";
 
 interface SiteSettingsProps {
@@ -19,6 +21,7 @@ type TabType = "cache" | "theme";
 
 export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
   const dispatch = useDispatch();
+  const { selectedTheme, availableThemes, changeTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("cache");
   const [cacheStats, setCacheStats] = useState(CacheService.getStats());
   const [toast, setToast] = useState<ToastMessage | null>(null);
@@ -296,14 +299,63 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 <section className="settings-section">
                   <h3 className="settings-section__title">
                     <i className="fas fa-paint-brush"></i>
-                    Theme Settings
+                    Choose Your Theme
                   </h3>
-                  <div className="settings-coming-soon">
-                    <i className="fas fa-magic"></i>
-                    <h4>Coming Soon</h4>
-                    <p>
-                      Theme customization will be available in a future update.
-                    </p>
+                  <p className="settings-section__description">
+                    Select a theme to customize your viewing experience. Choose
+                    "Auto" to automatically match your system preferences.
+                  </p>
+
+                  <div className="theme-grid">
+                    {availableThemes.map((theme) => (
+                      <button
+                        key={theme.id}
+                        className={`theme-card ${
+                          selectedTheme === theme.id ? "theme-card--active" : ""
+                        }`}
+                        onClick={() => changeTheme(theme.id)}
+                        aria-label={`Select ${theme.name} theme`}
+                      >
+                        {/* Selected Indicator */}
+                        {selectedTheme === theme.id && (
+                          <div className="theme-card__badge">
+                            <i className="fas fa-check-circle"></i>
+                          </div>
+                        )}
+
+                        {/* Theme Preview */}
+                        <div
+                          className="theme-card__preview"
+                          style={{
+                            background: theme.preview.background,
+                          }}
+                        >
+                          <div
+                            className="theme-card__preview-text"
+                            style={{ color: theme.preview.text }}
+                          >
+                            Aa
+                          </div>
+                          <div
+                            className="theme-card__preview-accent"
+                            style={{ background: theme.preview.accent }}
+                          ></div>
+                        </div>
+
+                        {/* Theme Info */}
+                        <div className="theme-card__info">
+                          <div className="theme-card__name">
+                            {theme.id === "auto" && (
+                              <i className="fas fa-magic"></i>
+                            )}
+                            {theme.name}
+                          </div>
+                          <div className="theme-card__description">
+                            {theme.description}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
                   </div>
                 </section>
               </div>

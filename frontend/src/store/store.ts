@@ -5,11 +5,14 @@ import favoritesReducer from "./slices/favoritesSlice";
 import recentlyViewedReducer from "./slices/recentlyViewedSlice";
 import quizReducer from "./slices/quizSlice";
 import uiPreferencesReducer from "./slices/uiPreferencesSlice";
+import themeReducer from "./slices/themeSlice";
 import {
   localStorageSyncMiddleware,
   loadPreferencesFromStorage,
+  loadThemeFromStorage,
 } from "./middleware/localStorageSyncMiddleware";
 import { rehydratePreferences } from "./slices/uiPreferencesSlice";
+import { initializeTheme } from "./slices/themeSlice";
 
 // Configure store
 export const store = configureStore({
@@ -20,6 +23,7 @@ export const store = configureStore({
     recentlyViewed: recentlyViewedReducer,
     quiz: quizReducer,
     uiPreferences: uiPreferencesReducer,
+    theme: themeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(localStorageSyncMiddleware),
@@ -33,4 +37,15 @@ export type AppDispatch = typeof store.dispatch;
 const storedPreferences = loadPreferencesFromStorage();
 if (storedPreferences) {
   store.dispatch(rehydratePreferences(storedPreferences));
+}
+
+// Rehydrate theme from localStorage on app initialization
+const storedTheme = loadThemeFromStorage();
+if (storedTheme) {
+  store.dispatch(
+    initializeTheme({
+      selectedTheme: storedTheme.selectedTheme || "auto",
+      appliedTheme: storedTheme.appliedTheme || "theme-dark",
+    })
+  );
 }
