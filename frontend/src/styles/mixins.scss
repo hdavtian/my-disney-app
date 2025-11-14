@@ -83,7 +83,7 @@
 
 // Card Mixins
 @mixin card-base {
-    background: var(--white);
+    background: var(--card-bg);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     overflow: hidden;
@@ -119,33 +119,34 @@
 
 @mixin btn-primary {
     @include btn-base;
-    background-color: var(--disney-blue);
-    color: var(--white);
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
 
     &:hover:not(:disabled) {
-        background-color: var(--disney-blue-dark);
+        background: var(--btn-primary-bg-hover);
     }
 
     &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 107, 179, 0.3);
+        box-shadow: 0 0 0 3px var(--card-border);
     }
 }
 
 @mixin btn-secondary {
     @include btn-base;
-    background-color: var(--white);
-    color: var(--disney-blue);
-    border: 1px solid var(--disney-blue);
+    background-color: transparent;
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
 
     &:hover:not(:disabled) {
-        background-color: var(--disney-blue);
-        color: var(--white);
+        background: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
+        border-color: transparent;
     }
 
     &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 107, 179, 0.3);
+        box-shadow: 0 0 0 3px var(--card-border);
     }
 }
 
@@ -202,7 +203,7 @@
 }
 
 // Accessibility Mixins
-@mixin focus-ring($color: var(--disney-blue)) {
+@mixin focus-ring($color: var(--accent-primary)) {
     &:focus {
         outline: 2px solid $color;
         outline-offset: 2px;

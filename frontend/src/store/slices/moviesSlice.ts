@@ -195,10 +195,13 @@ const moviesSlice = createSlice({
           (!state.filters.year ||
             movie.releaseYear?.toString() === state.filters.year)
       );
-      state.displayedMovies = filteredMovies.slice(
-        0,
+      // Preserve the current display count if larger than pageSize
+      const currentDisplayCount = Math.max(
+        state.displayedMovies.length,
         state.pagination.pageSize
       );
+      state.displayedMovies = filteredMovies.slice(0, currentDisplayCount);
+      state.pagination.hasMore = filteredMovies.length > currentDisplayCount;
     },
     setGenreFilter: (state, action: PayloadAction<string>) => {
       state.filters.genre = action.payload;
@@ -279,6 +282,14 @@ const moviesSlice = createSlice({
       state.pagination.hasMore = true;
       state.displayedMovies = state.movies.slice(0, state.pagination.pageSize);
     },
+    // Restore pagination state from UI preferences
+    restorePaginationState: (state, action: PayloadAction<number>) => {
+      const itemsToShow = action.payload;
+      state.displayedMovies = state.movies.slice(0, itemsToShow);
+      state.pagination.page =
+        Math.floor(itemsToShow / state.pagination.pageSize) - 1;
+      state.pagination.hasMore = state.movies.length > itemsToShow;
+    },
   },
   extraReducers: (builder) => {
     // Handle fetchMovies
@@ -290,14 +301,17 @@ const moviesSlice = createSlice({
       state.loading = false;
       state.movies = action.payload;
       state.error = null;
-      // Initialize displayed movies with first page
-      state.displayedMovies = action.payload.slice(
-        0,
-        state.pagination.pageSize
-      );
-      state.pagination.page = 0;
-      state.pagination.hasMore =
-        action.payload.length > state.pagination.pageSize;
+      // Only initialize displayed movies if we don't have any yet
+      // This allows restorePaginationState to work after fetch
+      if (state.displayedMovies.length === 0) {
+        state.displayedMovies = action.payload.slice(
+          0,
+          state.pagination.pageSize
+        );
+        state.pagination.page = 0;
+        state.pagination.hasMore =
+          action.payload.length > state.pagination.pageSize;
+      }
     });
     builder.addCase(fetchMovies.rejected, (state, action) => {
       state.loading = false;
@@ -350,6 +364,7 @@ export const {
   setYearFilter,
   clearFilters,
   resetPagination,
+  restorePaginationState,
 } = moviesSlice.actions;
 
 export default moviesSlice.reducer;

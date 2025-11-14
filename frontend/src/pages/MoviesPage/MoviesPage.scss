@@ -9,7 +9,7 @@
 }
 
 .movies-page {
-    background: var(--black);
+    background: var(--bg-primary);
 
     &__header {
         display: flex;
@@ -17,8 +17,8 @@
         align-items: center;
         gap: var(--space-6);
         padding: var(--space-8) var(--space-6);
-        background: var(--black);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--card-border);
 
         /* Large desktop: side by side layout */
         @media (min-width: 1280px) {
@@ -48,10 +48,10 @@
         h1 {
             font-size: var(--text-5xl);
             font-weight: var(--font-bold);
-            color: var(--white);
+            color: var(--text-primary);
             margin-bottom: var(--space-4);
             font-family: var(--font-family-display);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px var(--shadow-color);
 
             @media (max-width: 768px) {
                 font-size: var(--text-3xl);
@@ -60,7 +60,7 @@
 
         p {
             font-size: var(--text-lg);
-            color: var(--gray-300);
+            color: var(--text-secondary);
             line-height: var(--leading-relaxed);
 
             @media (max-width: 768px) {
@@ -76,10 +76,10 @@
         justify-content: center;
         min-height: 400px;
         font-size: var(--text-xl);
-        color: var(--white);
+        color: var(--text-primary);
         text-align: center;
         padding: var(--space-8);
-        background: var(--black);
+        background: var(--bg-primary);
     }
 
     &__error {
@@ -89,7 +89,7 @@
     &__content {
         position: relative;
         width: 100%;
-        background: var(--black);
+        background: var(--bg-primary);
     }
 
     /* Controls row: page-scoped search + view toggle */
@@ -121,7 +121,7 @@
         .view-mode-toggle {
             padding: var(--space-1);
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
             box-shadow: none;
             border-radius: var(--radius-lg);
 
@@ -132,7 +132,7 @@
             &__button {
                 padding: var(--space-2) var(--space-4);
                 min-width: 120px;
-                color: var(--gray-300);
+                color: var(--text-tertiary);
             }
 
             &__icon {

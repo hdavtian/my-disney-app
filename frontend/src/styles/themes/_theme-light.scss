@@ -1,0 +1,56 @@
+// Light Theme
+body.theme-light {
+    // === BACKGROUNDS ===
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-overlay: rgba(255, 255, 255, 0.95);
+
+    // === TEXT COLORS ===
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #94a3b8;
+    --text-disabled: #cbd5e1;
+
+    // === ACCENT COLORS ===
+    --accent-primary: #006bb3;
+    --accent-primary-hover: #0088e0;
+    --accent-secondary: #fdd017;
+    --accent-secondary-hover: #ffed4e;
+
+    // === NAVIGATION ===
+    --nav-bg: #ffffff;
+    --nav-text: #334155;
+    --nav-text-hover: #006bb3;
+    --nav-text-active: #006bb3;
+    --nav-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    // === CARDS ===
+    --card-bg: #ffffff;
+    --card-bg-hover: #f8fafc;
+    --card-border: rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+    // === BUTTONS ===
+    --btn-primary-bg: linear-gradient(135deg, #006bb3 0%, #004d7a 100%);
+    --btn-primary-bg-hover: linear-gradient(135deg, #0088e0 0%, #006bb3 100%);
+    --btn-primary-text: #ffffff;
+
+    // === MODALS ===
+    --modal-bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    --modal-border: rgba(0, 0, 0, 0.1);
+    --modal-backdrop: rgba(0, 0, 0, 0.5);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    // === FORMS ===
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --input-border-focus: #006bb3;
+    --input-text: #0f172a;
+
+    // === SHADOWS ===
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 2px var(--shadow-color);
+    --shadow-md: 0 4px 6px var(--shadow-color);
+    --shadow-lg: 0 10px 15px var(--shadow-color);
+}

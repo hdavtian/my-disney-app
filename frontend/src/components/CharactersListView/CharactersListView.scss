@@ -3,52 +3,52 @@
 
 .characters-list-view {
     width: 100%;
-    background-color: var(--white);
+    background-color: var(--card-bg);
     padding: var(--space-6);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
 
     // DevExpress DataGrid customizations
     :global(.dx-datagrid) {
-        background-color: var(--white);
+        background-color: var(--card-bg);
         border-radius: var(--radius-lg);
         overflow: hidden;
         box-shadow: var(--shadow-xl);
 
         .dx-datagrid-header-panel {
-            background-color: var(--gray-50);
-            border-bottom: 1px solid var(--gray-200);
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--card-border);
         }
 
         .dx-datagrid-headers {
-            background-color: var(--disney-purple);
-            color: var(--white);
+            background-color: var(--accent-primary);
+            color: var(--btn-primary-text);
 
             .dx-header-row {
-                background-color: var(--disney-purple);
+                background-color: var(--accent-primary);
 
                 td {
-                    background-color: var(--disney-purple);
-                    color: var(--white);
+                    background-color: var(--accent-primary);
+                    color: var(--btn-primary-text);
                     font-weight: var(--font-semibold);
-                    border-right: 1px solid rgba(255, 255, 255, 0.2);
+                    border-right: 1px solid var(--card-border);
                 }
             }
         }
 
         .dx-row-alt {
-            background-color: var(--gray-50);
+            background-color: var(--bg-secondary);
         }
 
         .dx-row:hover {
-            background-color: var(--disney-purple-light) !important;
-            color: var(--white);
+            background-color: var(--accent-primary-hover) !important;
+            color: var(--btn-primary-text);
             cursor: pointer;
         }
 
         .dx-datagrid-search-panel {
-            background-color: var(--white);
-            border-bottom: 1px solid var(--gray-200);
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
             padding: var(--space-4);
 
             .dx-textbox {
@@ -57,8 +57,8 @@
         }
 
         .dx-datagrid-pager {
-            background-color: var(--white);
-            border-top: 1px solid var(--gray-200);
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--card-border);
             padding: var(--space-3);
         }
     }
@@ -94,12 +94,12 @@
     }
 
     &__favorite-icon {
-        color: var(--disney-gold);
+        color: var(--accent-secondary);
         font-size: var(--text-lg);
     }
 
     &__not-favorite-icon {
-        color: var(--gray-400);
+        color: var(--text-tertiary);
         font-size: var(--text-lg);
     }
 
@@ -134,8 +134,8 @@
     }
 
     &__category-other {
-        background-color: var(--gray-200);
-        color: var(--gray-700);
+        background-color: var(--card-bg-hover);
+        color: var(--text-secondary);
     }
 
     &__view-cell {
@@ -143,8 +143,8 @@
     }
 
     &__view-button {
-        background-color: var(--disney-purple);
-        color: var(--white);
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
         border: none;
         padding: var(--space-2) var(--space-4);
         border-radius: var(--radius-md);
@@ -154,7 +154,7 @@
         transition: all var(--transition-fast);
 
         &:hover {
-            background-color: var(--disney-purple-dark);
+            background-color: var(--btn-primary-hover);
             transform: translateY(-1px);
         }
 
@@ -163,7 +163,7 @@
         }
 
         &:focus {
-            outline: 2px solid var(--disney-purple-light);
+            outline: 2px solid var(--accent-primary-hover);
             outline-offset: 2px;
         }
     }
@@ -177,10 +177,10 @@
         min-height: 500px;
         text-align: center;
         background: linear-gradient(135deg,
-                rgba(0, 107, 179, 0.1) 0%,
-                rgba(79, 159, 209, 0.1) 100%);
+                var(--bg-secondary) 0%,
+                var(--bg-primary) 100%);
         border-radius: var(--radius-2xl);
-        border: 2px dashed var(--disney-blue-light);
+        border: 2px dashed var(--card-border);
         padding: var(--space-12);
     }
 
@@ -189,20 +189,20 @@
         opacity: 0.6;
 
         svg {
-            stroke: var(--disney-blue);
+            stroke: var(--accent-primary);
         }
     }
 
     h2 {
         font-size: var(--text-4xl);
         font-weight: var(--font-bold);
-        color: var(--white);
+        color: var(--text-primary);
         margin-bottom: var(--space-4);
     }
 
     p {
         font-size: var(--text-lg);
-        color: var(--gray-300);
+        color: var(--text-secondary);
         max-width: 600px;
         margin-bottom: var(--space-8);
         line-height: var(--leading-relaxed);
@@ -217,17 +217,17 @@
     }
 
     &__feature {
-        background: rgba(255, 255, 255, 0.1);
+        background: var(--card-bg);
         padding: var(--space-4) var(--space-6);
         border-radius: var(--radius-lg);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: var(--white);
+        border: 1px solid var(--card-border);
+        color: var(--text-primary);
         font-size: var(--text-base);
         font-weight: var(--font-medium);
         transition: all var(--transition-normal);
 
         &:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--card-bg-hover);
             transform: translateY(-2px);
         }
     }

@@ -180,10 +180,17 @@ const charactersSlice = createSlice({
           (!state.filters.category ||
             character.category === state.filters.category)
       );
-      state.displayedCharacters = filteredCharacters.slice(
-        0,
+      // Preserve the current display count if larger than pageSize
+      const currentDisplayCount = Math.max(
+        state.displayedCharacters.length,
         state.pagination.pageSize
       );
+      state.displayedCharacters = filteredCharacters.slice(
+        0,
+        currentDisplayCount
+      );
+      state.pagination.hasMore =
+        filteredCharacters.length > currentDisplayCount;
     },
     setMovieFilter: (state, action: PayloadAction<string>) => {
       state.filters.movie = action.payload;
@@ -254,6 +261,14 @@ const charactersSlice = createSlice({
         state.pagination.pageSize
       );
     },
+    // Restore pagination state from UI preferences
+    restorePaginationState: (state, action: PayloadAction<number>) => {
+      const itemsToShow = action.payload;
+      state.displayedCharacters = state.characters.slice(0, itemsToShow);
+      state.pagination.page =
+        Math.floor(itemsToShow / state.pagination.pageSize) - 1;
+      state.pagination.hasMore = state.characters.length > itemsToShow;
+    },
   },
   extraReducers: (builder) => {
     // Handle fetchCharacters
@@ -265,14 +280,17 @@ const charactersSlice = createSlice({
       state.loading = false;
       state.characters = action.payload;
       state.error = null;
-      // Initialize displayed characters with first page
-      state.displayedCharacters = action.payload.slice(
-        0,
-        state.pagination.pageSize
-      );
-      state.pagination.page = 0;
-      state.pagination.hasMore =
-        action.payload.length > state.pagination.pageSize;
+      // Only initialize displayed characters if we don't have any yet
+      // This allows restorePaginationState to work after fetch
+      if (state.displayedCharacters.length === 0) {
+        state.displayedCharacters = action.payload.slice(
+          0,
+          state.pagination.pageSize
+        );
+        state.pagination.page = 0;
+        state.pagination.hasMore =
+          action.payload.length > state.pagination.pageSize;
+      }
     });
     builder.addCase(fetchCharacters.rejected, (state, action) => {
       state.loading = false;
@@ -327,6 +345,7 @@ export const {
   setCategoryFilter,
   clearFilters,
   resetPagination,
+  restorePaginationState,
 } = charactersSlice.actions;
 
 export default charactersSlice.reducer;

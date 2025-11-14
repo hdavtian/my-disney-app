@@ -2,8 +2,8 @@
 @import '../../styles/mixins';
 
 .footer {
-    background: linear-gradient(135deg, var(--gray-900), var(--black));
-    color: var(--white);
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+    color: var(--text-primary);
     padding: var(--space-16) 0 var(--space-8);
     margin-top: auto;
 
@@ -46,7 +46,7 @@
         font-family: var(--font-family-display);
         font-size: var(--text-3xl);
         font-weight: var(--font-extrabold);
-        background: linear-gradient(135deg, var(--disney-blue), var(--disney-gold));
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -59,7 +59,7 @@
     }
 
     &__tagline {
-        color: var(--gray-300);
+        color: var(--text-secondary);
         font-size: var(--text-lg);
         font-style: italic;
         max-width: 300px;
@@ -85,7 +85,7 @@
 
 
     &__heading {
-        color: var(--disney-gold);
+        color: var(--accent-secondary);
         font-size: var(--text-lg);
         font-weight: var(--font-bold);
         margin-bottom: var(--space-4);
@@ -101,13 +101,13 @@
         }
 
         a {
-            color: var(--gray-300);
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: var(--text-base);
             transition: color var(--transition-fast);
 
             &:hover {
-                color: var(--disney-gold);
+                color: var(--accent-secondary);
                 text-decoration: none;
             }
         }
@@ -116,7 +116,7 @@
     &__bottom {
         @include flex-between;
         padding-top: var(--space-8);
-        border-top: 1px solid var(--gray-700);
+        border-top: 1px solid var(--card-border);
 
         @include mobile {
             flex-direction: column;
@@ -126,7 +126,7 @@
     }
 
     &__copyright {
-        color: var(--gray-400);
+        color: var(--text-tertiary);
         font-size: var(--text-sm);
 
         p {
@@ -145,14 +145,14 @@
         justify-content: center;
         width: 2.5rem;
         height: 2.5rem;
-        background: rgba(255, 255, 255, 0.1);
+        background: var(--card-bg);
         border-radius: 50%;
         text-decoration: none;
         font-size: var(--text-lg);
         transition: all var(--transition-fast);
 
         &:hover {
-            background: var(--disney-gold);
+            background: var(--accent-secondary);
             transform: translateY(-2px);
         }
     }

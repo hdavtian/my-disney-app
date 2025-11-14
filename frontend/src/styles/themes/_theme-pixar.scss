@@ -1,0 +1,56 @@
+// Pixar Theme
+body.theme-pixar {
+    // === BACKGROUNDS ===
+    --bg-primary: #f0f8ff;
+    --bg-secondary: #e8f4f8;
+    --bg-tertiary: #d8e8f0;
+    --bg-overlay: rgba(240, 248, 255, 0.98);
+
+    // === TEXT COLORS ===
+    --text-primary: #1a3a4a;
+    --text-secondary: #3a5a6a;
+    --text-tertiary: #5a7a8a;
+    --text-disabled: #8a9aaa;
+
+    // === ACCENT COLORS (Pixar Bright & Playful) ===
+    --accent-primary: #00a8e8;
+    --accent-primary-hover: #00c4ff;
+    --accent-secondary: #ff6b6b;
+    --accent-secondary-hover: #ff8888;
+
+    // === NAVIGATION ===
+    --nav-bg: #ffffff;
+    --nav-text: #1a3a4a;
+    --nav-text-hover: #00a8e8;
+    --nav-text-active: #00a8e8;
+    --nav-shadow: 0 2px 8px rgba(0, 168, 232, 0.15);
+
+    // === CARDS ===
+    --card-bg: #ffffff;
+    --card-bg-hover: #f8fcff;
+    --card-border: rgba(0, 168, 232, 0.2);
+    --card-shadow: 0 4px 12px rgba(0, 168, 232, 0.15);
+
+    // === BUTTONS ===
+    --btn-primary-bg: linear-gradient(135deg, #00a8e8 0%, #0088c8 100%);
+    --btn-primary-bg-hover: linear-gradient(135deg, #00c4ff 0%, #00a8e8 100%);
+    --btn-primary-text: #ffffff;
+
+    // === MODALS ===
+    --modal-bg: linear-gradient(135deg, #f8fcff 0%, #f0f8ff 100%);
+    --modal-border: rgba(0, 168, 232, 0.25);
+    --modal-backdrop: rgba(26, 58, 74, 0.6);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 168, 232, 0.25);
+
+    // === FORMS ===
+    --input-bg: #ffffff;
+    --input-border: rgba(0, 168, 232, 0.3);
+    --input-border-focus: #00a8e8;
+    --input-text: #1a3a4a;
+
+    // === SHADOWS ===
+    --shadow-color: rgba(0, 168, 232, 0.2);
+    --shadow-sm: 0 1px 2px var(--shadow-color);
+    --shadow-md: 0 4px 8px var(--shadow-color);
+    --shadow-lg: 0 10px 20px var(--shadow-color);
+}

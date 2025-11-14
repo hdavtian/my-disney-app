@@ -12,8 +12,12 @@ import { Footer } from "./components/Footer/Footer";
 import { RequireDisclaimer } from "./components/AccessGate/RequireDisclaimer";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { AppInitializer } from "./components/AppInitializer";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
+  // Initialize theme system
+  useTheme();
+
   return (
     <div className="app">
       <AppInitializer />

@@ -16,7 +16,7 @@
     }
 
     &__content {
-        color: var(--white);
+        color: var(--text-primary);
         padding: var(--space-6);
         margin-left: calc(3.5rem + var(--space-8)); // Clear the left navigation arrow
         margin-right: calc(3.5rem + var(--space-8)); // Clear the right navigation arrow
@@ -37,7 +37,7 @@
         font-family: var(--font-family-display);
         font-size: var(--text-4xl);
         font-weight: var(--font-extrabold);
-        color: var(--white);
+        color: var(--text-primary);
         margin-bottom: var(--space-4);
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         line-height: var(--leading-tight);
@@ -82,16 +82,16 @@
         font-size: var(--text-lg);
         padding: var(--space-3) var(--space-8);
         border-radius: var(--radius-lg);
-        background: linear-gradient(135deg, var(--disney-gold), var(--disney-gold-dark));
+        background: var(--btn-primary-bg);
         border: none;
-        box-shadow: 0 4px 15px rgba(253, 208, 23, 0.4);
+        box-shadow: var(--card-shadow);
         font-weight: var(--font-bold);
         text-transform: uppercase;
         letter-spacing: 1px;
 
         &:hover {
-            background: linear-gradient(135deg, var(--disney-gold-light), var(--disney-gold));
-            box-shadow: 0 6px 20px rgba(253, 208, 23, 0.6);
+            background: var(--btn-primary-hover);
+            box-shadow: var(--card-shadow);
             transform: translateY(-2px);
         }
 
