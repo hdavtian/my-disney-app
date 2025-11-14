@@ -109,8 +109,8 @@
     }
 
     &__load-more-btn {
-        background: linear-gradient(135deg, var(--btn-primary-bg) 0%, var(--accent-primary) 100%);
-        color: var(--btn-primary-text);
+        background: var(--btn-contrast-bg);
+        color: var(--btn-contrast-text);
         border: none;
         padding: var(--space-3) var(--space-6);
         border-radius: var(--radius-full);
@@ -123,6 +123,7 @@
         &:hover {
             box-shadow: 0 6px 16px var(--shadow-color);
             transform: translateY(-2px);
+            opacity: 0.9;
         }
 
         &:active {

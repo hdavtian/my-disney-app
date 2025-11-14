@@ -121,7 +121,7 @@ export const MoviesGridView = ({
 
               {!isLoadingMore && hasMore && (
                 <motion.button
-                  className="movies-grid-view__load-more-btn"
+                  className="movies-grid-view__load-more-btn btn-primary"
                   onClick={onLoadMore}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
