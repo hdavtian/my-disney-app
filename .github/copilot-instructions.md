@@ -11,7 +11,7 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 
 - Design style: cinematic and immersive, inspired by Disney+, Netflix, and Hulu.
 - Navigation:
-  - Top bar: Characters | Movies | Favorites | Behind the Magic
+  - Top bar: Characters | Movies | Favorites | About this Demo
   - Optional left panel: filters and sorting.
 - Layout:
   - Grid-based, card-centric design with hover effects and transitions.

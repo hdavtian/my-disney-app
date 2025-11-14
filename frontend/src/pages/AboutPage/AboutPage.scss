@@ -1,0 +1,75 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.about-page {
+    .page-header {
+        text-align: center;
+        padding: var(--space-12) var(--space-6) var(--space-8);
+        background: linear-gradient(to bottom,
+                var(--bg-secondary) 0%,
+                var(--bg-primary) 100%);
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            font-weight: var(--font-black);
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+
+            @include mobile {
+                font-size: var(--text-3xl);
+            }
+        }
+
+        p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    }
+
+    .about-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: var(--space-8) var(--space-6);
+
+        .content-section {
+            margin-bottom: var(--space-10);
+            padding: var(--space-6);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--card-shadow);
+
+            h2 {
+                font-family: var(--font-display);
+                font-size: var(--text-3xl);
+                font-weight: var(--font-bold);
+                color: var(--accent-primary);
+                margin-bottom: var(--space-4);
+            }
+
+            h3 {
+                font-family: var(--font-display);
+                font-size: var(--text-2xl);
+                font-weight: var(--font-semibold);
+                color: var(--accent-primary);
+                margin-bottom: var(--space-3);
+            }
+
+            p {
+                font-size: var(--text-base);
+                line-height: 1.7;
+                color: var(--text-secondary);
+                margin-bottom: var(--space-4);
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
