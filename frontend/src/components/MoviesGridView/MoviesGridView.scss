@@ -1,5 +1,5 @@
-@import "../../styles/variables.scss";
-@import "../../styles/mixins.scss";
+@use "../../styles/variables.scss" as *;
+@use "../../styles/mixins.scss" as *;
 
 // EDGE-TO-EDGE LAYOUT: 90% width, 6-column grid matching home page exactly
 .movies-grid-view {

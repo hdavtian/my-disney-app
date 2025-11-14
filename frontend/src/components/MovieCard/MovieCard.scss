@@ -1,5 +1,5 @@
-@import "../../styles/variables.scss";
-@import "../../styles/mixins.scss";
+@use "../../styles/variables.scss" as *;
+@use "../../styles/mixins.scss" as *;
 
 // MOVIE CARD: Rectangle cards (4/3 aspect ratio) matching home page MovieSlider
 .movie-card {
