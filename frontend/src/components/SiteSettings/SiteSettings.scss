@@ -60,7 +60,7 @@
         gap: var(--space-2);
         font-size: var(--text-lg);
         font-weight: var(--font-bold);
-        font-family: var(--font-family-display);
+        font-family: var(--font-display); // Theme-specific display font
         color: var(--text-primary);
 
         i {
@@ -660,7 +660,7 @@
     &__preview-text {
         font-size: 3rem;
         font-weight: var(--font-bold);
-        font-family: var(--font-family-display);
+        font-family: var(--font-display); // Theme-specific display font
         opacity: 0.9;
 
         @include mobile {

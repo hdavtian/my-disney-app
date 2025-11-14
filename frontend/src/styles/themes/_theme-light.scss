@@ -1,5 +1,10 @@
 // Light Theme
 body.theme-light {
+    // === TYPOGRAPHY ===
+    --font-display: 'Poppins', 'Arial', sans-serif; // Clean, modern display
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; // System default
+    --font-accent: 'Montserrat', 'Arial', sans-serif; // Bold accent
+
     // === BACKGROUNDS ===
     --bg-primary: #ffffff;
     --bg-secondary: #f8fafc;

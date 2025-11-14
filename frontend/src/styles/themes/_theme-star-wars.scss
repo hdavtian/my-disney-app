@@ -1,5 +1,10 @@
 // Star Wars Theme
 body.theme-star-wars {
+    // === TYPOGRAPHY ===
+    --font-display: 'Orbitron', 'Impact', sans-serif; // Futuristic, sci-fi display
+    --font-body: 'Exo 2', -apple-system, sans-serif; // Tech-inspired body
+    --font-accent: 'Rajdhani', 'Arial Narrow', sans-serif; // Bold, geometric accent
+
     // === BACKGROUNDS ===
     --bg-primary: #000000;
     --bg-secondary: #0a0a0a;

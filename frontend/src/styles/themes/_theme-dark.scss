@@ -1,5 +1,10 @@
 // Dark Theme (Current Default)
 body.theme-dark {
+    // === TYPOGRAPHY ===
+    --font-display: 'Cinzel', 'Georgia', serif; // Elegant display font
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; // System default
+    --font-accent: 'Playfair Display', 'Georgia', serif; // Refined accent
+
     // === BACKGROUNDS ===
     --bg-primary: #000000;
     --bg-secondary: #0f172a;
