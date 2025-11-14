@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CharactersPage.scss";
 import { motion } from "framer-motion";
@@ -7,7 +7,13 @@ import {
   fetchCharacters,
   loadMoreCharacters,
   setSearchFilter,
+  restorePaginationState,
 } from "../../store/slices/charactersSlice";
+import {
+  setCharactersViewMode,
+  setCharactersSearchQuery,
+  incrementCharactersGridItems,
+} from "../../store/slices/uiPreferencesSlice";
 import { initializeCachedCharacters } from "../../utils/quizApiCached";
 import { addRecentlyViewedCharacter } from "../../store/slices/recentlyViewedSlice";
 import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
@@ -22,11 +28,43 @@ export const CharactersPage = () => {
   const navigate = useNavigate();
   const { characters, displayedCharacters, loading, error, pagination } =
     useAppSelector((state) => state.characters);
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const { viewMode, gridItemsToShow, searchQuery } = useAppSelector(
+    (state) => state.uiPreferences.characters
+  );
 
+  // Track if we've restored pagination state
+  const hasRestoredPagination = useRef(false);
+
+  // Fetch characters on mount
   useEffect(() => {
     dispatch(fetchCharacters());
   }, [dispatch]);
+
+  // Restore pagination state after characters are loaded (only once)
+  useEffect(() => {
+    if (
+      characters.length > 0 &&
+      gridItemsToShow > 20 &&
+      !hasRestoredPagination.current
+    ) {
+      console.log(
+        `🔄 Restoring Characters pagination: ${gridItemsToShow} items`
+      );
+      dispatch(restorePaginationState(gridItemsToShow));
+      hasRestoredPagination.current = true;
+    }
+    // Only run when characters are first loaded
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, characters.length]);
+
+  // Restore search query from UI preferences (run AFTER pagination restore)
+  useEffect(() => {
+    if (searchQuery && characters.length > 0 && hasRestoredPagination.current) {
+      console.log(`🔍 Restoring search query: "${searchQuery}"`);
+      dispatch(setSearchFilter(searchQuery));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, characters.length]);
 
   // Initialize cached characters for quiz when characters are loaded
   useEffect(() => {
@@ -60,6 +98,7 @@ export const CharactersPage = () => {
     (_results: Character[], query: string) => {
       // SearchInput handles the filtering, but we update Redux state with the query
       dispatch(setSearchFilter(query));
+      dispatch(setCharactersSearchQuery(query));
     },
     [dispatch]
   );
@@ -79,9 +118,27 @@ export const CharactersPage = () => {
 
   const handleLoadMore = useCallback(() => {
     if (pagination.hasMore && !pagination.isLoadingMore) {
+      console.log(
+        `🔽 Load More clicked - Current items: ${displayedCharacters.length}, Adding: ${pagination.pageSize}`
+      );
       dispatch(loadMoreCharacters());
+      // Increment the grid items count by pageSize (default 20)
+      dispatch(incrementCharactersGridItems(pagination.pageSize));
     }
-  }, [dispatch, pagination.hasMore, pagination.isLoadingMore]);
+  }, [
+    dispatch,
+    pagination.hasMore,
+    pagination.isLoadingMore,
+    pagination.pageSize,
+    displayedCharacters.length,
+  ]);
+
+  const handleViewModeChange = useCallback(
+    (newMode: ViewMode) => {
+      dispatch(setCharactersViewMode(newMode));
+    },
+    [dispatch]
+  );
 
   if (loading) {
     return (
@@ -139,7 +196,10 @@ export const CharactersPage = () => {
             onSelectItem={handleSearchItemClick}
           />
 
-          <ViewModeToggle currentMode={viewMode} onModeChange={setViewMode} />
+          <ViewModeToggle
+            currentMode={viewMode}
+            onModeChange={handleViewModeChange}
+          />
         </div>
       </div>
 
@@ -157,7 +217,7 @@ export const CharactersPage = () => {
           />
         ) : (
           <CharactersListView
-            characters={displayedCharacters}
+            characters={characters}
             onCharacterClick={handleCharacterClick}
           />
         )}

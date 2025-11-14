@@ -37,14 +37,14 @@ Implement site-wide state management for pagination, search, view modes, and use
 
 ### Phase 1: Create `uiPreferencesSlice`
 
-- [ ] Create `frontend/src/store/uiPreferencesSlice.ts`
-  - [ ] Define state schema for movies/characters preferences
-  - [ ] Add actions: `setViewMode`, `setGridItemsToShow`, `setSearchQuery`, `resetPagePreferences`, `resetAllPreferences`
-  - [ ] Add selectors for accessing state
-- [ ] Create `frontend/src/store/middleware/localStorageSyncMiddleware.ts`
-  - [ ] Sync Redux state to localStorage on changes (debounced)
-  - [ ] Rehydrate state from localStorage on app init
-- [ ] Update `frontend/src/store/index.ts` to include new slice and middleware
+- [x] Create `frontend/src/store/slices/uiPreferencesSlice.ts`
+  - [x] Define state schema for movies/characters preferences
+  - [x] Add actions: `setViewMode`, `setGridItemsToShow`, `setSearchQuery`, `resetPagePreferences`, `resetAllPreferences`
+  - [x] Add selectors for accessing state
+- [x] Create `frontend/src/store/middleware/localStorageSyncMiddleware.ts`
+  - [x] Sync Redux state to localStorage on changes (debounced)
+  - [x] Rehydrate state from localStorage on app init
+- [x] Update `frontend/src/store/store.ts` to include new slice and middleware
 
 **State Schema:**
 
@@ -72,29 +72,29 @@ Implement site-wide state management for pagination, search, view modes, and use
 
 ### Phase 2: Create Storage Utilities
 
-- [ ] Create `frontend/src/utils/storage.ts`
-  - [ ] `clearCache()` - Clear all cached API data
-  - [ ] `clearCookies()` - Clear all site cookies
-  - [ ] `clearLocalStorage()` - Clear localStorage (except essential data)
-  - [ ] `resetAllSiteData()` - Clear cache + cookies + localStorage
-  - [ ] `getCacheSize()` - Get approximate cache size for display
+- [x] Create `frontend/src/utils/storage.ts`
+  - [x] `clearCache()` - Clear all cached API data
+  - [x] `clearCookies()` - Clear all site cookies
+  - [x] `clearLocalStorage()` - Clear localStorage (except essential data)
+  - [x] `resetAllSiteData()` - Clear cache + cookies + localStorage
+  - [x] `getCacheSize()` - Get approximate cache size for display
 
 ---
 
 ### Phase 3: Update Movies Page
 
-- [ ] Update `frontend/src/pages/MoviesPage/MoviesPage.tsx`
-  - [ ] Connect to `uiPreferencesSlice` for movies state
-  - [ ] On mount: restore `gridItemsToShow` and `searchQuery` from Redux
-  - [ ] On "Load More": increment `gridItemsToShow` and dispatch to Redux
-  - [ ] On search: update `searchQuery` in Redux
-  - [ ] Grid view: Load items based on `gridItemsToShow` from cache/API
-  - [ ] List view: Load ALL movies for DevExtreme DataGrid
-- [ ] Update `frontend/src/components/MoviesGridView/MoviesGridView.tsx`
-  - [ ] Respect `gridItemsToShow` from Redux
-- [ ] Update `frontend/src/components/MoviesListView/MoviesListView.tsx`
-  - [ ] Configure DevExtreme virtual scrolling
-  - [ ] Load all data when in list view
+- [x] Update `frontend/src/pages/MoviesPage/MoviesPage.tsx`
+  - [x] Connect to `uiPreferencesSlice` for movies state
+  - [x] On mount: restore `gridItemsToShow` and `searchQuery` from Redux
+  - [x] On "Load More": increment `gridItemsToShow` and dispatch to Redux
+  - [x] On search: update `searchQuery` in Redux
+  - [x] Grid view: Load items based on `gridItemsToShow` from cache/API
+  - [x] List view: Load ALL movies for DevExtreme DataGrid
+- [x] Update `frontend/src/components/MoviesGridView/MoviesGridView.tsx`
+  - [x] Respect `gridItemsToShow` from Redux
+- [x] Update `frontend/src/components/MoviesListView/MoviesListView.tsx`
+  - [x] Configure DevExtreme virtual scrolling
+  - [x] Load all data when in list view
 
 ---
 
@@ -254,8 +254,8 @@ frontend/src/
 ## 🚀 Progress Tracking
 
 - **Started:** November 13, 2025
-- **Current Phase:** Phase 1
-- **Completion:** 0%
+- **Current Phase:** Phase 4
+- **Completion:** Phases 1-3 Complete (37%)
 
 ---
 

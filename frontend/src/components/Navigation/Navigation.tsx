@@ -2,9 +2,11 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useFavorites } from "../../hooks/useFavorites";
+import { SiteSettings } from "../SiteSettings";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const { favorites } = useFavorites();
 
   const navItems = [
@@ -55,6 +57,16 @@ export const Navigation = () => {
               </motion.span>
             </NavLink>
           ))}
+
+          {/* Settings Button */}
+          <button
+            className="navigation__settings-btn"
+            onClick={() => setShowSettings(true)}
+            aria-label="Open site settings"
+            title="Site Settings"
+          >
+            <i className="bi bi-gear-fill"></i>
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -101,8 +113,23 @@ export const Navigation = () => {
               )}
             </NavLink>
           ))}
+
+          {/* Mobile Settings Button */}
+          <button
+            className="navigation__mobile-settings-btn"
+            onClick={() => {
+              setShowSettings(true);
+              setIsMenuOpen(false);
+            }}
+          >
+            <i className="bi bi-gear-fill me-2"></i>
+            Settings
+          </button>
         </div>
       </motion.div>
+
+      {/* Site Settings Modal */}
+      <SiteSettings show={showSettings} onHide={() => setShowSettings(false)} />
     </nav>
   );
 };

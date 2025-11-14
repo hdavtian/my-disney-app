@@ -152,17 +152,12 @@ export const MoviesListView = ({
           placeholder="Search movies..."
           highlightCaseSensitive={false}
         />
-        <Paging enabled={true} pageSize={20} />
-        <Pager
-          showPageSizeSelector={true}
-          allowedPageSizes={[10, 20, 50, 100]}
-          showInfo={true}
-          showNavigationButtons={true}
-        />
+        <Paging enabled={false} />
+        <Pager visible={false} />
         <Sorting mode="multiple" />
         <ColumnChooser enabled={true} mode="select" />
         <Selection mode="multiple" showCheckBoxesMode="always" />
-        <Scrolling mode="standard" />
+        <Scrolling mode="virtual" rowRenderingMode="virtual" />
         <ColumnFixing enabled={true} />
 
         <Column
