@@ -38,7 +38,7 @@
     "@storybook/storybook-deployer": "^2.8.16",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react": "^5.1.1",
     "@vitest/browser-playwright": "^4.0.8",
     "@vitest/coverage-v8": "^4.0.8",
     "eslint": "^9.9.0",
@@ -50,7 +50,7 @@
     "sass": "^1.77.8",
     "storybook": "^10.0.7",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1",
+    "vite": "^7.2.2",
     "vitest": "^4.0.8"
   }
 }
