@@ -18,7 +18,7 @@
 // Utility Color Classes
 // Lightweight helpers for occasional inline semantic color usage
 .color-disney-gold {
-    color: var(--disney-gold);
+    color: var(--accent-secondary);
 }
 
 // Global App Styles
@@ -74,8 +74,8 @@
         content: '';
         width: 2rem;
         height: 2rem;
-        border: 2px solid var(--gray-200);
-        border-top: 2px solid var(--disney-blue);
+        border: 2px solid var(--card-border);
+        border-top: 2px solid var(--accent-primary);
         border-radius: 50%;
         animation: spin 1s linear infinite;
     }
@@ -105,10 +105,10 @@
 .empty-state {
     text-align: center;
     padding: var(--space-16) var(--space-4);
-    color: var(--gray-500);
+    color: var(--text-tertiary);
 
     h3 {
-        color: var(--gray-700);
+        color: var(--text-secondary);
         margin-bottom: var(--space-2);
     }
 
