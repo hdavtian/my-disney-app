@@ -10,9 +10,23 @@ interface SiteSettingsProps {
   onHide: () => void;
 }
 
+interface ToastMessage {
+  type: "success" | "error" | "warning" | "info";
+  message: string;
+}
+
+type TabType = "cache" | "theme";
+
 export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
   const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState<TabType>("cache");
   const [cacheStats, setCacheStats] = useState(CacheService.getStats());
+  const [toast, setToast] = useState<ToastMessage | null>(null);
+  const [showConfirm, setShowConfirm] = useState<{
+    action: string;
+    message: string;
+    onConfirm: () => void;
+  } | null>(null);
 
   // Refresh cache stats when modal opens
   useEffect(() => {
@@ -21,88 +35,102 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
     }
   }, [show]);
 
+  // Auto-hide toast after 3 seconds
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
   const refreshCacheStats = () => {
     setCacheStats(CacheService.getStats());
   };
 
+  const showToast = (type: ToastMessage["type"], message: string) => {
+    setToast({ type, message });
+  };
+
   const handleClearCache = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to clear all cached data? This will cause the app to re-fetch data from the server."
-      )
-    ) {
-      CacheService.clear();
-      refreshCacheStats();
-      alert("Cache cleared successfully!");
-    }
+    setShowConfirm({
+      action: "Clear Cache",
+      message:
+        "Are you sure you want to clear all cached data? This will cause the app to re-fetch data from the server.",
+      onConfirm: () => {
+        CacheService.clear();
+        refreshCacheStats();
+        showToast("success", "Cache cleared successfully!");
+        setShowConfirm(null);
+      },
+    });
   };
 
   const handleResetPreferences = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to reset all preferences to defaults? This will reset view modes, pagination, and search history."
-      )
-    ) {
-      clearPreferencesFromStorage();
-      dispatch(
-        rehydratePreferences({
-          movies: {
-            viewMode: "grid",
-            gridItemsToShow: 20,
-            searchQuery: "",
-            lastUpdated: Date.now(),
-          },
-          characters: {
-            viewMode: "grid",
-            gridItemsToShow: 20,
-            searchQuery: "",
-            lastUpdated: Date.now(),
-          },
-          theme: "light",
-        })
-      );
-      refreshCacheStats();
-      alert("Preferences reset successfully!");
-    }
+    setShowConfirm({
+      action: "Reset Preferences",
+      message:
+        "Are you sure you want to reset all preferences to defaults? This will reset view modes, pagination, and search history.",
+      onConfirm: () => {
+        clearPreferencesFromStorage();
+        dispatch(
+          rehydratePreferences({
+            movies: {
+              viewMode: "grid",
+              gridItemsToShow: 20,
+              searchQuery: "",
+              lastUpdated: Date.now(),
+            },
+            characters: {
+              viewMode: "grid",
+              gridItemsToShow: 20,
+              searchQuery: "",
+              lastUpdated: Date.now(),
+            },
+            theme: "light",
+          })
+        );
+        refreshCacheStats();
+        showToast("success", "Preferences reset successfully!");
+        setShowConfirm(null);
+      },
+    });
   };
 
   const handleResetAll = () => {
-    if (
-      window.confirm(
-        "⚠️ This will clear ALL site data including cache, preferences, and cookies. Are you sure?"
-      )
-    ) {
-      // Clear cache
-      CacheService.clear();
+    setShowConfirm({
+      action: "Reset All Site Data",
+      message:
+        "⚠️ This will clear ALL site data including cache, preferences, and cookies. The page will reload after reset. Are you sure?",
+      onConfirm: () => {
+        CacheService.clear();
+        clearPreferencesFromStorage();
+        dispatch(
+          rehydratePreferences({
+            movies: {
+              viewMode: "grid",
+              gridItemsToShow: 20,
+              searchQuery: "",
+              lastUpdated: Date.now(),
+            },
+            characters: {
+              viewMode: "grid",
+              gridItemsToShow: 20,
+              searchQuery: "",
+              lastUpdated: Date.now(),
+            },
+            theme: "light",
+          })
+        );
+        showToast("success", "All site data reset! Reloading page...");
+        setShowConfirm(null);
 
-      // Clear preferences
-      clearPreferencesFromStorage();
-      dispatch(
-        rehydratePreferences({
-          movies: {
-            viewMode: "grid",
-            gridItemsToShow: 20,
-            searchQuery: "",
-            lastUpdated: Date.now(),
-          },
-          characters: {
-            viewMode: "grid",
-            gridItemsToShow: 20,
-            searchQuery: "",
-            lastUpdated: Date.now(),
-          },
-          theme: "light",
-        })
-      );
-
-      refreshCacheStats();
-      alert("All site data reset successfully! Page will reload.");
-
-      // Reload page to ensure clean state
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    }
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      },
+    });
   };
 
   if (!show) return null;
@@ -110,148 +138,240 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
   return (
     <>
       {/* Modal Backdrop */}
-      <div
-        className="modal-backdrop fade show"
-        onClick={onHide}
-        style={{ zIndex: 1040 }}
-      ></div>
+      <div className="settings-backdrop" onClick={onHide}></div>
 
       {/* Modal Dialog */}
-      <div
-        className="modal fade show"
-        style={{ display: "block", zIndex: 1050 }}
-        tabIndex={-1}
-        onClick={onHide}
-      >
-        <div
-          className="modal-dialog modal-dialog-centered modal-lg site-settings-modal"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">
-                <i className="bi bi-gear-fill me-2"></i>
-                Site Settings
-              </h5>
+      <div className="settings-modal">
+        <div className="settings-modal__content">
+          {/* Header */}
+          <div className="settings-modal__header">
+            <div className="settings-modal__title">
+              <i className="fas fa-cog"></i>
+              <span>Site Settings</span>
+            </div>
+            <button
+              className="settings-modal__close"
+              onClick={onHide}
+              aria-label="Close"
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+
+          {/* Tabs */}
+          <div className="settings-tabs">
+            <button
+              className={`settings-tab ${
+                activeTab === "cache" ? "settings-tab--active" : ""
+              }`}
+              onClick={() => setActiveTab("cache")}
+            >
+              <i className="fas fa-database"></i>
+              Cache Settings
+            </button>
+            <button
+              className={`settings-tab ${
+                activeTab === "theme" ? "settings-tab--active" : ""
+              }`}
+              onClick={() => setActiveTab("theme")}
+            >
+              <i className="fas fa-palette"></i>
+              Theme
+            </button>
+          </div>
+
+          {/* Tab Content */}
+          <div className="settings-modal__body">
+            {activeTab === "cache" && (
+              <div className="settings-tab-panel">
+                {/* Cache Statistics Section */}
+                <section className="settings-section">
+                  <h3 className="settings-section__title">
+                    <i className="fas fa-database"></i>
+                    Cache Statistics
+                  </h3>
+                  <div className="cache-stats">
+                    <div className="cache-stats__item">
+                      <span className="cache-stats__label">Total Items</span>
+                      <span className="cache-stats__value">
+                        {cacheStats.totalItems}
+                      </span>
+                    </div>
+                    <div className="cache-stats__item">
+                      <span className="cache-stats__label">Total Size</span>
+                      <span className="cache-stats__value">
+                        {cacheStats.totalSize}
+                      </span>
+                    </div>
+                  </div>
+
+                  {cacheStats.items.length > 0 && (
+                    <div className="cache-items">
+                      <h4 className="cache-items__title">Cached Items</h4>
+                      <ul className="cache-items__list">
+                        {cacheStats.items.map((item, index) => (
+                          <li key={index} className="cache-item">
+                            <span className="cache-item__key">{item.key}</span>
+                            <div className="cache-item__meta">
+                              <span className="cache-item__size">
+                                {item.size}
+                              </span>
+                              <span className="cache-item__expiry">
+                                {item.expiresIn}
+                              </span>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </section>
+
+                {/* Actions Section */}
+                <section className="settings-section">
+                  <h3 className="settings-section__title">
+                    <i className="fas fa-sliders-h"></i>
+                    Actions
+                  </h3>
+
+                  <div className="settings-actions">
+                    <button
+                      className="settings-btn settings-btn--warning"
+                      onClick={handleClearCache}
+                    >
+                      <i className="fas fa-broom settings-btn__icon"></i>
+                      <div className="settings-btn__content">
+                        <span className="settings-btn__title">Clear Cache</span>
+                        <span className="settings-btn__description">
+                          Remove cached data
+                        </span>
+                      </div>
+                    </button>
+
+                    <button
+                      className="settings-btn settings-btn--info"
+                      onClick={handleResetPreferences}
+                    >
+                      <i className="fas fa-undo-alt settings-btn__icon"></i>
+                      <div className="settings-btn__content">
+                        <span className="settings-btn__title">
+                          Reset Preferences
+                        </span>
+                        <span className="settings-btn__description">
+                          Reset view settings
+                        </span>
+                      </div>
+                    </button>
+
+                    <button
+                      className="settings-btn settings-btn--danger"
+                      onClick={handleResetAll}
+                    >
+                      <i className="fas fa-exclamation-triangle settings-btn__icon"></i>
+                      <div className="settings-btn__content">
+                        <span className="settings-btn__title">
+                          Reset All Data
+                        </span>
+                        <span className="settings-btn__description">
+                          Clear everything
+                        </span>
+                      </div>
+                    </button>
+                  </div>
+                </section>
+
+                {/* Info Section */}
+                <section className="settings-section settings-section--info">
+                  <h3 className="settings-section__title">
+                    <i className="fas fa-info-circle"></i>
+                    About Site Data
+                  </h3>
+                  <ul className="settings-info">
+                    <li className="settings-info__item">
+                      <i className="fas fa-check-circle"></i>
+                      <span>
+                        <strong>Cache:</strong> Stores API responses for 2 hours
+                      </span>
+                    </li>
+                    <li className="settings-info__item">
+                      <i className="fas fa-check-circle"></i>
+                      <span>
+                        <strong>Preferences:</strong> Saves your view settings
+                      </span>
+                    </li>
+                    <li className="settings-info__item">
+                      <i className="fas fa-check-circle"></i>
+                      <span>
+                        <strong>Auto-Clear:</strong> Cache expires automatically
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+            )}
+
+            {activeTab === "theme" && (
+              <div className="settings-tab-panel">
+                <section className="settings-section">
+                  <h3 className="settings-section__title">
+                    <i className="fas fa-paint-brush"></i>
+                    Theme Settings
+                  </h3>
+                  <div className="settings-coming-soon">
+                    <i className="fas fa-magic"></i>
+                    <h4>Coming Soon</h4>
+                    <p>
+                      Theme customization will be available in a future update.
+                    </p>
+                  </div>
+                </section>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`settings-toast settings-toast--${toast.type}`}>
+          <i
+            className={`fas fa-${
+              toast.type === "success"
+                ? "check-circle"
+                : toast.type === "error"
+                ? "times-circle"
+                : toast.type === "warning"
+                ? "exclamation-triangle"
+                : "info-circle"
+            }`}
+          ></i>
+          <span>{toast.message}</span>
+        </div>
+      )}
+
+      {/* Confirmation Dialog */}
+      {showConfirm && (
+        <div className="settings-confirm">
+          <div className="settings-confirm__content">
+            <h3 className="settings-confirm__title">{showConfirm.action}</h3>
+            <p className="settings-confirm__message">{showConfirm.message}</p>
+            <div className="settings-confirm__actions">
               <button
-                type="button"
-                className="btn-close"
-                onClick={onHide}
-                aria-label="Close"
-              ></button>
-            </div>
-
-            <div className="modal-body">
-              {/* Cache Statistics Section */}
-              <section className="settings-section">
-                <h5 className="section-title">
-                  <i className="bi bi-database-fill me-2"></i>
-                  Cache Statistics
-                </h5>
-                <div className="cache-stats">
-                  <div className="stat-item">
-                    <span className="stat-label">Total Items:</span>
-                    <span className="stat-value">{cacheStats.totalItems}</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-label">Total Size:</span>
-                    <span className="stat-value">{cacheStats.totalSize}</span>
-                  </div>
-                </div>
-
-                {cacheStats.items.length > 0 && (
-                  <div className="cache-items">
-                    <h6 className="subsection-title">Cached Items:</h6>
-                    <ul className="cache-list">
-                      {cacheStats.items.map((item, index) => (
-                        <li key={index} className="cache-item">
-                          <span className="cache-key">{item.key}</span>
-                          <span className="cache-size">{item.size}</span>
-                          <span className="cache-expiry">
-                            Expires in {item.expiresIn}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </section>
-
-              {/* Actions Section */}
-              <section className="settings-section">
-                <h5 className="section-title">
-                  <i className="bi bi-sliders me-2"></i>
-                  Actions
-                </h5>
-
-                <div className="settings-actions">
-                  <button
-                    className="btn btn-outline-warning w-100 mb-3"
-                    onClick={handleClearCache}
-                  >
-                    <i className="bi bi-trash me-2"></i>
-                    Clear Cache
-                    <small className="d-block text-muted mt-1">
-                      Remove all cached API responses (preserves preferences)
-                    </small>
-                  </button>
-
-                  <button
-                    className="btn btn-outline-info w-100 mb-3"
-                    onClick={handleResetPreferences}
-                  >
-                    <i className="bi bi-arrow-clockwise me-2"></i>
-                    Reset Preferences
-                    <small className="d-block text-muted mt-1">
-                      Reset view modes, pagination, and search history
-                      (preserves cache)
-                    </small>
-                  </button>
-
-                  <button
-                    className="btn btn-outline-danger w-100"
-                    onClick={handleResetAll}
-                  >
-                    <i className="bi bi-exclamation-triangle me-2"></i>
-                    Reset All Site Data
-                    <small className="d-block text-muted mt-1">
-                      ⚠️ Clear everything and reload page
-                    </small>
-                  </button>
-                </div>
-              </section>
-
-              {/* Info Section */}
-              <section className="settings-section settings-info">
-                <h6 className="section-title">
-                  <i className="bi bi-info-circle me-2"></i>
-                  About Site Data
-                </h6>
-                <ul className="info-list">
-                  <li>
-                    <strong>Cache:</strong> Stores API responses for 2 hours to
-                    improve performance
-                  </li>
-                  <li>
-                    <strong>Preferences:</strong> Saves your view modes,
-                    pagination state, and search queries
-                  </li>
-                  <li>
-                    <strong>Auto-Clear:</strong> Cache expires automatically
-                    after 2 hours
-                  </li>
-                </ul>
-              </section>
-            </div>
-
-            <div className="modal-footer">
-              <button className="btn btn-secondary" onClick={onHide}>
-                Close
+                className="settings-confirm__btn settings-confirm__btn--cancel"
+                onClick={() => setShowConfirm(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="settings-confirm__btn settings-confirm__btn--confirm"
+                onClick={showConfirm.onConfirm}
+              >
+                Confirm
               </button>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

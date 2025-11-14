@@ -65,7 +65,7 @@ export const Navigation = () => {
             aria-label="Open site settings"
             title="Site Settings"
           >
-            <i className="bi bi-gear-fill"></i>
+            <i className="fas fa-cog"></i>
           </button>
         </div>
 
@@ -122,7 +122,7 @@ export const Navigation = () => {
               setIsMenuOpen(false);
             }}
           >
-            <i className="bi bi-gear-fill me-2"></i>
+            <i className="fas fa-cog me-2"></i>
             Settings
           </button>
         </div>

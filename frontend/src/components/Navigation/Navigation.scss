@@ -60,7 +60,6 @@
     &__desktop {
         @include flex-center;
         gap: var(--space-8);
-        position: relative;
 
         @include mobile {
             display: none;
@@ -72,40 +71,45 @@
 
         @include desktop {
             margin: 0 auto;
+            padding-right: 60px; // Make space for settings button
         }
 
         @include large-desktop {
             margin: 0 auto;
+            padding-right: 60px; // Make space for settings button
         }
     }
 
     &__settings-btn {
-        background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        background: transparent;
         border: none;
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+        color: var(--gray-600);
+        width: auto;
+        height: auto;
+        border-radius: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: all var(--transition-fast);
-        box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+        box-shadow: none;
         position: absolute;
-        right: 0;
+        right: var(--space-6);
+        top: 50%;
+        transform: translateY(-50%);
+        padding: var(--space-2);
 
         i {
-            font-size: 1.1rem;
+            font-size: 1.4rem;
         }
 
         &:hover {
-            transform: scale(1.1) rotate(45deg);
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.5);
+            color: var(--disney-blue);
+            transform: translateY(-50%) rotate(90deg);
         }
 
         &:active {
-            transform: scale(0.95) rotate(45deg);
+            transform: translateY(-50%) rotate(90deg) scale(0.95);
         }
 
         @include mobile {
