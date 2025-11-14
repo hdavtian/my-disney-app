@@ -55,7 +55,8 @@ export const useTheme = (): UseThemeReturn => {
         "theme-marvel",
         "theme-walt-disney",
         "theme-pixar",
-        "theme-matrix"
+        "theme-matrix",
+        "theme-military"
       );
 
       // Add new theme class

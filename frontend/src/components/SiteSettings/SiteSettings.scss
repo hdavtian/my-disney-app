@@ -696,6 +696,10 @@
         font-family: 'Orbitron', 'Courier New', monospace;
     }
 
+    &[data-theme="military"] &__preview-text {
+        font-family: 'Rajdhani', 'Impact', sans-serif;
+    }
+
     &[data-theme="auto"] &__preview-text {
         font-family: var(--font-display); // Auto uses current theme
     }

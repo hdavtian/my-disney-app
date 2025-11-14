@@ -14,7 +14,8 @@ export type ThemeOption =
   | "theme-marvel"
   | "theme-walt-disney"
   | "theme-pixar"
-  | "theme-matrix";
+  | "theme-matrix"
+  | "theme-military";
 
 /**
  * Theme metadata for display in UI
@@ -132,6 +133,17 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#39ff14",
     },
     swatches: ["#0d0208", "#00ff41", "#39ff14", "#00cc33", "#008f11"],
+  },
+  {
+    id: "theme-military",
+    name: "Military",
+    description: "Tactical camo with olive and tan colors",
+    preview: {
+      background: "#1a1f16",
+      text: "#e8e6d5",
+      accent: "#6b7c59",
+    },
+    swatches: ["#1a1f16", "#6b7c59", "#c9a962", "#e8e6d5", "#5a6a48"],
   },
 ];
 
