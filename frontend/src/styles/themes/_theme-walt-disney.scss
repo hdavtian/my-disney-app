@@ -1,5 +1,10 @@
 // Walt Disney Theme
 body.theme-walt-disney {
+    // === TYPOGRAPHY ===
+    --font-display: 'Quicksand', 'Comic Sans MS', sans-serif; // Playful, whimsical display
+    --font-body: 'Nunito', -apple-system, sans-serif; // Friendly, rounded body
+    --font-accent: 'Pacifico', cursive; // Magical, handwritten accent
+
     // === BACKGROUNDS ===
     --bg-primary: #003d6b;
     --bg-secondary: #004d7a;

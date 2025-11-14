@@ -34,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--font-family-display);
+    font-family: var(--font-display); // Theme-specific display font
     font-weight: var(--font-bold);
     line-height: var(--leading-tight);
     margin-bottom: var(--space-4);

@@ -44,7 +44,7 @@
             font-weight: var(--font-bold);
             color: var(--text-primary);
             margin-bottom: var(--space-4);
-            font-family: var(--font-family-display);
+            font-family: var(--font-display); // Theme-specific display font
             text-shadow: 0 2px 4px var(--shadow-color);
 
             @media (max-width: 768px) {

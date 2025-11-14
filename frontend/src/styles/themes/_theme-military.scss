@@ -1,0 +1,102 @@
+// Military Theme
+body.theme-military {
+    // === TYPOGRAPHY ===
+    --font-display: 'Rajdhani', 'Impact', sans-serif; // Bold, tactical display
+    --font-body: 'Roboto Condensed', -apple-system, sans-serif; // Clean, efficient body
+    --font-accent: 'Barlow Condensed', 'Arial Narrow', sans-serif; // Military-style accent
+
+    // === BACKGROUNDS ===
+    --bg-primary: #1a1f16;
+    --bg-secondary: #2a3126;
+    --bg-tertiary: #3a4136;
+    --bg-overlay: rgba(26, 31, 22, 0.95);
+
+    // === TEXT COLORS ===
+    --text-primary: #e8e6d5;
+    --text-secondary: #c8c6b5;
+    --text-tertiary: #a8a695;
+    --text-disabled: #888675;
+
+    // === ACCENT COLORS (Military Olive & Tan) ===
+    --accent-primary: #6b7c59;
+    --accent-primary-hover: #7d9068;
+    --accent-secondary: #c9a962;
+    --accent-secondary-hover: #d9b972;
+
+    // === NAVIGATION ===
+    --nav-bg: #2a3126;
+    --nav-text: #e8e6d5;
+    --nav-text-hover: #c9a962;
+    --nav-text-active: #6b7c59;
+    --nav-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+
+    // === CARDS ===
+    --card-bg: rgba(107, 124, 89, 0.08);
+    --card-bg-hover: rgba(107, 124, 89, 0.15);
+    --card-border: rgba(107, 124, 89, 0.25);
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+    // === BUTTONS ===
+    --btn-primary-bg: linear-gradient(135deg, #6b7c59 0%, #5a6a48 100%);
+    --btn-primary-bg-hover: linear-gradient(135deg, #7d9068 0%, #6b7c59 100%);
+    --btn-primary-text: #e8e6d5;
+
+    // === MODALS ===
+    --modal-bg: linear-gradient(135deg, #1a1f16 0%, #2a3126 100%);
+    --modal-border: rgba(107, 124, 89, 0.3);
+    --modal-backdrop: rgba(26, 31, 22, 0.9);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+    // === FORMS ===
+    --input-bg: rgba(107, 124, 89, 0.1);
+    --input-border: rgba(107, 124, 89, 0.3);
+    --input-border-focus: #6b7c59;
+    --input-text: #e8e6d5;
+
+    // === SHADOWS ===
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --shadow-sm: 0 1px 2px var(--shadow-color);
+    --shadow-md: 0 4px 6px var(--shadow-color);
+    --shadow-lg: 0 10px 15px var(--shadow-color);
+
+    // === CAMOUFLAGE PATTERN (Optional utility classes) ===
+    // Can be applied via custom classes for special effects
+    --camo-dark: #3a4136;
+    --camo-mid: #5a6a48;
+    --camo-light: #7d9068;
+    --camo-tan: #c9a962;
+}
+
+// Optional: Camouflage background pattern utility class
+body.theme-military {
+    .camo-overlay {
+        background-image:
+            radial-gradient(circle at 20% 30%, rgba(107, 124, 89, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 60% 70%, rgba(201, 169, 98, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(90, 106, 72, 0.12) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(107, 124, 89, 0.08) 0%, transparent 50%);
+        background-size: 400px 400px, 350px 350px, 300px 300px, 450px 450px;
+        background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+    }
+
+    // Subtle camo texture for hero sections
+    .hero-camo-texture {
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle at 15% 25%, rgba(107, 124, 89, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 65% 75%, rgba(201, 169, 98, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 15%, rgba(90, 106, 72, 0.09) 0%, transparent 40%);
+            background-size: 300px 300px, 250px 250px, 350px 350px;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    }
+}

@@ -13,7 +13,9 @@ export type ThemeOption =
   | "theme-star-wars"
   | "theme-marvel"
   | "theme-walt-disney"
-  | "theme-pixar";
+  | "theme-pixar"
+  | "theme-matrix"
+  | "theme-military";
 
 /**
  * Theme metadata for display in UI
@@ -27,6 +29,7 @@ export interface Theme {
     text: string;
     accent: string;
   };
+  swatches?: string[]; // Color palette swatches for visual preview
 }
 
 /**
@@ -63,6 +66,7 @@ const AVAILABLE_THEMES: Theme[] = [
       text: "#ffffff",
       accent: "#4a90e2",
     },
+    swatches: ["#000000", "#4a90e2", "#fdd017", "#ffffff", "#cbd5e1"],
   },
   {
     id: "theme-light",
@@ -73,6 +77,7 @@ const AVAILABLE_THEMES: Theme[] = [
       text: "#0f172a",
       accent: "#006bb3",
     },
+    swatches: ["#ffffff", "#006bb3", "#fdd017", "#0f172a", "#475569"],
   },
   {
     id: "theme-star-wars",
@@ -83,6 +88,7 @@ const AVAILABLE_THEMES: Theme[] = [
       text: "#e0e0e0",
       accent: "#ffe81f",
     },
+    swatches: ["#000000", "#ffe81f", "#ffd700", "#e0e0e0", "#b0b0b0"],
   },
   {
     id: "theme-marvel",
@@ -93,6 +99,7 @@ const AVAILABLE_THEMES: Theme[] = [
       text: "#ffffff",
       accent: "#ed1d24",
     },
+    swatches: ["#1a0a0e", "#ed1d24", "#ffd700", "#ffffff", "#d0d0d0"],
   },
   {
     id: "theme-walt-disney",
@@ -103,6 +110,7 @@ const AVAILABLE_THEMES: Theme[] = [
       text: "#ffffff",
       accent: "#fdd017",
     },
+    swatches: ["#003d6b", "#006bb3", "#fdd017", "#ffffff", "#d4d4d4"],
   },
   {
     id: "theme-pixar",
@@ -113,6 +121,29 @@ const AVAILABLE_THEMES: Theme[] = [
       text: "#1a3a4a",
       accent: "#00a8e8",
     },
+    swatches: ["#f0f8ff", "#00a8e8", "#ffd93d", "#1a3a4a", "#4a6a7a"],
+  },
+  {
+    id: "theme-matrix",
+    name: "Matrix",
+    description: "Digital green code on deep black",
+    preview: {
+      background: "#0d0208",
+      text: "#00ff41",
+      accent: "#39ff14",
+    },
+    swatches: ["#0d0208", "#00ff41", "#39ff14", "#00cc33", "#008f11"],
+  },
+  {
+    id: "theme-military",
+    name: "Military",
+    description: "Tactical camo with olive and tan colors",
+    preview: {
+      background: "#1a1f16",
+      text: "#e8e6d5",
+      accent: "#6b7c59",
+    },
+    swatches: ["#1a1f16", "#6b7c59", "#c9a962", "#e8e6d5", "#5a6a48"],
   },
 ];
 

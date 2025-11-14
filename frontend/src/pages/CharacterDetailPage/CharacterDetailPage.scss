@@ -176,7 +176,7 @@
         font-size: var(--text-4xl);
         font-weight: var(--font-bold);
         color: var(--text-primary);
-        font-family: var(--font-family-display);
+        font-family: var(--font-display); // Theme-specific display font
         margin: 0;
         line-height: 1.2;
 
@@ -266,7 +266,7 @@
         font-weight: var(--font-bold);
         color: var(--text-primary);
         margin-bottom: var(--space-8);
-        font-family: var(--font-family-display);
+        font-family: var(--font-display); // Theme-specific display font
     }
 
     &__movies-grid {

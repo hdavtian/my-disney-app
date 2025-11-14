@@ -1,5 +1,10 @@
 // Pixar Theme
 body.theme-pixar {
+    // === TYPOGRAPHY ===
+    --font-display: 'Fredoka', 'Arial Rounded MT Bold', sans-serif; // Friendly, rounded display
+    --font-body: 'Nunito', -apple-system, sans-serif; // Approachable, warm body
+    --font-accent: 'Mali', cursive; // Playful, energetic accent
+
     // === BACKGROUNDS ===
     --bg-primary: #f0f8ff;
     --bg-secondary: #e8f4f8;
