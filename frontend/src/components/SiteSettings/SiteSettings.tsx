@@ -315,6 +315,7 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                         }`}
                         onClick={() => changeTheme(theme.id)}
                         aria-label={`Select ${theme.name} theme`}
+                        data-theme={theme.id}
                       >
                         {/* Selected Indicator */}
                         {selectedTheme === theme.id && (
@@ -341,6 +342,20 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                             style={{ background: theme.preview.accent }}
                           ></div>
                         </div>
+
+                        {/* Color Swatches */}
+                        {theme.swatches && (
+                          <div className="theme-card__swatches">
+                            {theme.swatches.map((color, index) => (
+                              <div
+                                key={index}
+                                className="theme-card__swatch"
+                                style={{ backgroundColor: color }}
+                                title={color}
+                              />
+                            ))}
+                          </div>
+                        )}
 
                         {/* Theme Info */}
                         <div className="theme-card__info">

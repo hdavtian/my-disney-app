@@ -660,12 +660,40 @@
     &__preview-text {
         font-size: 3rem;
         font-weight: var(--font-bold);
-        font-family: var(--font-display); // Theme-specific display font
         opacity: 0.9;
 
         @include mobile {
             font-size: 2.5rem;
         }
+    }
+
+    // Theme-specific fonts for each preview (independent of active theme)
+    &[data-theme="dark"] &__preview-text {
+        font-family: 'Cinzel', 'Georgia', serif;
+    }
+
+    &[data-theme="light"] &__preview-text {
+        font-family: 'Poppins', 'Arial', sans-serif;
+    }
+
+    &[data-theme="star-wars"] &__preview-text {
+        font-family: 'Orbitron', 'Impact', sans-serif;
+    }
+
+    &[data-theme="marvel"] &__preview-text {
+        font-family: 'Bebas Neue', 'Impact', sans-serif;
+    }
+
+    &[data-theme="walt-disney"] &__preview-text {
+        font-family: 'Quicksand', 'Comic Sans MS', sans-serif;
+    }
+
+    &[data-theme="pixar"] &__preview-text {
+        font-family: 'Fredoka', 'Arial Rounded MT Bold', sans-serif;
+    }
+
+    &[data-theme="auto"] &__preview-text {
+        font-family: var(--font-display); // Auto uses current theme
     }
 
     &__preview-accent {
@@ -674,6 +702,29 @@
         left: 0;
         right: 0;
         height: 4px;
+    }
+
+    &__swatches {
+        display: flex;
+        gap: 4px;
+        padding: var(--space-2) var(--space-3);
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--card-border);
+    }
+
+    &__swatch {
+        width: 20px;
+        height: 20px;
+        border-radius: var(--radius);
+        border: 1px solid var(--card-border);
+        flex-shrink: 0;
+        transition: transform var(--transition-fast);
+
+        &:hover {
+            transform: scale(1.2);
+            border-color: var(--accent-primary);
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
     }
 
     &__info {
