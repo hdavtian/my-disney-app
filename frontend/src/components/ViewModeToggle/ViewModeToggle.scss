@@ -6,11 +6,11 @@
     gap: var(--space-2);
     padding: var(--space-2);
     background: linear-gradient(135deg,
-            rgba(var(--disney-blue), 0.05) 0%,
-            rgba(var(--disney-gold), 0.05) 100%);
+            var(--bg-secondary) 0%,
+            var(--bg-primary) 100%);
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-md);
-    border: 2px solid var(--gray-200);
+    border: 2px solid var(--card-border);
     width: fit-content;
 
     &__button {
@@ -25,7 +25,7 @@
         font-family: var(--font-family-primary);
         font-size: var(--text-lg);
         font-weight: var(--font-semibold);
-        color: var(--gray-600);
+        color: var(--text-secondary);
         cursor: pointer;
         transition: all var(--transition-normal);
         overflow: hidden;
@@ -33,7 +33,7 @@
         justify-content: center;
 
         &:hover {
-            color: var(--disney-blue);
+            color: var(--accent-primary);
             transform: translateY(-2px);
 
             .view-mode-toggle__icon {
@@ -46,17 +46,17 @@
         }
 
         &--active {
-            color: var(--white);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            color: var(--btn-primary-text);
+            text-shadow: 0 1px 2px var(--shadow-color);
 
             .view-mode-toggle__icon {
-                stroke: var(--white);
-                filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+                stroke: var(--btn-primary-text);
+                filter: drop-shadow(0 1px 2px var(--shadow-color));
             }
         }
 
         &:focus-visible {
-            outline: 2px solid var(--disney-blue);
+            outline: 2px solid var(--accent-primary);
             outline-offset: 2px;
         }
     }
@@ -78,12 +78,12 @@
         position: absolute;
         inset: 0;
         background: linear-gradient(135deg,
-                var(--disney-blue) 0%,
-                var(--disney-blue-light) 100%);
+                var(--btn-primary-bg) 0%,
+                var(--accent-primary) 100%);
         border-radius: var(--radius-xl);
         z-index: -1;
-        box-shadow: 0 4px 12px rgba(0, 107, 179, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        box-shadow: var(--card-shadow),
+            inset 0 1px 0 var(--card-border);
     }
 }
 
