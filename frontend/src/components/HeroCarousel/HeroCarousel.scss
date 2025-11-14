@@ -43,9 +43,9 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: var(--white);
+        background: var(--card-bg);
         border: none;
-        color: var(--disney-blue);
+        color: var(--accent-primary);
         width: 3.5rem;
         height: 3.5rem;
         border-radius: 50%;
@@ -53,7 +53,7 @@
         transition: all var(--transition-fast);
         z-index: 20;
         @include flex-center;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--card-shadow);
 
         svg {
             flex-shrink: 0;
@@ -61,10 +61,10 @@
         }
 
         &:hover {
-            background: var(--disney-gold);
-            color: var(--white);
+            background: var(--accent-secondary);
+            color: var(--btn-primary-text);
             transform: translateY(-50%) scale(1.15);
-            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 6px 25px var(--shadow-color);
         }
 
         &:active {
@@ -136,7 +136,7 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
+        background: var(--card-border);
         border: none;
         cursor: pointer;
         transition: all var(--transition-fast);
@@ -144,12 +144,12 @@
         opacity: 1 !important;
 
         &.active {
-            background: var(--disney-gold);
+            background: var(--accent-secondary);
             transform: scale(1.2);
         }
 
         &:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.6);
+            background: var(--card-bg-hover);
         }
     }
 }
@@ -157,9 +157,9 @@
 // Skeleton Loading Styles
 .skeleton {
     background: linear-gradient(90deg,
-            rgba(255, 255, 255, 0.1) 25%,
-            rgba(255, 255, 255, 0.2) 50%,
-            rgba(255, 255, 255, 0.1) 75%);
+            var(--card-bg) 25%,
+            var(--card-bg-hover) 50%,
+            var(--card-bg) 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s ease-in-out infinite;
     border-radius: var(--border-radius);
@@ -201,7 +201,7 @@
 
     &--nav {
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.15);
+        background: var(--card-bg);
     }
 
     &--dot {
@@ -209,7 +209,7 @@
         height: 0.75rem;
         border-radius: 50%;
         margin: 0 var(--space-1);
-        background: rgba(255, 255, 255, 0.15);
+        background: var(--card-bg);
     }
 }
 

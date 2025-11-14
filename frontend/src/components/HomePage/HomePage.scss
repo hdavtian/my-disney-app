@@ -65,12 +65,12 @@
 }
 
 .section-title {
-    color: var(--white);
+    color: var(--text-primary);
     font-family: var(--font-family-display);
     font-size: var(--text-2xl);
     font-weight: var(--font-bold);
     margin-bottom: var(--space-4);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px var(--shadow-color);
 
     @include tablet-up {
         font-size: var(--text-3xl);
@@ -148,16 +148,16 @@
 
 .movie-slider-section {
     padding: var(--space-8) 0;
-    background: var(--black);
+    background: var(--bg-primary);
 }
 
 .character-circles-section {
     padding: var(--space-8) 0;
-    background: var(--black);
+    background: var(--bg-primary);
 }
 
 .below-fold-wrapper {
-    background: var(--gray-50);
+    background: var(--bg-secondary);
 
     .below-fold-row {
         width: 90%;
@@ -172,18 +172,18 @@
         text-align: center;
 
         h3 {
-            color: var(--gray-700);
+            color: var(--text-primary);
             margin-bottom: var(--space-4);
         }
 
         p {
-            color: var(--gray-600);
+            color: var(--text-secondary);
             max-width: 600px;
             margin: 0 auto;
         }
 
         &:not(:last-child) {
-            border-bottom: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--card-border);
         }
 
         @include tablet-up {
