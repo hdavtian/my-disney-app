@@ -41,6 +41,10 @@ body.theme-light {
     --btn-primary-bg-hover: linear-gradient(135deg, #0088e0 0%, #006bb3 100%);
     --btn-primary-text: #ffffff;
 
+    // Contrast buttons (inverse of page background for visibility)
+    --btn-contrast-bg: #0f172a;
+    --btn-contrast-text: #ffffff;
+
     // === MODALS ===
     --modal-bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     --modal-border: rgba(0, 0, 0, 0.1);

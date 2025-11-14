@@ -41,6 +41,10 @@ body.theme-star-wars {
     --btn-primary-bg-hover: linear-gradient(135deg, #fff44f 0%, #ffe81f 100%);
     --btn-primary-text: #000000;
 
+    // Contrast buttons (inverse of page background for visibility)
+    --btn-contrast-bg: #ffe81f;
+    --btn-contrast-text: #000000;
+
     // === MODALS ===
     --modal-bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
     --modal-border: rgba(255, 232, 31, 0.2);

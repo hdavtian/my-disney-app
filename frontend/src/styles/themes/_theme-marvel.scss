@@ -41,6 +41,10 @@ body.theme-marvel {
     --btn-primary-bg-hover: linear-gradient(135deg, #ff3d44 0%, #ed1d24 100%);
     --btn-primary-text: #ffffff;
 
+    // Contrast buttons (inverse of page background for visibility)
+    --btn-contrast-bg: #ed1d24;
+    --btn-contrast-text: #ffffff;
+
     // === MODALS ===
     --modal-bg: linear-gradient(135deg, #2a0f14 0%, #3a141a 100%);
     --modal-border: rgba(237, 29, 36, 0.3);

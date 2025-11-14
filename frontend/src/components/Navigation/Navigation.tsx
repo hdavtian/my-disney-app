@@ -13,7 +13,7 @@ export const Navigation = () => {
     { path: "/movies", label: "Movies" },
     { path: "/characters", label: "Characters" },
     { path: "/favorites", label: "Favorites" },
-    { path: "/behind-the-magic", label: "Behind the Magic" },
+    { path: "/about", label: "About this Demo" },
   ];
 
   return (

@@ -4,7 +4,7 @@ import { HomePage } from "./components/HomePage/HomePage";
 import { CharactersPage } from "./pages/CharactersPage/CharactersPage";
 import { MoviesPage } from "./pages/MoviesPage/MoviesPage";
 import { FavoritesPage } from "./pages/FavoritesPage/FavoritesPage";
-import { BehindTheMagicPage } from "./pages/BehindTheMagicPage/BehindTheMagicPage";
+import { AboutPage } from "./pages/AboutPage/AboutPage";
 import { MovieDetailPage } from "./pages/MovieDetailPage/MovieDetailPage";
 import { CharacterDetailPage } from "./pages/CharacterDetailPage/CharacterDetailPage";
 import { DisclaimerPage } from "./pages/DisclaimerPage";
@@ -32,7 +32,7 @@ function App() {
             <Route path="/movies" element={<MoviesPage />} />
             <Route path="/movie/:id" element={<MovieDetailPage />} />
             <Route path="/favorites" element={<FavoritesPage />} />
-            <Route path="/behind-the-magic" element={<BehindTheMagicPage />} />
+            <Route path="/about" element={<AboutPage />} />
           </Route>
           <Route path="/disclaimer" element={<DisclaimerPage />} />
           <Route

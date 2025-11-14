@@ -65,6 +65,8 @@ body.theme-{name} {
     --btn-primary-bg: linear-gradient(135deg, #{start} 0%, #{end} 100%);
     --btn-primary-bg-hover: linear-gradient(135deg, #{start} 0%, #{end} 100%);
     --btn-primary-text: #{button-text-color};
+    --btn-contrast-bg: #{high-contrast-button-bg};
+    --btn-contrast-text: #{high-contrast-button-text};
 
     // === MODALS ===
     --modal-bg: linear-gradient(135deg, #{start} 0%, #{end} 100%);
@@ -222,10 +224,12 @@ Use this checklist when adding a new theme:
 - [ ] Add metadata object to `AVAILABLE_THEMES` in `themeSlice.ts`
 - [ ] Add to `classList.remove()` in `useTheme.ts`
 - [ ] Add font preview rule in `SiteSettings.scss`
+- [ ] **Verify contrast button variables** (`--btn-contrast-bg` and `--btn-contrast-text`)
 - [ ] Test theme switching in Settings modal
 - [ ] Verify fonts load correctly
 - [ ] Check all pages (Home, Characters, Movies, Details, Favorites)
 - [ ] Verify color swatches display correctly
+- [ ] **Test Load More buttons** on Characters and Movies pages for visibility
 
 ---
 
@@ -237,6 +241,10 @@ Use this checklist when adding a new theme:
 - **Text:** Ensure proper contrast (WCAG AA minimum)
 - **Accents:** Choose 2 complementary colors for primary/secondary actions
 - **Hover states:** 10-15% lighter/brighter than base color
+- **Contrast buttons:** Use inverse of page background for guaranteed visibility
+  - Dark page backgrounds → light button backgrounds (white, yellow, bright accent)
+  - Light page backgrounds → dark button backgrounds (dark blue, black)
+  - Button text must contrast with button background (light bg → dark text, dark bg → light text)
 
 ### Typography
 
@@ -282,6 +290,7 @@ After adding a theme:
    - Hero sections (font display)
    - Cards (backgrounds, borders, hover)
    - Buttons (colors, hover states)
+   - **Load More buttons** (visibility and text legibility on Characters/Movies pages)
    - Modals (Settings dialog)
    - Forms (inputs, borders, focus states)
 
@@ -359,6 +368,13 @@ frontend/
 - Check SCSS file has no syntax errors
 - Verify theme is imported in `_themes.scss`
 
+**Load More buttons invisible or illegible:**
+
+- Verify `--btn-contrast-bg` and `--btn-contrast-text` are defined in theme
+- Ensure contrast variables use inverse of page background color
+- Dark themes should have light contrast buttons, light themes should have dark contrast buttons
+- Test on Characters and Movies pages by scrolling to Load More section
+
 ---
 
 ## Resources
@@ -370,5 +386,5 @@ frontend/
 
 ---
 
-**Last Updated:** November 13, 2025  
-**Version:** 2.0 (with Matrix and Military themes)
+**Last Updated:** November 14, 2025  
+**Version:** 2.1 (added contrast button guidance)
