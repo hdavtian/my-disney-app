@@ -59,7 +59,7 @@
         border-radius: 50%; // CIRCULAR like home page
         overflow: hidden;
         background: var(--card-bg);
-        border: 2px solid var(--card-border);
+        border: 2px solid var(--btn-contrast-bg);
         transition: border-color 0.5s ease, box-shadow 0.5s ease;
 
         // @include tablet-up {
