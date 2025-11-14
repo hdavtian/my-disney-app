@@ -43,7 +43,7 @@
         }
 
         &:focus-visible {
-            outline: 2px solid var(--disney-gold); // Add visible focus for accessibility (keyboard navigation)
+            outline: 2px solid var(--accent-secondary); // Add visible focus for accessibility (keyboard navigation)
             outline-offset: 2px;
         }
     }
@@ -58,8 +58,8 @@
         margin: 0 auto var(--space-3);
         border-radius: 50%; // CIRCULAR like home page
         overflow: hidden;
-        background: var(--gray-800);
-        border: 2px solid rgba(255, 255, 255, 0.8);
+        background: var(--card-bg);
+        border: 2px solid var(--card-border);
         transition: border-color 0.5s ease, box-shadow 0.5s ease;
 
         // @include tablet-up {
@@ -81,8 +81,8 @@
     }
 
     &:hover &__image {
-        border-color: var(--disney-gold);
-        box-shadow: 0 0 15px 2px var(--princess-pink); // Pink glow like home page
+        border-color: var(--accent-secondary);
+        box-shadow: 0 0 15px 2px var(--accent-primary); // Pink glow like home page
     }
 
     &:hover &__image img {
@@ -102,7 +102,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        background: linear-gradient(transparent, var(--shadow-color));
         padding: var(--space-2) var(--space-1);
         opacity: 0;
         transition: opacity var(--transition-normal);
@@ -115,18 +115,18 @@
 
     &__category-badge {
         font-size: var(--text-xs);
-        color: var(--disney-gold);
+        color: var(--accent-secondary);
         font-weight: var(--font-semibold);
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
 
     &__name {
-        color: var(--white);
+        color: var(--text-primary);
         font-size: var(--text-sm);
         font-weight: var(--font-medium);
         margin: 0;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        text-shadow: 1px 1px 2px var(--shadow-color);
         text-decoration: none;
         @include text-truncate;
 
@@ -136,7 +136,7 @@
     }
 
     &:hover &__name {
-        color: var(--disney-gold);
+        color: var(--accent-secondary);
     }
 
     // SKELETON LOADING STATES
@@ -154,9 +154,9 @@
 
     .skeleton {
         background: linear-gradient(90deg,
-                var(--gray-800) 0%,
-                var(--gray-700) 50%,
-                var(--gray-800) 100%);
+                var(--card-bg) 0%,
+                var(--card-bg-hover) 50%,
+                var(--card-bg) 100%);
         background-size: 200% 100%;
         animation: skeleton-loading 1.5s ease-in-out infinite;
         border-radius: var(--border-radius);
