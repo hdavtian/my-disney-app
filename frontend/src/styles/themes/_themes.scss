@@ -1,11 +1,11 @@
 // Import all theme files
 // Each theme sets CSS variables scoped to body.theme-*
 
-@import 'theme-dark';
-@import 'theme-light';
-@import 'theme-star-wars';
-@import 'theme-marvel';
-@import 'theme-walt-disney';
-@import 'theme-pixar';
-@import 'theme-matrix';
-@import 'theme-military';
+@use 'theme-dark';
+@use 'theme-light';
+@use 'theme-star-wars';
+@use 'theme-marvel';
+@use 'theme-walt-disney';
+@use 'theme-pixar';
+@use 'theme-matrix';
+@use 'theme-military';

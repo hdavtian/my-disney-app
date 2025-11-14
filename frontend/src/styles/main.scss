@@ -1,19 +1,19 @@
 // Import our custom styles first
-@import './variables';
-@import './mixins';
-@import './base';
+@use './variables' as *;
+@use './mixins' as *;
+@use './base';
 
 // Import theme system (must come before components to ensure CSS variables are available)
-@import './themes/themes';
+@use './themes/themes';
 
 // Import component styles
-@import '../components/Navigation/Navigation.scss';
-@import '../components/HomePage/HomePage.scss';
-@import '../components/HeroCarousel/HeroCarousel.scss';
-@import '../components/HeroCarousel/HeroCard/HeroCard.scss';
-@import '../components/MovieCarousel/MovieCarousel.scss';
-@import '../components/CharacterCarousel/CharacterCarousel.scss';
-@import '../components/Footer/Footer.scss';
+@use '../components/Navigation/Navigation.scss';
+@use '../components/HomePage/HomePage.scss';
+@use '../components/HeroCarousel/HeroCarousel.scss';
+@use '../components/HeroCarousel/HeroCard/HeroCard.scss';
+@use '../components/MovieCarousel/MovieCarousel.scss';
+@use '../components/CharacterCarousel/CharacterCarousel.scss';
+@use '../components/Footer/Footer.scss';
 
 // Utility Color Classes
 // Lightweight helpers for occasional inline semantic color usage
