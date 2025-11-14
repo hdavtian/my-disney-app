@@ -122,7 +122,7 @@ export const Navigation = () => {
               setIsMenuOpen(false);
             }}
           >
-            <i className="fas fa-cog me-2"></i>
+            <i className="fas fa-cog"></i>
             Settings
           </button>
         </div>

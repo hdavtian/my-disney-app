@@ -266,31 +266,33 @@
     }
 
     &__mobile-settings-btn {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
         width: 100%;
         padding: var(--space-3) var(--space-4);
         margin-top: var(--space-2);
-        background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-        color: white;
+        background: transparent;
+        color: var(--gray-700);
         border: none;
+        border-left: 3px solid transparent;
         font-weight: var(--font-medium);
         font-size: var(--text-base);
         text-align: left;
         cursor: pointer;
         transition: all var(--transition-fast);
-        border-radius: var(--radius);
 
         i {
             font-size: 1.1rem;
         }
 
         &:hover {
-            background: linear-gradient(135deg, #357abd 0%, #2a5e8f 100%);
-            transform: translateX(4px);
+            background: var(--gray-50);
+            color: var(--disney-blue);
         }
 
         &:active {
-            transform: translateX(2px);
+            background: var(--gray-100);
         }
     }
 }

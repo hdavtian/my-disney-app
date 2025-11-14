@@ -227,59 +227,6 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                   )}
                 </section>
 
-                {/* Actions Section */}
-                <section className="settings-section">
-                  <h3 className="settings-section__title">
-                    <i className="fas fa-sliders-h"></i>
-                    Actions
-                  </h3>
-
-                  <div className="settings-actions">
-                    <button
-                      className="settings-btn settings-btn--warning"
-                      onClick={handleClearCache}
-                    >
-                      <i className="fas fa-broom settings-btn__icon"></i>
-                      <div className="settings-btn__content">
-                        <span className="settings-btn__title">Clear Cache</span>
-                        <span className="settings-btn__description">
-                          Remove cached data
-                        </span>
-                      </div>
-                    </button>
-
-                    <button
-                      className="settings-btn settings-btn--info"
-                      onClick={handleResetPreferences}
-                    >
-                      <i className="fas fa-undo-alt settings-btn__icon"></i>
-                      <div className="settings-btn__content">
-                        <span className="settings-btn__title">
-                          Reset Preferences
-                        </span>
-                        <span className="settings-btn__description">
-                          Reset view settings
-                        </span>
-                      </div>
-                    </button>
-
-                    <button
-                      className="settings-btn settings-btn--danger"
-                      onClick={handleResetAll}
-                    >
-                      <i className="fas fa-exclamation-triangle settings-btn__icon"></i>
-                      <div className="settings-btn__content">
-                        <span className="settings-btn__title">
-                          Reset All Data
-                        </span>
-                        <span className="settings-btn__description">
-                          Clear everything
-                        </span>
-                      </div>
-                    </button>
-                  </div>
-                </section>
-
                 {/* Info Section */}
                 <section className="settings-section settings-section--info">
                   <h3 className="settings-section__title">
@@ -306,6 +253,40 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                       </span>
                     </li>
                   </ul>
+                </section>
+
+                {/* Actions Section */}
+                <section className="settings-section">
+                  <h3 className="settings-section__title">
+                    <i className="fas fa-sliders-h"></i>
+                    Actions
+                  </h3>
+
+                  <div className="settings-actions">
+                    <button
+                      className="settings-btn settings-btn--warning"
+                      onClick={handleClearCache}
+                    >
+                      <i className="fas fa-broom"></i>
+                      <span>Clear Cache</span>
+                    </button>
+
+                    <button
+                      className="settings-btn settings-btn--info"
+                      onClick={handleResetPreferences}
+                    >
+                      <i className="fas fa-undo-alt"></i>
+                      <span>Reset Preferences</span>
+                    </button>
+
+                    <button
+                      className="settings-btn settings-btn--danger"
+                      onClick={handleResetAll}
+                    >
+                      <i className="fas fa-exclamation-triangle"></i>
+                      <span>Reset All Data</span>
+                    </button>
+                  </div>
                 </section>
               </div>
             )}
