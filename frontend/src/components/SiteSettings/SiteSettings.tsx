@@ -4,7 +4,6 @@ import { CacheService } from "../../utils/cacheService";
 import { clearPreferencesFromStorage } from "../../store/middleware/localStorageSyncMiddleware";
 import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
 import { useTheme } from "../../hooks/useTheme";
-import type { ThemeOption } from "../../store/slices/themeSlice";
 import "./SiteSettings.scss";
 
 interface SiteSettingsProps {

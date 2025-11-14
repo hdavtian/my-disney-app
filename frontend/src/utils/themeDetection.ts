@@ -88,11 +88,9 @@ export const watchSystemTheme = (
     darkModeQuery.addEventListener("change", handleChange);
     lightModeQuery.addEventListener("change", handleChange);
   } else {
-    // Fallback for older browsers
-    // @ts-expect-error - addListener is deprecated but needed for older browsers
-    darkModeQuery.addListener(handleChange);
-    // @ts-expect-error - addListener is deprecated but needed for older browsers
-    lightModeQuery.addListener(handleChange);
+    // Fallback for older browsers (addListener is deprecated but needed for compatibility)
+    (darkModeQuery as any).addListener(handleChange);
+    (lightModeQuery as any).addListener(handleChange);
   }
 
   // Return cleanup function
@@ -101,11 +99,9 @@ export const watchSystemTheme = (
       darkModeQuery.removeEventListener("change", handleChange);
       lightModeQuery.removeEventListener("change", handleChange);
     } else {
-      // Fallback for older browsers
-      // @ts-expect-error - removeListener is deprecated but needed for older browsers
-      darkModeQuery.removeListener(handleChange);
-      // @ts-expect-error - removeListener is deprecated but needed for older browsers
-      lightModeQuery.removeListener(handleChange);
+      // Fallback for older browsers (removeListener is deprecated but needed for compatibility)
+      (darkModeQuery as any).removeListener(handleChange);
+      (lightModeQuery as any).removeListener(handleChange);
     }
   };
 };
