@@ -45,7 +45,7 @@ Disney App is a creative and technical showcase demonstrating modern full-stack 
 
 ```
 my-disney-app/
-├── frontend/          # React 19 + Vite + TypeScript + Redux Toolkit
+├── frontend/          # React 19 + Vite 7.2 + TypeScript + Redux Toolkit
 ├── backend/           # Spring Boot 3.3 + JPA + PostgreSQL
 ├── database/          # Data files and migration scripts
 ├── docs/              # Technical documentation
@@ -56,12 +56,12 @@ my-disney-app/
 
 #### Frontend
 
-- **Framework**: React 19 with Vite
+- **Framework**: React 19 with Vite 7.2
 - **Language**: TypeScript 5.x
 - **State Management**: Redux Toolkit
-- **Styling**: SCSS + Bootstrap + CSS Variables
+- **Styling**: SCSS 1.94 + Bootstrap + CSS Variables
 - **Animations**: Framer Motion
-- **Build Tool**: Vite
+- **Build Tool**: Vite 7.2
 
 #### Backend
 
@@ -320,11 +320,11 @@ backend/
 
 ## 🔧 Development
 
-### Frontend Development
+### Frontend
 
 ```bash
 cd frontend
-npm run dev          # Start dev server
+npm run dev          # Start dev server (Vite 7.2)
 npm run build        # Production build
 npm run preview      # Preview production build
 npm run lint         # Run ESLint

@@ -268,14 +268,16 @@ npm install --save-dev storybook-addon-redux
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@storybook/react": "^8.x",
-    "@storybook/react-vite": "^8.x",
-    "@storybook/addon-essentials": "^8.x",
-    "@storybook/addon-a11y": "^8.x",
-    "@storybook/addon-viewport": "^8.x",
-    "@storybook/addon-interactions": "^8.x",
-    "storybook": "^8.x",
-    "storybook-addon-redux": "^2.x"
+    "@storybook/react": "^10.x",
+    "@storybook/react-vite": "^10.x",
+    "@storybook/addon-essentials": "^10.x",
+    "@storybook/addon-a11y": "^10.x",
+    "@storybook/addon-viewport": "^10.x",
+    "@storybook/addon-interactions": "^10.x",
+    "storybook": "^10.x",
+    "storybook-addon-redux": "^2.x",
+    "vite": "^7.2.2",
+    "sass": "^1.94.0"
   }
 }
 ```
@@ -938,7 +940,7 @@ npx chromatic --project-token=<token>
   - [ ] Azure Static Web App (subdomain)
   - [ ] GitHub Pages (free, public)
   - [ ] Chromatic (professional, paid)
-- **Decision:** ******\_******
+- **Decision:** **\*\***\_**\*\***
 
 #### 3. Team Access
 
@@ -954,7 +956,7 @@ npx chromatic --project-token=<token>
 - **Options:**
   - [ ] Minimal (just structure)
   - [ ] Realistic (actual data)
-- **Decision:** ******\_******
+- **Decision:** **\*\***\_**\*\***
 
 #### 5. Story Coverage
 
@@ -971,7 +973,7 @@ npx chromatic --project-token=<token>
 - **Options:**
   - [ ] Yes - builds on every commit
   - [ ] No - manual builds only
-- **Decision:** ******\_******
+- **Decision:** **\*\***\_**\*\***
 
 #### 7. Visual Regression Testing
 
@@ -1038,20 +1040,20 @@ npx chromatic --project-token=<token>
 ---
 
 **Prepared by:** GitHub Copilot  
-**Review Date:** ******\_******  
-**Approved by:** ******\_******  
-**Start Date:** ******\_******
+**Review Date:** **\*\***\_**\*\***  
+**Approved by:** **\*\***\_**\*\***  
+**Start Date:** **\*\***\_**\*\***
 
 ---
 
 ## 🚦 Status Updates
 
-| Date           | Update                 | Status            |
-| -------------- | ---------------------- | ----------------- |
-| Nov 12, 2025   | Document created       | ⏳ Pending Review |
-| ****\_\_\_**** | Requirements finalized | ⏸️ Not Started    |
-| ****\_\_\_**** | Installation complete  | ⏸️ Not Started    |
-| ****\_\_\_**** | First story deployed   | ⏸️ Not Started    |
+| Date               | Update                 | Status            |
+| ------------------ | ---------------------- | ----------------- |
+| Nov 12, 2025       | Document created       | ⏳ Pending Review |
+| \***\*\_\_\_\*\*** | Requirements finalized | ⏸️ Not Started    |
+| \***\*\_\_\_\*\*** | Installation complete  | ⏸️ Not Started    |
+| \***\*\_\_\_\*\*** | First story deployed   | ⏸️ Not Started    |
 
 ---
 
