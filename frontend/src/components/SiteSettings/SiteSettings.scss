@@ -692,6 +692,10 @@
         font-family: 'Fredoka', 'Arial Rounded MT Bold', sans-serif;
     }
 
+    &[data-theme="matrix"] &__preview-text {
+        font-family: 'Orbitron', 'Courier New', monospace;
+    }
+
     &[data-theme="auto"] &__preview-text {
         font-family: var(--font-display); // Auto uses current theme
     }

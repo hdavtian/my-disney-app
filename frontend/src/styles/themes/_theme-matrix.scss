@@ -1,0 +1,61 @@
+// Matrix Theme
+body.theme-matrix {
+    // === TYPOGRAPHY ===
+    --font-display: 'Orbitron', 'Courier New', monospace; // Tech, digital display
+    --font-body: 'Roboto Mono', 'Courier New', monospace; // Code-like body text
+    --font-accent: 'Share Tech Mono', 'Courier New', monospace; // Matrix-style accent
+
+    // === BACKGROUNDS ===
+    --bg-primary: #0d0208;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1a1a1a;
+    --bg-overlay: rgba(13, 2, 8, 0.95);
+
+    // === TEXT COLORS ===
+    --text-primary: #00ff41;
+    --text-secondary: #00cc33;
+    --text-tertiary: #008f11;
+    --text-disabled: #005500;
+
+    // === ACCENT COLORS (Matrix Green) ===
+    --accent-primary: #00ff41;
+    --accent-primary-hover: #00ff66;
+    --accent-secondary: #39ff14;
+    --accent-secondary-hover: #66ff44;
+
+    // === NAVIGATION ===
+    --nav-bg: #0d0208;
+    --nav-text: #00ff41;
+    --nav-text-hover: #00ff66;
+    --nav-text-active: #39ff14;
+    --nav-shadow: 0 1px 3px rgba(0, 255, 65, 0.3);
+
+    // === CARDS ===
+    --card-bg: rgba(0, 255, 65, 0.03);
+    --card-bg-hover: rgba(0, 255, 65, 0.08);
+    --card-border: rgba(0, 255, 65, 0.2);
+    --card-shadow: 0 4px 6px rgba(0, 255, 65, 0.15);
+
+    // === BUTTONS ===
+    --btn-primary-bg: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
+    --btn-primary-bg-hover: linear-gradient(135deg, #00ff66 0%, #00ff41 100%);
+    --btn-primary-text: #0d0208;
+
+    // === MODALS ===
+    --modal-bg: linear-gradient(135deg, #0d0208 0%, #141414 100%);
+    --modal-border: rgba(0, 255, 65, 0.3);
+    --modal-backdrop: rgba(13, 2, 8, 0.95);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 255, 65, 0.3);
+
+    // === FORMS ===
+    --input-bg: rgba(0, 255, 65, 0.05);
+    --input-border: rgba(0, 255, 65, 0.3);
+    --input-border-focus: #00ff41;
+    --input-text: #00ff41;
+
+    // === SHADOWS ===
+    --shadow-color: rgba(0, 255, 65, 0.25);
+    --shadow-sm: 0 1px 2px var(--shadow-color);
+    --shadow-md: 0 4px 6px var(--shadow-color);
+    --shadow-lg: 0 10px 15px var(--shadow-color);
+}

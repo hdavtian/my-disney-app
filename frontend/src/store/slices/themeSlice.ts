@@ -13,7 +13,8 @@ export type ThemeOption =
   | "theme-star-wars"
   | "theme-marvel"
   | "theme-walt-disney"
-  | "theme-pixar";
+  | "theme-pixar"
+  | "theme-matrix";
 
 /**
  * Theme metadata for display in UI
@@ -120,6 +121,17 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#00a8e8",
     },
     swatches: ["#f0f8ff", "#00a8e8", "#ffd93d", "#1a3a4a", "#4a6a7a"],
+  },
+  {
+    id: "theme-matrix",
+    name: "Matrix",
+    description: "Digital green code on deep black",
+    preview: {
+      background: "#0d0208",
+      text: "#00ff41",
+      accent: "#39ff14",
+    },
+    swatches: ["#0d0208", "#00ff41", "#39ff14", "#00cc33", "#008f11"],
   },
 ];
 
