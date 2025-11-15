@@ -116,6 +116,11 @@ export const CharactersPage = () => {
     [dispatch, navigate]
   );
 
+  const handleResetSearch = useCallback(() => {
+    dispatch(setSearchFilter(""));
+    dispatch(setCharactersSearchQuery(""));
+  }, [dispatch]);
+
   const handleLoadMore = useCallback(() => {
     if (pagination.hasMore && !pagination.isLoadingMore) {
       console.log(
@@ -189,6 +194,7 @@ export const CharactersPage = () => {
             searchFields={["name"]}
             placeholder="Search characters..."
             minCharacters={2}
+            initialValue={searchQuery}
             getDisplayText={(c: Character) => c.name}
             getSecondaryText={(c: Character) =>
               `${c.debut || ""} • ${c.category}`
@@ -200,6 +206,16 @@ export const CharactersPage = () => {
             currentMode={viewMode}
             onModeChange={handleViewModeChange}
           />
+          {searchQuery && (
+            <button
+              className="characters-page__reset-search"
+              onClick={handleResetSearch}
+              aria-label="Reset search"
+            >
+              <i className="fas fa-times-circle"></i>
+              <span>Reset Search</span>
+            </button>
+          )}
         </div>
       </div>
 

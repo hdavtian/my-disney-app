@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { CacheService } from "../../utils/cacheService";
 import { clearPreferencesFromStorage } from "../../store/middleware/localStorageSyncMiddleware";
 import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
+import { hydrateFavorites } from "../../store/slices/favoritesSlice";
 import { useTheme } from "../../hooks/useTheme";
 import "./SiteSettings.scss";
 
@@ -108,6 +109,10 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
       onConfirm: () => {
         CacheService.clear();
         clearPreferencesFromStorage();
+        // Clear favorites from Redux store
+        dispatch(hydrateFavorites([]));
+        // Also clear favorites from localStorage
+        localStorage.removeItem("disneyapp_favorites");
         dispatch(
           rehydratePreferences({
             movies: {
