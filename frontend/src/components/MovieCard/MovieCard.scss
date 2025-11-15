@@ -37,7 +37,8 @@
         border-radius: var(--radius-lg);
         overflow: hidden;
         background: var(--card-bg);
-        transition: box-shadow 0.5s ease;
+        border: 2px solid var(--btn-contrast-bg);
+        transition: border-color 0.5s ease, box-shadow 0.5s ease;
 
         img {
             width: 100%;
@@ -48,6 +49,7 @@
     }
 
     &:hover &__image {
+        border-color: var(--accent-secondary);
         box-shadow: 0 0 15px 2px var(--accent-secondary); // Gold glow exactly like home page
     }
 

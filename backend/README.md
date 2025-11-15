@@ -148,6 +148,19 @@ Features:
 
 - `GET /actuator/health` - Application health status
 
+**Admin API** (`/api/admin`):
+
+- `POST /api/admin/reseed-characters` - Reseed characters table from JSON (DELETE ALL + INSERT ALL)
+- `POST /api/admin/reseed-movies` - Reseed movies table from JSON (DELETE ALL + INSERT ALL)
+- `POST /api/admin/reseed-hero-carousel` - Reseed hero carousel (DELETE ALL + regenerate)
+- `POST /api/admin/reseed-all` - Reseed all data from JSON files
+
+> **Note**: Admin endpoints use POST method and return JSON with success status and record counts. Use Swagger UI or PowerShell for testing:
+>
+> ```powershell
+> Invoke-WebRequest -Uri "http://localhost:8080/api/admin/reseed-all" -Method POST
+> ```
+
 ## Development Workflow
 
 ### Daily Development (Fast Iteration)
@@ -179,7 +192,7 @@ backend/
 │   ├── main/
 │   │   ├── java/com/harmadavtian/disneyapp/
 │   │   │   ├── controller/     # REST API controllers
-│   │   │   ├── service/        # Business logic
+│   │   │   ├── service/        # Business logic (includes DataSeeder)
 │   │   │   ├── repository/     # Data access
 │   │   │   ├── model/          # Entity classes
 │   │   │   └── config/         # Configuration
@@ -187,6 +200,9 @@ backend/
 │   │       ├── application.properties           # Shared config
 │   │       ├── application-local.properties     # Local dev config
 │   │       ├── application-prod.properties      # Production config
+│   │       ├── database/                        # JSON seed data
+│   │       │   ├── disney_characters.json       # Characters data
+│   │       │   └── disney_movies.json           # Movies data
 │   │       └── db/migration/                    # Flyway SQL scripts
 │   └── test/                   # Unit and integration tests
 ├── Dockerfile                  # Multi-stage Docker build
@@ -195,6 +211,40 @@ backend/
 ├── pom.xml                    # Maven dependencies
 └── test-neon-connection.ps1   # Neon connection test script
 ```
+
+## Data Management
+
+### Seeding Data
+
+The application automatically seeds data on first run from JSON files in `src/main/resources/database/`:
+
+- `disney_characters.json` → `characters` table
+- `disney_movies.json` → `movies` table
+- Hero carousel is generated from 11 random movies
+
+### Re-seeding Data
+
+When you update the JSON files and need to refresh the database:
+
+**Local Development:**
+
+1. Update JSON files in `src/main/resources/database/`
+2. Rebuild and restart the application (or hot-reload)
+3. Use Swagger UI at `http://localhost:8080/swagger-ui.html`
+4. Navigate to **admin-controller** section
+5. Execute `POST /api/admin/reseed-all`
+
+**Production:**
+
+1. Update JSON files and deploy
+2. Call the endpoint: `POST https://your-api-url.com/api/admin/reseed-all`
+
+Each reseed operation:
+
+- Deletes all existing records in the table
+- Inserts all records from the JSON file
+- Returns success status and count of inserted records
+- Runs in a transaction (all-or-nothing)
 
 ## Troubleshooting
 

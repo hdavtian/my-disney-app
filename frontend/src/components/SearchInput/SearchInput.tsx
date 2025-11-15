@@ -11,6 +11,7 @@ export interface SearchInputProps<T> {
   getDisplayText: (item: T) => string;
   getSecondaryText?: (item: T) => string;
   onSelectItem?: (item: T) => void;
+  initialValue?: string;
 }
 
 export const SearchInput = <T extends { id: number | string }>({
@@ -22,8 +23,9 @@ export const SearchInput = <T extends { id: number | string }>({
   getDisplayText,
   getSecondaryText,
   onSelectItem,
+  initialValue = "",
 }: SearchInputProps<T>) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialValue);
   const [filteredResults, setFilteredResults] = useState<T[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -32,6 +34,11 @@ export const SearchInput = <T extends { id: number | string }>({
   const [userDismissed, setUserDismissed] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Sync internal query state when initialValue prop changes externally
+  useEffect(() => {
+    setQuery(initialValue);
+  }, [initialValue]);
 
   // Debounced search function
   const performSearch = useCallback(

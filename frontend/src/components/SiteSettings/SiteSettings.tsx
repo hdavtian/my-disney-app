@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { CacheService } from "../../utils/cacheService";
 import { clearPreferencesFromStorage } from "../../store/middleware/localStorageSyncMiddleware";
 import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
+import { hydrateFavorites } from "../../store/slices/favoritesSlice";
 import { useTheme } from "../../hooks/useTheme";
 import "./SiteSettings.scss";
 
@@ -21,7 +22,7 @@ type TabType = "cache" | "theme";
 export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
   const dispatch = useDispatch();
   const { selectedTheme, availableThemes, changeTheme } = useTheme();
-  const [activeTab, setActiveTab] = useState<TabType>("cache");
+  const [activeTab, setActiveTab] = useState<TabType>("theme");
   const [cacheStats, setCacheStats] = useState(CacheService.getStats());
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const [showConfirm, setShowConfirm] = useState<{
@@ -108,6 +109,10 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
       onConfirm: () => {
         CacheService.clear();
         clearPreferencesFromStorage();
+        // Clear favorites from Redux store
+        dispatch(hydrateFavorites([]));
+        // Also clear favorites from localStorage
+        localStorage.removeItem("disneyapp_favorites");
         dispatch(
           rehydratePreferences({
             movies: {
@@ -164,21 +169,21 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
           <div className="settings-tabs">
             <button
               className={`settings-tab ${
-                activeTab === "cache" ? "settings-tab--active" : ""
-              }`}
-              onClick={() => setActiveTab("cache")}
-            >
-              <i className="fas fa-database"></i>
-              Cache Settings
-            </button>
-            <button
-              className={`settings-tab ${
                 activeTab === "theme" ? "settings-tab--active" : ""
               }`}
               onClick={() => setActiveTab("theme")}
             >
               <i className="fas fa-palette"></i>
               Theme
+            </button>
+            <button
+              className={`settings-tab ${
+                activeTab === "cache" ? "settings-tab--active" : ""
+              }`}
+              onClick={() => setActiveTab("cache")}
+            >
+              <i className="fas fa-database"></i>
+              Cache Settings
             </button>
           </div>
 
@@ -330,12 +335,35 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                             background: theme.preview.background,
                           }}
                         >
-                          <div
-                            className="theme-card__preview-text"
-                            style={{ color: theme.preview.text }}
-                          >
-                            Aa
-                          </div>
+                          {theme.fonts ? (
+                            <div className="theme-card__preview-fonts">
+                              <div
+                                className="theme-card__preview-line"
+                                style={{
+                                  color: theme.preview.text,
+                                  fontFamily: theme.fonts.display,
+                                }}
+                              >
+                                {theme.name}
+                              </div>
+                              <div
+                                className="theme-card__preview-line"
+                                style={{
+                                  color: theme.preview.text,
+                                  fontFamily: theme.fonts.accent,
+                                }}
+                              >
+                                {theme.name}
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              className="theme-card__preview-text"
+                              style={{ color: theme.preview.text }}
+                            >
+                              Aa
+                            </div>
+                          )}
                           <div
                             className="theme-card__preview-accent"
                             style={{ background: theme.preview.accent }}
@@ -357,7 +385,12 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                         )}
 
                         {/* Theme Info */}
-                        <div className="theme-card__info">
+                        <div
+                          className="theme-card__info"
+                          style={{
+                            background: theme.preview.background,
+                          }}
+                        >
                           <div className="theme-card__name">
                             {theme.id === "auto" && (
                               <i className="fas fa-magic"></i>

@@ -8,14 +8,14 @@ export const Footer = () => {
         <div className={styles.leftColumn}>
           <span>
             A demo project by{" "}
-            <strong className="color-disney-gold">Harma Davtian</strong>, 2025 |{" "}
+            <strong className="color-disney-gold">Harma Davtian</strong> | 2025
+            |{" "}
           </span>
           <Link to="/disclaimer" className={styles.disclaimerLink}>
             Disclaimer
           </Link>
         </div>
         <div className={styles.rightColumn}>
-          Harma Davtian:&nbsp;
           <a
             href="https://harmadavtian.com"
             target="_blank"

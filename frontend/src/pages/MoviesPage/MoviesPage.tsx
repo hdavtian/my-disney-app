@@ -100,6 +100,11 @@ export const MoviesPage = () => {
     [dispatch, navigate]
   );
 
+  const handleResetSearch = useCallback(() => {
+    dispatch(setSearchFilter(""));
+    dispatch(setMoviesSearchQuery(""));
+  }, [dispatch]);
+
   const handleLoadMore = useCallback(() => {
     if (pagination.hasMore && !pagination.isLoadingMore) {
       console.log(
@@ -172,6 +177,7 @@ export const MoviesPage = () => {
             searchFields={["title", "short_description", "director"]}
             placeholder="Search movies..."
             minCharacters={2}
+            initialValue={searchQuery}
             getDisplayText={(movie: Movie) => movie.title}
             getSecondaryText={(movie: Movie) =>
               `${movie.releaseYear} • ${movie.director}`
@@ -183,6 +189,16 @@ export const MoviesPage = () => {
             currentMode={viewMode}
             onModeChange={handleViewModeChange}
           />
+          {searchQuery && (
+            <button
+              className="movies-page__reset-search"
+              onClick={handleResetSearch}
+              aria-label="Reset search"
+            >
+              <i className="fas fa-times-circle"></i>
+              <span>Reset Search</span>
+            </button>
+          )}
         </div>
       </div>
 

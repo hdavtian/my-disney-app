@@ -43,6 +43,7 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+        // Normal behavior: seed only if empty
         if (characterRepository.count() == 0) {
             seedCharacters();
         }
@@ -52,6 +53,95 @@ public class DataSeeder implements CommandLineRunner {
         if (heroMovieCarouselRepository.count() == 0) {
             seedHeroMovieCarousel();
         }
+    }
+
+    /**
+     * Reseed characters table: DELETE all + INSERT all from JSON
+     */
+    @Transactional
+    public Map<String, Integer> reseedCharacters() throws IOException {
+        log.info("Reseeding characters: deleting all existing records...");
+        characterRepository.deleteAll();
+
+        log.info("Loading characters from JSON...");
+        ClassPathResource resource = new ClassPathResource("database/disney_characters.json");
+        List<Map<String, Object>> characterMaps;
+
+        try (InputStream inputStream = resource.getInputStream()) {
+            characterMaps = objectMapper.readValue(inputStream, new TypeReference<List<Map<String, Object>>>() {
+            });
+        }
+
+        List<Character> characters = new ArrayList<>();
+        for (Map<String, Object> map : characterMaps) {
+            Character character = new Character();
+            character.setId(((Number) map.get("id")).longValue());
+            character.setUrlId((String) map.get("url_id"));
+            character.setName((String) map.get("name"));
+            character.setShortDescription((String) map.get("short_description"));
+            character.setLongDescription((String) map.get("long_description"));
+            character.setCharacterCreationYear((Integer) map.get("character_creation_year"));
+            character.setFirstAppearance((String) map.get("first_appearance"));
+            character.setFranchise((String) map.get("franchise"));
+            character.setCategory((String) map.get("category"));
+            character.setCharacterType((String) map.get("character_type"));
+            character.setSpecies((String) map.get("species"));
+            character.setProfileImage1((String) map.get("profile_image_1"));
+            character.setBackgroundImage1((String) map.get("background_image_1"));
+
+            if (map.get("relationships") != null) {
+                character.setRelationships(objectMapper.writeValueAsString(map.get("relationships")));
+            }
+            if (map.get("voice_actors") != null) {
+                character.setVoiceActors(objectMapper.writeValueAsString(map.get("voice_actors")));
+            }
+
+            character.setCreatedAt(LocalDateTime.now());
+            character.setUpdatedAt(LocalDateTime.now());
+            characters.add(character);
+        }
+
+        characterRepository.saveAll(characters);
+        log.info("Reseeded {} characters successfully", characters.size());
+        return Map.of("inserted", characters.size());
+    }
+
+    /**
+     * Reseed movies table: DELETE all + INSERT all from JSON
+     */
+    @Transactional
+    public Map<String, Integer> reseedMovies() throws IOException {
+        log.info("Reseeding movies: deleting all existing records...");
+        movieRepository.deleteAll();
+
+        log.info("Loading movies from JSON...");
+        ClassPathResource resource = new ClassPathResource("database/disney_movies.json");
+        List<Movie> movies;
+
+        try (InputStream inputStream = resource.getInputStream()) {
+            movies = objectMapper.readValue(inputStream, new TypeReference<List<Movie>>() {
+            });
+        }
+
+        movieRepository.saveAll(movies);
+        log.info("Reseeded {} movies successfully", movies.size());
+        return Map.of("inserted", movies.size());
+    }
+
+    /**
+     * Reseed hero carousel: DELETE all + regenerate from movies
+     */
+    @Transactional
+    public Map<String, Integer> reseedHeroCarousel() {
+        log.info("Reseeding hero carousel: deleting all existing entries...");
+        heroMovieCarouselRepository.deleteAll();
+
+        log.info("Regenerating hero carousel...");
+        seedHeroMovieCarousel();
+
+        long count = heroMovieCarouselRepository.count();
+        log.info("Reseeded {} hero carousel entries successfully", count);
+        return Map.of("inserted", (int) count);
     }
 
     private void seedHeroMovieCarousel() {
@@ -124,7 +214,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedMovies() {
-        ClassPathResource resource = new ClassPathResource("database/disney_movies_comprehensive.json");
+        ClassPathResource resource = new ClassPathResource("database/disney_movies.json");
         try (InputStream inputStream = resource.getInputStream()) {
             List<Movie> movies = objectMapper.readValue(inputStream, new TypeReference<List<Movie>>() {
             });

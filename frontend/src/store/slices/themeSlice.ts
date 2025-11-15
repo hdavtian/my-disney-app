@@ -30,6 +30,10 @@ export interface Theme {
     accent: string;
   };
   swatches?: string[]; // Color palette swatches for visual preview
+  fonts?: {
+    display: string; // Main headline font
+    accent: string; // Secondary headline/accent font
+  };
 }
 
 /**
@@ -67,6 +71,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#4a90e2",
     },
     swatches: ["#000000", "#4a90e2", "#fdd017", "#ffffff", "#cbd5e1"],
+    fonts: {
+      display: "'Cinzel', 'Georgia', serif",
+      accent: "'Playfair Display', 'Georgia', serif",
+    },
   },
   {
     id: "theme-light",
@@ -78,6 +86,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#006bb3",
     },
     swatches: ["#ffffff", "#006bb3", "#fdd017", "#0f172a", "#475569"],
+    fonts: {
+      display: "'Poppins', 'Arial', sans-serif",
+      accent: "'Montserrat', 'Arial', sans-serif",
+    },
   },
   {
     id: "theme-star-wars",
@@ -89,6 +101,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#ffe81f",
     },
     swatches: ["#000000", "#ffe81f", "#ffd700", "#e0e0e0", "#b0b0b0"],
+    fonts: {
+      display: "'Orbitron', 'Impact', sans-serif",
+      accent: "'Rajdhani', 'Arial Narrow', sans-serif",
+    },
   },
   {
     id: "theme-marvel",
@@ -100,6 +116,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#ed1d24",
     },
     swatches: ["#1a0a0e", "#ed1d24", "#ffd700", "#ffffff", "#d0d0d0"],
+    fonts: {
+      display: "'Bebas Neue', 'Impact', sans-serif",
+      accent: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+    },
   },
   {
     id: "theme-walt-disney",
@@ -111,6 +131,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#fdd017",
     },
     swatches: ["#003d6b", "#006bb3", "#fdd017", "#ffffff", "#d4d4d4"],
+    fonts: {
+      display: "'Quicksand', 'Comic Sans MS', sans-serif",
+      accent: "'Pacifico', cursive",
+    },
   },
   {
     id: "theme-pixar",
@@ -122,6 +146,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#00a8e8",
     },
     swatches: ["#f0f8ff", "#00a8e8", "#ffd93d", "#1a3a4a", "#4a6a7a"],
+    fonts: {
+      display: "'Fredoka', 'Arial Rounded MT Bold', sans-serif",
+      accent: "'Mali', cursive",
+    },
   },
   {
     id: "theme-matrix",
@@ -133,6 +161,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#39ff14",
     },
     swatches: ["#0d0208", "#00ff41", "#39ff14", "#00cc33", "#008f11"],
+    fonts: {
+      display: "'Orbitron', 'Courier New', monospace",
+      accent: "'Share Tech Mono', 'Courier New', monospace",
+    },
   },
   {
     id: "theme-military",
@@ -144,6 +176,10 @@ const AVAILABLE_THEMES: Theme[] = [
       accent: "#6b7c59",
     },
     swatches: ["#1a1f16", "#6b7c59", "#c9a962", "#e8e6d5", "#5a6a48"],
+    fonts: {
+      display: "'Rajdhani', 'Impact', sans-serif",
+      accent: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+    },
   },
 ];
 
