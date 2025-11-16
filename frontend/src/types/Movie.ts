@@ -15,3 +15,17 @@ export interface Movie {
   image_1?: string;
   image_2?: string;
 }
+
+/**
+ * Summary DTO for movie data in character relationships.
+ * Matches backend MovieSummaryDto (returns snake_case via global Jackson config).
+ */
+export interface MovieSummary {
+  id: number;
+  url_id: string;
+  title: string;
+  short_description?: string;
+  creation_year?: number;
+  movie_rating?: string;
+  image_1?: string;
+}

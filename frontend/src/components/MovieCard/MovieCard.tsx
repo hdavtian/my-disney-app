@@ -15,10 +15,12 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    // Call the optional onClick callback if provided (page handles navigation)
-    onClick?.(movie.id);
+    // Call the optional onClick callback if provided
+    if (onClick) {
+      e.preventDefault();
+      onClick(movie.id);
+    }
+    // If no onClick handler, let the link navigate normally
   };
 
   const handleImageLoad = () => {

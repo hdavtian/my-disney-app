@@ -1,5 +1,6 @@
 package com.harmadavtian.disneyapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -28,6 +29,7 @@ public class MovieSummaryDto {
     private String movieRating;
 
     @Schema(description = "Primary movie image URL")
+    @JsonProperty("image_1")
     private String image1;
 
     public MovieSummaryDto() {
