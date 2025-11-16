@@ -94,30 +94,19 @@
             max-width: 600px;
             width: 100%;
         }
+    }
 
-        /* Hide view-mode toggle on tablet and lower */
-        .view-mode-toggle {
-            padding: var(--space-1);
-            background: transparent;
-            border: 1px solid var(--card-border);
-            box-shadow: none;
-            border-radius: var(--radius-lg);
+    &__grid-controls {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 var(--space-2);
+        margin: 0 auto var(--space-4);
+        width: 90%;
 
-            @media (max-width: 768px) {
-                display: none;
-            }
-
-            &__button {
-                padding: var(--space-2) var(--space-4);
-                min-width: 120px;
-                color: var(--text-secondary);
-            }
-
-            &__icon {
-                width: 18px;
-                height: 18px;
-                stroke-width: 1.6;
-            }
+        @media (max-width: 768px) {
+            width: 100%;
+            padding: 0 var(--space-4);
         }
     }
 }
@@ -127,46 +116,27 @@
     margin: 0 auto;
     padding: var(--space-6) 0;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-6);
 
-    @media (max-width: 1280px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
+    /* Responsive overrides for smaller screens */
     @media (max-width: 1024px) {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr) !important;
     }
 
     @media (max-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: var(--space-4);
         width: 100%;
         padding: var(--space-4);
     }
 
     @media (max-width: 480px) {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(1, 1fr) !important;
     }
 
     /* ensure movie/card width adapts */
     .movie-card,
     .character-card {
         width: 100% !important;
-    }
-}
-
-.favorites-list {
-    width: 90%;
-    margin: 0 auto;
-    padding: var(--space-6) 0;
-
-    &__row {
-        margin-bottom: var(--space-4);
-
-        .movie-card,
-        .character-card {
-            max-width: 900px;
-        }
     }
 }

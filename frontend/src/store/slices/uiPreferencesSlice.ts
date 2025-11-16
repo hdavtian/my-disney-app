@@ -14,6 +14,7 @@ interface PagePreferences {
 interface UiPreferencesState {
   movies: PagePreferences;
   characters: PagePreferences;
+  favorites: PagePreferences;
   theme: ThemeMode;
 }
 
@@ -28,6 +29,7 @@ const DEFAULT_PAGE_PREFERENCES: PagePreferences = {
 const initialState: UiPreferencesState = {
   movies: { ...DEFAULT_PAGE_PREFERENCES },
   characters: { ...DEFAULT_PAGE_PREFERENCES },
+  favorites: { ...DEFAULT_PAGE_PREFERENCES },
   theme: "light",
 };
 
@@ -91,6 +93,34 @@ const uiPreferencesSlice = createSlice({
       state.characters = { ...DEFAULT_PAGE_PREFERENCES };
     },
 
+    // Favorites actions
+    setFavoritesViewMode: (state, action: PayloadAction<ViewMode>) => {
+      state.favorites.viewMode = action.payload;
+      state.favorites.lastUpdated = Date.now();
+    },
+    setFavoritesGridItemsToShow: (state, action: PayloadAction<number>) => {
+      state.favorites.gridItemsToShow = action.payload;
+      state.favorites.lastUpdated = Date.now();
+    },
+    setFavoritesSearchQuery: (state, action: PayloadAction<string>) => {
+      state.favorites.searchQuery = action.payload;
+      state.favorites.lastUpdated = Date.now();
+    },
+    incrementFavoritesGridItems: (state, action: PayloadAction<number>) => {
+      state.favorites.gridItemsToShow += action.payload;
+      state.favorites.lastUpdated = Date.now();
+      console.log(
+        `📊 Favorites gridItemsToShow incremented to: ${state.favorites.gridItemsToShow}`
+      );
+    },
+    setFavoritesGridColumns: (state, action: PayloadAction<number>) => {
+      state.favorites.gridColumns = action.payload;
+      state.favorites.lastUpdated = Date.now();
+    },
+    resetFavoritesPreferences: (state) => {
+      state.favorites = { ...DEFAULT_PAGE_PREFERENCES };
+    },
+
     // Theme actions
     setTheme: (state, action: PayloadAction<ThemeMode>) => {
       state.theme = action.payload;
@@ -103,6 +133,7 @@ const uiPreferencesSlice = createSlice({
     resetAllPreferences: (state) => {
       state.movies = { ...DEFAULT_PAGE_PREFERENCES };
       state.characters = { ...DEFAULT_PAGE_PREFERENCES };
+      state.favorites = { ...DEFAULT_PAGE_PREFERENCES };
       state.theme = "light";
     },
 
@@ -111,7 +142,19 @@ const uiPreferencesSlice = createSlice({
       _state,
       action: PayloadAction<UiPreferencesState>
     ) => {
-      return action.payload;
+      // Merge loaded state with defaults to handle missing properties
+      return {
+        movies: { ...DEFAULT_PAGE_PREFERENCES, ...action.payload.movies },
+        characters: {
+          ...DEFAULT_PAGE_PREFERENCES,
+          ...action.payload.characters,
+        },
+        favorites: {
+          ...DEFAULT_PAGE_PREFERENCES,
+          ...action.payload.favorites,
+        },
+        theme: action.payload.theme || "light",
+      };
     },
   },
 });
@@ -129,6 +172,12 @@ export const {
   incrementCharactersGridItems,
   setCharactersGridColumns,
   resetCharactersPreferences,
+  setFavoritesViewMode,
+  setFavoritesGridItemsToShow,
+  setFavoritesSearchQuery,
+  incrementFavoritesGridItems,
+  setFavoritesGridColumns,
+  resetFavoritesPreferences,
   setTheme,
   toggleTheme,
   resetAllPreferences,
