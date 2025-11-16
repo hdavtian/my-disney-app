@@ -120,12 +120,14 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 viewMode: "grid",
                 gridItemsToShow: 20,
                 searchQuery: "",
+                gridColumns: 0,
                 lastUpdated: Date.now(),
               },
               characters: {
                 viewMode: "grid",
                 gridItemsToShow: 20,
                 searchQuery: "",
+                gridColumns: 0,
                 lastUpdated: Date.now(),
               },
               theme: "light",
@@ -166,90 +168,6 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
             }`
           );
         }
-      },
-    });
-  };
-
-  const handleClearCache = () => {
-    setShowConfirm({
-      action: "Clear Cache",
-      message:
-        "Are you sure you want to clear all cached data? This will cause the app to re-fetch data from the server.",
-      onConfirm: () => {
-        CacheService.clear();
-        refreshCacheStats();
-        showToast("success", "Cache cleared successfully!");
-        setShowConfirm(null);
-      },
-    });
-  };
-
-  const handleResetPreferences = () => {
-    setShowConfirm({
-      action: "Reset Preferences",
-      message:
-        "Are you sure you want to reset all preferences to defaults? This will reset view modes, pagination, and search history.",
-      onConfirm: () => {
-        clearPreferencesFromStorage();
-        dispatch(
-          rehydratePreferences({
-            movies: {
-              viewMode: "grid",
-              gridItemsToShow: 20,
-              searchQuery: "",
-              lastUpdated: Date.now(),
-            },
-            characters: {
-              viewMode: "grid",
-              gridItemsToShow: 20,
-              searchQuery: "",
-              lastUpdated: Date.now(),
-            },
-            theme: "light",
-          })
-        );
-        refreshCacheStats();
-        showToast("success", "Preferences reset successfully!");
-        setShowConfirm(null);
-      },
-    });
-  };
-
-  const handleResetAll = () => {
-    setShowConfirm({
-      action: "Reset All Site Data",
-      message:
-        "⚠️ This will clear ALL site data including cache, preferences, and cookies. The page will reload after reset. Are you sure?",
-      onConfirm: () => {
-        CacheService.clear();
-        clearPreferencesFromStorage();
-        // Clear favorites from Redux store
-        dispatch(hydrateFavorites([]));
-        // Also clear favorites from localStorage
-        localStorage.removeItem("disneyapp_favorites");
-        dispatch(
-          rehydratePreferences({
-            movies: {
-              viewMode: "grid",
-              gridItemsToShow: 20,
-              searchQuery: "",
-              lastUpdated: Date.now(),
-            },
-            characters: {
-              viewMode: "grid",
-              gridItemsToShow: 20,
-              searchQuery: "",
-              lastUpdated: Date.now(),
-            },
-            theme: "light",
-          })
-        );
-        showToast("success", "All site data reset! Reloading page...");
-        setShowConfirm(null);
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
       },
     });
   };
