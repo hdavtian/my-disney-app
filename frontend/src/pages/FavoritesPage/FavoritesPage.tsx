@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useMemo, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -9,6 +9,8 @@ import { fetchCharacters } from "../../store/slices/charactersSlice";
 import {
   setFavoritesGridColumns,
   setFavoritesSearchQuery,
+  setFavoritesFilterType,
+  FilterType,
 } from "../../store/slices/uiPreferencesSlice";
 import {
   addRecentlyViewedMovie,
@@ -26,21 +28,20 @@ type FavoriteItem =
   | { type: "movie"; data: Movie }
   | { type: "character"; data: Character };
 
-type FilterType = "all" | "movies" | "characters";
-
 export const FavoritesPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { favorites } = useFavorites();
   const allMovies = useAppSelector((state) => state.movies.movies);
   const allCharacters = useAppSelector((state) => state.characters.characters);
-  const { gridColumns, searchQuery } = useAppSelector(
+  const { gridColumns, searchQuery, filterType } = useAppSelector(
     (state) =>
-      state.uiPreferences.favorites ?? { gridColumns: 0, searchQuery: "" }
+      state.uiPreferences.favorites ?? {
+        gridColumns: 0,
+        searchQuery: "",
+        filterType: "all" as FilterType,
+      }
   );
-
-  // Filter state
-  const [filterType, setFilterType] = useState<FilterType>("all");
 
   // Grid size configuration
   const minColumns = 2;
@@ -180,9 +181,12 @@ export const FavoritesPage = () => {
     dispatch(setFavoritesSearchQuery(""));
   }, [dispatch]);
 
-  const handleFilterChange = useCallback((type: FilterType) => {
-    setFilterType(type);
-  }, []);
+  const handleFilterChange = useCallback(
+    (type: FilterType) => {
+      dispatch(setFavoritesFilterType(type));
+    },
+    [dispatch]
+  );
 
   return (
     <motion.div

@@ -2,12 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type ViewMode = "grid" | "list";
 export type ThemeMode = "light" | "dark";
+export type FilterType = "all" | "movies" | "characters";
 
 interface PagePreferences {
   viewMode: ViewMode;
   gridItemsToShow: number;
   searchQuery: string;
   gridColumns: number;
+  filterType?: FilterType;
   lastUpdated: number;
 }
 
@@ -23,6 +25,7 @@ const DEFAULT_PAGE_PREFERENCES: PagePreferences = {
   gridItemsToShow: 20,
   searchQuery: "",
   gridColumns: 0, // 0 means use default per page
+  filterType: "all",
   lastUpdated: Date.now(),
 };
 
@@ -117,6 +120,10 @@ const uiPreferencesSlice = createSlice({
       state.favorites.gridColumns = action.payload;
       state.favorites.lastUpdated = Date.now();
     },
+    setFavoritesFilterType: (state, action: PayloadAction<FilterType>) => {
+      state.favorites.filterType = action.payload;
+      state.favorites.lastUpdated = Date.now();
+    },
     resetFavoritesPreferences: (state) => {
       state.favorites = { ...DEFAULT_PAGE_PREFERENCES };
     },
@@ -177,6 +184,7 @@ export const {
   setFavoritesSearchQuery,
   incrementFavoritesGridItems,
   setFavoritesGridColumns,
+  setFavoritesFilterType,
   resetFavoritesPreferences,
   setTheme,
   toggleTheme,

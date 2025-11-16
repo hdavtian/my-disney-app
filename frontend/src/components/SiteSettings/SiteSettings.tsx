@@ -135,6 +135,7 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 gridItemsToShow: 20,
                 searchQuery: "",
                 gridColumns: 0,
+                filterType: "all",
                 lastUpdated: Date.now(),
               },
               theme: "light",
