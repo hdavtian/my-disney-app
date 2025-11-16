@@ -53,3 +53,66 @@ CREATE TABLE IF NOT EXISTS hero_movie_carousel (
     CONSTRAINT fk_hero_movie_movie FOREIGN KEY (movie_id)
         REFERENCES movies (id) ON DELETE CASCADE
 );
+
+-- ============================================================================
+-- Movie-Character Relationships Junction Table
+-- 
+-- Creates the junction table to establish many-to-many relationships between
+-- movies and characters. This enables:
+-- - Viewing all characters that appear in a specific movie
+-- - Viewing all movies that feature a specific character
+-- - Storing relationship metadata (role, importance, display order)
+-- ============================================================================
+
+-- Create movie_characters junction table
+CREATE TABLE IF NOT EXISTS movie_characters (
+    id BIGSERIAL PRIMARY KEY,
+    movie_id BIGINT NOT NULL,
+    character_id BIGINT NOT NULL,
+    
+    -- Relationship metadata
+    character_role VARCHAR(50),           -- protagonist, antagonist, sidekick, supporting, cameo
+    importance_level INTEGER,             -- 1=primary, 2=secondary, 3=supporting, 4=minor, 5=cameo
+    sort_order INTEGER DEFAULT 0,         -- Controls display order (lower = appears first)
+    
+    -- Timestamps
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign key constraints with cascade delete
+    CONSTRAINT fk_movie_characters_movie
+        FOREIGN KEY (movie_id) 
+        REFERENCES movies(id) 
+        ON DELETE CASCADE,
+    
+    CONSTRAINT fk_movie_characters_character
+        FOREIGN KEY (character_id) 
+        REFERENCES characters(id) 
+        ON DELETE CASCADE,
+    
+    -- Prevent duplicate relationships
+    CONSTRAINT unique_movie_character 
+        UNIQUE (movie_id, character_id)
+);
+
+-- Create indexes for optimal query performance
+CREATE INDEX IF NOT EXISTS idx_movie_characters_movie_id 
+    ON movie_characters(movie_id);
+
+CREATE INDEX IF NOT EXISTS idx_movie_characters_character_id 
+    ON movie_characters(character_id);
+
+CREATE INDEX IF NOT EXISTS idx_movie_characters_sort_order 
+    ON movie_characters(sort_order);
+
+CREATE INDEX IF NOT EXISTS idx_movie_characters_movie_importance_sort 
+    ON movie_characters(movie_id, importance_level, sort_order);
+
+-- Add check constraints to ensure data quality
+ALTER TABLE movie_characters
+    ADD CONSTRAINT chk_importance_level 
+    CHECK (importance_level IS NULL OR (importance_level >= 1 AND importance_level <= 5));
+
+ALTER TABLE movie_characters
+    ADD CONSTRAINT chk_sort_order 
+    CHECK (sort_order >= 0);
