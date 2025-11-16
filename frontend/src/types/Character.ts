@@ -15,3 +15,18 @@ export interface Character {
   isFavorite?: boolean;
   tags?: string[];
 }
+
+/**
+ * Summary DTO for character data in movie relationships.
+ * Matches backend CharacterSummaryDto (which returns snake_case via @JsonProperty).
+ */
+export interface CharacterSummary {
+  id: number;
+  url_id: string;
+  name: string;
+  short_description?: string;
+  category?: string;
+  character_type?: string;
+  species?: string;
+  profile_image1?: string;
+}

@@ -87,3 +87,23 @@ export const API_ENDPOINTS = {
   INFO: "/actuator/info",
   METRICS: "/actuator/metrics",
 } as const;
+
+/**
+ * Get the endpoint URL for fetching characters in a movie.
+ * @param movieId - The movie ID
+ * @returns Endpoint path
+ */
+export function getMovieCharactersEndpoint(movieId: number | string): string {
+  return `${API_ENDPOINTS.MOVIES}/${movieId}/characters`;
+}
+
+/**
+ * Get the endpoint URL for fetching movies featuring a character.
+ * @param characterId - The character ID
+ * @returns Endpoint path
+ */
+export function getCharacterMoviesEndpoint(
+  characterId: number | string
+): string {
+  return `${API_ENDPOINTS.CHARACTERS}/${characterId}/movies`;
+}

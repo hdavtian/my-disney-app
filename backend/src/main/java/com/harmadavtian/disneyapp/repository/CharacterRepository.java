@@ -7,9 +7,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CharacterRepository extends JpaRepository<Character, Long> {
+
+    /**
+     * Find a character by its URL ID.
+     * URL ID is guaranteed unique by database constraint (added in V3 migration).
+     * 
+     * @param urlId The URL identifier for the character
+     * @return An Optional containing the character with the specified urlId, or
+     *         empty if not found
+     */
+    Optional<Character> findByUrlId(String urlId);
 
     /**
      * Get only the IDs of all characters for quiz initialization.

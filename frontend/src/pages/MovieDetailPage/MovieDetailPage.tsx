@@ -3,9 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchMovies } from "../../store/slices/moviesSlice";
-import { fetchCharacters } from "../../store/slices/charactersSlice";
 import { FavoriteButton } from "../../components/FavoriteButton/FavoriteButton";
-import { CharacterCard } from "../../components/CharacterCard/CharacterCard";
+import { RelatedCharacters } from "../../components/RelatedCharacters/RelatedCharacters";
 import { Movie } from "../../types/Movie";
 import { getImageUrl } from "../../config/assets";
 import "./MovieDetailPage.scss";
@@ -17,9 +16,6 @@ export const MovieDetailPage = () => {
   const { movies, loading: moviesLoading } = useAppSelector(
     (state) => state.movies
   );
-  const { characters, loading: charactersLoading } = useAppSelector(
-    (state) => state.characters
-  );
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -27,10 +23,7 @@ export const MovieDetailPage = () => {
     if (movies.length === 0) {
       dispatch(fetchMovies());
     }
-    if (characters.length === 0) {
-      dispatch(fetchCharacters());
-    }
-  }, [dispatch, movies.length, characters.length]);
+  }, [dispatch, movies.length]);
 
   useEffect(() => {
     if (id && movies.length > 0) {
@@ -40,12 +33,8 @@ export const MovieDetailPage = () => {
     }
   }, [id, movies]);
 
-  const movieCharacters = characters.filter((char) =>
-    movie?.characters?.includes(String(char.id))
-  );
-
   // Show loading state if data is being fetched OR if we haven't initialized yet
-  if (moviesLoading || charactersLoading || !isInitialized) {
+  if (moviesLoading || !isInitialized) {
     return (
       <div className="movie-detail-page">
         <div className="movie-detail-page__loading">
@@ -194,30 +183,14 @@ export const MovieDetailPage = () => {
         </div>
 
         {/* Characters Section */}
-        {movieCharacters.length > 0 && (
-          <motion.div
-            className="movie-detail-page__characters-section"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <h2 className="movie-detail-page__section-title">
-              Featured Characters
-            </h2>
-            <div className="movie-detail-page__characters-grid">
-              {movieCharacters.map((character, index: number) => (
-                <CharacterCard
-                  key={character.id}
-                  character={character}
-                  index={index}
-                  onClick={(characterId: string) =>
-                    navigate(`/character/${characterId}`)
-                  }
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
+        <motion.div
+          className="movie-detail-page__characters-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <RelatedCharacters movieId={movie.id} />
+        </motion.div>
       </div>
     </motion.div>
   );

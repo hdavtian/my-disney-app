@@ -6,7 +6,7 @@
 -- Create characters table (idempotent)
 CREATE TABLE IF NOT EXISTS characters (
     id BIGSERIAL PRIMARY KEY,
-    url_id VARCHAR(255),
+    url_id VARCHAR(255) UNIQUE,
     name VARCHAR(255) NOT NULL,
     short_description TEXT,
     long_description TEXT,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS movies (
     movie_rating VARCHAR(10),
     has_link BOOLEAN,
     short_description TEXT,
-    url_id VARCHAR(255),
+    url_id VARCHAR(255) UNIQUE,
     title VARCHAR(255) NOT NULL,
     creation_year INTEGER,
     image_1 VARCHAR(255),

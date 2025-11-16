@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -53,6 +54,8 @@ public class DataSeeder implements CommandLineRunner {
         if (heroMovieCarouselRepository.count() == 0) {
             seedHeroMovieCarousel();
         }
+        // Seed movie-character relationships after both movies and characters exist
+        seedMovieCharacterRelationships();
     }
 
     /**
@@ -144,6 +147,39 @@ public class DataSeeder implements CommandLineRunner {
         return Map.of("inserted", (int) count);
     }
 
+    /**
+     * Reseed movie-character relationships: CLEAR all relationships + INSERT all
+     * from JSON
+     */
+    @Transactional
+    public Map<String, Integer> reseedMovieCharacterRelationships() throws IOException {
+        log.info("Reseeding movie-character relationships: clearing all existing relationships...");
+
+        // Clear all relationships by removing associations from both sides
+        List<Movie> allMovies = movieRepository.findAll();
+        for (Movie movie : allMovies) {
+            movie.getCharacters().clear();
+        }
+        movieRepository.saveAll(allMovies);
+
+        List<Character> allCharacters = characterRepository.findAll();
+        for (Character character : allCharacters) {
+            character.getMovies().clear();
+        }
+        characterRepository.saveAll(allCharacters);
+
+        log.info("All relationships cleared. Loading relationships from JSON...");
+        seedMovieCharacterRelationships();
+
+        // Count relationships by checking junction table
+        long totalRelationships = allMovies.stream()
+                .mapToLong(m -> m.getCharacters().size())
+                .sum();
+
+        log.info("Reseeded {} movie-character relationships successfully", totalRelationships);
+        return Map.of("inserted", (int) totalRelationships);
+    }
+
     private void seedHeroMovieCarousel() {
         try {
             java.util.List<Movie> allMovies = movieRepository.findAll();
@@ -222,6 +258,54 @@ public class DataSeeder implements CommandLineRunner {
             log.info("Seeded {} movies", movies.size());
         } catch (IOException e) {
             log.error("Error seeding movies", e);
+        }
+    }
+
+    /**
+     * Seed movie-character relationships from JSON file
+     */
+    private void seedMovieCharacterRelationships() {
+        ClassPathResource resource = new ClassPathResource("database/movie_characters_relationships.json");
+        try (InputStream inputStream = resource.getInputStream()) {
+            List<Map<String, Object>> relationships = objectMapper.readValue(inputStream,
+                    new TypeReference<List<Map<String, Object>>>() {
+                    });
+
+            int successCount = 0;
+            int failCount = 0;
+
+            for (Map<String, Object> rel : relationships) {
+                String movieUrlId = (String) rel.get("movie_url_id");
+                String characterUrlId = (String) rel.get("character_url_id");
+
+                // Find movie and character by url_id (guaranteed unique by DB constraint)
+                Optional<Movie> movieOpt = movieRepository.findByUrlId(movieUrlId);
+                Optional<Character> characterOpt = characterRepository.findByUrlId(characterUrlId);
+
+                if (movieOpt.isPresent() && characterOpt.isPresent()) {
+                    Movie movie = movieOpt.get();
+                    Character character = characterOpt.get();
+
+                    // Add bidirectional relationship
+                    movie.getCharacters().add(character);
+                    character.getMovies().add(movie);
+                    successCount++;
+                } else {
+                    log.warn("Could not find movie '{}' or character '{}' - skipping relationship",
+                            movieUrlId, characterUrlId);
+                    failCount++;
+                }
+            }
+
+            // Save all updated entities (relationships are persisted via cascade)
+            movieRepository.flush();
+            characterRepository.flush();
+
+            log.info("Seeded {} movie-character relationships ({} successful, {} failed)",
+                    relationships.size(), successCount, failCount);
+
+        } catch (IOException e) {
+            log.error("Error seeding movie-character relationships", e);
         }
     }
 }
