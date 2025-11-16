@@ -2,6 +2,8 @@ package com.harmadavtian.disneyapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -50,6 +52,10 @@ public class Movie {
     @Column(name = "image_2")
     @JsonProperty("image_2")
     private String image2;
+
+    @ManyToMany
+    @JoinTable(name = "movie_characters", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "character_id"))
+    private Set<Character> characters = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -153,5 +159,13 @@ public class Movie {
 
     public void setImage2(String image2) {
         this.image2 = image2;
+    }
+
+    public Set<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(Set<Character> characters) {
+        this.characters = characters;
     }
 }

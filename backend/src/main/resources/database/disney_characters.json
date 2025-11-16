@@ -3418,24 +3418,5 @@
     "background_image_1": "s0_yoda",
     "created_at": "2025-10-27T00:00:00.000Z",
     "updated_at": "2025-10-27T00:00:00.000Z"
-  },
-  {
-    "id": 3,
-    "url_id": "angel",
-    "name": "Angel",
-    "short_description": "A charming and street-smart puppy who captures Scamp's heart in Lady and the Tramp II.",
-    "long_description": "Angel is a feisty and independent puppy who once lived as a stray but dreams of finding a loving home. She meets Scamp, the rebellious son of Lady and Tramp, and helps him navigate the challenges of street life. Angel's past experiences make her wise beyond her years, and she ultimately helps Scamp realize the importance of family and belonging. Her character represents resilience, hope, and the desire for love and acceptance.",
-    "character_creation_year": null,
-    "first_appearance": "",
-    "franchise": "Lady and the Tramp",
-    "category": "Disney",
-    "character_type": "",
-    "species": "",
-    "relationships": {},
-    "voice_actors": [],
-    "profile_image_1": "prf_angel",
-    "background_image_1": "s0_angel",
-    "created_at": "2025-10-27T00:00:00.000Z",
-    "updated_at": "2025-10-27T00:00:00.000Z"
   }
 ]

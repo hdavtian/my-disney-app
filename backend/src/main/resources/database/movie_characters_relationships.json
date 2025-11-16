@@ -1,0 +1,72 @@
+[
+  {
+    "movie_url_id": "snow_white_and_the_seven_dwarfs",
+    "character_url_id": "snow_white",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_little_mermaid_1989",
+    "character_url_id": "ariel",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_little_mermaid_1989",
+    "character_url_id": "ursula",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "belle",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_lion_king",
+    "character_url_id": "simba",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "woody",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "buzz_lightyear",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "frozen_film",
+    "character_url_id": "elsa",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "frozen_film",
+    "character_url_id": "anna",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "finding_nemo",
+    "character_url_id": "nemo",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  }
+]

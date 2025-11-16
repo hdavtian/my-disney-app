@@ -280,50 +280,73 @@ Based on 153+ identified relationships, we've confirmed the following schema des
 
 ---
 
-## Phase 3: Seed Data Preparation 🔄 CURRENT PHASE
+## Phase 3: Seed Data Preparation ✅ COMPLETE (Starter Batch)
 
-- [ ] Test migration locally with existing data
-- [ ] Verify rollback safety (junction table should drop cleanly)
+### Phase 3A: Starter JSON Seeder Created
 
-## Phase 3: Seed Data Preparation
+- [x] Created `movie_characters_relationships.json` with 10 representative relationships
+- [x] Relationships span multiple eras: Classic, Renaissance, Pixar, Modern Disney
+- [x] Each relationship includes: movie_url_id, character_url_id, character_role, importance_level, sort_order
+- [x] Starter relationships include:
+  - Snow White → Snow White and the Seven Dwarfs
+  - Ariel, Ursula → The Little Mermaid
+  - Belle → Beauty and the Beast
+  - Simba → The Lion King
+  - Woody, Buzz → Toy Story 3
+  - Elsa, Anna → Frozen
+  - Nemo → Finding Nemo
 
-### Phase 3A: Convert Analysis to JSON Seeder
+**📝 TODO (End of Feature):** Expand to full 153+ relationships after testing backend integration
 
-- [ ] Review `movie_characters_analysis.txt` manually
-- [ ] Mark uncertain matches for manual verification
-- [ ] Create `movie_characters_relationships.json` from HIGH and reviewed MEDIUM confidence matches
-- [ ] Define character roles for each relationship:
-  - protagonist, antagonist, supporting, sidekick, cameo
-- [ ] Assign importance levels:
-  - main (lead characters), secondary (important supporting), minor (cameos/brief appearances)
-- [ ] Set sort_order for display priority (1 = appears first)
+---
 
-## Phase 4: Backend Models & Repositories
+## Phase 4: Backend Models & Repositories ✅ COMPLETE
 
-- [ ] Create `MovieCharacter.java` JPA entity
-- [ ] Add `@ManyToMany` relationship to `Movie.java` entity
-  - [ ] Add `Set<Character> characters` field with `@ManyToMany` annotation
-  - [ ] Configure `@JoinTable` pointing to `movie_characters`
-- [ ] Add `@ManyToMany` relationship to `Character.java` entity
-  - [ ] Add `Set<Movie> movies` field with `@ManyToMany` annotation
-  - [ ] Configure `mappedBy` for bidirectional relationship
-- [ ] Create `MovieCharacterRepository` interface extending JpaRepository
-- [ ] Add custom query methods:
-  - [ ] `findByMovieId(Long movieId)`
-  - [ ] `findByCharacterId(Long characterId)`
-  - [ ] `findByMovieIdOrderBySortOrder(Long movieId)`
+- [x] ~~Create `MovieCharacter.java` JPA entity~~ (Not needed - using direct @ManyToMany)
+- [x] Add `@ManyToMany` relationship to `Movie.java` entity
+  - [x] Add `Set<Character> characters` field with `@ManyToMany` annotation
+  - [x] Configure `@JoinTable` pointing to `movie_characters`
+- [x] Add `@ManyToMany` relationship to `Character.java` entity
+  - [x] Add `Set<Movie> movies` field with `@ManyToMany` annotation
+  - [x] Configure `mappedBy` for bidirectional relationship
+- [x] ~~Create `MovieCharacterRepository` interface extending JpaRepository~~ (Not needed - using direct relationship)
+- [x] Add repository query methods:
+  - [x] `MovieRepository.findByUrlId(String urlId)`
+  - [x] `CharacterRepository.findByUrlId(String urlId)`
 
-## Phase 4: Data Seeding Service
+## Phase 5: Data Seeding Service ✅ COMPLETE
 
-- [ ] Update `DataSeeder.java` with new method `seedMovieCharacterRelationships()`
-- [ ] Parse `movie_characters_relationships.json`
-- [ ] Resolve movie and character IDs from url_id fields
-- [ ] Bulk insert relationships with validation
-- [ ] Add logging for successful/failed relationship insertions
-- [ ] Implement idempotent seeding (check if relationship exists before inserting)
-- [ ] Call seeding method in application startup sequence
+- [x] Update `DataSeeder.java` with new method `seedMovieCharacterRelationships()`
+- [x] Parse `movie_characters_relationships.json`
+- [x] Resolve movie and character IDs from url_id fields
+- [x] Bulk insert relationships with validation
+- [x] Add logging for successful/failed relationship insertions
+- [x] Implement error handling for missing movies/characters
+- [x] Call seeding method in application startup sequence
 
-## Phase 6: Backend API Enhancement
+### Phase 5A: Database Integrity Fix ✅ COMPLETE
+
+**Issue Discovered:** `NonUniqueResultException` - 5 movies had empty `url_id` values causing duplicate results
+
+**Resolution:**
+
+- [x] Created V3 Flyway migration: `V3__Add_unique_constraints_and_fix_empty_url_ids.sql`
+- [x] Fixed 5 movies with empty url_id:
+  - Star Wars: The Last Jedi (2017) → `star_wars_the_last_jedi`
+  - Mija (2022) → `mija`
+  - Night at the Museum: Kahmunrah Rises Again (2022) → `night_at_the_museum_kahmunrah_rises_again`
+  - Ant-Man and the Wasp: Quantumania duplicate (2023) → `ant_man_and_the_wasp_quantumania_duplicate`
+  - Unknown Movie (2024) → `unknown_2024`
+- [x] Added UNIQUE constraint to `movies.url_id`
+- [x] Added UNIQUE constraint to `characters.url_id`
+- [x] Reverted repository methods from `findFirstByUrlId` back to `findByUrlId` (proper solution vs workaround)
+- [x] Added database-level validation to prevent future duplicates
+
+**✅ Result:** Database integrity enforced at schema level, proper fix instead of workaround
+
+---
+
+## Phase 6: Backend API Enhancement 🔄 NEXT PHASE
 
 - [ ] Update `MovieController`:
   - [ ] Add endpoint `GET /api/movies/{id}/characters` returning list of related characters

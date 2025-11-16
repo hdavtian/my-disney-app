@@ -2,8 +2,10 @@ package com.harmadavtian.disneyapp.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "characters")
@@ -60,6 +62,9 @@ public class Character {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToMany(mappedBy = "characters")
+    private Set<Movie> movies = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -195,5 +200,13 @@ public class Character {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
     }
 }
