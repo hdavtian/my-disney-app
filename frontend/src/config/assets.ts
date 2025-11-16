@@ -97,23 +97,23 @@ function sanitizeFilename(filename: string): string | null {
  * Construct a full URL for an image asset.
  *
  * @param kind - The type of asset ('movies' or 'characters')
- * @param filename - The filename (without path)
+ * @param filename - The filename (without path or extension)
  * @returns Full URL to the asset or placeholder if invalid
  *
  * @example
  * // Development (VITE_ASSETS_BASE_URL=http://localhost:5001)
- * getImageUrl('movies', 'frozen.jpg')
- * // Returns: 'http://localhost:5001/movies/frozen.jpg'
+ * getImageUrl('movies', 'frozen')
+ * // Returns: 'http://localhost:5001/movies/webp/frozen.webp'
  *
  * @example
  * // Production (VITE_ASSETS_BASE_URL=https://cdn.example.com)
- * getImageUrl('characters', 'elsa.png')
- * // Returns: 'https://cdn.example.com/characters/elsa.png'
+ * getImageUrl('characters', 'elsa')
+ * // Returns: 'https://cdn.example.com/characters/webp/elsa.webp'
  *
  * @example
  * // With versioning (VITE_ASSETS_PREFIX=v123)
- * getImageUrl('movies', 'moana.jpg')
- * // Returns: 'https://cdn.example.com/v123/movies/moana.jpg'
+ * getImageUrl('movies', 'moana')
+ * // Returns: 'https://cdn.example.com/v123/movies/webp/moana.webp'
  */
 export function getImageUrl(kind: AssetKind, filename: string): string {
   // Handle missing or empty filename
@@ -127,13 +127,18 @@ export function getImageUrl(kind: AssetKind, filename: string): string {
     return PLACEHOLDER_IMAGE;
   }
 
+  // Add .webp extension if no extension present
+  const filenameWithExt = sanitized.includes(".")
+    ? sanitized
+    : `${sanitized}.webp`;
+
   // Get base URL and optional prefix
   const baseUrl = getAssetsBaseUrl();
   const prefix = getAssetsPrefix();
 
-  // Construct the full URL
-  // Format: {baseUrl}{prefix}/{kind}/{filename}
-  const url = `${baseUrl}${prefix}/${kind}/${sanitized}`;
+  // Construct the full URL with /webp subdirectory
+  // Format: {baseUrl}{prefix}/{kind}/webp/{filename}.webp
+  const url = `${baseUrl}${prefix}/${kind}/webp/${filenameWithExt}`;
 
   // Collapse any duplicate slashes (except in protocol://)
   return url.replace(/([^:]\/)\/+/g, "$1");

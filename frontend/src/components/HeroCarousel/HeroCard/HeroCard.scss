@@ -16,7 +16,7 @@
     }
 
     &__content {
-        color: var(--text-primary);
+        color: #ffffff; // Force white text for hero carousel regardless of theme
         padding: var(--space-6);
         margin-left: calc(3.5rem + var(--space-8)); // Clear the left navigation arrow
         margin-right: calc(3.5rem + var(--space-8)); // Clear the right navigation arrow
@@ -37,7 +37,7 @@
         font-family: var(--font-display); // Theme-specific display font
         font-size: var(--text-4xl);
         font-weight: var(--font-extrabold);
-        color: var(--text-primary);
+        color: #ffffff; // Force white text for hero carousel regardless of theme
         margin-bottom: var(--space-4);
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         line-height: var(--leading-tight);
