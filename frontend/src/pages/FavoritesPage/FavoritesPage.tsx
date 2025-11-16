@@ -26,6 +26,8 @@ type FavoriteItem =
   | { type: "movie"; data: Movie }
   | { type: "character"; data: Character };
 
+type FilterType = "all" | "movies" | "characters";
+
 export const FavoritesPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -36,6 +38,9 @@ export const FavoritesPage = () => {
     (state) =>
       state.uiPreferences.favorites ?? { gridColumns: 0, searchQuery: "" }
   );
+
+  // Filter state
+  const [filterType, setFilterType] = useState<FilterType>("all");
 
   // Grid size configuration
   const minColumns = 2;
@@ -99,15 +104,24 @@ export const FavoritesPage = () => {
     });
   }, [favoriteItems]);
 
-  // Apply search filter to favoriteItems
+  // Apply search filter and type filter to favoriteItems
   const filteredFavorites = useMemo(() => {
-    if (!searchQuery) {
-      return favoriteItems;
+    let items = favoriteItems;
+
+    // Apply type filter first
+    if (filterType === "movies") {
+      items = items.filter((item) => item.type === "movie");
+    } else if (filterType === "characters") {
+      items = items.filter((item) => item.type === "character");
     }
 
-    // Filter favorites based on searchQuery
+    // Then apply search filter
+    if (!searchQuery) {
+      return items;
+    }
+
     const lowerQuery = searchQuery.toLowerCase();
-    return favoriteItems.filter((item) => {
+    return items.filter((item) => {
       if (item.type === "movie") {
         const movie = item.data as Movie;
         return (
@@ -122,7 +136,7 @@ export const FavoritesPage = () => {
         );
       }
     });
-  }, [favoriteItems, searchQuery]);
+  }, [favoriteItems, searchQuery, filterType]);
 
   const handleSearch = useCallback(
     (_results: any[], query: string) => {
@@ -165,6 +179,10 @@ export const FavoritesPage = () => {
   const handleResetSearch = useCallback(() => {
     dispatch(setFavoritesSearchQuery(""));
   }, [dispatch]);
+
+  const handleFilterChange = useCallback((type: FilterType) => {
+    setFilterType(type);
+  }, []);
 
   return (
     <motion.div
@@ -212,6 +230,35 @@ export const FavoritesPage = () => {
       ) : (
         <div className="favorites-page__content">
           <div className="favorites-page__grid-controls">
+            <div className="favorites-page__filter-buttons">
+              <button
+                className={`favorites-page__filter-button ${
+                  filterType === "all" ? "active" : ""
+                }`}
+                onClick={() => handleFilterChange("all")}
+                aria-label="Show all favorites"
+              >
+                All
+              </button>
+              <button
+                className={`favorites-page__filter-button ${
+                  filterType === "movies" ? "active" : ""
+                }`}
+                onClick={() => handleFilterChange("movies")}
+                aria-label="Show movies only"
+              >
+                Movies
+              </button>
+              <button
+                className={`favorites-page__filter-button ${
+                  filterType === "characters" ? "active" : ""
+                }`}
+                onClick={() => handleFilterChange("characters")}
+                aria-label="Show characters only"
+              >
+                Characters
+              </button>
+            </div>
             <CardSizeControl
               currentColumns={activeColumns}
               minColumns={minColumns}
