@@ -265,6 +265,17 @@ public class DataSeeder implements CommandLineRunner {
      * Seed movie-character relationships from JSON file
      */
     private void seedMovieCharacterRelationships() {
+        // Check if relationships already exist by checking if any movie has characters
+        long existingRelationshipsCount = movieRepository.findAll().stream()
+                .mapToLong(m -> m.getCharacters().size())
+                .sum();
+
+        if (existingRelationshipsCount > 0) {
+            log.info("Movie-character relationships already exist ({} relationships found), skipping seed",
+                    existingRelationshipsCount);
+            return;
+        }
+
         ClassPathResource resource = new ClassPathResource("database/movie_characters_relationships.json");
         try (InputStream inputStream = resource.getInputStream()) {
             List<Map<String, Object>> relationships = objectMapper.readValue(inputStream,
