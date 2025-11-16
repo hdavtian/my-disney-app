@@ -87,6 +87,7 @@ public class DataSeeder implements CommandLineRunner {
     public Map<String, Integer> reseedCharacters() throws IOException {
         log.info("Reseeding characters: deleting all existing records...");
         characterRepository.deleteAll();
+        characterRepository.flush();
 
         log.info("Loading characters from JSON...");
         ClassPathResource resource = new ClassPathResource("database/disney_characters.json");
@@ -138,6 +139,7 @@ public class DataSeeder implements CommandLineRunner {
     public Map<String, Integer> reseedMovies() throws IOException {
         log.info("Reseeding movies: deleting all existing records...");
         movieRepository.deleteAll();
+        movieRepository.flush();
 
         log.info("Loading movies from JSON...");
         ClassPathResource resource = new ClassPathResource("database/disney_movies.json");
@@ -160,6 +162,7 @@ public class DataSeeder implements CommandLineRunner {
     public Map<String, Integer> reseedHeroCarousel() {
         log.info("Reseeding hero carousel: deleting all existing entries...");
         heroMovieCarouselRepository.deleteAll();
+        heroMovieCarouselRepository.flush();
 
         log.info("Regenerating hero carousel...");
         seedHeroMovieCarousel();
@@ -387,11 +390,15 @@ public class DataSeeder implements CommandLineRunner {
         log.info("Reseeding Disney Parks...");
         // Delete attractions first (FK dependency)
         disneyParkAttractionRepository.deleteAll();
+        disneyParkAttractionRepository.flush();
         // Then delete parks
         disneyParkRepository.deleteAll();
+        disneyParkRepository.flush();
         // Reseed parks
         seedDisneyParks();
-        log.info("Disney Parks reseeded successfully");
+        // Reseed attractions (depends on parks)
+        seedDisneyParksAttractions();
+        log.info("Disney Parks and Attractions reseeded successfully");
     }
 
     /**
@@ -402,6 +409,7 @@ public class DataSeeder implements CommandLineRunner {
     public void reseedDisneyParksAttractions() {
         log.info("Reseeding Disney Parks Attractions...");
         disneyParkAttractionRepository.deleteAll();
+        disneyParkAttractionRepository.flush();
         seedDisneyParksAttractions();
         log.info("Disney Parks Attractions reseeded successfully");
     }

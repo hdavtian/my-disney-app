@@ -115,7 +115,51 @@ public class AdminController {
     }
 
     /**
-     * Reseed all data (characters, movies, hero carousel, relationships) from JSON
+     * Reseed Disney Parks table from JSON file (DELETE ALL + INSERT ALL).
+     */
+    @PostMapping("/reseed-parks")
+    public ResponseEntity<?> reseedDisneyParks() {
+        try {
+            log.info("ADMIN ACTION: Reseeding Disney parks from JSON file");
+            dataSeeder.reseedDisneyParks();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Disney parks and attractions reseeded successfully");
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error reseeding Disney parks", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "error", e.getMessage()));
+        }
+    }
+
+    /**
+     * Reseed Disney Parks Attractions table from JSON file (DELETE ALL + INSERT
+     * ALL).
+     */
+    @PostMapping("/reseed-attractions")
+    public ResponseEntity<?> reseedDisneyParksAttractions() {
+        try {
+            log.info("ADMIN ACTION: Reseeding Disney park attractions from JSON file");
+            dataSeeder.reseedDisneyParksAttractions();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Disney park attractions reseeded successfully");
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error reseeding Disney park attractions", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "error", e.getMessage()));
+        }
+    }
+
+    /**
+     * Reseed all data (characters, movies, hero carousel, relationships, parks,
+     * attractions) from JSON
      * files.
      */
     @PostMapping("/reseed-all")
@@ -127,6 +171,8 @@ public class AdminController {
             Map<String, Integer> movieResult = dataSeeder.reseedMovies();
             Map<String, Integer> carouselResult = dataSeeder.reseedHeroCarousel();
             Map<String, Integer> relationshipsResult = dataSeeder.reseedMovieCharacterRelationships();
+            dataSeeder.reseedDisneyParks();
+            dataSeeder.reseedDisneyParksAttractions();
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -135,6 +181,8 @@ public class AdminController {
             response.put("movies", movieResult.get("inserted"));
             response.put("carousel", carouselResult.get("inserted"));
             response.put("relationships", relationshipsResult.get("inserted"));
+            response.put("parks", "reseeded");
+            response.put("attractions", "reseeded");
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
