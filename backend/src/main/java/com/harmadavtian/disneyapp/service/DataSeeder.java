@@ -147,6 +147,39 @@ public class DataSeeder implements CommandLineRunner {
         return Map.of("inserted", (int) count);
     }
 
+    /**
+     * Reseed movie-character relationships: CLEAR all relationships + INSERT all
+     * from JSON
+     */
+    @Transactional
+    public Map<String, Integer> reseedMovieCharacterRelationships() throws IOException {
+        log.info("Reseeding movie-character relationships: clearing all existing relationships...");
+
+        // Clear all relationships by removing associations from both sides
+        List<Movie> allMovies = movieRepository.findAll();
+        for (Movie movie : allMovies) {
+            movie.getCharacters().clear();
+        }
+        movieRepository.saveAll(allMovies);
+
+        List<Character> allCharacters = characterRepository.findAll();
+        for (Character character : allCharacters) {
+            character.getMovies().clear();
+        }
+        characterRepository.saveAll(allCharacters);
+
+        log.info("All relationships cleared. Loading relationships from JSON...");
+        seedMovieCharacterRelationships();
+
+        // Count relationships by checking junction table
+        long totalRelationships = allMovies.stream()
+                .mapToLong(m -> m.getCharacters().size())
+                .sum();
+
+        log.info("Reseeded {} movie-character relationships successfully", totalRelationships);
+        return Map.of("inserted", (int) totalRelationships);
+    }
+
     private void seedHeroMovieCarousel() {
         try {
             java.util.List<Movie> allMovies = movieRepository.findAll();

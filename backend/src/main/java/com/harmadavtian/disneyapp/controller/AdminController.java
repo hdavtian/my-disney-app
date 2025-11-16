@@ -93,7 +93,30 @@ public class AdminController {
     }
 
     /**
-     * Reseed all data (characters, movies, hero carousel) from JSON files.
+     * Reseed movie-character relationships from JSON file (CLEAR ALL + INSERT ALL).
+     */
+    @PostMapping("/reseed-relationships")
+    public ResponseEntity<?> reseedMovieCharacterRelationships() {
+        try {
+            log.info("ADMIN ACTION: Reseeding movie-character relationships from JSON file");
+            Map<String, Integer> result = dataSeeder.reseedMovieCharacterRelationships();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Movie-character relationships reseeded successfully");
+            response.put("count", result.get("inserted"));
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error reseeding movie-character relationships", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "error", e.getMessage()));
+        }
+    }
+
+    /**
+     * Reseed all data (characters, movies, hero carousel, relationships) from JSON
+     * files.
      */
     @PostMapping("/reseed-all")
     public ResponseEntity<?> reseedAll() {
@@ -103,6 +126,7 @@ public class AdminController {
             Map<String, Integer> characterResult = dataSeeder.reseedCharacters();
             Map<String, Integer> movieResult = dataSeeder.reseedMovies();
             Map<String, Integer> carouselResult = dataSeeder.reseedHeroCarousel();
+            Map<String, Integer> relationshipsResult = dataSeeder.reseedMovieCharacterRelationships();
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -110,6 +134,7 @@ public class AdminController {
             response.put("characters", characterResult.get("inserted"));
             response.put("movies", movieResult.get("inserted"));
             response.put("carousel", carouselResult.get("inserted"));
+            response.put("relationships", relationshipsResult.get("inserted"));
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
