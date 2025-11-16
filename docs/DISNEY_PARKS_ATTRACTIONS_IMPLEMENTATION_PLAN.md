@@ -1338,12 +1338,94 @@ DELETE FROM flyway_schema_history WHERE version = '2';
 - [ ] Validate all `park_url_id` values match `disney_parks.json` url_ids
 - [ ] Move consolidated file to `backend/src/main/resources/database/`
 
+**Phase 1 Testing:**
+
+```bash
+# Verify consolidated file exists
+ls backend/src/main/resources/database/disney_parks_attractions.json
+
+# Check file size (should be ~100KB+)
+Get-Item backend/src/main/resources/database/disney_parks_attractions.json | Select-Object Length
+
+# Validate JSON syntax
+Get-Content backend/src/main/resources/database/disney_parks_attractions.json | ConvertFrom-Json | Measure-Object
+# Should output: Count = 338
+
+# Verify all park_url_id values exist in disney_parks.json
+$parks = (Get-Content backend/src/main/resources/database/disney_parks.json | ConvertFrom-Json).url_id
+$attractions = Get-Content backend/src/main/resources/database/disney_parks_attractions.json | ConvertFrom-Json
+$attractions | ForEach-Object { if ($parks -notcontains $_.park_url_id) { Write-Host "Missing park: $($_.park_url_id)" } }
+# Should output nothing (no missing parks)
+
+# Verify required fields are present in all records
+$attractions | ForEach-Object {
+    if (-not $_.url_id -or -not $_.name -or -not $_.park_url_id) {
+        Write-Host "Missing required fields in: $($_.name)"
+    }
+}
+# Should output nothing (all records valid)
+```
+
+---
+
 ### Phase 2: Database Migration
 
 - [ ] Create `V2__Create_disney_parks_tables.sql` in `db/migration/`
 - [ ] Review SQL for syntax errors
 - [ ] Test migration locally (dev environment)
 - [ ] Commit migration file to git
+
+**Phase 2 Testing:**
+
+```bash
+# Build and run application
+cd backend
+mvn clean install
+mvn spring-boot:run
+
+# Check logs for migration success
+# Look for: "Flyway migration V2 executed successfully"
+# Look for: "Successfully applied 1 migration to schema"
+
+# Connect to database and verify tables exist
+# (Use your database client or psql)
+
+# Verify disney_parks table structure
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'disney_parks'
+ORDER BY ordinal_position;
+
+# Verify disney_parks_attractions table structure
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'disney_parks_attractions'
+ORDER BY ordinal_position;
+
+# Verify foreign key constraint exists
+SELECT tc.constraint_name, tc.table_name, kcu.column_name,
+       ccu.table_name AS foreign_table_name, ccu.column_name AS foreign_column_name
+FROM information_schema.table_constraints AS tc
+JOIN information_schema.key_column_usage AS kcu
+  ON tc.constraint_name = kcu.constraint_name
+JOIN information_schema.constraint_column_usage AS ccu
+  ON ccu.constraint_name = tc.constraint_name
+WHERE tc.table_name = 'disney_parks_attractions'
+  AND tc.constraint_type = 'FOREIGN KEY';
+
+# Verify indexes were created
+SELECT indexname, indexdef
+FROM pg_indexes
+WHERE tablename IN ('disney_parks', 'disney_parks_attractions');
+
+# Verify flyway tracked the migration
+SELECT version, description, script, installed_on, success
+FROM flyway_schema_history
+ORDER BY installed_rank DESC
+LIMIT 5;
+```
+
+---
 
 ### Phase 3: Backend Implementation
 
@@ -1357,6 +1439,87 @@ DELETE FROM flyway_schema_history WHERE version = '2';
 - [ ] Create `DisneyParkAttractionController`
 - [ ] Update `DataSeeder` with new seed methods
 
+**Phase 3 Testing:**
+
+```bash
+# Rebuild and restart application
+cd backend
+mvn clean install
+mvn spring-boot:run
+
+# Check logs for seeding success
+# Look for: "Seeded 12 Disney parks"
+# Look for: "Seeded 338 Disney park attractions"
+
+# Test GET all parks endpoint
+curl http://localhost:8080/api/parks | jq
+# Should return array with 12 parks
+
+# Test GET specific park endpoint
+curl http://localhost:8080/api/parks/magic-kingdom | jq
+# Should return single park object
+
+# Test GET parks by country
+curl http://localhost:8080/api/parks/country/United%20States | jq
+# Should return 6 US parks
+
+# Test GET parks by resort
+curl "http://localhost:8080/api/parks/resort/Walt%20Disney%20World%20Resort" | jq
+# Should return 4 parks
+
+# Test GET castle parks
+curl http://localhost:8080/api/parks/castle-parks | jq
+# Should return parks with is_castle_park = true
+
+# Test GET all attractions
+curl http://localhost:8080/api/attractions | jq
+# Should return array with 338 attractions
+
+# Test GET specific attraction
+curl http://localhost:8080/api/attractions/space-mountain-anaheim | jq
+# Should return single attraction object
+
+# Test GET attractions by park
+curl http://localhost:8080/api/attractions/park/magic-kingdom | jq
+# Should return 36 attractions
+
+# Test GET operational attractions by park
+curl http://localhost:8080/api/attractions/park/magic-kingdom/operational | jq
+# Should return only operational attractions
+
+# Test GET attractions by type
+curl "http://localhost:8080/api/attractions/type/Roller%20Coaster" | jq
+# Should return all roller coasters
+
+# Test GET attractions by thrill level
+curl http://localhost:8080/api/attractions/thrill/Intense | jq
+# Should return intense attractions
+
+# Verify database counts
+# Connect to database and run:
+SELECT COUNT(*) FROM disney_parks;
+# Should return: 12
+
+SELECT COUNT(*) FROM disney_parks_attractions;
+# Should return: 338
+
+# Verify FK relationship
+SELECT p.name, COUNT(a.id) as attraction_count
+FROM disney_parks p
+LEFT JOIN disney_parks_attractions a ON p.url_id = a.park_url_id
+GROUP BY p.name
+ORDER BY attraction_count DESC;
+# Should show all parks with their attraction counts
+
+# Test FK constraint enforcement
+# This should FAIL (good!):
+INSERT INTO disney_parks_attractions (url_id, name, park_url_id, is_operational)
+VALUES ('test-attraction', 'Test Attraction', 'invalid-park-id', true);
+# Expected error: foreign key constraint violation
+```
+
+---
+
 ### Phase 4: Admin Reseed Endpoints
 
 - [ ] Add `reseedDisneyParks()` method to DataSeeder.java
@@ -1366,6 +1529,80 @@ DELETE FROM flyway_schema_history WHERE version = '2';
 - [ ] Update `/api/admin/reseed-all` endpoint to include parks & attractions
 - [ ] Add Swagger annotations to admin endpoints
 - [ ] Test reseed endpoints locally
+
+**Phase 4 Testing:**
+
+```bash
+# Rebuild and restart application
+cd backend
+mvn clean install
+mvn spring-boot:run
+
+# Test reseed parks endpoint
+curl -X POST http://localhost:8080/api/admin/reseed-parks | jq
+# Expected response:
+# {
+#   "success": true,
+#   "message": "Disney parks reseeded successfully",
+#   "count": 12
+# }
+
+# Verify parks were reseeded
+curl http://localhost:8080/api/parks | jq 'length'
+# Should return: 12
+
+# Test reseed attractions endpoint
+curl -X POST http://localhost:8080/api/admin/reseed-attractions | jq
+# Expected response:
+# {
+#   "success": true,
+#   "message": "Disney park attractions reseeded successfully",
+#   "count": 338
+# }
+
+# Verify attractions were reseeded
+curl http://localhost:8080/api/attractions | jq 'length'
+# Should return: 338
+
+# Test reseed-all endpoint
+curl -X POST http://localhost:8080/api/admin/reseed-all | jq
+# Expected response:
+# {
+#   "success": true,
+#   "message": "All data reseeded successfully",
+#   "characters": 189,
+#   "movies": 67,
+#   "carousel": 11,
+#   "relationships": 456,
+#   "parks": 12,
+#   "attractions": 338
+# }
+
+# Verify all data counts after reseed-all
+curl http://localhost:8080/api/characters | jq 'length'
+curl http://localhost:8080/api/movies | jq 'length'
+curl http://localhost:8080/api/parks | jq 'length'
+curl http://localhost:8080/api/attractions | jq 'length'
+
+# Test reseed idempotency (run multiple times)
+curl -X POST http://localhost:8080/api/admin/reseed-parks | jq
+curl -X POST http://localhost:8080/api/admin/reseed-parks | jq
+# Should return same count both times (12)
+
+# Check database to verify DELETE + INSERT happened
+# Connect to database:
+SELECT COUNT(*) FROM disney_parks;
+# Should still be 12
+
+SELECT COUNT(*) FROM disney_parks_attractions;
+# Should still be 338
+
+# Test error handling (temporarily break JSON file)
+# Rename JSON file, hit endpoint, should get error response
+# Then restore file and verify recovery
+```
+
+---
 
 ### Phase 5: Testing
 
@@ -1377,12 +1614,185 @@ DELETE FROM flyway_schema_history WHERE version = '2';
 - [ ] Test idempotency (restart app, verify no duplicate data)
 - [ ] Test reseed endpoints (DELETE ALL + INSERT ALL pattern)
 
+**Phase 5 Testing:**
+
+```bash
+# COMPREHENSIVE END-TO-END TESTING
+
+# 1. Test with clean database
+# Drop and recreate your local database
+# Restart application
+mvn spring-boot:run
+
+# Verify migration and seeding
+# Check logs for:
+#   - "Flyway migration V2 executed successfully"
+#   - "Seeded 12 Disney parks"
+#   - "Seeded 338 Disney park attractions"
+
+# 2. Test idempotency - restart app multiple times
+mvn spring-boot:run
+# Stop and restart
+mvn spring-boot:run
+# Check database - should still have 12 parks, 338 attractions (no duplicates)
+
+SELECT COUNT(*) FROM disney_parks;
+SELECT COUNT(*) FROM disney_parks_attractions;
+
+# 3. Test all GET endpoints systematically
+
+# Parks endpoints
+curl http://localhost:8080/api/parks | jq 'length'  # Should be 12
+curl http://localhost:8080/api/parks/magic-kingdom | jq '.name'  # Should be "Magic Kingdom"
+curl http://localhost:8080/api/parks/country/Japan | jq 'length'  # Should be 2
+curl "http://localhost:8080/api/parks/resort/Tokyo%20Disney%20Resort" | jq 'length'  # Should be 2
+curl http://localhost:8080/api/parks/castle-parks | jq 'length'  # Should be 6
+
+# Attractions endpoints
+curl http://localhost:8080/api/attractions | jq 'length'  # Should be 338
+curl http://localhost:8080/api/attractions/space-mountain-anaheim | jq '.name'  # Should be "Space Mountain"
+curl http://localhost:8080/api/attractions/park/disneyland-park-anaheim | jq 'length'  # Should be 40
+curl http://localhost:8080/api/attractions/park/magic-kingdom/operational | jq 'length'  # Should be 36 or less
+curl "http://localhost:8080/api/attractions/type/Dark%20Ride" | jq 'length'  # Should be multiple
+curl http://localhost:8080/api/attractions/thrill/Intense | jq 'length'  # Should be multiple
+
+# 4. Test Swagger UI
+# Open http://localhost:8080/swagger-ui.html
+# Verify all new endpoints are documented:
+#   - Disney Parks section with 5 endpoints
+#   - Park Attractions section with 6 endpoints
+#   - Admin section with 2 new endpoints (reseed-parks, reseed-attractions)
+# Test each endpoint through Swagger UI
+
+# 5. Test FK constraint enforcement
+# This should FAIL (expected):
+curl -X POST http://localhost:8080/api/attractions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url_id": "test-attraction",
+    "name": "Test Attraction",
+    "park_url_id": "invalid-park-id",
+    "is_operational": true
+  }'
+# Expected: 400 or 500 error about FK constraint violation
+
+# 6. Test CASCADE DELETE (if implementing POST/DELETE endpoints)
+# Get a park ID
+# Delete the park
+# Verify all attractions for that park are also deleted
+# (Skip this if not implementing DELETE endpoints yet)
+
+# 7. Test reseed endpoints work correctly
+curl -X POST http://localhost:8080/api/admin/reseed-parks | jq
+curl http://localhost:8080/api/parks | jq 'length'  # Should still be 12
+
+curl -X POST http://localhost:8080/api/admin/reseed-attractions | jq
+curl http://localhost:8080/api/attractions | jq 'length'  # Should still be 338
+
+curl -X POST http://localhost:8080/api/admin/reseed-all | jq
+# Verify all counts are correct
+
+# 8. Test error handling
+# Test 404 responses
+curl -i http://localhost:8080/api/parks/invalid-park-id
+# Should return 404
+
+curl -i http://localhost:8080/api/attractions/invalid-attraction-id
+# Should return 404
+
+# 9. Performance testing
+# Test GET /api/attractions doesn't timeout with 338 records
+time curl http://localhost:8080/api/attractions > /dev/null
+# Should complete in < 2 seconds
+
+# 10. Database integrity checks
+SELECT p.name, p.url_id, COUNT(a.id) as attraction_count
+FROM disney_parks p
+LEFT JOIN disney_parks_attractions a ON p.url_id = a.park_url_id
+GROUP BY p.name, p.url_id
+ORDER BY attraction_count DESC;
+# All parks should have attractions
+
+# Check for orphaned attractions (shouldn't be any)
+SELECT a.name, a.park_url_id
+FROM disney_parks_attractions a
+LEFT JOIN disney_parks p ON a.park_url_id = p.url_id
+WHERE p.id IS NULL;
+# Should return 0 rows
+
+# Verify indexes are being used
+EXPLAIN ANALYZE
+SELECT * FROM disney_parks_attractions
+WHERE park_url_id = 'magic-kingdom';
+# Should show index scan, not seq scan
+```
+
+---
+
 ### Phase 6: Documentation
 
 - [ ] Update README with new endpoints
 - [ ] Document example API requests/responses
 - [ ] Add Swagger annotations to all endpoints
 - [ ] Document admin reseed endpoint usage
+
+**Phase 6 Testing:**
+
+```bash
+# Verify documentation completeness
+
+# 1. Check README.md has been updated
+cat backend/README.md | grep -i "parks"
+cat backend/README.md | grep -i "attractions"
+# Should find new endpoint documentation
+
+# 2. Verify Swagger UI completeness
+# Open http://localhost:8080/swagger-ui.html
+# Checklist:
+#   [ ] Disney Parks section exists with proper description
+#   [ ] All 5 parks endpoints are documented
+#   [ ] Each endpoint has summary and description
+#   [ ] Example responses are shown
+#   [ ] Parameter descriptions are clear
+#   [ ] Park Attractions section exists
+#   [ ] All 6 attractions endpoints are documented
+#   [ ] Admin section shows reseed-parks and reseed-attractions
+#   [ ] All endpoints have @Tag annotations
+#   [ ] All endpoints have @Operation annotations
+#   [ ] All path parameters have @Parameter annotations
+
+# 3. Test examples in documentation work
+# Copy/paste each curl example from README
+# Verify they work as documented
+
+# 4. Verify OpenAPI JSON is valid
+curl http://localhost:8080/v3/api-docs | jq
+# Should return valid JSON without errors
+
+# Save and validate OpenAPI spec
+curl http://localhost:8080/v3/api-docs > openapi.json
+# Upload to https://editor.swagger.io/ to validate
+
+# 5. Check code comments/Javadocs
+# Verify all new classes have proper Javadoc:
+#   - DisneyPark.java
+#   - DisneyParkAttraction.java
+#   - DisneyParkRepository.java
+#   - DisneyParkAttractionRepository.java
+#   - DisneyParkService.java
+#   - DisneyParkAttractionService.java
+#   - DisneyParkController.java
+#   - DisneyParkAttractionController.java
+
+# 6. Generate Javadoc and verify no warnings
+cd backend
+mvn javadoc:javadoc
+# Check for warnings in output
+# Open target/site/apidocs/index.html
+# Verify new classes appear in documentation
+```
+
+---
 
 ### Phase 7: Deployment
 
@@ -1393,6 +1803,125 @@ DELETE FROM flyway_schema_history WHERE version = '2';
 - [ ] Deploy to production (Flyway auto-runs V2 migration)
 - [ ] Verify production data seeding
 - [ ] Test production API endpoints
+
+**Phase 7 Testing:**
+
+```bash
+# PRE-DEPLOYMENT TESTING
+
+# 1. Final local verification
+mvn clean install
+mvn spring-boot:run
+# Run all Phase 5 tests one more time
+
+# 2. Git verification
+git status
+# Verify all new files are committed:
+#   - V2__Create_disney_parks_tables.sql
+#   - disney_parks_attractions.json
+#   - DisneyPark.java
+#   - DisneyParkAttraction.java
+#   - DisneyParkRepository.java
+#   - DisneyParkAttractionRepository.java
+#   - DisneyParkService.java
+#   - DisneyParkAttractionService.java
+#   - DisneyParkController.java
+#   - DisneyParkAttractionController.java
+#   - Updated DataSeeder.java
+#   - Updated AdminController.java
+#   - Updated README.md
+
+git log --oneline -10
+# Review commits are descriptive
+
+# 3. Create PR checklist
+# [ ] All Phase 5 tests passing
+# [ ] Documentation updated
+# [ ] No merge conflicts with main
+# [ ] Code follows project conventions
+# [ ] Swagger UI tested
+# [ ] Admin endpoints tested
+
+# POST-DEPLOYMENT TESTING (Production)
+
+# 4. Verify production deployment succeeded
+# Check deployment logs for:
+#   - "Flyway migration V2 executed successfully"
+#   - "Seeded 12 Disney parks"
+#   - "Seeded 338 Disney park attractions"
+#   - No errors during startup
+
+# 5. Test production endpoints
+curl https://your-production-url.com/api/parks | jq 'length'
+# Should return: 12
+
+curl https://your-production-url.com/api/parks/magic-kingdom | jq '.name'
+# Should return: "Magic Kingdom"
+
+curl https://your-production-url.com/api/attractions | jq 'length'
+# Should return: 338
+
+curl https://your-production-url.com/api/attractions/park/tokyo-disneysea | jq 'length'
+# Should return: 31
+
+# 6. Test production Swagger UI
+# Open: https://your-production-url.com/swagger-ui.html
+# Verify all endpoints are documented and functional
+
+# 7. Verify production database
+# Connect to production database (Neon)
+SELECT version, description, success FROM flyway_schema_history
+ORDER BY installed_rank DESC LIMIT 5;
+# Should show V2 migration
+
+SELECT COUNT(*) FROM disney_parks;
+# Should return: 12
+
+SELECT COUNT(*) FROM disney_parks_attractions;
+# Should return: 338
+
+SELECT p.name, COUNT(a.id) as attraction_count
+FROM disney_parks p
+LEFT JOIN disney_parks_attractions a ON p.url_id = a.park_url_id
+GROUP BY p.name
+ORDER BY attraction_count DESC;
+# Should show all parks with correct counts
+
+# 8. Test production admin endpoints (if needed)
+curl -X POST https://your-production-url.com/api/admin/reseed-parks | jq
+# Should work but use cautiously in production!
+
+# 9. Monitor production logs
+# Watch for any errors or warnings
+# Monitor response times
+# Check memory usage
+
+# 10. Smoke test from frontend
+# If frontend integration exists:
+# Visit pages that use park/attraction data
+# Verify data displays correctly
+# Check browser console for errors
+
+# 11. Rollback plan (if issues occur)
+# If critical issues found:
+# 1. Revert deployment to previous version
+# 2. Run rollback SQL:
+DROP TABLE IF EXISTS disney_parks_attractions CASCADE;
+DROP TABLE IF EXISTS disney_parks CASCADE;
+DELETE FROM flyway_schema_history WHERE version = '2';
+# 3. Restart application
+# 4. Verify V1 tables still work
+
+# 12. Post-deployment validation checklist
+# [ ] Production endpoints responding
+# [ ] Correct data counts in database
+# [ ] No errors in production logs
+# [ ] Swagger UI accessible
+# [ ] Response times acceptable (< 2s)
+# [ ] FK constraints working
+# [ ] No orphaned data
+# [ ] All existing features still working
+```
 
 ---
 
