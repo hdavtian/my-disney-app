@@ -130,6 +130,14 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 gridColumns: 0,
                 lastUpdated: Date.now(),
               },
+              favorites: {
+                viewMode: "grid",
+                gridItemsToShow: 20,
+                searchQuery: "",
+                gridColumns: 0,
+                filterType: "all",
+                lastUpdated: Date.now(),
+              },
               theme: "light",
             })
           );
