@@ -182,9 +182,6 @@ export const SearchInput = <T extends { id: number | string }>({
     }
   }, [selectedIndex]);
 
-  const totalMatches =
-    query.length >= minCharacters ? filteredResults.length : items.length;
-
   return (
     <div className="search-input">
       <div className="search-input__wrapper">
@@ -247,9 +244,12 @@ export const SearchInput = <T extends { id: number | string }>({
           )}
         </div>
 
-        <span className="search-input__count">
-          {totalMatches} {totalMatches === 1 ? "result" : "results"}
-        </span>
+        {query.length >= minCharacters && (
+          <span className="search-input__count">
+            {filteredResults.length}{" "}
+            {filteredResults.length === 1 ? "result" : "results"}
+          </span>
+        )}
       </div>
 
       <AnimatePresence>
