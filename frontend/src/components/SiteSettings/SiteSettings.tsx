@@ -4,6 +4,7 @@ import { CacheService } from "../../utils/cacheService";
 import { clearPreferencesFromStorage } from "../../store/middleware/localStorageSyncMiddleware";
 import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
 import { hydrateFavorites } from "../../store/slices/favoritesSlice";
+import { clearDisclaimer } from "../../utils/disclaimerGate";
 import { useTheme } from "../../hooks/useTheme";
 import "./SiteSettings.scss";
 
@@ -31,6 +32,14 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
     onConfirm: () => void;
   } | null>(null);
 
+  // Clear data checkboxes state (all checked by default)
+  const [clearOptions, setClearOptions] = useState({
+    cachedData: true,
+    preferences: true,
+    favorites: true,
+    disclaimer: true,
+  });
+
   // Refresh cache stats when modal opens
   useEffect(() => {
     if (show) {
@@ -54,6 +63,111 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
 
   const showToast = (type: ToastMessage["type"], message: string) => {
     setToast({ type, message });
+  };
+
+  const handleToggleClearOption = (option: keyof typeof clearOptions) => {
+    setClearOptions((prev) => ({ ...prev, [option]: !prev[option] }));
+  };
+
+  const handleClearSelectedData = () => {
+    const selectedItems = Object.entries(clearOptions)
+      .filter(([_, checked]) => checked)
+      .map(([key]) => key);
+
+    if (selectedItems.length === 0) {
+      showToast("warning", "Please select at least one option to clear.");
+      return;
+    }
+
+    const itemLabels = selectedItems.map((key) => {
+      switch (key) {
+        case "cachedData":
+          return "Cached API Data";
+        case "preferences":
+          return "View Preferences";
+        case "favorites":
+          return "Favorites";
+        case "disclaimer":
+          return "Disclaimer Agreement";
+        default:
+          return key;
+      }
+    });
+
+    const allSelected = selectedItems.length === 4;
+    const message = allSelected
+      ? "⚠️ This will clear ALL site data. The page will reload after clearing. Are you sure?"
+      : `Are you sure you want to clear: ${itemLabels.join(", ")}?`;
+
+    setShowConfirm({
+      action: "Clear Selected Data",
+      message,
+      onConfirm: () => {
+        let clearedItems: string[] = [];
+
+        // Clear cached API data
+        if (clearOptions.cachedData) {
+          CacheService.clear();
+          clearedItems.push("Cached API Data");
+        }
+
+        // Clear preferences
+        if (clearOptions.preferences) {
+          clearPreferencesFromStorage();
+          dispatch(
+            rehydratePreferences({
+              movies: {
+                viewMode: "grid",
+                gridItemsToShow: 20,
+                searchQuery: "",
+                lastUpdated: Date.now(),
+              },
+              characters: {
+                viewMode: "grid",
+                gridItemsToShow: 20,
+                searchQuery: "",
+                lastUpdated: Date.now(),
+              },
+              theme: "light",
+            })
+          );
+          clearedItems.push("View Preferences");
+        }
+
+        // Clear favorites
+        if (clearOptions.favorites) {
+          dispatch(hydrateFavorites([]));
+          localStorage.removeItem("disneyapp_favorites");
+          clearedItems.push("Favorites");
+        }
+
+        // Clear disclaimer
+        if (clearOptions.disclaimer) {
+          clearDisclaimer();
+          clearedItems.push("Disclaimer Agreement");
+        }
+
+        refreshCacheStats();
+        setShowConfirm(null);
+
+        // If all options cleared, reload page after showing toast
+        if (allSelected) {
+          showToast("success", "All site data cleared! Reloading page...");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } else {
+          showToast(
+            "success",
+            `Cleared: ${clearedItems.join(", ")}${
+              clearOptions.disclaimer
+                ? ". Please refresh to see disclaimer."
+                : ""
+            }`
+          );
+        }
+      },
+    });
   };
 
   const handleClearCache = () => {
@@ -192,108 +306,120 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
             {activeTab === "cache" && (
               <div className="settings-tab-panel">
                 {/* Cache Statistics Section */}
-                <section className="settings-section">
+                <section className="settings-section settings-section--compact">
                   <h3 className="settings-section__title">
-                    <i className="fas fa-database"></i>
+                    <i className="fas fa-chart-bar"></i>
                     Cache Statistics
                   </h3>
                   <div className="cache-stats">
                     <div className="cache-stats__item">
-                      <span className="cache-stats__label">Total Items</span>
+                      <span className="cache-stats__label">Items</span>
                       <span className="cache-stats__value">
                         {cacheStats.totalItems}
                       </span>
                     </div>
                     <div className="cache-stats__item">
-                      <span className="cache-stats__label">Total Size</span>
+                      <span className="cache-stats__label">Size</span>
                       <span className="cache-stats__value">
                         {cacheStats.totalSize}
                       </span>
                     </div>
                   </div>
-
-                  {cacheStats.items.length > 0 && (
-                    <div className="cache-items">
-                      <h4 className="cache-items__title">Cached Items</h4>
-                      <ul className="cache-items__list">
-                        {cacheStats.items.map((item, index) => (
-                          <li key={index} className="cache-item">
-                            <span className="cache-item__key">{item.key}</span>
-                            <div className="cache-item__meta">
-                              <span className="cache-item__size">
-                                {item.size}
-                              </span>
-                              <span className="cache-item__expiry">
-                                {item.expiresIn}
-                              </span>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </section>
 
-                {/* Info Section */}
-                <section className="settings-section settings-section--info">
+                {/* Clear Data Section */}
+                <section className="settings-section settings-section--compact">
                   <h3 className="settings-section__title">
-                    <i className="fas fa-info-circle"></i>
-                    About Site Data
-                  </h3>
-                  <ul className="settings-info">
-                    <li className="settings-info__item">
-                      <i className="fas fa-check-circle"></i>
-                      <span>
-                        <strong>Cache:</strong> Stores API responses for 2 hours
-                      </span>
-                    </li>
-                    <li className="settings-info__item">
-                      <i className="fas fa-check-circle"></i>
-                      <span>
-                        <strong>Preferences:</strong> Saves your view settings
-                      </span>
-                    </li>
-                    <li className="settings-info__item">
-                      <i className="fas fa-check-circle"></i>
-                      <span>
-                        <strong>Auto-Clear:</strong> Cache expires automatically
-                      </span>
-                    </li>
-                  </ul>
-                </section>
-
-                {/* Actions Section */}
-                <section className="settings-section">
-                  <h3 className="settings-section__title">
-                    <i className="fas fa-sliders-h"></i>
-                    Actions
+                    <i className="fas fa-broom"></i>
+                    Clear Site Data
                   </h3>
 
-                  <div className="settings-actions">
-                    <button
-                      className="settings-btn settings-btn--warning"
-                      onClick={handleClearCache}
-                    >
-                      <i className="fas fa-broom"></i>
-                      <span>Clear Cache</span>
-                    </button>
+                  {/* Checkboxes */}
+                  <div className="clear-options">
+                    <label className="clear-option">
+                      <input
+                        type="checkbox"
+                        checked={clearOptions.cachedData}
+                        onChange={() => handleToggleClearOption("cachedData")}
+                      />
+                      <div className="clear-option__content">
+                        <div className="clear-option__label">
+                          <i className="fas fa-database"></i>
+                          Cached API Data
+                        </div>
+                        <div className="clear-option__description">
+                          Characters & movies downloaded from server (
+                          {cacheStats.totalItems} items, {cacheStats.totalSize})
+                        </div>
+                      </div>
+                    </label>
 
-                    <button
-                      className="settings-btn settings-btn--info"
-                      onClick={handleResetPreferences}
-                    >
-                      <i className="fas fa-undo-alt"></i>
-                      <span>Reset Preferences</span>
-                    </button>
+                    <label className="clear-option">
+                      <input
+                        type="checkbox"
+                        checked={clearOptions.preferences}
+                        onChange={() => handleToggleClearOption("preferences")}
+                      />
+                      <div className="clear-option__content">
+                        <div className="clear-option__label">
+                          <i className="fas fa-sliders-h"></i>
+                          View Preferences
+                        </div>
+                        <div className="clear-option__description">
+                          Grid/list views, search filters, pagination settings
+                        </div>
+                      </div>
+                    </label>
 
-                    <button
-                      className="settings-btn settings-btn--danger"
-                      onClick={handleResetAll}
-                    >
-                      <i className="fas fa-exclamation-triangle"></i>
-                      <span>Reset All Data</span>
-                    </button>
+                    <label className="clear-option">
+                      <input
+                        type="checkbox"
+                        checked={clearOptions.favorites}
+                        onChange={() => handleToggleClearOption("favorites")}
+                      />
+                      <div className="clear-option__content">
+                        <div className="clear-option__label">
+                          <i className="fas fa-heart"></i>
+                          Favorites
+                        </div>
+                        <div className="clear-option__description">
+                          Your saved favorite characters & movies
+                        </div>
+                      </div>
+                    </label>
+
+                    <label className="clear-option">
+                      <input
+                        type="checkbox"
+                        checked={clearOptions.disclaimer}
+                        onChange={() => handleToggleClearOption("disclaimer")}
+                      />
+                      <div className="clear-option__content">
+                        <div className="clear-option__label">
+                          <i className="fas fa-file-contract"></i>
+                          Disclaimer Agreement
+                        </div>
+                        <div className="clear-option__description">
+                          Access gate - you'll need to re-accept on next visit
+                        </div>
+                      </div>
+                    </label>
                   </div>
+
+                  {/* Clear Button */}
+                  <button
+                    className="settings-btn settings-btn--primary"
+                    onClick={handleClearSelectedData}
+                    disabled={
+                      !clearOptions.cachedData &&
+                      !clearOptions.preferences &&
+                      !clearOptions.favorites &&
+                      !clearOptions.disclaimer
+                    }
+                  >
+                    <i className="fas fa-broom"></i>
+                    <span>Clear Selected Data</span>
+                  </button>
                 </section>
               </div>
             )}

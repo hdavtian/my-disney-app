@@ -7,6 +7,7 @@ interface PagePreferences {
   viewMode: ViewMode;
   gridItemsToShow: number;
   searchQuery: string;
+  gridColumns: number;
   lastUpdated: number;
 }
 
@@ -20,6 +21,7 @@ const DEFAULT_PAGE_PREFERENCES: PagePreferences = {
   viewMode: "grid",
   gridItemsToShow: 20,
   searchQuery: "",
+  gridColumns: 0, // 0 means use default per page
   lastUpdated: Date.now(),
 };
 
@@ -53,6 +55,10 @@ const uiPreferencesSlice = createSlice({
         `📊 Movies gridItemsToShow incremented to: ${state.movies.gridItemsToShow}`
       );
     },
+    setMoviesGridColumns: (state, action: PayloadAction<number>) => {
+      state.movies.gridColumns = action.payload;
+      state.movies.lastUpdated = Date.now();
+    },
     resetMoviesPreferences: (state) => {
       state.movies = { ...DEFAULT_PAGE_PREFERENCES };
     },
@@ -76,6 +82,10 @@ const uiPreferencesSlice = createSlice({
       console.log(
         `📊 Characters gridItemsToShow incremented to: ${state.characters.gridItemsToShow}`
       );
+    },
+    setCharactersGridColumns: (state, action: PayloadAction<number>) => {
+      state.characters.gridColumns = action.payload;
+      state.characters.lastUpdated = Date.now();
     },
     resetCharactersPreferences: (state) => {
       state.characters = { ...DEFAULT_PAGE_PREFERENCES };
@@ -111,11 +121,13 @@ export const {
   setMoviesGridItemsToShow,
   setMoviesSearchQuery,
   incrementMoviesGridItems,
+  setMoviesGridColumns,
   resetMoviesPreferences,
   setCharactersViewMode,
   setCharactersGridItemsToShow,
   setCharactersSearchQuery,
   incrementCharactersGridItems,
+  setCharactersGridColumns,
   resetCharactersPreferences,
   setTheme,
   toggleTheme,

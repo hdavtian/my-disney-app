@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useFavorites } from "../../hooks/useFavorites";
 import { SiteSettings } from "../SiteSettings";
@@ -8,6 +8,7 @@ export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const { favorites } = useFavorites();
+  const location = useLocation();
 
   const navItems = [
     { path: "/movies", label: "Movies" },
@@ -15,6 +16,23 @@ export const Navigation = () => {
     { path: "/favorites", label: "Favorites" },
     { path: "/about", label: "About this Demo" },
   ];
+
+  // Helper function to determine if a nav item should be active
+  const isNavItemActive = (path: string): boolean => {
+    if (path === "/movies") {
+      return (
+        location.pathname === "/movies" ||
+        location.pathname.startsWith("/movie/")
+      );
+    }
+    if (path === "/characters") {
+      return (
+        location.pathname === "/characters" ||
+        location.pathname.startsWith("/character/")
+      );
+    }
+    return location.pathname === path;
+  };
 
   return (
     <nav className="navigation" role="navigation" aria-label="Main navigation">
@@ -40,9 +58,9 @@ export const Navigation = () => {
             <NavLink
               key={item.path}
               to={item.path}
-              className={({ isActive }) =>
-                `navigation__link ${isActive ? "navigation__link--active" : ""}`
-              }
+              className={`navigation__link ${
+                isNavItemActive(item.path) ? "navigation__link--active" : ""
+              }`}
             >
               <motion.span
                 whileHover={{ y: -2 }}
@@ -98,11 +116,11 @@ export const Navigation = () => {
             <NavLink
               key={item.path}
               to={item.path}
-              className={({ isActive }) =>
-                `navigation__mobile-link ${
-                  isActive ? "navigation__mobile-link--active" : ""
-                }`
-              }
+              className={`navigation__mobile-link ${
+                isNavItemActive(item.path)
+                  ? "navigation__mobile-link--active"
+                  : ""
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               {item.label}

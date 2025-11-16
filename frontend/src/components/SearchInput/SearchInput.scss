@@ -32,7 +32,7 @@
         &--focused {
             background: var(--input-bg-hover);
             border-color: var(--input-border-focus);
-            box-shadow: 0 0 0 2px var(--input-focus-shadow);
+            box-shadow: none;
         }
     }
 
@@ -55,6 +55,7 @@
         font-size: var(--text-sm);
         padding: var(--space-2) var(--space-2);
         min-width: 0;
+        box-shadow: none !important;
 
         &::placeholder {
             color: var(--text-tertiary);
