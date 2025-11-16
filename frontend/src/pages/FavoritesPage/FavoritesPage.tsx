@@ -6,7 +6,10 @@ import { useFavorites } from "../../hooks/useFavorites";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchMovies } from "../../store/slices/moviesSlice";
 import { fetchCharacters } from "../../store/slices/charactersSlice";
-import { setFavoritesGridColumns } from "../../store/slices/uiPreferencesSlice";
+import {
+  setFavoritesGridColumns,
+  setFavoritesSearchQuery,
+} from "../../store/slices/uiPreferencesSlice";
 import {
   addRecentlyViewedMovie,
   addRecentlyViewedCharacter,
@@ -29,8 +32,9 @@ export const FavoritesPage = () => {
   const { favorites } = useFavorites();
   const allMovies = useAppSelector((state) => state.movies.movies);
   const allCharacters = useAppSelector((state) => state.characters.characters);
-  const gridColumns = useAppSelector(
-    (state) => state.uiPreferences.favorites?.gridColumns ?? 0
+  const { gridColumns, searchQuery } = useAppSelector(
+    (state) =>
+      state.uiPreferences.favorites ?? { gridColumns: 0, searchQuery: "" }
   );
 
   // Grid size configuration
@@ -73,38 +77,59 @@ export const FavoritesPage = () => {
 
   const hasFavorites = favoriteItems.length > 0;
 
-  // maintain a filtered list controlled by the page search
-  const [filteredFavorites, setFilteredFavorites] =
-    useState<FavoriteItem[]>(favoriteItems);
-
-  // keep in sync when favorites or source data changes
-  useEffect(() => {
-    setFilteredFavorites(favoriteItems);
-  }, [favoriteItems]);
-
   // Build a lightweight search index of favorite items for SearchInput
-  const searchIndex = favoriteItems.map((item) => {
-    if (item.type === "movie") {
-      const m = item.data as Movie;
+  const searchIndex = useMemo(() => {
+    return favoriteItems.map((item) => {
+      if (item.type === "movie") {
+        const m = item.data as Movie;
+        return {
+          id: `movie-${m.id}`,
+          title: m.title,
+          secondary: `${m.releaseYear || ""}`,
+          original: item,
+        };
+      }
+      const c = item.data as Character;
       return {
-        id: `movie-${m.id}`,
-        title: m.title,
-        secondary: `${m.releaseYear || ""}`,
+        id: `char-${c.id}`,
+        title: c.name,
+        secondary: `${c.debut || ""}`,
         original: item,
       };
-    }
-    const c = item.data as Character;
-    return {
-      id: `char-${c.id}`,
-      title: c.name,
-      secondary: `${c.debut || ""}`,
-      original: item,
-    };
-  });
+    });
+  }, [favoriteItems]);
 
-  const handleSearch = useCallback((results: any[]) => {
-    setFilteredFavorites(results.map((r) => r.original as FavoriteItem));
-  }, []);
+  // Apply search filter to favoriteItems
+  const filteredFavorites = useMemo(() => {
+    if (!searchQuery) {
+      return favoriteItems;
+    }
+
+    // Filter favorites based on searchQuery
+    const lowerQuery = searchQuery.toLowerCase();
+    return favoriteItems.filter((item) => {
+      if (item.type === "movie") {
+        const movie = item.data as Movie;
+        return (
+          movie.title.toLowerCase().includes(lowerQuery) ||
+          movie.releaseYear?.toString().includes(lowerQuery)
+        );
+      } else {
+        const character = item.data as Character;
+        return (
+          character.name.toLowerCase().includes(lowerQuery) ||
+          character.debut?.toLowerCase().includes(lowerQuery)
+        );
+      }
+    });
+  }, [favoriteItems, searchQuery]);
+
+  const handleSearch = useCallback(
+    (_results: any[], query: string) => {
+      dispatch(setFavoritesSearchQuery(query));
+    },
+    [dispatch]
+  );
 
   const handleMovieClick = useCallback(
     (movieId: string) => {
@@ -137,6 +162,10 @@ export const FavoritesPage = () => {
     [dispatch]
   );
 
+  const handleResetSearch = useCallback(() => {
+    dispatch(setFavoritesSearchQuery(""));
+  }, [dispatch]);
+
   return (
     <motion.div
       className="page-container favorites-page"
@@ -159,9 +188,20 @@ export const FavoritesPage = () => {
             searchFields={["title", "secondary"]}
             placeholder="Search favorites..."
             minCharacters={1}
+            initialValue={searchQuery}
             getDisplayText={(i: any) => i.title}
             getSecondaryText={(i: any) => i.secondary}
           />
+          {searchQuery && (
+            <button
+              className="favorites-page__reset-search"
+              onClick={handleResetSearch}
+              aria-label="Reset search"
+            >
+              <i className="fas fa-times-circle"></i>
+              <span>Reset Search</span>
+            </button>
+          )}
         </div>
       </div>
 
