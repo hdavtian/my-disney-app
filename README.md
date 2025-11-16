@@ -32,7 +32,8 @@ Disney App is a creative and technical showcase demonstrating modern full-stack 
 
 - **Immersive UI/UX**: Cinematic design inspired by Disney+, Netflix, and Hulu
 - **Character Catalog**: Browse and explore 180+ Disney characters
-- **Movie Database**: Comprehensive Disney movie collection
+- **Movie Database**: Comprehensive Disney movie collection with 830+ films
+- **Parks & Attractions**: Explore 12 Disney parks worldwide with 334 attractions
 - **Interactive Quiz**: Test your Disney knowledge
 - **Dynamic Carousels**: Featured content with smooth animations
 - **Responsive Design**: Mobile-first, works across all devices
@@ -176,6 +177,32 @@ Features:
 
 - `GET /api/carousels?location=homepage` - Get carousel items
 
+**Disney Parks API**:
+
+- `GET /api/parks` - Get all Disney parks worldwide
+- `GET /api/parks/{urlId}` - Get park by URL ID
+- `GET /api/parks/country/{country}` - Get parks by country
+- `GET /api/parks/resort/{resort}` - Get parks by resort name
+- `GET /api/parks/castle-parks` - Get all castle parks
+
+**Disney Attractions API**:
+
+- `GET /api/attractions` - Get all park attractions
+- `GET /api/attractions/{urlId}` - Get attraction by URL ID
+- `GET /api/attractions/park/{parkUrlId}` - Get attractions by park
+- `GET /api/attractions/type/{type}` - Get attractions by type
+- `GET /api/attractions/thrill-level/{level}` - Get attractions by thrill level
+- `GET /api/attractions/operational/{isOperational}` - Get operational/closed attractions
+- `GET /api/attractions/search?q={query}` - Search attractions by keyword
+
+**Admin API** (Data Management):
+
+- `POST /api/admin/reseed-characters` - Reseed character data
+- `POST /api/admin/reseed-movies` - Reseed movie data
+- `POST /api/admin/reseed-parks` - Reseed parks and attractions
+- `POST /api/admin/reseed-attractions` - Reseed attractions only
+- `POST /api/admin/reseed-all` - Reseed entire database
+
 **OpenAPI Specification**:
 
 - JSON: `http://localhost:8080/v3/api-docs`
@@ -290,10 +317,19 @@ backend/
 
 ### Movie Collection
 
-- Comprehensive Disney movie database
+- Comprehensive Disney movie database with 830+ films
 - Movie detail pages with cast
 - Release year, genre, and description
 - High-quality movie posters
+
+### Disney Parks & Attractions
+
+- **12 Disney Parks Worldwide**: Explore all major Disney theme parks
+- **334 Attractions**: Complete attraction catalog across all parks
+- **Park Details**: Location, opening date, theme, and description
+- **Attraction Filtering**: By park, type, thrill level, and operational status
+- **Search Functionality**: Find attractions by keyword
+- **Castle Parks**: Identify iconic castle parks
 
 ### Character Quiz Game
 
@@ -353,6 +389,7 @@ docker-compose down  # Stop containers
 
 Comprehensive documentation available in `/docs`:
 
+- **[DISNEY_PARKS_ATTRACTIONS_IMPLEMENTATION_PLAN.md](docs/DISNEY_PARKS_ATTRACTIONS_IMPLEMENTATION_PLAN.md)** - Disney Parks feature documentation
 - **[STORYBOOK_INTEGRATION_GUIDE.md](docs/STORYBOOK_INTEGRATION_GUIDE.md)** - Storybook setup and usage
 - **[SWAGGER_OPENAPI_INTEGRATION.md](docs/SWAGGER_OPENAPI_INTEGRATION.md)** - Swagger implementation guide
 - **[DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md)** - Deployment instructions
