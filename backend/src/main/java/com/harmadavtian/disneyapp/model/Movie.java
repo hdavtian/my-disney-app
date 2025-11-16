@@ -1,5 +1,6 @@
 package com.harmadavtian.disneyapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.HashSet;
@@ -55,6 +56,7 @@ public class Movie {
 
     @ManyToMany
     @JoinTable(name = "movie_characters", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "character_id"))
+    @JsonIgnore
     private Set<Character> characters = new HashSet<>();
 
     public Long getId() {

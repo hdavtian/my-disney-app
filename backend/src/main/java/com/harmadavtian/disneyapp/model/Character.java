@@ -1,5 +1,6 @@
 package com.harmadavtian.disneyapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -64,6 +65,7 @@ public class Character {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "characters")
+    @JsonIgnore
     private Set<Movie> movies = new HashSet<>();
 
     public Long getId() {

@@ -1,10 +1,13 @@
 package com.harmadavtian.disneyapp.service;
 
+import com.harmadavtian.disneyapp.dto.MovieSummaryDto;
 import com.harmadavtian.disneyapp.model.Character;
+import com.harmadavtian.disneyapp.model.Movie;
 import com.harmadavtian.disneyapp.repository.CharacterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CharacterService {
@@ -44,5 +47,37 @@ public class CharacterService {
      */
     public List<Long> getRandomCharacterIdsExcluding(Long excludeId, int count) {
         return characterRepository.findRandomIdsExcluding(excludeId, count);
+    }
+
+    /**
+     * Get all movies associated with a specific character.
+     * Returns movie summaries to prevent circular reference issues.
+     * 
+     * @param id The character ID
+     * @return List of MovieSummaryDto objects
+     */
+    public List<MovieSummaryDto> getCharacterMovies(Long id) {
+        Character character = characterRepository.findById(id).orElse(null);
+        if (character == null) {
+            return List.of();
+        }
+
+        return character.getMovies().stream()
+                .map(this::convertToMovieSummary)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Convert Movie entity to MovieSummaryDto.
+     */
+    private MovieSummaryDto convertToMovieSummary(Movie movie) {
+        return new MovieSummaryDto(
+                movie.getId(),
+                movie.getUrlId(),
+                movie.getTitle(),
+                movie.getShortDescription(),
+                movie.getCreationYear(),
+                movie.getMovieRating(),
+                movie.getImage1());
     }
 }

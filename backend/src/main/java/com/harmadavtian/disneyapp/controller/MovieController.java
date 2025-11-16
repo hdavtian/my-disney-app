@@ -1,5 +1,6 @@
 package com.harmadavtian.disneyapp.controller;
 
+import com.harmadavtian.disneyapp.dto.CharacterSummaryDto;
 import com.harmadavtian.disneyapp.model.Movie;
 import com.harmadavtian.disneyapp.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,5 +55,20 @@ public class MovieController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{id}/characters")
+    @Operation(summary = "Get characters in a movie", description = "Retrieves all characters that appear in a specific movie. "
+            +
+            "Returns character summary information to avoid circular references.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved movie characters", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CharacterSummaryDto.class))),
+            @ApiResponse(responseCode = "404", description = "Movie not found with the specified ID", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<List<CharacterSummaryDto>> getMovieCharacters(
+            @Parameter(description = "Unique identifier of the movie", example = "1", required = true) @PathVariable Long id) {
+        List<CharacterSummaryDto> characters = movieService.getMovieCharacters(id);
+        return ResponseEntity.ok(characters);
     }
 }
