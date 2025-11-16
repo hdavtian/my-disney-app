@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Movie } from "../../types/Movie";
 import { MovieCard } from "../MovieCard";
 import { SearchInput } from "../SearchInput";
+import { CardSizeControl } from "../CardSizeControl";
 import "./MoviesGridView.scss";
 
 export interface MoviesGridViewProps {
@@ -14,6 +15,18 @@ export interface MoviesGridViewProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   isLoadingMore?: boolean;
+  /** Number of columns to display (0 = use default) */
+  gridColumns?: number;
+  /** Callback when grid columns change */
+  onGridColumnsChange?: (columns: number) => void;
+  /** Min columns for grid size control */
+  minColumns?: number;
+  /** Max columns for grid size control */
+  maxColumns?: number;
+  /** Default columns for grid size control */
+  defaultColumns?: number;
+  /** Labels for grid size control */
+  gridLabels?: string[];
 }
 
 export const MoviesGridView = ({
@@ -23,6 +36,12 @@ export const MoviesGridView = ({
   onLoadMore,
   hasMore,
   isLoadingMore,
+  gridColumns = 0,
+  onGridColumnsChange,
+  minColumns = 3,
+  maxColumns = 6,
+  defaultColumns = 4,
+  gridLabels = ["Cozy", "Normal", "Compact", "Dense"],
 }: MoviesGridViewProps) => {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies);
 
@@ -98,7 +117,26 @@ export const MoviesGridView = ({
         </motion.div>
       ) : (
         <>
-          <div className="movies-grid-view__grid">
+          {onGridColumnsChange && (
+            <div className="movies-grid-view__grid-controls">
+              <CardSizeControl
+                currentColumns={gridColumns}
+                minColumns={minColumns}
+                maxColumns={maxColumns}
+                defaultColumns={defaultColumns}
+                onChange={onGridColumnsChange}
+                labels={gridLabels}
+              />
+            </div>
+          )}
+          <div
+            className="movies-grid-view__grid"
+            style={
+              gridColumns > 0
+                ? ({ "--grid-columns": gridColumns } as React.CSSProperties)
+                : undefined
+            }
+          >
             {filteredMovies.map((movie, index) => (
               <MovieCard
                 key={movie.id}

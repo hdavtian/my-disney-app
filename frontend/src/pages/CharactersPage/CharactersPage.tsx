@@ -13,6 +13,7 @@ import {
   setCharactersViewMode,
   setCharactersSearchQuery,
   incrementCharactersGridItems,
+  setCharactersGridColumns,
 } from "../../store/slices/uiPreferencesSlice";
 import { initializeCachedCharacters } from "../../utils/quizApiCached";
 import { addRecentlyViewedCharacter } from "../../store/slices/recentlyViewedSlice";
@@ -28,9 +29,8 @@ export const CharactersPage = () => {
   const navigate = useNavigate();
   const { characters, displayedCharacters, loading, error, pagination } =
     useAppSelector((state) => state.characters);
-  const { viewMode, gridItemsToShow, searchQuery } = useAppSelector(
-    (state) => state.uiPreferences.characters
-  );
+  const { viewMode, gridItemsToShow, searchQuery, gridColumns } =
+    useAppSelector((state) => state.uiPreferences.characters);
 
   // Track if we've restored pagination state
   const hasRestoredPagination = useRef(false);
@@ -145,6 +145,13 @@ export const CharactersPage = () => {
     [dispatch]
   );
 
+  const handleGridColumnsChange = useCallback(
+    (columns: number) => {
+      dispatch(setCharactersGridColumns(columns));
+    },
+    [dispatch]
+  );
+
   if (loading) {
     return (
       <motion.div
@@ -230,6 +237,8 @@ export const CharactersPage = () => {
             hasMore={pagination.hasMore}
             isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
+            gridColumns={gridColumns}
+            onGridColumnsChange={handleGridColumnsChange}
           />
         ) : (
           <CharactersListView

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Character } from "../../types/Character";
 import { CharacterCard } from "../CharacterCard";
 import { SearchInput } from "../SearchInput";
+import { CardSizeControl } from "../CardSizeControl";
 import "./CharactersGridView.scss";
 
 export interface CharactersGridViewProps {
@@ -14,6 +15,18 @@ export interface CharactersGridViewProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   isLoadingMore?: boolean;
+  /** Number of columns to display (0 = use default) */
+  gridColumns?: number;
+  /** Callback when grid columns change */
+  onGridColumnsChange?: (columns: number) => void;
+  /** Min columns for grid size control */
+  minColumns?: number;
+  /** Max columns for grid size control */
+  maxColumns?: number;
+  /** Default columns for grid size control */
+  defaultColumns?: number;
+  /** Labels for grid size control */
+  gridLabels?: string[];
 }
 
 export const CharactersGridView = ({
@@ -23,6 +36,12 @@ export const CharactersGridView = ({
   onLoadMore,
   hasMore,
   isLoadingMore,
+  gridColumns = 0,
+  onGridColumnsChange,
+  minColumns = 4,
+  maxColumns = 8,
+  defaultColumns = 6,
+  gridLabels = ["Normal", "Comfy", "Compact", "Dense", "Max"],
 }: CharactersGridViewProps) => {
   const [filteredCharacters, setFilteredCharacters] =
     useState<Character[]>(characters);
@@ -104,7 +123,26 @@ export const CharactersGridView = ({
         </motion.div>
       ) : (
         <>
-          <div className="characters-grid-view__grid">
+          {onGridColumnsChange && (
+            <div className="characters-grid-view__grid-controls">
+              <CardSizeControl
+                currentColumns={gridColumns}
+                minColumns={minColumns}
+                maxColumns={maxColumns}
+                defaultColumns={defaultColumns}
+                onChange={onGridColumnsChange}
+                labels={gridLabels}
+              />
+            </div>
+          )}
+          <div
+            className="characters-grid-view__grid"
+            style={
+              gridColumns > 0
+                ? ({ "--grid-columns": gridColumns } as React.CSSProperties)
+                : undefined
+            }
+          >
             {filteredCharacters.map((character, index) => (
               <CharacterCard
                 key={character.id}

@@ -55,11 +55,20 @@
         }
     }
 
+    &__grid-controls {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: var(--space-4);
+        padding: 0 var(--space-2);
+    }
+
     &__grid {
         display: grid;
         padding: 0.5rem;
-        grid-template-columns: repeat(1, minmax(0, 1fr));
+        --grid-columns: 1;
+        grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
         gap: var(--space-3);
+        transition: grid-template-columns 0.3s ease;
 
         /* Ensure content never forces tracks to grow unevenly */
         >* {
@@ -68,27 +77,27 @@
 
         /* Tablet: 2 columns (481–768px) */
         @media (min-width: 481px) {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            --grid-columns: 2;
             gap: var(--space-4);
             padding: 0.75rem;
         }
 
         /* Small Desktop: 3 columns (769–1279px) */
         @media (min-width: 769px) {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            --grid-columns: 3;
             gap: var(--space-5);
             padding: 1rem;
         }
 
         /* Large Desktop: 4 columns (1280–1919px) */
         @media (min-width: 1280px) {
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            --grid-columns: 4;
             gap: var(--space-6);
         }
 
         /* Extra Large: 6 columns (1920px+) */
         @media (min-width: 1920px) {
-            grid-template-columns: repeat(6, minmax(0, 1fr));
+            --grid-columns: 6;
             gap: var(--space-6);
         }
     }

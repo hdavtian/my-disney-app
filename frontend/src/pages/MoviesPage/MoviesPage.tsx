@@ -13,6 +13,7 @@ import {
   setMoviesViewMode,
   setMoviesSearchQuery,
   incrementMoviesGridItems,
+  setMoviesGridColumns,
 } from "../../store/slices/uiPreferencesSlice";
 import { addRecentlyViewedMovie } from "../../store/slices/recentlyViewedSlice";
 import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
@@ -26,9 +27,8 @@ export const MoviesPage = () => {
   const navigate = useNavigate();
   const { movies, displayedMovies, loading, error, pagination } =
     useAppSelector((state) => state.movies);
-  const { viewMode, gridItemsToShow, searchQuery } = useAppSelector(
-    (state) => state.uiPreferences.movies
-  );
+  const { viewMode, gridItemsToShow, searchQuery, gridColumns } =
+    useAppSelector((state) => state.uiPreferences.movies);
 
   // Track if we've restored pagination state
   const hasRestoredPagination = useRef(false);
@@ -128,6 +128,13 @@ export const MoviesPage = () => {
     },
     [dispatch]
   );
+
+  const handleGridColumnsChange = useCallback(
+    (columns: number) => {
+      dispatch(setMoviesGridColumns(columns));
+    },
+    [dispatch]
+  );
   if (loading) {
     return (
       <motion.div
@@ -211,6 +218,8 @@ export const MoviesPage = () => {
             hasMore={pagination.hasMore}
             isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
+            gridColumns={gridColumns}
+            onGridColumnsChange={handleGridColumnsChange}
           />
         ) : (
           <MoviesListView movies={movies} onMovieClick={handleMovieClick} />
