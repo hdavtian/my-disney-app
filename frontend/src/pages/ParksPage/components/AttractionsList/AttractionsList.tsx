@@ -29,7 +29,6 @@ const AttractionCard = ({
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.05, duration: 0.3 }}
-      whileHover={{ scale: 1.02 }}
     >
       <div className="attraction-card__image">
         <img
@@ -39,6 +38,7 @@ const AttractionCard = ({
         />
       </div>
       <div className="attraction-card__overlay" />
+      <div className="attraction-card__active-overlay" />
       <div className="attraction-card__content">
         <h3 className="attraction-card__name">{attraction.name}</h3>
         {attraction.attraction_type && (

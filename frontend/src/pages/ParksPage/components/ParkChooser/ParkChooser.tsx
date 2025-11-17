@@ -110,8 +110,8 @@ export const ParkChooser = ({ parks, selectedPark }: ParkChooserProps) => {
       <motion.div
         key={`info-${currentPark?.url_id}`}
         className="park-chooser__info"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.4 }}
       >
         <h1 className="park-chooser__name">{currentPark?.name}</h1>
