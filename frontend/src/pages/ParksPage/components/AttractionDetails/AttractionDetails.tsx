@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Attraction } from "../../../../types/Attraction";
+import { getImageUrl } from "../../../../config/assets";
 import "./AttractionDetails.scss";
 
 interface AttractionDetailsProps {
@@ -28,11 +28,9 @@ export const AttractionDetails = ({
     );
   }
 
-  const [imageError, setImageError] = useState(false);
-  const bgImage =
-    imageError || !attraction.image_1
-      ? `https://picsum.photos/seed/attraction-detail-${attraction.url_id}/1920/1080`
-      : attraction.image_1;
+  const bgImage = attraction.image_1
+    ? getImageUrl("attractions", attraction.image_1)
+    : "/placeholder.png";
 
   return (
     <motion.div
@@ -48,7 +46,6 @@ export const AttractionDetails = ({
         <img
           src={bgImage}
           alt={attraction.name}
-          onError={() => setImageError(true)}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </div>

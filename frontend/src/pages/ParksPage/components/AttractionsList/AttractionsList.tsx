@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Attraction } from "../../../../types/Attraction";
+import { getImageUrl } from "../../../../config/assets";
 import { useAppDispatch } from "../../../../hooks/redux";
 import { selectAttraction } from "../../../../store/slices/attractionsSlice";
 import "./AttractionsList.scss";
@@ -18,11 +18,9 @@ const AttractionCard = ({
   onClick,
   isSelected,
 }: AttractionCardProps) => {
-  const [imageError, setImageError] = useState(false);
-  const imageUrl =
-    imageError || !attraction.image_1
-      ? `https://picsum.photos/seed/attraction-${attraction.url_id}/400/300`
-      : attraction.image_1;
+  const imageUrl = attraction.image_1
+    ? getImageUrl("attractions", attraction.image_1)
+    : "/placeholder.png";
 
   return (
     <motion.button
@@ -35,11 +33,7 @@ const AttractionCard = ({
       transition={{ delay: index * 0.05, duration: 0.3 }}
     >
       <div className="attraction-card__image">
-        <img
-          src={imageUrl}
-          alt={attraction.name}
-          onError={() => setImageError(true)}
-        />
+        <img src={imageUrl} alt={attraction.name} />
       </div>
       <div className="attraction-card__overlay" />
       <div className="attraction-card__active-overlay" />

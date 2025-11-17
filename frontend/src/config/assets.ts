@@ -4,7 +4,7 @@
  */
 
 // Type definitions for asset kinds
-type AssetKind = "movies" | "characters" | "parks";
+type AssetKind = "movies" | "characters" | "parks" | "attractions";
 
 // Configuration constants
 const ALLOWED_FILENAME_PATTERN = /^[a-zA-Z0-9._-]+$/;
@@ -96,7 +96,7 @@ function sanitizeFilename(filename: string): string | null {
 /**
  * Construct a full URL for an image asset.
  *
- * @param kind - The type of asset ('movies', 'characters', or 'parks')
+ * @param kind - The type of asset ('movies', 'characters', 'parks', or 'attractions')
  * @param filename - The filename (without path or extension)
  * @returns Full URL to the asset or placeholder if invalid
  *
@@ -136,9 +136,12 @@ export function getImageUrl(kind: AssetKind, filename: string): string {
   const baseUrl = getAssetsBaseUrl();
   const prefix = getAssetsPrefix();
 
+  // Map attractions to parks directory since they share the same image repository
+  const directory = kind === "attractions" ? "parks" : kind;
+
   // Construct the full URL with /webp subdirectory
-  // Format: {baseUrl}{prefix}/{kind}/webp/{filename}.webp
-  const url = `${baseUrl}${prefix}/${kind}/webp/${filenameWithExt}`;
+  // Format: {baseUrl}{prefix}/{directory}/webp/{filename}.webp
+  const url = `${baseUrl}${prefix}/${directory}/webp/${filenameWithExt}`;
 
   // Collapse any duplicate slashes (except in protocol://)
   return url.replace(/([^:]\/)\/+/g, "$1");
