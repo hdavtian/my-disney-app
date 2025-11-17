@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Park } from "../../../../types/Park";
+import { getImageUrl } from "../../../../config/assets";
 import { useAppDispatch } from "../../../../hooks/redux";
 import { selectPark } from "../../../../store/slices/parksSlice";
 import "./ParkChooser.scss";
@@ -76,13 +77,9 @@ export const ParkChooser = ({ parks, selectedPark }: ParkChooserProps) => {
   }
 
   const currentPark = parks[currentIndex];
-  const [imageError, setImageError] = useState(false);
-  const backgroundImage =
-    imageError || !currentPark?.image_1
-      ? `https://picsum.photos/seed/park-${
-          currentPark?.url_id || "default"
-        }/1920/1080`
-      : currentPark.image_1;
+  const backgroundImage = currentPark?.image_1
+    ? getImageUrl("parks", currentPark.image_1)
+    : "/placeholder.png";
 
   return (
     <div className="park-chooser" ref={containerRef}>
@@ -98,7 +95,6 @@ export const ParkChooser = ({ parks, selectedPark }: ParkChooserProps) => {
         <img
           src={backgroundImage}
           alt={currentPark?.name || "Park"}
-          onError={() => setImageError(true)}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </motion.div>

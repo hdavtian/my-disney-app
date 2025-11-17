@@ -4,7 +4,7 @@
  */
 
 // Type definitions for asset kinds
-type AssetKind = "movies" | "characters";
+type AssetKind = "movies" | "characters" | "parks";
 
 // Configuration constants
 const ALLOWED_FILENAME_PATTERN = /^[a-zA-Z0-9._-]+$/;
@@ -96,7 +96,7 @@ function sanitizeFilename(filename: string): string | null {
 /**
  * Construct a full URL for an image asset.
  *
- * @param kind - The type of asset ('movies' or 'characters')
+ * @param kind - The type of asset ('movies', 'characters', or 'parks')
  * @param filename - The filename (without path or extension)
  * @returns Full URL to the asset or placeholder if invalid
  *

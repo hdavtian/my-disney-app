@@ -14,7 +14,7 @@
     "short_description": "The original Disney theme park, where classic attractions, characters and storytelling began.",
     "long_description": "Opened in 1955, Disneyland Park in Anaheim is the first Disney theme park ever built. It features iconic lands such as Main Street, U.S.A., Fantasyland, Adventureland, Tomorrowland and more, all centered around Sleeping Beauty Castle. The park blends nostalgia, classic attractions and new experiences as the spiritual home of Disney parks.",
     "official_website": "https://disneyland.disney.go.com/destinations/disneyland/",
-    "image_1": null
+    "image_1": "disneyland-park-anaheim"
   },
   {
     "url_id": "disney-california-adventure",
@@ -31,7 +31,7 @@
     "short_description": "A cinematic, California-themed park featuring Pixar and Marvel lands next to Disneyland Park.",
     "long_description": "Disney California Adventure Park opened in 2001 and reimagines California through Disney storytelling. Guests can explore areas like Pixar Pier, Avengers Campus, Grizzly Peak and Cars Land, combining thrill rides, nighttime spectaculars and character-driven experiences inspired by Disney, Pixar and Marvel films.",
     "official_website": "https://disneyland.disney.go.com/destinations/disney-california-adventure/",
-    "image_1": null
+    "image_1": "disney-california-adventure"
   },
   {
     "url_id": "magic-kingdom",
@@ -48,7 +48,7 @@
     "short_description": "Walt Disney World’s flagship castle park, centered on Cinderella Castle and classic Disney lands.",
     "long_description": "Magic Kingdom opened in 1971 as the first theme park at Walt Disney World. It is organized around Cinderella Castle and six themed lands, including Main Street, U.S.A., Adventureland, Frontierland, Liberty Square, Fantasyland and Tomorrowland. The park focuses on classic Disney characters, family attractions and iconic nighttime spectaculars.",
     "official_website": "https://disneyworld.disney.go.com/destinations/magic-kingdom/",
-    "image_1": null
+    "image_1": "magic-kingdom"
   },
   {
     "url_id": "epcot",
@@ -65,7 +65,7 @@
     "short_description": "A park celebrating technology, imagination and world cultures, anchored by Spaceship Earth.",
     "long_description": "EPCOT opened in 1982 as a park inspired by ideas of progress and global community. It combines pavilions focused on imagination, nature and technology with the World Showcase, which highlights cultures and cuisines from around the globe. Seasonal festivals, nighttime spectaculars and educational attractions define the EPCOT experience.",
     "official_website": "https://disneyworld.disney.go.com/destinations/epcot/",
-    "image_1": null
+    "image_1": "epcot"
   },
   {
     "url_id": "disneys-hollywood-studios",
@@ -82,7 +82,7 @@
     "short_description": "A film- and TV-inspired park featuring Star Wars: Galaxy’s Edge, Toy Story Land and more.",
     "long_description": "Disney's Hollywood Studios opened in 1989 as a movie-themed park celebrating Hollywood storytelling. Over time it has evolved into a collection of large immersive lands, including Star Wars: Galaxy’s Edge and Toy Story Land, plus attractions inspired by Pixar, classic Hollywood and music. The park blends behind-the-scenes tributes with blockbuster IP experiences.",
     "official_website": "https://disneyworld.disney.go.com/destinations/hollywood-studios/",
-    "image_1": null
+    "image_1": "disneys-hollywood-studios"
   },
   {
     "url_id": "disneys-animal-kingdom",
@@ -99,7 +99,7 @@
     "short_description": "A massive zoological theme park where live animals, themed lands and conservation stories intersect.",
     "long_description": "Disney’s Animal Kingdom opened on Earth Day 1998 and is the largest Disney theme park by acreage. It centers on animal conservation and immersive lands such as Pandora – The World of Avatar, Africa and Asia. Guests encounter real animals on safaris and trails while also experiencing story-driven attractions and shows tied to nature-focused IP.",
     "official_website": "https://disneyworld.disney.go.com/destinations/animal-kingdom/",
-    "image_1": null
+    "image_1": "disneys-animal-kingdom"
   },
   {
     "url_id": "tokyo-disneyland",
@@ -116,7 +116,7 @@
     "short_description": "A classic castle park at Tokyo Disney Resort, featuring seven themed lands around Cinderella Castle.",
     "long_description": "Tokyo Disneyland opened in 1983 as the first Disney theme park outside the United States. Modeled after Disneyland and Magic Kingdom, it features seven themed lands such as World Bazaar, Fantasyland, Tomorrowland and Adventureland, built around Cinderella Castle. The park blends familiar attractions with local entertainment and seasonal events tailored to Japanese audiences.",
     "official_website": "https://www.tokyodisneyresort.jp/en/tdl.html",
-    "image_1": null
+    "image_1": "tokyo-disneyland"
   },
   {
     "url_id": "tokyo-disneysea",
@@ -133,7 +133,7 @@
     "short_description": "A uniquely ocean-themed Disney park with elaborate ports inspired by exploration and fantasy.",
     "long_description": "Tokyo DisneySea opened in 2001 and is themed to the stories, myths and romance of the sea. The park is divided into highly detailed ports such as Mediterranean Harbor, Mysterious Island, Arabian Coast and American Waterfront. Known for its immersive design and original attractions, it is often regarded as one of Disney’s most ambitious parks.",
     "official_website": "https://www.tokyodisneyresort.jp/en/tds.html",
-    "image_1": null
+    "image_1": "tokyo-disneysea"
   },
   {
     "url_id": "disneyland-park-paris",
@@ -150,7 +150,7 @@
     "short_description": "The flagship Disney park in Europe, reimagining the castle-park formula with French and European influences.",
     "long_description": "Disneyland Park at Disneyland Paris opened in 1992 as Europe’s primary Disney castle park. It features Sleeping Beauty Castle and lands such as Main Street, U.S.A., Frontierland, Adventureland, Fantasyland and Discoveryland. The park is known for its ornate architecture, seasonal festivals and integration of European design sensibilities into classic Disney storytelling.",
     "official_website": "https://www.disneylandparis.com/en-int/destinations/disneyland-park",
-    "image_1": null
+    "image_1": "disneyland-park-paris"
   },
   {
     "url_id": "walt-disney-studios-park",
@@ -167,7 +167,7 @@
     "short_description": "A film-themed park at Disneyland Paris that is being transformed with new immersive lands.",
     "long_description": "Walt Disney Studios Park opened in 2002 as a companion to Disneyland Park, focusing on filmmaking and animation. Over time it has added immersive areas like Worlds of Pixar and continues to undergo a large transformation, including new lands such as World of Frozen and a future retheme to Disney Adventure World. It emphasizes modern franchises and cinematic experiences.",
     "official_website": "https://www.disneylandparis.com/en-int/destinations/walt-disney-studios-park",
-    "image_1": null
+    "image_1": "walt-disney-studios-park"
   },
   {
     "url_id": "hong-kong-disneyland",
@@ -184,7 +184,7 @@
     "short_description": "A Disney castle park on Lantau Island featuring classic lands and newer areas like World of Frozen.",
     "long_description": "Hong Kong Disneyland opened in 2005 on Lantau Island as part of the Hong Kong Disneyland Resort. It offers lands such as Main Street, U.S.A., Fantasyland, Adventureland and Tomorrowland, along with unique additions like Mystic Point and the World of Frozen. The park incorporates local cultural considerations and continues to expand with new Marvel and Pixar experiences.",
     "official_website": "https://www.hongkongdisneyland.com/",
-    "image_1": null
+    "image_1": "hong-kong-disneyland"
   },
   {
     "url_id": "shanghai-disneyland",
@@ -201,6 +201,6 @@
     "short_description": "A modern Disney castle park in mainland China with large immersive lands and the Enchanted Storybook Castle.",
     "long_description": "Shanghai Disneyland opened in 2016 as the first Disney theme park in mainland China. It features the Enchanted Storybook Castle—the tallest Disney castle—as well as lands like Gardens of Imagination, Fantasyland, Treasure Cove and Tomorrowland. The park blends familiar Disney characters with design choices and experiences tailored specifically to Chinese guests.",
     "official_website": "https://www.shanghaidisneyresort.com/",
-    "image_1": null
+    "image_1": "shanghai-disneyland"
   }
 ]
