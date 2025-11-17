@@ -170,46 +170,42 @@ export const AttractionsList = ({
           {attractions.length} attractions
         </p>
         <div className="attractions-list__controls">
-          {showScrollUp && (
-            <button
-              className="attractions-list__control-btn"
-              onClick={scrollUp}
-              aria-label="Scroll up"
-              title="Scroll up"
-            >
-              ↑
-            </button>
-          )}
-          {showScrollDown && (
-            <button
-              className="attractions-list__control-btn"
-              onClick={scrollDown}
-              aria-label="Scroll down"
-              title="Scroll down"
-            >
-              ↓
-            </button>
-          )}
-          {showScrollTop && (
-            <button
-              className="attractions-list__control-btn attractions-list__control-btn--jump"
-              onClick={scrollToTop}
-              aria-label="Jump to top"
-              title="Jump to top"
-            >
-              ⇈
-            </button>
-          )}
-          {showScrollBottom && (
-            <button
-              className="attractions-list__control-btn attractions-list__control-btn--jump"
-              onClick={scrollToBottom}
-              aria-label="Jump to bottom"
-              title="Jump to bottom"
-            >
-              ⇊
-            </button>
-          )}
+          <button
+            className="attractions-list__control-btn attractions-list__control-btn--jump"
+            onClick={scrollToTop}
+            aria-label="Jump to top"
+            title="Jump to top"
+            disabled={!showScrollTop}
+          >
+            ⇈
+          </button>
+          <button
+            className="attractions-list__control-btn"
+            onClick={scrollUp}
+            aria-label="Scroll up"
+            title="Scroll up"
+            disabled={!showScrollUp}
+          >
+            ↑
+          </button>
+          <button
+            className="attractions-list__control-btn"
+            onClick={scrollDown}
+            aria-label="Scroll down"
+            title="Scroll down"
+            disabled={!showScrollDown}
+          >
+            ↓
+          </button>
+          <button
+            className="attractions-list__control-btn attractions-list__control-btn--jump"
+            onClick={scrollToBottom}
+            aria-label="Jump to bottom"
+            title="Jump to bottom"
+            disabled={!showScrollBottom}
+          >
+            ⇊
+          </button>
         </div>
       </div>
 

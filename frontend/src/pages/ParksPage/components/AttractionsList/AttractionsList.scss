@@ -67,14 +67,19 @@
         justify-content: center;
         backdrop-filter: blur(4px);
 
-        &:hover {
+        &:hover:not(:disabled) {
             background: var(--accent-primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        &:active {
+        &:active:not(:disabled) {
             transform: translateY(0);
+        }
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
         }
 
         &--jump {
