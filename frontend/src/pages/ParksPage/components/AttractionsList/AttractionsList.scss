@@ -2,8 +2,9 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--gray-800);
+    background: var(--gray-900);
     color: var(--white);
+    position: relative;
 
     &--loading,
     &--empty {
@@ -23,6 +24,9 @@
         padding: var(--space-8) var(--space-4);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         flex-shrink: 0;
+        background: var(--gray-800);
+        z-index: 5;
+        position: relative;
     }
 
     &__title {
@@ -46,21 +50,36 @@
         overflow-x: hidden;
         display: flex;
         flex-direction: column;
+        padding: var(--space-3) 16px;
+        gap: var(--space-3);
+        background:
+            repeating-linear-gradient(to bottom,
+                transparent 0px,
+                transparent 8px,
+                var(--gray-900) 8px,
+                var(--gray-900) 20px) 0 0 / 12px 100% no-repeat,
+            repeating-linear-gradient(to bottom,
+                transparent 0px,
+                transparent 8px,
+                var(--gray-900) 8px,
+                var(--gray-900) 20px) 100% 0 / 12px 100% no-repeat,
+            var(--accent-primary);
+        position: relative;
 
         &::-webkit-scrollbar {
             width: 8px;
         }
 
         &::-webkit-scrollbar-track {
-            background: var(--gray-900);
+            background: transparent;
         }
 
         &::-webkit-scrollbar-thumb {
-            background: var(--gray-600);
+            background: rgba(0, 0, 0, 0.3);
             border-radius: var(--radius-full);
 
             &:hover {
-                background: var(--gray-500);
+                background: rgba(0, 0, 0, 0.5);
             }
         }
     }
@@ -70,13 +89,14 @@
     position: relative;
     width: 100%;
     min-height: 160px;
-    border: none;
-    border-top: 1px solid rgba(255, 184, 28, 0.15);
-    border-radius: 0;
+    border: 3px solid var(--gray-900);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     cursor: pointer;
     background: var(--gray-900);
     outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
 
     &:focus {
         outline: none;
@@ -174,7 +194,8 @@
     }
 
     &--selected {
-        border-left: 4px solid var(--accent-primary);
+        border: 3px solid var(--accent-primary);
+        box-shadow: 0 0 20px rgba(var(--accent-primary-rgb, 74, 144, 226), 0.5);
 
         .attraction-card__overlay {
             background: linear-gradient(to bottom,
