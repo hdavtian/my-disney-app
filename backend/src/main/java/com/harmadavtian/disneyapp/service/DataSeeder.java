@@ -4,9 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.harmadavtian.disneyapp.model.Character;
 import com.harmadavtian.disneyapp.model.Movie;
+import com.harmadavtian.disneyapp.model.DisneyPark;
+import com.harmadavtian.disneyapp.model.DisneyParkAttraction;
 import com.harmadavtian.disneyapp.repository.CharacterRepository;
 import com.harmadavtian.disneyapp.repository.MovieRepository;
 import com.harmadavtian.disneyapp.repository.HeroMovieCarouselRepository;
+import com.harmadavtian.disneyapp.repository.DisneyParkRepository;
+import com.harmadavtian.disneyapp.repository.DisneyParkAttractionRepository;
 import com.harmadavtian.disneyapp.model.HeroMovieCarousel;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -31,13 +35,20 @@ public class DataSeeder implements CommandLineRunner {
     private final CharacterRepository characterRepository;
     private final MovieRepository movieRepository;
     private final HeroMovieCarouselRepository heroMovieCarouselRepository;
+    private final DisneyParkRepository disneyParkRepository;
+    private final DisneyParkAttractionRepository disneyParkAttractionRepository;
     private final ObjectMapper objectMapper;
 
     public DataSeeder(CharacterRepository characterRepository, MovieRepository movieRepository,
-            HeroMovieCarouselRepository heroMovieCarouselRepository, ObjectMapper objectMapper) {
+            HeroMovieCarouselRepository heroMovieCarouselRepository,
+            DisneyParkRepository disneyParkRepository,
+            DisneyParkAttractionRepository disneyParkAttractionRepository,
+            ObjectMapper objectMapper) {
         this.characterRepository = characterRepository;
         this.movieRepository = movieRepository;
         this.heroMovieCarouselRepository = heroMovieCarouselRepository;
+        this.disneyParkRepository = disneyParkRepository;
+        this.disneyParkAttractionRepository = disneyParkAttractionRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -54,6 +65,17 @@ public class DataSeeder implements CommandLineRunner {
         if (heroMovieCarouselRepository.count() == 0) {
             seedHeroMovieCarousel();
         }
+
+        // Seed parks FIRST (before attractions due to FK dependency)
+        if (disneyParkRepository.count() == 0) {
+            seedDisneyParks();
+        }
+
+        // Seed attractions AFTER parks
+        if (disneyParkAttractionRepository.count() == 0) {
+            seedDisneyParksAttractions();
+        }
+
         // Seed movie-character relationships after both movies and characters exist
         seedMovieCharacterRelationships();
     }
@@ -65,6 +87,7 @@ public class DataSeeder implements CommandLineRunner {
     public Map<String, Integer> reseedCharacters() throws IOException {
         log.info("Reseeding characters: deleting all existing records...");
         characterRepository.deleteAll();
+        characterRepository.flush();
 
         log.info("Loading characters from JSON...");
         ClassPathResource resource = new ClassPathResource("database/disney_characters.json");
@@ -116,6 +139,7 @@ public class DataSeeder implements CommandLineRunner {
     public Map<String, Integer> reseedMovies() throws IOException {
         log.info("Reseeding movies: deleting all existing records...");
         movieRepository.deleteAll();
+        movieRepository.flush();
 
         log.info("Loading movies from JSON...");
         ClassPathResource resource = new ClassPathResource("database/disney_movies.json");
@@ -138,6 +162,7 @@ public class DataSeeder implements CommandLineRunner {
     public Map<String, Integer> reseedHeroCarousel() {
         log.info("Reseeding hero carousel: deleting all existing entries...");
         heroMovieCarouselRepository.deleteAll();
+        heroMovieCarouselRepository.flush();
 
         log.info("Regenerating hero carousel...");
         seedHeroMovieCarousel();
@@ -318,5 +343,74 @@ public class DataSeeder implements CommandLineRunner {
         } catch (IOException e) {
             log.error("Error seeding movie-character relationships", e);
         }
+    }
+
+    /**
+     * Seeds the Disney Parks table from JSON.
+     * Should be called before seedDisneyParksAttractions() due to FK dependency.
+     */
+    private void seedDisneyParks() {
+        log.info("Seeding Disney Parks...");
+        ClassPathResource resource = new ClassPathResource("database/disney_parks.json");
+        try (InputStream inputStream = resource.getInputStream()) {
+            List<DisneyPark> parks = objectMapper.readValue(inputStream,
+                    new TypeReference<List<DisneyPark>>() {
+                    });
+            disneyParkRepository.saveAll(parks);
+            log.info("Seeded {} Disney parks", parks.size());
+        } catch (IOException e) {
+            log.error("Error seeding Disney parks", e);
+        }
+    }
+
+    /**
+     * Seeds the Disney Parks Attractions table from JSON.
+     * Must be called AFTER seedDisneyParks() due to FK constraint on park_url_id.
+     */
+    private void seedDisneyParksAttractions() {
+        log.info("Seeding Disney Parks Attractions...");
+        ClassPathResource resource = new ClassPathResource("database/disney_parks_attractions.json");
+        try (InputStream inputStream = resource.getInputStream()) {
+            List<DisneyParkAttraction> attractions = objectMapper.readValue(inputStream,
+                    new TypeReference<List<DisneyParkAttraction>>() {
+                    });
+            disneyParkAttractionRepository.saveAll(attractions);
+            log.info("Seeded {} Disney park attractions", attractions.size());
+        } catch (IOException e) {
+            log.error("Error seeding Disney park attractions", e);
+        }
+    }
+
+    /**
+     * Reseed Disney Parks (for admin endpoint).
+     * Deletes all existing parks and attractions, then reseeds from JSON.
+     */
+    @Transactional
+    public void reseedDisneyParks() {
+        log.info("Reseeding Disney Parks...");
+        // Delete attractions first (FK dependency)
+        disneyParkAttractionRepository.deleteAll();
+        disneyParkAttractionRepository.flush();
+        // Then delete parks
+        disneyParkRepository.deleteAll();
+        disneyParkRepository.flush();
+        // Reseed parks
+        seedDisneyParks();
+        // Reseed attractions (depends on parks)
+        seedDisneyParksAttractions();
+        log.info("Disney Parks and Attractions reseeded successfully");
+    }
+
+    /**
+     * Reseed Disney Parks Attractions (for admin endpoint).
+     * Deletes all existing attractions, then reseeds from JSON.
+     */
+    @Transactional
+    public void reseedDisneyParksAttractions() {
+        log.info("Reseeding Disney Parks Attractions...");
+        disneyParkAttractionRepository.deleteAll();
+        disneyParkAttractionRepository.flush();
+        seedDisneyParksAttractions();
+        log.info("Disney Parks Attractions reseeded successfully");
     }
 }

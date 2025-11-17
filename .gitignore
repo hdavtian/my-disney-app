@@ -54,6 +54,8 @@ Thumbs.db
 # Temporary folders
 tmp/
 temp/
+# Exception: Allow database seed data in temp folder
+!backend/src/main/resources/database/temp/
 
 # Backend specific
 backend/target/
