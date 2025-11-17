@@ -192,6 +192,10 @@
             padding: var(--space-2) var(--space-3);
         }
     }
+
+    .attraction-card {
+        height: 100%;
+    }
 }
 
 .favorites-grid {
@@ -200,6 +204,11 @@
     padding: var(--space-6) 0;
     display: grid;
     gap: var(--space-6);
+
+    /* Ensure content never forces tracks to grow unevenly */
+    >* {
+        min-width: 0; // allows proper shrinking
+    }
 
     /* Responsive overrides for smaller screens */
     @media (max-width: 1024px) {

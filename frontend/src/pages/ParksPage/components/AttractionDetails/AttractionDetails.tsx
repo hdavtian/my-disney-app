@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Attraction } from "../../../../types/Attraction";
+import { FavoriteButton } from "../../../../components/FavoriteButton/FavoriteButton";
 import { getImageUrl } from "../../../../config/assets";
 import "./AttractionDetails.scss";
 
@@ -63,6 +64,12 @@ export const AttractionDetails = ({
           <h2 className="attraction-details__title">{attraction.name}</h2>
 
           <div className="attraction-details__meta">
+            <FavoriteButton
+              id={attraction.id}
+              type="attraction"
+              ariaLabel={`Favorite ${attraction.name}`}
+              size={28}
+            />
             {attraction.attraction_type && (
               <span className="attraction-details__badge">
                 {attraction.attraction_type}

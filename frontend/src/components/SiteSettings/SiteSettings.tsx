@@ -309,7 +309,7 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                           Favorites
                         </div>
                         <div className="clear-option__description">
-                          Your saved favorite characters & movies
+                          Your saved favorite characters, movies & attractions
                         </div>
                       </div>
                     </label>

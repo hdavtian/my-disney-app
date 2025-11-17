@@ -6,6 +6,7 @@ import { useFavorites } from "../../hooks/useFavorites";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchMovies } from "../../store/slices/moviesSlice";
 import { fetchCharacters } from "../../store/slices/charactersSlice";
+import { fetchAttractionsByPark } from "../../store/slices/attractionsSlice";
 import {
   setFavoritesGridColumns,
   setFavoritesSearchQuery,
@@ -18,15 +19,18 @@ import {
 } from "../../store/slices/recentlyViewedSlice";
 import { Movie } from "../../types/Movie";
 import { Character } from "../../types/Character";
+import { Attraction } from "../../types/Attraction";
 import { CardSizeControl } from "../../components/CardSizeControl";
 import { MovieCard } from "../../components/MovieCard/MovieCard";
 import { CharacterCard } from "../../components/CharacterCard/CharacterCard";
+import { AttractionCard } from "../../components/AttractionCard/AttractionCard";
 import { SearchInput } from "../../components/SearchInput";
 import "./FavoritesPage.scss";
 
 type FavoriteItem =
   | { type: "movie"; data: Movie }
-  | { type: "character"; data: Character };
+  | { type: "character"; data: Character }
+  | { type: "attraction"; data: Attraction };
 
 export const FavoritesPage = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +38,9 @@ export const FavoritesPage = () => {
   const { favorites } = useFavorites();
   const allMovies = useAppSelector((state) => state.movies.movies);
   const allCharacters = useAppSelector((state) => state.characters.characters);
+  const allAttractionsByPark = useAppSelector(
+    (state) => state.attractions.attractionsByPark
+  );
   const { gridColumns, searchQuery, filterType } = useAppSelector(
     (state) =>
       state.uiPreferences.favorites ?? {
@@ -64,6 +71,28 @@ export const FavoritesPage = () => {
     }
   }, [dispatch, allMovies.length, allCharacters.length]);
 
+  // Flatten all attractions from all parks into a single array
+  const allAttractions = useMemo(() => {
+    return Object.values(allAttractionsByPark).flat();
+  }, [allAttractionsByPark]);
+
+  // Fetch attractions for any favorited attractions that aren't loaded yet
+  useEffect(() => {
+    const attractionFavorites = favorites.filter(
+      (fav) => fav.type === "attraction"
+    );
+
+    if (attractionFavorites.length > 0) {
+      // Get unique park IDs from attractions we have
+      const loadedParkIds = Object.keys(allAttractionsByPark);
+
+      // If we don't have many parks loaded, we may need to fetch attractions
+      // For now, we'll just work with what we have since we don't know which park each attraction belongs to
+      // In a real app, you might store parkUrlId with the favorite or have an endpoint to fetch by attraction ID
+      console.log("Attraction favorites detected:", attractionFavorites.length);
+    }
+  }, [favorites, allAttractionsByPark, dispatch]);
+
   // Build a combined favorites array preserving the user's saved order
   const favoriteItems = useMemo<FavoriteItem[]>(() => {
     return favorites
@@ -76,10 +105,14 @@ export const FavoritesPage = () => {
           const character = allCharacters.find((c) => c.id === fav.id);
           return character ? { type: "character", data: character } : null;
         }
+        if (fav.type === "attraction") {
+          const attraction = allAttractions.find((a) => a.id === fav.id);
+          return attraction ? { type: "attraction", data: attraction } : null;
+        }
         return null;
       })
       .filter(Boolean) as FavoriteItem[];
-  }, [favorites, allMovies, allCharacters]);
+  }, [favorites, allMovies, allCharacters, allAttractions]);
 
   const hasFavorites = favoriteItems.length > 0;
 
@@ -95,11 +128,21 @@ export const FavoritesPage = () => {
           original: item,
         };
       }
-      const c = item.data as Character;
+      if (item.type === "character") {
+        const c = item.data as Character;
+        return {
+          id: `char-${c.id}`,
+          title: c.name,
+          secondary: `${c.debut || ""}`,
+          original: item,
+        };
+      }
+      // attraction
+      const a = item.data as Attraction;
       return {
-        id: `char-${c.id}`,
-        title: c.name,
-        secondary: `${c.debut || ""}`,
+        id: `attraction-${a.id}`,
+        title: a.name,
+        secondary: `${a.land_area || ""}`,
         original: item,
       };
     });
@@ -114,6 +157,8 @@ export const FavoritesPage = () => {
       items = items.filter((item) => item.type === "movie");
     } else if (filterType === "characters") {
       items = items.filter((item) => item.type === "character");
+    } else if (filterType === "attractions") {
+      items = items.filter((item) => item.type === "attraction");
     }
 
     // Then apply search filter
@@ -129,11 +174,17 @@ export const FavoritesPage = () => {
           movie.title.toLowerCase().includes(lowerQuery) ||
           movie.releaseYear?.toString().includes(lowerQuery)
         );
-      } else {
+      } else if (item.type === "character") {
         const character = item.data as Character;
         return (
           character.name.toLowerCase().includes(lowerQuery) ||
           character.debut?.toLowerCase().includes(lowerQuery)
+        );
+      } else {
+        const attraction = item.data as Attraction;
+        return (
+          attraction.name.toLowerCase().includes(lowerQuery) ||
+          attraction.land_area?.toLowerCase().includes(lowerQuery)
         );
       }
     });
@@ -199,7 +250,8 @@ export const FavoritesPage = () => {
         <div className="favorites-page__header-content">
           <h1>Favorites</h1>
           <p>
-            Your saved movies and characters — shown with their native cards.
+            Your saved movies, characters, and attractions — shown with their
+            native cards.
           </p>
         </div>
 
@@ -229,7 +281,10 @@ export const FavoritesPage = () => {
 
       {!hasFavorites ? (
         <div className="favorites-page__empty">
-          <p>No favorites yet. Add movies or characters to your favorites!</p>
+          <p>
+            No favorites yet. Add movies, characters, or attractions to your
+            favorites!
+          </p>
         </div>
       ) : (
         <div className="favorites-page__content">
@@ -262,6 +317,15 @@ export const FavoritesPage = () => {
               >
                 Characters
               </button>
+              <button
+                className={`favorites-page__filter-button ${
+                  filterType === "attractions" ? "active" : ""
+                }`}
+                onClick={() => handleFilterChange("attractions")}
+                aria-label="Show attractions only"
+              >
+                Attractions
+              </button>
             </div>
             <CardSizeControl
               currentColumns={activeColumns}
@@ -277,23 +341,36 @@ export const FavoritesPage = () => {
               gridTemplateColumns: `repeat(${activeColumns}, 1fr)`,
             }}
           >
-            {filteredFavorites.map((item: FavoriteItem, idx: number) =>
-              item.type === "movie" ? (
-                <MovieCard
-                  key={`movie-${item.data.id}`}
-                  movie={item.data}
-                  onClick={() => handleMovieClick(item.data.id)}
-                  index={idx}
-                />
-              ) : (
-                <CharacterCard
-                  key={`char-${item.data.id}`}
-                  character={item.data}
-                  onClick={() => handleCharacterClick(item.data.id)}
-                  index={idx}
-                />
-              )
-            )}
+            {filteredFavorites.map((item: FavoriteItem, idx: number) => {
+              if (item.type === "movie") {
+                return (
+                  <MovieCard
+                    key={`movie-${item.data.id}`}
+                    movie={item.data}
+                    onClick={() => handleMovieClick(item.data.id)}
+                    index={idx}
+                  />
+                );
+              } else if (item.type === "character") {
+                return (
+                  <CharacterCard
+                    key={`char-${item.data.id}`}
+                    character={item.data}
+                    onClick={() => handleCharacterClick(item.data.id)}
+                    index={idx}
+                  />
+                );
+              } else {
+                return (
+                  <AttractionCard
+                    key={`attraction-${item.data.id}`}
+                    attraction={item.data}
+                    onClick={() => navigate("/parks")}
+                    index={idx}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
       )}
