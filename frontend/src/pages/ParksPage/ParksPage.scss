@@ -1,0 +1,66 @@
+.parks-page {
+    width: 100%;
+    min-height: calc(100vh - var(--header-height));
+    background: var(--gray-900);
+    overflow: hidden;
+
+    &--loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__loading-message {
+        color: var(--white);
+        font-size: var(--text-2xl);
+        font-weight: var(--font-semibold);
+    }
+
+    &__container {
+        display: flex;
+        height: calc(100vh - var(--header-height));
+        width: 100%;
+    }
+
+    &__column {
+        height: 100%;
+        overflow: hidden;
+
+        &--parks {
+            width: 40%;
+            flex-shrink: 0;
+        }
+
+        &--attractions {
+            width: 20%;
+            flex-shrink: 0;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        &--details {
+            width: 40%;
+            flex-shrink: 0;
+        }
+    }
+
+    // Tablet and below: Stack columns
+    @media (max-width: 1024px) {
+        &__container {
+            flex-direction: column;
+            height: auto;
+        }
+
+        &__column {
+            width: 100% !important;
+            min-height: 50vh;
+
+            &--attractions,
+            &--details {
+                border-left: none;
+                border-right: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+}

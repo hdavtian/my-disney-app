@@ -13,6 +13,7 @@ export const Navigation = () => {
   const navItems = [
     { path: "/movies", label: "Movies" },
     { path: "/characters", label: "Characters" },
+    { path: "/parks", label: "Parks & Attractions" },
     { path: "/favorites", label: "Favorites" },
     { path: "/about", label: "About this Demo" },
   ];
