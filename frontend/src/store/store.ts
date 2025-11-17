@@ -6,6 +6,8 @@ import recentlyViewedReducer from "./slices/recentlyViewedSlice";
 import quizReducer from "./slices/quizSlice";
 import uiPreferencesReducer from "./slices/uiPreferencesSlice";
 import themeReducer from "./slices/themeSlice";
+import parksReducer from "./slices/parksSlice";
+import attractionsReducer from "./slices/attractionsSlice";
 import {
   localStorageSyncMiddleware,
   loadPreferencesFromStorage,
@@ -24,6 +26,8 @@ export const store = configureStore({
     quiz: quizReducer,
     uiPreferences: uiPreferencesReducer,
     theme: themeReducer,
+    parks: parksReducer,
+    attractions: attractionsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(localStorageSyncMiddleware),
