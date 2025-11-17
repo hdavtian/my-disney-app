@@ -9,12 +9,14 @@ interface AttractionCardProps {
   attraction: Attraction;
   index: number;
   onClick: (attraction: Attraction) => void;
+  isSelected: boolean;
 }
 
 const AttractionCard = ({
   attraction,
   index,
   onClick,
+  isSelected,
 }: AttractionCardProps) => {
   const [imageError, setImageError] = useState(false);
   const imageUrl =
@@ -24,7 +26,9 @@ const AttractionCard = ({
 
   return (
     <motion.button
-      className="attraction-card"
+      className={`attraction-card ${
+        isSelected ? "attraction-card--selected" : ""
+      }`}
       onClick={() => onClick(attraction)}
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
@@ -55,12 +59,14 @@ interface AttractionsListProps {
   attractions: Attraction[];
   loading: boolean;
   parkName?: string;
+  selectedAttraction?: Attraction | null;
 }
 
 export const AttractionsList = ({
   attractions,
   loading,
   parkName,
+  selectedAttraction,
 }: AttractionsListProps) => {
   const dispatch = useAppDispatch();
 
@@ -103,6 +109,7 @@ export const AttractionsList = ({
               attraction={attraction}
               index={index}
               onClick={handleAttractionClick}
+              isSelected={selectedAttraction?.url_id === attraction.url_id}
             />
           );
         })}

@@ -76,6 +76,15 @@
     overflow: hidden;
     cursor: pointer;
     background: var(--gray-900);
+    outline: none;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
 
     &__image {
         position: absolute;
@@ -157,8 +166,24 @@
     }
 
     &:active {
-        .attraction-card__active-overlay {
-            opacity: 1;
+        .attraction-card__overlay {
+            background: linear-gradient(to bottom,
+                    rgba(30, 96, 172, 0.5),
+                    rgba(255, 184, 28, 0.4));
+        }
+    }
+
+    &--selected {
+        border-left: 4px solid var(--accent-primary);
+
+        .attraction-card__overlay {
+            background: linear-gradient(to bottom,
+                    rgba(30, 96, 172, 0.3),
+                    rgba(0, 0, 0, 0.7));
+        }
+
+        .attraction-card__name {
+            color: var(--disney-gold);
         }
     }
 }

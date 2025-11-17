@@ -81,6 +81,7 @@ export const ParksPage = () => {
             attractions={currentAttractions}
             loading={attractionsLoading}
             parkName={selectedPark?.name}
+            selectedAttraction={selectedAttraction}
           />
         </div>
 
