@@ -51,48 +51,6 @@
         position: relative;
         background: var(--accent-primary);
 
-        // Create inner wrapper for film strip effect
-        display: flex;
-        flex-direction: column;
-        padding: var(--space-3) 16px;
-        gap: var(--space-3);
-
-        // Film strip perforations on left side (scrolls with content)
-        &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 12px;
-            height: 100%;
-            min-height: 100%;
-            background: repeating-linear-gradient(to bottom,
-                    transparent 0px,
-                    transparent 8px,
-                    var(--gray-900) 8px,
-                    var(--gray-900) 20px);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        // Film strip perforations on right side (scrolls with content)
-        &::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 12px;
-            height: 100%;
-            min-height: 100%;
-            background: repeating-linear-gradient(to bottom,
-                    transparent 0px,
-                    transparent 8px,
-                    var(--gray-900) 8px,
-                    var(--gray-900) 20px);
-            z-index: 10;
-            pointer-events: none;
-        }
-
         &::-webkit-scrollbar {
             width: 8px;
         }
@@ -108,6 +66,49 @@
             &:hover {
                 background: rgba(0, 0, 0, 0.5);
             }
+        }
+    }
+
+    &__scroll-content {
+        display: flex;
+        flex-direction: column;
+        padding: var(--space-3) 16px;
+        gap: var(--space-3);
+        position: relative;
+        min-height: 100%;
+
+        // Film strip perforations on left side
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 100%;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px,
+                    transparent 8px,
+                    var(--gray-900) 8px,
+                    var(--gray-900) 20px);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        // Film strip perforations on right side
+        &::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 12px;
+            height: 100%;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px,
+                    transparent 8px,
+                    var(--gray-900) 8px,
+                    var(--gray-900) 20px);
+            z-index: 10;
+            pointer-events: none;
         }
     }
 }

@@ -96,17 +96,19 @@ export const AttractionsList = ({
       </div>
 
       <div className="attractions-list__scroll">
-        {attractions.map((attraction, index) => {
-          return (
-            <AttractionCard
-              key={attraction.url_id}
-              attraction={attraction}
-              index={index}
-              onClick={handleAttractionClick}
-              isSelected={selectedAttraction?.url_id === attraction.url_id}
-            />
-          );
-        })}
+        <div className="attractions-list__scroll-content">
+          {attractions.map((attraction, index) => {
+            return (
+              <AttractionCard
+                key={attraction.url_id}
+                attraction={attraction}
+                index={index}
+                onClick={handleAttractionClick}
+                isSelected={selectedAttraction?.url_id === attraction.url_id}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
