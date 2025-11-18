@@ -12,6 +12,7 @@ export interface SearchInputProps<T> {
   getSecondaryText?: (item: T) => string;
   onSelectItem?: (item: T) => void;
   initialValue?: string;
+  keepQueryOnSelect?: boolean;
 }
 
 export const SearchInput = <T extends { id: number | string }>({
@@ -24,6 +25,7 @@ export const SearchInput = <T extends { id: number | string }>({
   getSecondaryText,
   onSelectItem,
   initialValue = "",
+  keepQueryOnSelect = false,
 }: SearchInputProps<T>) => {
   const [query, setQuery] = useState(initialValue);
   const [filteredResults, setFilteredResults] = useState<T[]>([]);
@@ -127,13 +129,17 @@ export const SearchInput = <T extends { id: number | string }>({
   // Handle item selection
   const handleSelectItem = (item: T) => {
     setIsSelecting(true);
-    setQuery(getDisplayText(item));
+    if (!keepQueryOnSelect) {
+      setQuery(getDisplayText(item));
+    }
     setShowDropdown(false);
     setSelectedIndex(-1);
     if (onSelectItem) {
       onSelectItem(item);
     }
-    inputRef.current?.blur();
+    if (!keepQueryOnSelect) {
+      inputRef.current?.blur();
+    }
     // Reset selecting flag after a short delay
     setTimeout(() => setIsSelecting(false), 500);
   };
@@ -262,7 +268,7 @@ export const SearchInput = <T extends { id: number | string }>({
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            {filteredResults.slice(0, 8).map((item, index) => (
+            {filteredResults.map((item, index) => (
               <div
                 key={item.id}
                 className={`search-input__item ${
@@ -281,11 +287,6 @@ export const SearchInput = <T extends { id: number | string }>({
                 )}
               </div>
             ))}
-            {filteredResults.length > 8 && (
-              <div className="search-input__more">
-                +{filteredResults.length - 8} more results
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

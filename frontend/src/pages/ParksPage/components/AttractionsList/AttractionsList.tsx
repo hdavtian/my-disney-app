@@ -84,6 +84,35 @@ export const AttractionsList = ({
     dispatch(selectAttraction(attraction));
   };
 
+  // Scroll to selected attraction when it changes
+  useEffect(() => {
+    if (!selectedAttraction || !scrollRef.current) return;
+
+    const selectedIndex = attractions.findIndex(
+      (attr) => attr.url_id === selectedAttraction.url_id
+    );
+
+    if (selectedIndex === -1) return;
+
+    // Find the selected card element
+    const scrollElement = scrollRef.current;
+    const cards = scrollElement.querySelectorAll(".attraction-card-wrapper");
+    const selectedCard = cards[selectedIndex] as HTMLElement;
+
+    if (selectedCard) {
+      // Calculate position to center the card in view
+      const cardTop = selectedCard.offsetTop;
+      const cardHeight = selectedCard.offsetHeight;
+      const scrollTop =
+        cardTop - scrollElement.clientHeight / 2 + cardHeight / 2;
+
+      scrollElement.scrollTo({
+        top: scrollTop,
+        behavior: "smooth",
+      });
+    }
+  }, [selectedAttraction, attractions]);
+
   // Track scroll position to show/hide top and bottom buttons
   useEffect(() => {
     const scrollElement = scrollRef.current;

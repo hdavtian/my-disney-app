@@ -25,22 +25,106 @@
     &__column {
         height: 100%;
         overflow: hidden;
+        position: relative;
 
         &--parks {
             width: 40%;
             flex-shrink: 0;
-        }
-
-        &--attractions {
-            width: 20%;
-            flex-shrink: 0;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 3px solid var(--accent-primary);
         }
 
         &--details {
             width: 40%;
             flex-shrink: 0;
+            border-right: 3px solid var(--accent-primary);
+        }
+
+        &--attractions {
+            width: 20%;
+            flex-shrink: 0;
+        }
+    }
+
+    &__floating-search {
+        position: absolute;
+        top: var(--space-6);
+        left: var(--space-6);
+        right: var(--space-6);
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius-xl);
+        padding: var(--space-5);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    &__search-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+    }
+
+    &__search-mode {
+        display: flex;
+        gap: var(--space-3);
+        flex-shrink: 0;
+    }
+
+    &__search-radio {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        cursor: pointer;
+        color: var(--text-secondary);
+        font-size: var(--text-xs);
+        white-space: nowrap;
+        transition: color var(--transition-fast);
+
+        &:hover {
+            color: var(--text-primary);
+        }
+
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 14px;
+            height: 14px;
+            min-width: 14px;
+            min-height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            flex-shrink: 0;
+            transition: all var(--transition-fast);
+
+            &:checked {
+                border-color: var(--accent-primary);
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background: var(--accent-primary);
+                }
+            }
+
+            &:hover {
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        span {
+            user-select: none;
         }
     }
 
@@ -55,8 +139,9 @@
             width: 100% !important;
             min-height: 50vh;
 
-            &--attractions,
-            &--details {
+            &--parks,
+            &--details,
+            &--attractions {
                 border-left: none;
                 border-right: none;
                 border-top: 1px solid rgba(255, 255, 255, 0.1);

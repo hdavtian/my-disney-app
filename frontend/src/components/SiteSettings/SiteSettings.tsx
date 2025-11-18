@@ -138,6 +138,11 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 filterType: "all",
                 lastUpdated: Date.now(),
               },
+              parks: {
+                searchQuery: "",
+                searchMode: "current",
+                lastUpdated: Date.now(),
+              },
               theme: "light",
             })
           );

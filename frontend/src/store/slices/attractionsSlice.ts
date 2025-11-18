@@ -6,14 +6,19 @@ import { CacheService } from "../../utils/cacheService";
 interface AttractionsState {
   // Attractions keyed by park URL ID for efficient lookup
   attractionsByPark: Record<string, Attraction[]>;
+  // All attractions across all parks (for "All Parks" search mode)
+  allAttractions: Attraction[];
   selectedAttraction: Attraction | null;
+  searchFilter: string;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: AttractionsState = {
   attractionsByPark: {},
+  allAttractions: [],
   selectedAttraction: null,
+  searchFilter: "",
   loading: false,
   error: null,
 };
@@ -48,6 +53,36 @@ export const fetchAttractionsByPark = createAsyncThunk(
   }
 );
 
+// Async thunk to fetch all attractions across all parks with caching
+export const fetchAllAttractions = createAsyncThunk(
+  "attractions/fetchAllAttractions",
+  async (_, { rejectWithValue }) => {
+    try {
+      const cacheKey = "all_attractions";
+
+      // Check cache first
+      const cachedData = CacheService.get<Attraction[]>(cacheKey);
+      if (cachedData) {
+        return cachedData;
+      }
+
+      // If no cache, fetch from API
+      const data = await attractionsApi.getAllAttractions();
+
+      // Cache the response
+      CacheService.set(cacheKey, data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch all attractions"
+      );
+    }
+  }
+);
+
 const attractionsSlice = createSlice({
   name: "attractions",
   initialState,
@@ -57,6 +92,9 @@ const attractionsSlice = createSlice({
     },
     clearSelectedAttraction: (state) => {
       state.selectedAttraction = null;
+    },
+    setAttractionSearchFilter: (state, action: PayloadAction<string>) => {
+      state.searchFilter = action.payload;
     },
     clearError: (state) => {
       state.error = null;
@@ -82,10 +120,27 @@ const attractionsSlice = createSlice({
       .addCase(fetchAttractionsByPark.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      // Fetch all attractions
+      .addCase(fetchAllAttractions.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllAttractions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allAttractions = action.payload;
+      })
+      .addCase(fetchAllAttractions.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { selectAttraction, clearSelectedAttraction, clearError } =
-  attractionsSlice.actions;
+export const {
+  selectAttraction,
+  clearSelectedAttraction,
+  setAttractionSearchFilter,
+  clearError,
+} = attractionsSlice.actions;
 export default attractionsSlice.reducer;
