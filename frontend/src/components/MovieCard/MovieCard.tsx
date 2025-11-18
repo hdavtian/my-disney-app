@@ -90,7 +90,6 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
             style={{ opacity: imageLoaded ? 1 : 0 }}
           >
             <span className="movie-card__year">{movie.releaseYear}</span>
-            <span className="movie-card__rating">{movie.rating || "PG"}</span>
           </div>
         </div>
       </a>

@@ -9,6 +9,10 @@
     position: relative;
     aspect-ratio: 4/3;
 
+    &--external {
+        overflow: visible !important;
+    }
+
     &__link {
         display: block;
         height: 100%;
@@ -154,6 +158,7 @@
                 height: 14px;
             }
         }
+
     }
 
     @keyframes skeleton-loading {

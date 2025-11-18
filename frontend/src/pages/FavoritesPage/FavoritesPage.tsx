@@ -367,6 +367,7 @@ export const FavoritesPage = () => {
                     attraction={item.data}
                     onClick={() => navigate("/parks")}
                     index={idx}
+                    layout="external"
                   />
                 );
               }

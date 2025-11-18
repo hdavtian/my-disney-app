@@ -9,12 +9,14 @@ export interface AttractionCardProps {
   attraction: Attraction;
   onClick?: (attractionId: number) => void;
   index?: number;
+  layout?: "overlay" | "external"; // overlay = content inside card, external = content below card
 }
 
 export const AttractionCard = ({
   attraction,
   onClick,
   index = 0,
+  layout = "overlay",
 }: AttractionCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -37,7 +39,7 @@ export const AttractionCard = ({
 
   return (
     <motion.div
-      className="attraction-card"
+      className={`attraction-card attraction-card--${layout}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -67,13 +69,53 @@ export const AttractionCard = ({
             style={{ opacity: imageLoaded ? 1 : 0 }}
           />
         </div>
+
+        {/* Overlay layout: content inside card */}
+        {layout === "overlay" && (
+          <div className="attraction-card__info">
+            {!imageLoaded && (
+              <>
+                <div className="skeleton skeleton--title"></div>
+                <div className="skeleton skeleton--meta"></div>
+              </>
+            )}
+            <div className="attraction-card__title-row">
+              <FavoriteButton
+                id={attraction.id}
+                type="attraction"
+                ariaLabel={`Favorite ${attraction.name}`}
+                size={20}
+              />
+              <h3
+                className="attraction-card__title"
+                style={{ opacity: imageLoaded ? 1 : 0 }}
+              >
+                {attraction.name}
+              </h3>
+            </div>
+            <div
+              className="attraction-card__meta"
+              style={{ opacity: imageLoaded ? 1 : 0 }}
+            >
+              {attraction.land_area && (
+                <span className="attraction-card__land">
+                  {attraction.land_area}
+                </span>
+              )}
+              {attraction.attraction_type && (
+                <span className="attraction-card__type">
+                  {attraction.attraction_type}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+      </a>
+
+      {/* External layout: content below card */}
+      {layout === "external" && (
         <div className="attraction-card__info">
-          {!imageLoaded && (
-            <>
-              <div className="skeleton skeleton--title"></div>
-              <div className="skeleton skeleton--meta"></div>
-            </>
-          )}
+          {!imageLoaded && <div className="skeleton skeleton--title"></div>}
           <div className="attraction-card__title-row">
             <FavoriteButton
               id={attraction.id}
@@ -88,23 +130,8 @@ export const AttractionCard = ({
               {attraction.name}
             </h3>
           </div>
-          <div
-            className="attraction-card__meta"
-            style={{ opacity: imageLoaded ? 1 : 0 }}
-          >
-            {attraction.land_area && (
-              <span className="attraction-card__land">
-                {attraction.land_area}
-              </span>
-            )}
-            {attraction.attraction_type && (
-              <span className="attraction-card__type">
-                {attraction.attraction_type}
-              </span>
-            )}
-          </div>
         </div>
-      </a>
+      )}
     </motion.div>
   );
 };
