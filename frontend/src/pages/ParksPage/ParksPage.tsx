@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchParks } from "../../store/slices/parksSlice";
 import { fetchAttractionsByPark } from "../../store/slices/attractionsSlice";
@@ -8,6 +9,8 @@ import { useAttractionSearch } from "./components/AttractionDetails/AttractionDe
 import { AttractionDetails } from "./components/AttractionDetails/AttractionDetails";
 import { SearchInput } from "../../components/SearchInput";
 import "./ParksPage.scss";
+
+type LoadStage = "parks" | "attractions" | "details" | "complete";
 
 /**
  * ParksPage - Three-column immersive parks and attractions explorer
@@ -30,10 +33,33 @@ export const ParksPage = () => {
     loading: attractionsLoading,
   } = useAppSelector((state) => state.attractions);
 
+  // Track load stage for sequential rendering
+  const [loadStage, setLoadStage] = useState<LoadStage>("parks");
+  const [minDisplayReached, setMinDisplayReached] = useState(false);
+
   // Fetch all parks on mount
   useEffect(() => {
     dispatch(fetchParks());
   }, [dispatch]);
+
+  // Stage 1: Parks loaded -> Move to attractions stage
+  useEffect(() => {
+    if (!parksLoading && parks.length > 0 && loadStage === "parks") {
+      console.log("✅ Stage 1 complete: Parks loaded");
+      // Minimum display time to prevent flash
+      const timer = setTimeout(() => {
+        setMinDisplayReached(true);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [parksLoading, parks.length, loadStage]);
+
+  useEffect(() => {
+    if (minDisplayReached && loadStage === "parks") {
+      setLoadStage("attractions");
+      setMinDisplayReached(false);
+    }
+  }, [minDisplayReached, loadStage]);
 
   // Fetch attractions when park is selected
   useEffect(() => {
@@ -52,18 +78,43 @@ export const ParksPage = () => {
     ? attractionsByPark[selectedPark.url_id] || []
     : [];
 
+  // Stage 2: Attractions loaded -> Wait for animations to complete before showing details
+  const handleAttractionsAnimationsComplete = useCallback(() => {
+    console.log("✅ Stage 2 complete: Attractions animated");
+    setLoadStage("details");
+  }, []);
+
+  // Reset to attractions stage when park changes (after initial load)
+  useEffect(() => {
+    if (loadStage === "complete" && selectedPark) {
+      console.log("🔄 Park changed, resetting to attractions stage");
+      setLoadStage("attractions");
+    }
+  }, [selectedPark?.url_id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Mark as complete once details are shown
+  useEffect(() => {
+    if (loadStage === "details") {
+      const timer = setTimeout(() => {
+        setLoadStage("complete");
+        console.log("✅ Stage 3 complete: All content loaded");
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [loadStage]);
+
   // Use search hook
   const searchHandlers = useAttractionSearch(
     currentAttractions,
     selectedPark?.name
   );
 
-  console.log("📊 Current state:", {
-    selectedPark: selectedPark?.name,
-    attractionsByPark,
-    currentAttractions: currentAttractions.length,
-    attractionsLoading,
-  });
+  // Determine what to show based on load stage
+  const shouldShowAttractionsList =
+    loadStage === "attractions" ||
+    loadStage === "details" ||
+    loadStage === "complete";
+  const shouldShowDetails = loadStage === "details" || loadStage === "complete";
 
   if (parksLoading && parks.length === 0) {
     return (
@@ -140,22 +191,74 @@ export const ParksPage = () => {
 
         {/* Column 2: Attraction Details (40%) - Center stage */}
         <div className="parks-page__column parks-page__column--details">
-          <AttractionDetails
-            attraction={selectedAttraction}
-            loading={attractionsLoading}
-            attractions={currentAttractions}
-            parkName={selectedPark?.name}
-          />
+          <AnimatePresence mode="wait">
+            {shouldShowDetails && selectedAttraction && (
+              <motion.div
+                key={selectedAttraction.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="parks-page__details-wrapper"
+              >
+                <AttractionDetails
+                  attraction={selectedAttraction}
+                  loading={attractionsLoading}
+                  attractions={currentAttractions}
+                  parkName={selectedPark?.name}
+                />
+              </motion.div>
+            )}
+            {!shouldShowDetails && (
+              <motion.div
+                key="loading-details"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="parks-page__column-loading"
+              >
+                <p>Loading attraction details...</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Column 3: Attractions List (20%) - Quick picker */}
         <div className="parks-page__column parks-page__column--attractions">
-          <AttractionsList
-            attractions={currentAttractions}
-            loading={attractionsLoading}
-            parkName={selectedPark?.name}
-            selectedAttraction={selectedAttraction}
-          />
+          <AnimatePresence mode="wait">
+            {shouldShowAttractionsList ? (
+              <motion.div
+                key={`attractions-${selectedPark?.url_id}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="parks-page__attractions-wrapper"
+              >
+                <AttractionsList
+                  attractions={currentAttractions}
+                  loading={attractionsLoading}
+                  parkName={selectedPark?.name}
+                  selectedAttraction={selectedAttraction}
+                  onAnimationsComplete={
+                    loadStage === "attractions"
+                      ? handleAttractionsAnimationsComplete
+                      : undefined
+                  }
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="loading-attractions"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="parks-page__column-loading"
+              >
+                <p>Loading park...</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
