@@ -201,6 +201,11 @@
     display: grid;
     gap: var(--space-6);
 
+    /* Ensure content never forces tracks to grow unevenly */
+    >* {
+        min-width: 0; // allows proper shrinking
+    }
+
     /* Responsive overrides for smaller screens */
     @media (max-width: 1024px) {
         grid-template-columns: repeat(3, 1fr) !important;

@@ -1,16 +1,21 @@
 @use "../../styles/variables.scss" as *;
 @use "../../styles/mixins.scss" as *;
 
-// MOVIE CARD: Rectangle cards (4/3 aspect ratio) matching home page MovieSlider
-.movie-card {
+// ATTRACTION CARD: Rectangle cards (4/3 aspect ratio) similar to MovieCard
+.attraction-card {
     flex: 0 0 auto;
     width: 100%;
     padding: 0;
     position: relative;
-    aspect-ratio: 1/1;
+    aspect-ratio: 4/3;
+
+    &--external {
+        overflow: visible !important;
+    }
 
     &__link {
         display: block;
+        height: 100%;
         text-decoration: none;
         color: inherit;
         cursor: pointer;
@@ -51,7 +56,7 @@
 
     &:hover &__image {
         border-color: var(--accent-secondary);
-        box-shadow: 0 0 15px 2px var(--accent-secondary); // Gold glow exactly like home page
+        box-shadow: 0 0 15px 2px var(--accent-secondary); // Gold glow
     }
 
     &:hover &__image img {
@@ -75,7 +80,7 @@
         font-weight: var(--font-semibold);
         margin: 0;
         text-decoration: none;
-        @include text-truncate; // Use mixin like home page
+        @include text-truncate; // Use mixin
 
         @include tablet-up {
             font-size: var(--text-base);
@@ -85,6 +90,8 @@
     &__meta {
         font-size: var(--text-xs);
         color: var(--text-secondary);
+        display: flex;
+        gap: var(--space-2);
         justify-content: start !important;
 
         @include tablet-up {
@@ -92,11 +99,11 @@
         }
     }
 
-    &__year {
+    &__land {
         opacity: 0.8;
     }
 
-    &__rating {
+    &__type {
         background: var(--card-bg-hover);
         padding: 2px var(--space-1);
         border-radius: var(--radius-sm);
@@ -151,6 +158,7 @@
                 height: 14px;
             }
         }
+
     }
 
     @keyframes skeleton-loading {

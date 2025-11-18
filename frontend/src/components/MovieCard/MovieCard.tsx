@@ -71,28 +71,28 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
               <div className="skeleton skeleton--meta"></div>
             </>
           )}
-          <h3
-            className="movie-card__title"
-            style={{ opacity: imageLoaded ? 1 : 0 }}
-          >
-            {movie.title}
-          </h3>
+          <div className="movie-card__title-row">
+            <FavoriteButton
+              id={movie.id}
+              type="movie"
+              ariaLabel={`Favorite ${movie.title}`}
+              size={20}
+            />
+            <h3
+              className="movie-card__title"
+              style={{ opacity: imageLoaded ? 1 : 0 }}
+            >
+              {movie.title}
+            </h3>
+          </div>
           <div
             className="movie-card__meta"
             style={{ opacity: imageLoaded ? 1 : 0 }}
           >
             <span className="movie-card__year">{movie.releaseYear}</span>
-            <span className="movie-card__rating">{movie.rating || "PG"}</span>
           </div>
         </div>
       </a>
-      <div className="movie-card__favorite">
-        <FavoriteButton
-          id={movie.id}
-          type="movie"
-          ariaLabel={`Favorite ${movie.title}`}
-        />
-      </div>
     </motion.div>
   );
 };

@@ -155,16 +155,16 @@ export const CharacterCarousel = ({
                       </span>
                     </div>
                   </div>
-                  <h4 className="character-circle__name">{character.name}</h4>
+                  <div className="character-circle__name-row">
+                    <FavoriteButton
+                      id={character.id}
+                      type="character"
+                      ariaLabel={`Favorite ${character.name}`}
+                      size={20}
+                    />
+                    <h4 className="character-circle__name">{character.name}</h4>
+                  </div>
                 </a>
-                {/* Favorite button (clickable independently) */}
-                <div className="character-circle__favorite">
-                  <FavoriteButton
-                    id={character.id}
-                    type="character"
-                    ariaLabel={`Favorite ${character.name}`}
-                  />
-                </div>
               </div>
             </SwiperSlide>
           ))}

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type ViewMode = "grid" | "list";
 export type ThemeMode = "light" | "dark";
-export type FilterType = "all" | "movies" | "characters";
+export type FilterType = "all" | "movies" | "characters" | "attractions";
 
 interface PagePreferences {
   viewMode: ViewMode;

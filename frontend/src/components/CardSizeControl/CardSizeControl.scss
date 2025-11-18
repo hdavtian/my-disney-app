@@ -30,6 +30,44 @@
         flex-shrink: 0;
     }
 
+    &__slider-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        position: relative;
+    }
+
+    &__labels {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px; // Align with slider thumb center
+        margin-top: var(--space-1);
+    }
+
+    &__tick {
+        font-size: var(--text-xs);
+        color: var(--text-secondary);
+        font-weight: var(--font-medium);
+        position: relative;
+        text-align: center;
+        min-width: 20px;
+
+        // Tick mark above label
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 6px;
+            background: var(--text-tertiary);
+            border-radius: 1px;
+            margin-bottom: 2px;
+        }
+    }
+
     &__slider {
         // Reset all default styles
         -webkit-appearance: none;

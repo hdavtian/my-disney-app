@@ -77,12 +77,22 @@ export const CharacterCard = ({
   const titleContent = showTitle && (
     <>
       {!imageLoaded && <div className="skeleton skeleton--title"></div>}
-      <h3
-        className="character-card__name"
-        style={{ opacity: imageLoaded ? 1 : 0 }}
-      >
-        {character.name}
-      </h3>
+      <div className="character-card__title-row">
+        {enableFavoriting && (
+          <FavoriteButton
+            id={character.id}
+            type="character"
+            ariaLabel={`Favorite ${character.name}`}
+            size={20}
+          />
+        )}
+        <h3
+          className="character-card__name"
+          style={{ opacity: imageLoaded ? 1 : 0 }}
+        >
+          {character.name}
+        </h3>
+      </div>
     </>
   );
 
@@ -122,16 +132,6 @@ export const CharacterCard = ({
           {imageContent}
           {titleContent}
         </a>
-      )}
-
-      {enableFavoriting && (
-        <div className="character-card__favorite">
-          <FavoriteButton
-            id={character.id}
-            type="character"
-            ariaLabel={`Favorite ${character.name}`}
-          />
-        </div>
       )}
     </motion.div>
   );

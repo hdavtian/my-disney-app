@@ -111,13 +111,6 @@ export const MovieDetailPage = () => {
                 alt={movie.title}
                 loading="lazy"
               />
-              <div className="movie-detail-page__favorite">
-                <FavoriteButton
-                  id={movie.id}
-                  type="movie"
-                  ariaLabel={`Favorite ${movie.title}`}
-                />
-              </div>
             </div>
           </motion.div>
 
@@ -128,7 +121,15 @@ export const MovieDetailPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h1 className="movie-detail-page__title">{movie.title}</h1>
+            <div className="movie-detail-page__title-row">
+              <FavoriteButton
+                id={movie.id}
+                type="movie"
+                ariaLabel={`Favorite ${movie.title}`}
+                size={32}
+              />
+              <h1 className="movie-detail-page__title">{movie.title}</h1>
+            </div>
 
             <div className="movie-detail-page__meta">
               <span className="movie-detail-page__year">

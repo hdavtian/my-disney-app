@@ -42,27 +42,34 @@ export const CardSizeControl = ({
       <label htmlFor="grid-size-slider" className="card-size-control__label">
         Grid Size
       </label>
-      <input
-        id="grid-size-slider"
-        type="range"
-        min={minColumns}
-        max={maxColumns}
-        step={1}
-        value={activeColumns}
-        onChange={handleChange}
-        className="card-size-control__slider"
-        list="tickmarks"
-        aria-label="Adjust grid size"
-        aria-valuemin={minColumns}
-        aria-valuemax={maxColumns}
-        aria-valuenow={activeColumns}
-        aria-valuetext={`${activeColumns} columns`}
-      />
-      <datalist id="tickmarks">
-        {columnValues.map((value) => (
-          <option key={value} value={value} />
-        ))}
-      </datalist>
+      <div className="card-size-control__slider-container">
+        <input
+          id="grid-size-slider"
+          type="range"
+          min={minColumns}
+          max={maxColumns}
+          step={1}
+          value={activeColumns}
+          onChange={handleChange}
+          className="card-size-control__slider"
+          aria-label="Adjust grid size"
+          aria-valuemin={minColumns}
+          aria-valuemax={maxColumns}
+          aria-valuenow={activeColumns}
+          aria-valuetext={`${activeColumns} columns`}
+        />
+        <div className="card-size-control__labels">
+          {columnValues.map((value) => (
+            <span
+              key={value}
+              className="card-size-control__tick"
+              data-value={value}
+            >
+              {value}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

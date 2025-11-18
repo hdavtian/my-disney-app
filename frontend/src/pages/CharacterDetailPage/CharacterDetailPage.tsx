@@ -110,13 +110,6 @@ export const CharacterDetailPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="character-detail-page__favorite">
-              <FavoriteButton
-                id={character.id}
-                type="character"
-                ariaLabel={`Favorite ${character.name}`}
-              />
-            </div>
             <div className="character-detail-page__character-image">
               <img
                 src={
@@ -147,7 +140,15 @@ export const CharacterDetailPage = () => {
               {character.category}
             </div>
 
-            <h1 className="character-detail-page__name">{character.name}</h1>
+            <div className="character-detail-page__name-row">
+              <FavoriteButton
+                id={character.id}
+                type="character"
+                ariaLabel={`Favorite ${character.name}`}
+                size={32}
+              />
+              <h1 className="character-detail-page__name">{character.name}</h1>
+            </div>
 
             <div className="character-detail-page__meta">
               {character.franchise && (

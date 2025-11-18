@@ -209,14 +209,6 @@
         transform: scale(1.2);
     }
 
-    &__favorite {
-        position: absolute;
-        right: 50%;
-        bottom: var(--space-12);
-        transform: translateX(50%);
-        z-index: 15;
-    }
-
     &__overlay {
         position: absolute;
         bottom: 0;
@@ -238,6 +230,14 @@
         font-weight: var(--font-semibold);
         text-transform: uppercase;
         letter-spacing: 0.5px;
+    }
+
+    &__name-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        margin: 0 auto var(--space-3);
     }
 
     &__name {

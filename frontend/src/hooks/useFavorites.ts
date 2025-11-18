@@ -8,7 +8,7 @@ import {
 } from "../store/slices/favoritesSlice";
 import { RootState } from "../store/store";
 
-export type FavoriteType = "movie" | "character";
+export type FavoriteType = "movie" | "character" | "attraction";
 export interface FavoriteItem {
   id: string | number;
   type: FavoriteType;
