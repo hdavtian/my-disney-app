@@ -19,6 +19,7 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
   const selected = isFavorite(id, type);
 
   const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     if (selected) {
       remove(id, type);

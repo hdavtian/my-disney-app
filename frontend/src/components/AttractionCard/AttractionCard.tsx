@@ -74,12 +74,20 @@ export const AttractionCard = ({
               <div className="skeleton skeleton--meta"></div>
             </>
           )}
-          <h3
-            className="attraction-card__title"
-            style={{ opacity: imageLoaded ? 1 : 0 }}
-          >
-            {attraction.name}
-          </h3>
+          <div className="attraction-card__title-row">
+            <FavoriteButton
+              id={attraction.id}
+              type="attraction"
+              ariaLabel={`Favorite ${attraction.name}`}
+              size={20}
+            />
+            <h3
+              className="attraction-card__title"
+              style={{ opacity: imageLoaded ? 1 : 0 }}
+            >
+              {attraction.name}
+            </h3>
+          </div>
           <div
             className="attraction-card__meta"
             style={{ opacity: imageLoaded ? 1 : 0 }}
@@ -97,13 +105,6 @@ export const AttractionCard = ({
           </div>
         </div>
       </a>
-      <div className="attraction-card__favorite">
-        <FavoriteButton
-          id={attraction.id}
-          type="attraction"
-          ariaLabel={`Favorite ${attraction.name}`}
-        />
-      </div>
     </motion.div>
   );
 };
