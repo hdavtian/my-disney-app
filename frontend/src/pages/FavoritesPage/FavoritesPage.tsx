@@ -6,7 +6,11 @@ import { useFavorites } from "../../hooks/useFavorites";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchMovies } from "../../store/slices/moviesSlice";
 import { fetchCharacters } from "../../store/slices/charactersSlice";
-import { fetchAttractionsByPark } from "../../store/slices/attractionsSlice";
+import {
+  fetchAttractionsByPark,
+  selectAttraction,
+} from "../../store/slices/attractionsSlice";
+import { selectPark, fetchParks } from "../../store/slices/parksSlice";
 import {
   setFavoritesGridColumns,
   setFavoritesSearchQuery,
@@ -41,6 +45,7 @@ export const FavoritesPage = () => {
   const allAttractionsByPark = useAppSelector(
     (state) => state.attractions.attractionsByPark
   );
+  const { parks } = useAppSelector((state) => state.parks);
   const { gridColumns, searchQuery, filterType } = useAppSelector(
     (state) =>
       state.uiPreferences.favorites ?? {
@@ -69,7 +74,10 @@ export const FavoritesPage = () => {
     if (allCharacters.length === 0) {
       dispatch(fetchCharacters());
     }
-  }, [dispatch, allMovies.length, allCharacters.length]);
+    if (parks.length === 0) {
+      dispatch(fetchParks());
+    }
+  }, [dispatch, allMovies.length, allCharacters.length, parks.length]);
 
   // Flatten all attractions from all parks into a single array
   const allAttractions = useMemo(() => {
@@ -221,6 +229,26 @@ export const FavoritesPage = () => {
     [allCharacters, dispatch, navigate]
   );
 
+  const handleAttractionClick = useCallback(
+    (attraction: Attraction) => {
+      // Find the park for this attraction
+      const targetPark = parks.find((p) => p.url_id === attraction.park_url_id);
+
+      if (targetPark) {
+        // Select the park first
+        dispatch(selectPark(targetPark));
+        // Wait for park to load, then select attraction
+        setTimeout(() => {
+          dispatch(selectAttraction(attraction));
+        }, 300);
+      }
+
+      // Navigate to parks page
+      navigate("/parks");
+    },
+    [parks, dispatch, navigate]
+  );
+
   const handleGridColumnsChange = useCallback(
     (columns: number) => {
       dispatch(setFavoritesGridColumns(columns));
@@ -365,7 +393,7 @@ export const FavoritesPage = () => {
                   <AttractionCard
                     key={`attraction-${item.data.id}`}
                     attraction={item.data}
-                    onClick={() => navigate("/parks")}
+                    onClick={() => handleAttractionClick(item.data)}
                     index={idx}
                     layout="external"
                   />

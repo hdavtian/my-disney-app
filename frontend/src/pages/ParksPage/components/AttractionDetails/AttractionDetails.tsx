@@ -1,17 +1,135 @@
 import { motion } from "framer-motion";
+import { useCallback, useEffect, useMemo } from "react";
 import { Attraction } from "../../../../types/Attraction";
 import { FavoriteButton } from "../../../../components/FavoriteButton/FavoriteButton";
+import { SearchInput } from "../../../../components/SearchInput";
 import { getImageUrl } from "../../../../config/assets";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import {
+  setParksSearchQuery,
+  setParksSearchMode,
+  type SearchMode,
+} from "../../../../store/slices/uiPreferencesSlice";
+import {
+  selectAttraction,
+  fetchAllAttractions,
+  setAttractionSearchFilter,
+} from "../../../../store/slices/attractionsSlice";
+import { selectPark } from "../../../../store/slices/parksSlice";
 import "./AttractionDetails.scss";
 
 interface AttractionDetailsProps {
   attraction: Attraction | null;
   loading: boolean;
+  attractions: Attraction[];
+  parkName?: string;
 }
+
+// Export search-related props and handlers
+export interface SearchHandlers {
+  searchableAttractions: Attraction[];
+  handleSearch: (results: Attraction[], query: string) => void;
+  handleSelectAttraction: (attraction: Attraction) => void;
+  handleSearchModeChange: (mode: SearchMode) => void;
+  searchQuery: string;
+  searchMode: SearchMode;
+  getParkName: (parkUrlId: string) => string;
+  parkName?: string;
+}
+
+export const useAttractionSearch = (
+  attractions: Attraction[],
+  parkName?: string
+): SearchHandlers => {
+  const dispatch = useAppDispatch();
+  const { searchQuery, searchMode } = useAppSelector(
+    (state) => state.uiPreferences.parks
+  );
+  const { allAttractions } = useAppSelector((state) => state.attractions);
+  const { parks } = useAppSelector((state) => state.parks);
+
+  // Fetch all attractions when switching to "all" mode
+  useEffect(() => {
+    if (searchMode === "all" && allAttractions.length === 0) {
+      dispatch(fetchAllAttractions());
+    }
+  }, [searchMode, allAttractions.length, dispatch]);
+
+  // Determine which attractions to search
+  const searchableAttractions = useMemo(() => {
+    return searchMode === "current" ? attractions : allAttractions;
+  }, [searchMode, attractions, allAttractions]);
+
+  // Get park name by URL ID helper
+  const getParkName = useCallback(
+    (parkUrlId: string) => {
+      const park = parks.find((p) => p.url_id === parkUrlId);
+      return park?.name || parkUrlId;
+    },
+    [parks]
+  );
+
+  // Handle search
+  const handleSearch = useCallback(
+    (_results: Attraction[], query: string) => {
+      dispatch(setParksSearchQuery(query));
+      dispatch(setAttractionSearchFilter(query));
+    },
+    [dispatch]
+  );
+
+  // Handle attraction selection from search
+  const handleSelectAttraction = useCallback(
+    (selectedAttraction: Attraction) => {
+      // Check if attraction is from a different park
+      const isDifferentPark =
+        selectedAttraction.park_url_id !== attractions[0]?.park_url_id;
+
+      if (searchMode === "all" && isDifferentPark) {
+        // Find and select the park first
+        const targetPark = parks.find(
+          (p) => p.url_id === selectedAttraction.park_url_id
+        );
+        if (targetPark) {
+          dispatch(selectPark(targetPark));
+          // Wait for park to load, then select attraction
+          setTimeout(() => {
+            dispatch(selectAttraction(selectedAttraction));
+          }, 300);
+        }
+      } else {
+        // Same park, just select the attraction
+        dispatch(selectAttraction(selectedAttraction));
+      }
+    },
+    [dispatch, searchMode, attractions, parks]
+  );
+
+  // Handle search mode toggle
+  const handleSearchModeChange = useCallback(
+    (mode: SearchMode) => {
+      dispatch(setParksSearchMode(mode));
+    },
+    [dispatch]
+  );
+
+  return {
+    searchableAttractions,
+    handleSearch,
+    handleSelectAttraction,
+    handleSearchModeChange,
+    searchQuery,
+    searchMode,
+    getParkName,
+    parkName,
+  };
+};
 
 export const AttractionDetails = ({
   attraction,
   loading,
+  attractions,
+  parkName,
 }: AttractionDetailsProps) => {
   if (loading && !attraction) {
     return (

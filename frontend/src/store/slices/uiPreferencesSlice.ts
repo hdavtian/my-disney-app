@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type ViewMode = "grid" | "list";
 export type ThemeMode = "light" | "dark";
 export type FilterType = "all" | "movies" | "characters" | "attractions";
+export type SearchMode = "current" | "all";
 
 interface PagePreferences {
   viewMode: ViewMode;
@@ -13,10 +14,17 @@ interface PagePreferences {
   lastUpdated: number;
 }
 
+interface ParksPreferences {
+  searchQuery: string;
+  searchMode: SearchMode;
+  lastUpdated: number;
+}
+
 interface UiPreferencesState {
   movies: PagePreferences;
   characters: PagePreferences;
   favorites: PagePreferences;
+  parks: ParksPreferences;
   theme: ThemeMode;
 }
 
@@ -29,10 +37,17 @@ const DEFAULT_PAGE_PREFERENCES: PagePreferences = {
   lastUpdated: Date.now(),
 };
 
+const DEFAULT_PARKS_PREFERENCES: ParksPreferences = {
+  searchQuery: "",
+  searchMode: "current",
+  lastUpdated: Date.now(),
+};
+
 const initialState: UiPreferencesState = {
   movies: { ...DEFAULT_PAGE_PREFERENCES },
   characters: { ...DEFAULT_PAGE_PREFERENCES },
   favorites: { ...DEFAULT_PAGE_PREFERENCES },
+  parks: { ...DEFAULT_PARKS_PREFERENCES },
   theme: "light",
 };
 
@@ -128,6 +143,19 @@ const uiPreferencesSlice = createSlice({
       state.favorites = { ...DEFAULT_PAGE_PREFERENCES };
     },
 
+    // Parks actions
+    setParksSearchQuery: (state, action: PayloadAction<string>) => {
+      state.parks.searchQuery = action.payload;
+      state.parks.lastUpdated = Date.now();
+    },
+    setParksSearchMode: (state, action: PayloadAction<SearchMode>) => {
+      state.parks.searchMode = action.payload;
+      state.parks.lastUpdated = Date.now();
+    },
+    resetParksPreferences: (state) => {
+      state.parks = { ...DEFAULT_PARKS_PREFERENCES };
+    },
+
     // Theme actions
     setTheme: (state, action: PayloadAction<ThemeMode>) => {
       state.theme = action.payload;
@@ -141,6 +169,7 @@ const uiPreferencesSlice = createSlice({
       state.movies = { ...DEFAULT_PAGE_PREFERENCES };
       state.characters = { ...DEFAULT_PAGE_PREFERENCES };
       state.favorites = { ...DEFAULT_PAGE_PREFERENCES };
+      state.parks = { ...DEFAULT_PARKS_PREFERENCES };
       state.theme = "light";
     },
 
@@ -159,6 +188,10 @@ const uiPreferencesSlice = createSlice({
         favorites: {
           ...DEFAULT_PAGE_PREFERENCES,
           ...action.payload.favorites,
+        },
+        parks: {
+          ...DEFAULT_PARKS_PREFERENCES,
+          ...action.payload.parks,
         },
         theme: action.payload.theme || "light",
       };
@@ -186,6 +219,9 @@ export const {
   setFavoritesGridColumns,
   setFavoritesFilterType,
   resetFavoritesPreferences,
+  setParksSearchQuery,
+  setParksSearchMode,
+  resetParksPreferences,
   setTheme,
   toggleTheme,
   resetAllPreferences,
