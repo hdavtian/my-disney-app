@@ -52,7 +52,7 @@ export const FavoritesPage = () => {
 
   // Grid size configuration
   const minColumns = 2;
-  const maxColumns = 6;
+  const maxColumns = 10;
   const defaultColumns = 4;
 
   // Use default if gridColumns is 0 or out of bounds

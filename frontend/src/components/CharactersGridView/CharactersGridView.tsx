@@ -38,8 +38,8 @@ export const CharactersGridView = ({
   isLoadingMore,
   gridColumns = 0,
   onGridColumnsChange,
-  minColumns = 4,
-  maxColumns = 8,
+  minColumns = 2,
+  maxColumns = 10,
   defaultColumns = 6,
   gridLabels = ["Normal", "Comfy", "Compact", "Dense", "Max"],
 }: CharactersGridViewProps) => {

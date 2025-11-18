@@ -38,8 +38,8 @@ export const MoviesGridView = ({
   isLoadingMore,
   gridColumns = 0,
   onGridColumnsChange,
-  minColumns = 3,
-  maxColumns = 6,
+  minColumns = 2,
+  maxColumns = 10,
   defaultColumns = 4,
   gridLabels = ["Cozy", "Normal", "Compact", "Dense"],
 }: MoviesGridViewProps) => {
