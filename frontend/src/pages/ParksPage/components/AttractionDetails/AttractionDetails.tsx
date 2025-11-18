@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo } from "react";
 import { Attraction } from "../../../../types/Attraction";
 import { FavoriteButton } from "../../../../components/FavoriteButton/FavoriteButton";
-import { SearchInput } from "../../../../components/SearchInput";
 import { getImageUrl } from "../../../../config/assets";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import {
@@ -128,8 +127,8 @@ export const useAttractionSearch = (
 export const AttractionDetails = ({
   attraction,
   loading,
-  attractions,
-  parkName,
+  attractions: _attractions,
+  parkName: _parkName,
 }: AttractionDetailsProps) => {
   if (loading && !attraction) {
     return (

@@ -6,10 +6,7 @@ import { useFavorites } from "../../hooks/useFavorites";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchMovies } from "../../store/slices/moviesSlice";
 import { fetchCharacters } from "../../store/slices/charactersSlice";
-import {
-  fetchAttractionsByPark,
-  selectAttraction,
-} from "../../store/slices/attractionsSlice";
+import { selectAttraction } from "../../store/slices/attractionsSlice";
 import { selectPark, fetchParks } from "../../store/slices/parksSlice";
 import {
   setFavoritesGridColumns,
@@ -91,9 +88,6 @@ export const FavoritesPage = () => {
     );
 
     if (attractionFavorites.length > 0) {
-      // Get unique park IDs from attractions we have
-      const loadedParkIds = Object.keys(allAttractionsByPark);
-
       // If we don't have many parks loaded, we may need to fetch attractions
       // For now, we'll just work with what we have since we don't know which park each attraction belongs to
       // In a real app, you might store parkUrlId with the favorite or have an endpoint to fetch by attraction ID
