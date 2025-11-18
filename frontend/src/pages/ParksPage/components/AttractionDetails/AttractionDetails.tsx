@@ -71,10 +71,13 @@ export const useAttractionSearch = (
   // Handle search
   const handleSearch = useCallback(
     (_results: Attraction[], query: string) => {
-      dispatch(setParksSearchQuery(query));
-      dispatch(setAttractionSearchFilter(query));
+      // Only dispatch if query actually changed to prevent infinite loops
+      if (query !== searchQuery) {
+        dispatch(setParksSearchQuery(query));
+        dispatch(setAttractionSearchFilter(query));
+      }
     },
-    [dispatch]
+    [dispatch, searchQuery]
   );
 
   // Handle attraction selection from search

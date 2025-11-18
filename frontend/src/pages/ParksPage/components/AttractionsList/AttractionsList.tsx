@@ -65,6 +65,7 @@ interface AttractionsListProps {
   loading: boolean;
   parkName?: string;
   selectedAttraction?: Attraction | null;
+  onAnimationsComplete?: () => void;
 }
 
 export const AttractionsList = ({
@@ -72,6 +73,7 @@ export const AttractionsList = ({
   loading,
   parkName,
   selectedAttraction,
+  onAnimationsComplete,
 }: AttractionsListProps) => {
   const dispatch = useAppDispatch();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -83,6 +85,30 @@ export const AttractionsList = ({
   const handleAttractionClick = (attraction: Attraction) => {
     dispatch(selectAttraction(attraction));
   };
+
+  // Calculate total animation time for all cards
+  // Last card has: (index * 0.05) delay + 0.3s duration
+  useEffect(() => {
+    if (attractions.length > 0 && !loading && onAnimationsComplete) {
+      const lastCardIndex = attractions.length - 1;
+      const lastCardDelay = lastCardIndex * 0.05; // 50ms per card
+      const animationDuration = 0.3; // 300ms
+      const scrollBuffer = 0.5; // 500ms buffer for scroll animation
+      const totalTime =
+        (lastCardDelay + animationDuration + scrollBuffer) * 1000;
+
+      console.log(
+        `⏱️ Waiting ${totalTime}ms for ${attractions.length} cards to animate`
+      );
+
+      const timer = setTimeout(() => {
+        console.log("✅ All attraction cards animated");
+        onAnimationsComplete();
+      }, totalTime);
+
+      return () => clearTimeout(timer);
+    }
+  }, [attractions.length, loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Scroll to selected attraction when it changes
   useEffect(() => {

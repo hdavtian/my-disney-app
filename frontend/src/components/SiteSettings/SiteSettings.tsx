@@ -256,6 +256,29 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                       </span>
                     </div>
                   </div>
+
+                  {/* Detailed Cache Items */}
+                  {cacheStats.items.length > 0 && (
+                    <div className="cache-details">
+                      <h4 className="cache-details__title">Cached Items</h4>
+                      <div className="cache-details__list">
+                        {cacheStats.items.map((item, index) => (
+                          <div key={index} className="cache-item">
+                            <div className="cache-item__key">{item.key}</div>
+                            <div className="cache-item__meta">
+                              <span className="cache-item__size">
+                                {item.size}
+                              </span>
+                              <span className="cache-item__expiry">
+                                <i className="fas fa-clock"></i>
+                                {item.expiresIn}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </section>
 
                 {/* Clear Data Section */}
