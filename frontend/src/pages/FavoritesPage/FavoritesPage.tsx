@@ -4,9 +4,12 @@ import { motion } from "framer-motion";
 
 import { useFavorites } from "../../hooks/useFavorites";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchMovies } from "../../store/slices/moviesSlice";
-import { fetchCharacters } from "../../store/slices/charactersSlice";
-import { selectAttraction } from "../../store/slices/attractionsSlice";
+import { fetchMoviesByIds } from "../../store/slices/moviesSlice";
+import { fetchCharactersByIds } from "../../store/slices/charactersSlice";
+import {
+  fetchAttractionsByIds,
+  selectAttraction,
+} from "../../store/slices/attractionsSlice";
 import { selectPark, fetchParks } from "../../store/slices/parksSlice";
 import {
   setFavoritesGridColumns,
@@ -42,6 +45,9 @@ export const FavoritesPage = () => {
   const allAttractionsByPark = useAppSelector(
     (state) => state.attractions.attractionsByPark
   );
+  const allAttractionsFromStore = useAppSelector(
+    (state) => state.attractions.allAttractions
+  );
   const { parks } = useAppSelector((state) => state.parks);
   const { gridColumns, searchQuery, filterType } = useAppSelector(
     (state) =>
@@ -63,37 +69,72 @@ export const FavoritesPage = () => {
       ? defaultColumns
       : gridColumns;
 
-  // Ensure movies and characters are loaded
+  // Smart batch fetching - only fetch missing favorites
   useEffect(() => {
-    if (allMovies.length === 0) {
-      dispatch(fetchMovies());
-    }
-    if (allCharacters.length === 0) {
-      dispatch(fetchCharacters());
-    }
+    // Ensure parks are loaded (needed for attraction navigation)
     if (parks.length === 0) {
       dispatch(fetchParks());
     }
-  }, [dispatch, allMovies.length, allCharacters.length, parks.length]);
 
-  // Flatten all attractions from all parks into a single array
-  const allAttractions = useMemo(() => {
-    return Object.values(allAttractionsByPark).flat();
-  }, [allAttractionsByPark]);
-
-  // Fetch attractions for any favorited attractions that aren't loaded yet
-  useEffect(() => {
+    const movieFavorites = favorites.filter((f) => f.type === "movie");
+    const characterFavorites = favorites.filter((f) => f.type === "character");
     const attractionFavorites = favorites.filter(
-      (fav) => fav.type === "attraction"
+      (f) => f.type === "attraction"
     );
 
-    if (attractionFavorites.length > 0) {
-      // If we don't have many parks loaded, we may need to fetch attractions
-      // For now, we'll just work with what we have since we don't know which park each attraction belongs to
-      // In a real app, you might store parkUrlId with the favorite or have an endpoint to fetch by attraction ID
-      console.log("Attraction favorites detected:", attractionFavorites.length);
+    // Find IDs that aren't already in the store
+    const missingMovieIds = movieFavorites
+      .filter((f) => !allMovies.find((m) => m.id === f.id))
+      .map((f) => Number(f.id));
+
+    const missingCharacterIds = characterFavorites
+      .filter((f) => !allCharacters.find((c) => c.id === f.id))
+      .map((f) => Number(f.id));
+
+    const missingAttractionIds = attractionFavorites
+      .filter((f) => !allAttractionsFromStore.find((a) => a.id === f.id))
+      .map((f) => Number(f.id));
+
+    // Batch fetch only missing items
+    if (missingMovieIds.length > 0) {
+      console.log("Batch fetching missing movies:", missingMovieIds);
+      dispatch(fetchMoviesByIds(missingMovieIds));
     }
-  }, [favorites, allAttractionsByPark, dispatch]);
+
+    if (missingCharacterIds.length > 0) {
+      console.log("Batch fetching missing characters:", missingCharacterIds);
+      dispatch(fetchCharactersByIds(missingCharacterIds));
+    }
+
+    if (missingAttractionIds.length > 0) {
+      console.log("Batch fetching missing attractions:", missingAttractionIds);
+      dispatch(fetchAttractionsByIds(missingAttractionIds));
+    }
+  }, [
+    favorites,
+    allMovies,
+    allCharacters,
+    allAttractionsFromStore,
+    parks.length,
+    dispatch,
+  ]);
+
+  // Combine attractions from parks (lazily loaded) and allAttractions (batch loaded)
+  const allAttractions = useMemo(() => {
+    const fromParks = Object.values(allAttractionsByPark).flat();
+    const fromStore = allAttractionsFromStore;
+    const combined = [...fromParks, ...fromStore];
+
+    // Deduplicate by ID
+    const uniqueMap = new Map<number, Attraction>();
+    combined.forEach((attraction) => {
+      if (!uniqueMap.has(attraction.id)) {
+        uniqueMap.set(attraction.id, attraction);
+      }
+    });
+
+    return Array.from(uniqueMap.values());
+  }, [allAttractionsByPark, allAttractionsFromStore]);
 
   // Build a combined favorites array preserving the user's saved order
   const favoriteItems = useMemo<FavoriteItem[]>(() => {

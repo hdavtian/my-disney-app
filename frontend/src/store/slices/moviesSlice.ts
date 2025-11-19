@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Movie } from "../../types";
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 import { CacheService } from "../../utils/cacheService";
+import { moviesApi } from "../../api/moviesApi";
 
 interface MoviesState {
   movies: Movie[];
@@ -98,6 +99,31 @@ export const fetchMovieById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : "An error occurred"
+      );
+    }
+  }
+);
+
+// Async thunk to batch fetch movies by IDs with caching and deduplication
+export const fetchMoviesByIds = createAsyncThunk(
+  "movies/fetchMoviesByIds",
+  async (ids: number[], { rejectWithValue }) => {
+    try {
+      if (ids.length === 0) return [];
+
+      // Fetch from API using batch endpoint
+      const data = await moviesApi.getMoviesByIds(ids);
+
+      // Cache each movie individually
+      data.forEach((movie) => {
+        const cacheKey = `movie_${movie.id}`;
+        CacheService.set(cacheKey, movie);
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Failed to batch fetch movies"
       );
     }
   }
@@ -335,6 +361,29 @@ const moviesSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchMovieById.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // Handle fetchMoviesByIds
+    builder.addCase(fetchMoviesByIds.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchMoviesByIds.fulfilled, (state, action) => {
+      state.loading = false;
+      // Merge batch results into existing movies array (avoid duplicates)
+      action.payload.forEach((movie) => {
+        const index = state.movies.findIndex((m) => m.id === movie.id);
+        if (index !== -1) {
+          state.movies[index] = movie;
+        } else {
+          state.movies.push(movie);
+        }
+      });
+      state.error = null;
+    });
+    builder.addCase(fetchMoviesByIds.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });

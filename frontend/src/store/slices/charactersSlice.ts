@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Character } from "../../types";
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 import { CacheService } from "../../utils/cacheService";
+import { charactersApi } from "../../api/charactersApi";
 
 interface CharactersState {
   characters: Character[];
@@ -100,6 +101,33 @@ export const fetchCharacterById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : "An error occurred"
+      );
+    }
+  }
+);
+
+// Async thunk to batch fetch characters by IDs with caching and deduplication
+export const fetchCharactersByIds = createAsyncThunk(
+  "characters/fetchCharactersByIds",
+  async (ids: number[], { rejectWithValue }) => {
+    try {
+      if (ids.length === 0) return [];
+
+      // Fetch from API using batch endpoint
+      const data = await charactersApi.getCharactersByIds(ids);
+
+      // Cache each character individually
+      data.forEach((character) => {
+        const cacheKey = `character_${character.id}`;
+        CacheService.set(cacheKey, character);
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error
+          ? error.message
+          : "Failed to batch fetch characters"
       );
     }
   }
@@ -316,6 +344,29 @@ const charactersSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchCharacterById.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // Handle fetchCharactersByIds
+    builder.addCase(fetchCharactersByIds.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchCharactersByIds.fulfilled, (state, action) => {
+      state.loading = false;
+      // Merge batch results into existing characters array (avoid duplicates)
+      action.payload.forEach((character) => {
+        const index = state.characters.findIndex((c) => c.id === character.id);
+        if (index !== -1) {
+          state.characters[index] = character;
+        } else {
+          state.characters.push(character);
+        }
+      });
+      state.error = null;
+    });
+    builder.addCase(fetchCharactersByIds.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
