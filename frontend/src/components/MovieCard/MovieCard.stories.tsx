@@ -23,7 +23,8 @@ const createMockStore = () => {
 const mockMovie: Movie = {
   id: "frozen-2013",
   title: "Frozen",
-  posterUrl: "https://picsum.photos/seed/frozen/400/600",
+  posterUrl: "",
+  image_1: "frozen.webp",
   releaseYear: 2013,
   rating: "PG",
   genre: ["Animation", "Adventure", "Comedy"],
@@ -36,7 +37,8 @@ const mockMovie: Movie = {
 const mockClassicMovie: Movie = {
   id: "lion-king-1994",
   title: "The Lion King",
-  posterUrl: "https://picsum.photos/seed/lionking/400/600",
+  posterUrl: "",
+  image_1: "the-lion-king.webp",
   releaseYear: 1994,
   rating: "G",
   genre: ["Animation", "Adventure", "Drama"],
@@ -49,7 +51,8 @@ const mockClassicMovie: Movie = {
 const mockRecentMovie: Movie = {
   id: "encanto-2021",
   title: "Encanto",
-  posterUrl: "https://picsum.photos/seed/encanto/400/600",
+  posterUrl: "",
+  image_1: "encanto.webp",
   releaseYear: 2021,
   rating: "PG",
   genre: ["Animation", "Comedy", "Fantasy"],
@@ -62,7 +65,8 @@ const mockRecentMovie: Movie = {
 const mockOldMovie: Movie = {
   id: "snow-white-1937",
   title: "Snow White and the Seven Dwarfs",
-  posterUrl: "https://picsum.photos/seed/snowwhite/400/600",
+  posterUrl: "",
+  image_1: "snow-white-and-the-seven-dwarfs.webp",
   releaseYear: 1937,
   rating: "G",
   genre: ["Animation", "Fantasy", "Musical"],
