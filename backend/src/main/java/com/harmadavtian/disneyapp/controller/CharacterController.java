@@ -10,11 +10,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/characters")
 @Tag(name = "Characters", description = "Disney Character Management API - Endpoints for retrieving and managing Disney character data")
@@ -134,5 +136,20 @@ public class CharacterController {
             @Parameter(description = "Unique identifier of the character", example = "1", required = true) @PathVariable Long id) {
         List<MovieSummaryDto> movies = characterService.getCharacterMovies(id);
         return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/batch")
+    @Operation(summary = "Batch fetch characters by IDs", description = "Retrieves multiple characters in a single request by providing a comma-separated list of character IDs. "
+            +
+            "Optimized for loading favorited items without fetching entire collections.", tags = { "Characters" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved characters", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Character.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid ID format", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<List<Character>> getCharactersByIds(
+            @Parameter(description = "Comma-separated list of character IDs", example = "1,3,8,15,27", required = true) @RequestParam List<Long> ids) {
+        List<Character> characters = characterService.findByIds(ids);
+        return ResponseEntity.ok(characters);
     }
 }

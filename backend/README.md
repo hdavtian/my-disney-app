@@ -4,7 +4,7 @@ Spring Boot REST API for the Disney character and movie catalog application.
 
 ## Tech Stack
 
-- **Java 17** with Spring Boot 3.3.0
+- **Java 21** with Spring Boot 3.3.0
 - **PostgreSQL** database (local Docker or Neon cloud)
 - **Flyway** for database migrations
 - **Maven** for build management
@@ -14,7 +14,7 @@ Spring Boot REST API for the Disney character and movie catalog application.
 
 ### Prerequisites
 
-- Java 17 JDK
+- Java 21 JDK
 - Maven (or use IDE's built-in Maven)
 - Docker Desktop (for local PostgreSQL)
 - IntelliJ IDEA Ultimate (recommended)

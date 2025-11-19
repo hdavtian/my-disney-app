@@ -29,7 +29,7 @@
 **Key Points:**
 
 - Frontend: React 19, Vite 7.2, TypeScript, Redux Toolkit, Framer Motion
-- Backend: Spring Boot 3.3, Java 17, PostgreSQL, Flyway migrations
+- Backend: Spring Boot 3.3, Java 21, PostgreSQL, Flyway migrations
 - DevOps: Docker, Azure Container Apps, Neon cloud database
 
 #### **Scene 3: Development Environment Duality**
@@ -317,7 +317,7 @@ For each scene:
 
 **Narration:**
 
-> "This is a full-stack monorepo with clean separation. Frontend in React with TypeScript, backend in Spring Boot with Java 17. Each side has its own build system and toolchain. I develop the frontend in VS Code and the backend in IntelliJ IDEA - using the right tool for each job. Notice the docs folder for comprehensive documentation and scripts for automation."
+> "This is a full-stack monorepo with clean separation. Frontend in React with TypeScript, backend in Spring Boot with Java 21. Each side has its own build system and toolchain. I develop the frontend in VS Code and the backend in IntelliJ IDEA - using the right tool for each job. Notice the docs folder for comprehensive documentation and scripts for automation."
 
 **Actions:**
 
@@ -353,7 +353,7 @@ For each scene:
 **In pom.xml:**
 
 - Line 7-9: Spring Boot parent 3.3.0
-- Line 14: Java 17
+- Line 14: Java 21
 - Line 17-20: spring-boot-starter-data-jpa
 - Line 21-24: spring-boot-starter-web
 - Line 29-32: PostgreSQL driver
@@ -365,7 +365,7 @@ For each scene:
 
 **Narration:**
 
-> "The frontend runs on React 19 with Vite 7.2 for lightning-fast HMR. State management through Redux Toolkit, animations with Framer Motion. Backend is Spring Boot 3.3 on Java 17 with JPA for ORM, PostgreSQL for persistence, and Flyway for schema migrations. SpringDoc generates OpenAPI documentation automatically. Everything is strongly typed - TypeScript on the frontend, Java on the backend."
+> "The frontend runs on React 19 with Vite 7.2 for lightning-fast HMR. State management through Redux Toolkit, animations with Framer Motion. Backend is Spring Boot 3.3 on Java 21 with JPA for ORM, PostgreSQL for persistence, and Flyway for schema migrations. SpringDoc generates OpenAPI documentation automatically. Everything is strongly typed - TypeScript on the frontend, Java on the backend."
 
 **Actions:**
 

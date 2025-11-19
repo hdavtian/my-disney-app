@@ -7,7 +7,7 @@ A modern, cinematic Disney character catalog web application combining **React**
 <a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/React-19-61DAFB?logo=react" alt="React"></a>
 <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.3.0-6DB33F?logo=springboot" alt="Spring Boot"></a>
 <a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript" alt="TypeScript"></a>
-<a href="https://openjdk.org/" target="_blank"><img src="https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk" alt="Java"></a>
+<a href="https://openjdk.org/" target="_blank"><img src="https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk" alt="Java"></a>
 <a href="https://www.postgresql.org/" target="_blank"><img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql" alt="PostgreSQL"></a>
 <a href="https://swagger.io/" target="_blank"><img src="https://img.shields.io/badge/OpenAPI-3.0-85EA2D?logo=swagger" alt="Swagger"></a>
 <a href="https://storybook.js.org/" target="_blank"><img src="https://img.shields.io/badge/Storybook-10.0-FF4785?logo=storybook" alt="Storybook"></a>
@@ -67,7 +67,7 @@ my-disney-app/
 #### Backend
 
 - **Framework**: Spring Boot 3.3.0
-- **Language**: Java 17
+- **Language**: Java 21
 - **Database**: PostgreSQL 16
 - **ORM**: Spring Data JPA
 - **Migrations**: Flyway
@@ -94,7 +94,7 @@ my-disney-app/
 
 **Backend**:
 
-- Java 17 JDK
+- Java 21 JDK
 - Maven 3.8+
 - Docker Desktop (for local PostgreSQL)
 - IntelliJ IDEA Ultimate (recommended)
@@ -512,7 +512,7 @@ This is a personal portfolio project, but feedback and suggestions are welcome!
 **Backend** (IntelliJ IDEA):
 
 - Follow Spring Boot best practices
-- Java 17 features encouraged
+- Java 21 features encouraged
 - Javadoc for all public APIs
 - Package structure: `controller`, `service`, `repository`, `model`, `config`
 

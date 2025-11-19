@@ -27,6 +27,21 @@ public class CharacterService {
     }
 
     /**
+     * Batch fetch characters by their IDs.
+     * Uses repository's findAllById which generates efficient WHERE id IN (...)
+     * query.
+     * 
+     * @param ids List of character IDs to fetch
+     * @return List of characters matching the provided IDs
+     */
+    public List<Character> findByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return characterRepository.findAllById(ids);
+    }
+
+    /**
      * Get all character IDs for quiz initialization.
      * More efficient than loading full character objects when only IDs are needed.
      * 
