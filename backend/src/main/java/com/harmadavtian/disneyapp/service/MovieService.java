@@ -27,6 +27,21 @@ public class MovieService {
     }
 
     /**
+     * Batch fetch movies by their IDs.
+     * Uses repository's findAllById which generates efficient WHERE id IN (...)
+     * query.
+     * 
+     * @param ids List of movie IDs to fetch
+     * @return List of movies matching the provided IDs
+     */
+    public List<Movie> findByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return movieRepository.findAllById(ids);
+    }
+
+    /**
      * Get all characters associated with a specific movie.
      * Returns character summaries to prevent circular reference issues.
      * 

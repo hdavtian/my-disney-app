@@ -42,6 +42,21 @@ public class DisneyParkAttractionService {
     }
 
     /**
+     * Batch fetch attractions by their IDs.
+     * Uses repository's findAllById which generates efficient WHERE id IN (...)
+     * query.
+     * 
+     * @param ids List of attraction IDs to fetch
+     * @return List of attractions matching the provided IDs
+     */
+    public List<DisneyParkAttraction> findByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return disneyParkAttractionRepository.findAllById(ids);
+    }
+
+    /**
      * Retrieves all attractions in a specific park.
      * 
      * @param parkUrlId The URL ID of the park

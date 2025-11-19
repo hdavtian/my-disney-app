@@ -4,7 +4,7 @@ Spring Boot REST API for the Disney character and movie catalog application.
 
 ## Tech Stack
 
-- **Java 17** with Spring Boot 3.3.0
+- **Java 21** with Spring Boot 3.3.0
 - **PostgreSQL** database (local Docker or Neon cloud)
 - **Flyway** for database migrations
 - **Maven** for build management
@@ -14,7 +14,7 @@ Spring Boot REST API for the Disney character and movie catalog application.
 
 ### Prerequisites
 
-- Java 17 JDK
+- Java 21 JDK
 - Maven (or use IDE's built-in Maven)
 - Docker Desktop (for local PostgreSQL)
 - IntelliJ IDEA Ultimate (recommended)
@@ -132,6 +132,7 @@ Features:
 
 - `GET /api/characters` - Get all Disney characters
 - `GET /api/characters/{id}` - Get character by ID
+- `GET /api/characters/batch?ids=1,3,8` - Batch fetch characters by IDs
 - `GET /api/characters/ids` - Get all character IDs (for quiz)
 - `GET /api/characters/random-except/{excludeId}?count=3` - Get random characters excluding one
 
@@ -139,6 +140,30 @@ Features:
 
 - `GET /api/movies` - Get all Disney movies
 - `GET /api/movies/{id}` - Get movie by ID
+- `GET /api/movies/batch?ids=1,5,12` - Batch fetch movies by IDs
+
+**Batch Fetch Endpoints** (`/api/{resource}/batch`):
+
+- `GET /api/movies/batch?ids=1,5,12,23,45` - Fetch multiple movies by IDs
+- `GET /api/characters/batch?ids=1,3,8,15,27` - Fetch multiple characters by IDs
+- `GET /api/attractions/batch?ids=1,2,7,45,88` - Fetch multiple attractions by IDs
+
+**Performance Characteristics**:
+
+- Single HTTP request replaces N individual requests
+- Efficient `WHERE id IN (...)` SQL query
+- Optimized for favorites page and related items
+- Returns partial results (non-existent IDs are skipped)
+- Empty ID list returns empty array `[]`
+
+**Example Usage**:
+
+```bash
+# Fetch 3 favorite movies in one request
+curl "http://localhost:8080/api/movies/batch?ids=880,881,882"
+
+# Returns: [{id: 880, title: "..."}, {id: 881, title: "..."}, {id: 882, title: "..."}]
+```
 
 **Carousel API** (`/api/carousels`):
 

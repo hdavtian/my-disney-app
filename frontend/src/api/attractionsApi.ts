@@ -87,4 +87,25 @@ export const attractionsApi = {
       );
     return response.json();
   },
+
+  /**
+   * Batch fetch attractions by IDs
+   * Optimized for loading multiple attractions in a single request (e.g., favorites)
+   *
+   * @param ids - Array of attraction IDs to fetch
+   * @returns Array of attractions matching the provided IDs
+   *
+   * @example
+   * const attractions = await attractionsApi.getAttractionsByIds([3564, 3438, 3439]);
+   * // Returns 3 attractions in a single HTTP request
+   */
+  getAttractionsByIds: async (ids: number[]): Promise<Attraction[]> => {
+    if (ids.length === 0) return [];
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/attractions/batch?ids=${ids.join(",")}`
+    );
+    if (!response.ok) throw new Error("Failed to batch fetch attractions");
+    return response.json();
+  },
 };

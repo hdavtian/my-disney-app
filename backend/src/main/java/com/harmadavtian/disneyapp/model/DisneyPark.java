@@ -3,6 +3,9 @@ package com.harmadavtian.disneyapp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,10 +19,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "disney_parks")
+@Getter
+@Setter
+@NoArgsConstructor
 public class DisneyPark {
-
-    public DisneyPark() {
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,7 +89,6 @@ public class DisneyPark {
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
-    // One-to-Many relationship with attractions
     @OneToMany(mappedBy = "park", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<DisneyParkAttraction> attractions = new ArrayList<>();
@@ -100,158 +102,5 @@ public class DisneyPark {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
-    }
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUrlId() {
-        return urlId;
-    }
-
-    public void setUrlId(String urlId) {
-        this.urlId = urlId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getResort() {
-        return resort;
-    }
-
-    public void setResort(String resort) {
-        this.resort = resort;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStateRegion() {
-        return stateRegion;
-    }
-
-    public void setStateRegion(String stateRegion) {
-        this.stateRegion = stateRegion;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public LocalDate getOpeningDate() {
-        return openingDate;
-    }
-
-    public void setOpeningDate(LocalDate openingDate) {
-        this.openingDate = openingDate;
-    }
-
-    public String getParkType() {
-        return parkType;
-    }
-
-    public void setParkType(String parkType) {
-        this.parkType = parkType;
-    }
-
-    public Boolean getIsCastlePark() {
-        return isCastlePark;
-    }
-
-    public void setIsCastlePark(Boolean isCastlePark) {
-        this.isCastlePark = isCastlePark;
-    }
-
-    public Integer getAreaAcres() {
-        return areaAcres;
-    }
-
-    public void setAreaAcres(Integer areaAcres) {
-        this.areaAcres = areaAcres;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public String getLongDescription() {
-        return longDescription;
-    }
-
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
-    }
-
-    public String getOfficialWebsite() {
-        return officialWebsite;
-    }
-
-    public void setOfficialWebsite(String officialWebsite) {
-        this.officialWebsite = officialWebsite;
-    }
-
-    public String getImage1() {
-        return image1;
-    }
-
-    public void setImage1(String image1) {
-        this.image1 = image1;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public List<DisneyParkAttraction> getAttractions() {
-        return attractions;
-    }
-
-    public void setAttractions(List<DisneyParkAttraction> attractions) {
-        this.attractions = attractions;
     }
 }

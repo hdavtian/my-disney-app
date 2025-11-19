@@ -83,6 +83,33 @@ export const fetchAllAttractions = createAsyncThunk(
   }
 );
 
+// Async thunk to batch fetch attractions by IDs with caching and deduplication
+export const fetchAttractionsByIds = createAsyncThunk(
+  "attractions/fetchAttractionsByIds",
+  async (ids: number[], { rejectWithValue }) => {
+    try {
+      if (ids.length === 0) return [];
+
+      // Fetch from API using batch endpoint
+      const data = await attractionsApi.getAttractionsByIds(ids);
+
+      // Cache each attraction individually
+      data.forEach((attraction) => {
+        const cacheKey = `attraction_${attraction.id}`;
+        CacheService.set(cacheKey, attraction);
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error
+          ? error.message
+          : "Failed to batch fetch attractions"
+      );
+    }
+  }
+);
+
 const attractionsSlice = createSlice({
   name: "attractions",
   initialState,
@@ -131,6 +158,29 @@ const attractionsSlice = createSlice({
         state.allAttractions = action.payload;
       })
       .addCase(fetchAllAttractions.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Fetch attractions by IDs (batch)
+      .addCase(fetchAttractionsByIds.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAttractionsByIds.fulfilled, (state, action) => {
+        state.loading = false;
+        // Merge batch results into allAttractions array (avoid duplicates)
+        action.payload.forEach((attraction) => {
+          const index = state.allAttractions.findIndex(
+            (a) => a.id === attraction.id
+          );
+          if (index !== -1) {
+            state.allAttractions[index] = attraction;
+          } else {
+            state.allAttractions.push(attraction);
+          }
+        });
+      })
+      .addCase(fetchAttractionsByIds.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

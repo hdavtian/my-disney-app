@@ -1,6 +1,6 @@
 # Multi-stage Dockerfile for Spring Boot backend
 # Stage 1: Build the application with Maven
-FROM eclipse-temurin:17-jdk AS builder
+FROM eclipse-temurin:21-jdk AS builder
 
 # Install Maven
 RUN apt-get update && \
@@ -22,7 +22,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create lightweight runtime image
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
