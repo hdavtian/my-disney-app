@@ -433,6 +433,55 @@ mvn verify          # Run tests + integration tests
 - CI/CD: GitHub Actions
 - Container Registry: GitHub Container Registry (GHCR)
 
+#### Azure Container App Scaling Configuration
+
+**Current Configuration**:
+
+- **minReplicas**: 1 (Always running - eliminates cold starts)
+- **maxReplicas**: 10 (Auto-scales based on demand)
+- **Cost**: ~$10-15/month (exits free tier)
+
+**Why minReplicas=1?**
+
+- ✅ Eliminates 15-20 second cold start delays
+- ✅ Instant API responses for first-time visitors
+- ✅ Consistent performance for portfolio/demo purposes
+- ⚠️ Moves out of Azure free tier (~180,000 vCPU-seconds/month limit)
+
+**Toggle Between Always-On (Paid) and Scale-to-Zero (Free)**:
+
+```bash
+# Switch to ALWAYS-ON (no cold starts, ~$10-15/month)
+az containerapp update \
+  --name ca-movie-app-api \
+  --resource-group rg-disney-movies-app \
+  --min-replicas 1 \
+  --max-replicas 10
+
+# Switch to SCALE-TO-ZERO (free tier, 15-20s cold start on first request)
+az containerapp update \
+  --name ca-movie-app-api \
+  --resource-group rg-disney-movies-app \
+  --min-replicas 0 \
+  --max-replicas 10
+
+# Check current scaling configuration
+az containerapp show \
+  --name ca-movie-app-api \
+  --resource-group rg-disney-movies-app \
+  --query "{minReplicas:properties.template.scale.minReplicas, maxReplicas:properties.template.scale.maxReplicas, currentReplicas:properties.template.scale.rules}" \
+  -o table
+```
+
+**Resource Details**:
+
+- **Name**: `ca-movie-app-api`
+- **Resource Group**: `rg-disney-movies-app`
+- **Region**: West US 2
+- **FQDN**: `ca-movie-app-api.delightfulcliff-b8bbe0ca.westus2.azurecontainerapps.io`
+- **Custom Domain**: `api.movie-app.disney.harma.dev`
+- **Container Resources**: 0.5 vCPU, 1 GiB memory
+
 ### Environment Variables
 
 **Backend Production** (`prod` profile):
