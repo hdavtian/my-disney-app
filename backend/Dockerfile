@@ -10,16 +10,15 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy Maven wrapper and pom.xml first for better layer caching
-COPY backend/pom.xml .
+COPY pom.xml .
 
 # Download dependencies (cached if pom.xml hasn't changed)
 RUN mvn dependency:go-offline -B
 
 # Copy source code
-COPY backend/src ./src
+COPY src ./src
 
 # Build the application (skip tests for faster builds; tests run in CI/CD)
-# git-commit-id-plugin will automatically read from .git directory
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create lightweight runtime image
