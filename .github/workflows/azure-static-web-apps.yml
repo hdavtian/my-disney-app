@@ -19,7 +19,13 @@ jobs:
         with:
           submodules: true
           lfs: false
-      
+
+      - name: Create .env file with build info
+        run: |
+          echo "VITE_APP_VERSION=${{ github.ref_name }}" >> frontend/.env
+          echo "VITE_GIT_COMMIT=${{ github.sha }}" >> frontend/.env
+          echo "VITE_BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> frontend/.env
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1

@@ -6,6 +6,7 @@ import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
 import { hydrateFavorites } from "../../store/slices/favoritesSlice";
 import { clearDisclaimer } from "../../utils/disclaimerGate";
 import { useTheme } from "../../hooks/useTheme";
+import { VersionInfo } from "../VersionInfo/VersionInfo";
 import "./SiteSettings.scss";
 
 interface SiteSettingsProps {
@@ -18,7 +19,7 @@ interface ToastMessage {
   message: string;
 }
 
-type TabType = "cache" | "theme";
+type TabType = "cache" | "theme" | "about";
 
 export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
   const dispatch = useDispatch();
@@ -229,6 +230,15 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
             >
               <i className="fas fa-database"></i>
               Cache Settings
+            </button>
+            <button
+              className={`settings-tab ${
+                activeTab === "about" ? "settings-tab--active" : ""
+              }`}
+              onClick={() => setActiveTab("about")}
+            >
+              <i className="fas fa-info-circle"></i>
+              About
             </button>
           </div>
 
@@ -483,6 +493,32 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                         </div>
                       </button>
                     ))}
+                  </div>
+                </section>
+              </div>
+            )}
+
+            {activeTab === "about" && (
+              <div className="settings-tab-panel">
+                <section className="settings-section">
+                  <h3 className="settings-section__title">
+                    <i className="fas fa-info-circle"></i>
+                    Application Information
+                  </h3>
+                  <div className="about-content">
+                    <div className="about-section">
+                      <h4 className="about-section__title">
+                        Version Information
+                      </h4>
+                      <VersionInfo />
+                    </div>
+                    <div className="about-section">
+                      <h4 className="about-section__title">About Disney App</h4>
+                      <p className="about-section__text">
+                        A modern Disney character and movie catalog showcasing
+                        cinematic design and clean architecture.
+                      </p>
+                    </div>
                   </div>
                 </section>
               </div>
