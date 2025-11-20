@@ -305,4 +305,8 @@ The backend is deployed to **Azure Container Apps** via GitHub Actions:
 4. Azure Container Apps pulls and deploys image
 5. Environment variables set in ACA for Neon connection
 
-Production URL: `https://api.movie-app.disney.harma.dev` (after deployment)
+Production URL: `https://api.movie-app.disney.harma.dev`
+
+## Recent Updates
+
+- **Batch Endpoints**: Added efficient batch fetch endpoints for characters, movies, and attractions to optimize favorites page loading

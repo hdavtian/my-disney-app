@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -128,8 +129,12 @@ public class DisneyParkAttractionController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
     public ResponseEntity<List<DisneyParkAttraction>> getAttractionsByIds(
-            @Parameter(description = "Comma-separated list of attraction IDs", example = "1,2,7,45,88", required = true) @RequestParam List<Long> ids) {
-        List<DisneyParkAttraction> attractions = disneyParkAttractionService.findByIds(ids);
+            @Parameter(description = "Comma-separated list of attraction IDs", example = "1,2,7,45,88", required = true) @RequestParam String ids) {
+        List<Long> idList = Arrays.stream(ids.split(","))
+                .map(String::trim)
+                .map(Long::parseLong)
+                .toList();
+        List<DisneyParkAttraction> attractions = disneyParkAttractionService.findByIds(idList);
         return ResponseEntity.ok(attractions);
     }
 }
