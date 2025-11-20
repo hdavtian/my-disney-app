@@ -960,6 +960,37 @@
     margin-top: var(--space-2);
 }
 
+// About Content
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.about-section {
+    &__title {
+        font-size: var(--text-base);
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: var(--space-3);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+
+        i {
+            font-size: var(--text-sm);
+            color: var(--accent-primary);
+        }
+    }
+
+    &__text {
+        font-size: var(--text-sm);
+        color: var(--text-tertiary);
+        line-height: var(--leading-relaxed);
+        margin: 0;
+    }
+}
+
 // Animations
 @keyframes fadeIn {
     from {

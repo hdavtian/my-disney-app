@@ -2,6 +2,9 @@
 # Stage 1: Build the application with Maven
 FROM eclipse-temurin:21-jdk AS builder
 
+# Build argument for git commit SHA
+ARG GIT_COMMIT=unknown
+
 # Install Maven
 RUN apt-get update && \
     apt-get install -y maven && \
@@ -18,8 +21,8 @@ RUN mvn dependency:go-offline -B
 # Copy source code
 COPY src ./src
 
-# Build the application (skip tests for faster builds; tests run in CI/CD)
-RUN mvn clean package -DskipTests
+# Build the application with git commit info (skip tests for faster builds; tests run in CI/CD)
+RUN mvn clean package -DskipTests -DGIT_COMMIT=${GIT_COMMIT}
 
 # Stage 2: Create lightweight runtime image
 FROM eclipse-temurin:21-jre
