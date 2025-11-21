@@ -113,6 +113,16 @@ export const CharactersPage = () => {
     sortCharacters,
   ]);
 
+  // Compute hasMore based on whether filters are active
+  const hasMoreToShow = useMemo(() => {
+    // If any filter is active, all filtered results are already showing
+    if (selectedLetter || selectedCategories.length > 0) {
+      return false;
+    }
+    // No filters active - use pagination hasMore
+    return pagination.hasMore;
+  }, [selectedLetter, selectedCategories, pagination.hasMore]);
+
   // Fetch characters on mount
   useEffect(() => {
     dispatch(fetchCharacters());
@@ -370,7 +380,7 @@ export const CharactersPage = () => {
             characters={filteredAndSortedCharacters}
             onCharacterClick={handleCharacterClick}
             onLoadMore={handleLoadMore}
-            hasMore={pagination.hasMore}
+            hasMore={hasMoreToShow}
             isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
             gridColumns={gridColumns}

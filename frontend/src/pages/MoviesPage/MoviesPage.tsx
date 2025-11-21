@@ -119,6 +119,17 @@ export const MoviesPage = () => {
     return result;
   }, [movies, displayedMovies, selectedLetter, sortOrder, sortMovies]);
 
+  // Compute hasMore based on whether filters are active
+  const hasMoreToShow = useMemo(() => {
+    // If any filter is active, check if all filtered results are showing
+    if (selectedLetter) {
+      // All filtered results are already in filteredAndSortedMovies
+      return false;
+    }
+    // No filters active - use pagination hasMore
+    return pagination.hasMore;
+  }, [selectedLetter, pagination.hasMore]);
+
   // Fetch movies on mount
   useEffect(() => {
     dispatch(fetchMovies());
@@ -337,7 +348,7 @@ export const MoviesPage = () => {
             movies={filteredAndSortedMovies}
             onMovieClick={handleMovieClick}
             onLoadMore={handleLoadMore}
-            hasMore={pagination.hasMore}
+            hasMore={hasMoreToShow}
             isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
             gridColumns={gridColumns}
