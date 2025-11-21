@@ -361,7 +361,8 @@ export const CharactersPage = () => {
         </div>
 
         <div className="characters-page__results-count">
-          {filteredAndSortedCharacters.length} {filteredAndSortedCharacters.length === 1 ? 'result' : 'results'}
+          {filteredAndSortedCharacters.length}{" "}
+          {filteredAndSortedCharacters.length === 1 ? "result" : "results"}
         </div>
 
         {viewMode === "grid" ? (

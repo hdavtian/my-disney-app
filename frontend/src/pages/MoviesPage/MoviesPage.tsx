@@ -328,7 +328,8 @@ export const MoviesPage = () => {
         </div>
 
         <div className="movies-page__results-count">
-          {filteredAndSortedMovies.length} {filteredAndSortedMovies.length === 1 ? 'result' : 'results'}
+          {filteredAndSortedMovies.length}{" "}
+          {filteredAndSortedMovies.length === 1 ? "result" : "results"}
         </div>
 
         {viewMode === "grid" ? (
