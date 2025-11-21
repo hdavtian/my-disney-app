@@ -5,7 +5,8 @@ export interface Movie {
   backdropUrl?: string;
   short_description?: string;
   long_description?: string;
-  releaseYear: number;
+  creation_year?: number;
+  releaseYear?: number; // Deprecated - use creation_year
   genre?: string[];
   director?: string;
   duration?: number;
