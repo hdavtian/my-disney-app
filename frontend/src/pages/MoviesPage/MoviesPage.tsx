@@ -327,6 +327,10 @@ export const MoviesPage = () => {
           </div>
         </div>
 
+        <div className="movies-page__results-count">
+          {filteredAndSortedMovies.length} {filteredAndSortedMovies.length === 1 ? 'result' : 'results'}
+        </div>
+
         {viewMode === "grid" ? (
           <MoviesGridView
             movies={filteredAndSortedMovies}

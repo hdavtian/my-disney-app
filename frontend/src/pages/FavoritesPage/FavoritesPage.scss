@@ -94,6 +94,19 @@
         flex-wrap: wrap;
     }
 
+    &__results-count {
+        padding: var(--space-3) var(--space-6);
+        color: var(--text-secondary);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        text-align: center;
+
+        @media (max-width: 768px) {
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--text-xs);
+        }
+    }
+
     &__controls {
         display: flex;
         gap: var(--space-4);

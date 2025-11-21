@@ -487,6 +487,10 @@ export const FavoritesPage = () => {
             </div>
           </div>
 
+          <div className="favorites-page__results-count">
+            {filteredFavorites.length} {filteredFavorites.length === 1 ? 'result' : 'results'}
+          </div>
+
           <div className="favorites-page__grid-controls">
             <CardSizeControl
               currentColumns={activeColumns}
