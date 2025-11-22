@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MoviesPage.scss";
 import { motion } from "framer-motion";
@@ -14,12 +14,19 @@ import {
   setMoviesSearchQuery,
   incrementMoviesGridItems,
   setMoviesGridColumns,
+  setMoviesSelectedLetter,
+  setMoviesSortOrder,
 } from "../../store/slices/uiPreferencesSlice";
 import { addRecentlyViewedMovie } from "../../store/slices/recentlyViewedSlice";
 import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
 import { MoviesGridView } from "../../components/MoviesGridView";
 import { MoviesListView } from "../../components/MoviesListView";
 import { SearchInput } from "../../components/SearchInput";
+import {
+  AlphabetFilter,
+  getIndexCharacter,
+} from "../../components/AlphabetFilter";
+import { SortDropdown, SortOption } from "../../components/SortDropdown";
 import { Movie } from "../../types/Movie";
 
 export const MoviesPage = () => {
@@ -27,11 +34,101 @@ export const MoviesPage = () => {
   const navigate = useNavigate();
   const { movies, displayedMovies, loading, error, pagination } =
     useAppSelector((state) => state.movies);
-  const { viewMode, gridItemsToShow, searchQuery, gridColumns } =
-    useAppSelector((state) => state.uiPreferences.movies);
+  const {
+    viewMode,
+    gridItemsToShow,
+    searchQuery,
+    gridColumns,
+    selectedLetter = null,
+    sortOrder = null,
+  } = useAppSelector((state) => state.uiPreferences.movies);
 
   // Track if we've restored pagination state
   const hasRestoredPagination = useRef(false);
+
+  // Sort options for movies
+  const sortOptions: SortOption[] = [
+    { key: "title-asc", label: "Title (A-Z)" },
+    { key: "title-desc", label: "Title (Z-A)" },
+    { key: "year-asc", label: "Year (Oldest First)" },
+    { key: "year-desc", label: "Year (Newest First)" },
+  ];
+
+  // Sort functions
+  const sortMovies = useCallback(
+    (moviesToSort: Movie[], order: string | null): Movie[] => {
+      if (!order) return moviesToSort;
+
+      const sorted = [...moviesToSort];
+      switch (order) {
+        case "title-asc":
+          sorted.sort((a, b) => a.title.localeCompare(b.title));
+          return sorted;
+        case "title-desc":
+          sorted.sort((a, b) => b.title.localeCompare(a.title));
+          return sorted;
+        case "year-asc":
+          sorted.sort((a, b) => {
+            const yearA = a.creation_year || a.releaseYear || 0;
+            const yearB = b.creation_year || b.releaseYear || 0;
+            return yearA - yearB;
+          });
+          console.log(
+            "Year ASC - First 5:",
+            sorted
+              .slice(0, 5)
+              .map((m) => `${m.title} (${m.creation_year || m.releaseYear})`)
+          );
+          return sorted;
+        case "year-desc":
+          sorted.sort((a, b) => {
+            const yearA = a.creation_year || a.releaseYear || 0;
+            const yearB = b.creation_year || b.releaseYear || 0;
+            return yearB - yearA;
+          });
+          console.log(
+            "Year DESC - First 5:",
+            sorted
+              .slice(0, 5)
+              .map((m) => `${m.title} (${m.creation_year || m.releaseYear})`)
+          );
+          return sorted;
+        default:
+          return sorted;
+      }
+    },
+    []
+  );
+
+  // Apply filters and sorting to displayed movies
+  const filteredAndSortedMovies = useMemo(() => {
+    // Start with full dataset if letter filter is active, otherwise use displayed
+    let result = selectedLetter ? movies : displayedMovies;
+
+    // Apply alphabetical filter
+    if (selectedLetter) {
+      result = result.filter((movie) => {
+        const char = getIndexCharacter(movie.title);
+        return char === selectedLetter;
+      });
+    }
+
+    // Apply sorting
+    result = sortMovies(result, sortOrder);
+
+    return result;
+  }, [movies, displayedMovies, selectedLetter, sortOrder, sortMovies]);
+
+  // Compute hasMore based on whether filters are active
+  const hasMoreToShow = useMemo(() => {
+    // If any filter is active, check if all filtered results are showing
+    if (selectedLetter) {
+      // All filtered results are already in filteredAndSortedMovies
+      return false;
+    }
+    // No filters active - use pagination hasMore
+    return pagination.hasMore;
+  }, [selectedLetter, pagination.hasMore]);
 
   // Fetch movies on mount
   useEffect(() => {
@@ -135,6 +232,21 @@ export const MoviesPage = () => {
     },
     [dispatch]
   );
+
+  const handleLetterSelect = useCallback(
+    (letter: string | null) => {
+      dispatch(setMoviesSelectedLetter(letter));
+    },
+    [dispatch]
+  );
+
+  const handleSortChange = useCallback(
+    (sort: string | null) => {
+      dispatch(setMoviesSortOrder(sort));
+    },
+    [dispatch]
+  );
+
   if (loading) {
     return (
       <motion.div
@@ -210,19 +322,43 @@ export const MoviesPage = () => {
       </div>
 
       <div className="movies-page__content">
+        <div className="movies-page__filters">
+          <AlphabetFilter
+            items={movies}
+            nameKey="title"
+            selectedLetter={selectedLetter}
+            onLetterSelect={handleLetterSelect}
+          />
+          <div className="movies-page__filter-row">
+            <SortDropdown
+              options={sortOptions}
+              value={sortOrder}
+              onChange={handleSortChange}
+            />
+          </div>
+        </div>
+
+        <div className="movies-page__results-count">
+          {filteredAndSortedMovies.length}{" "}
+          {filteredAndSortedMovies.length === 1 ? "result" : "results"}
+        </div>
+
         {viewMode === "grid" ? (
           <MoviesGridView
-            movies={displayedMovies}
+            movies={filteredAndSortedMovies}
             onMovieClick={handleMovieClick}
             onLoadMore={handleLoadMore}
-            hasMore={pagination.hasMore}
+            hasMore={hasMoreToShow}
             isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
             gridColumns={gridColumns}
             onGridColumnsChange={handleGridColumnsChange}
           />
         ) : (
-          <MoviesListView movies={movies} onMovieClick={handleMovieClick} />
+          <MoviesListView
+            movies={filteredAndSortedMovies}
+            onMovieClick={handleMovieClick}
+          />
         )}
       </div>
     </motion.div>

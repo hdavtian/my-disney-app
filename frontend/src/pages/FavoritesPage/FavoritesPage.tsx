@@ -15,6 +15,8 @@ import {
   setFavoritesGridColumns,
   setFavoritesSearchQuery,
   setFavoritesFilterType,
+  setFavoritesSelectedLetter,
+  setFavoritesSortOrder,
   FilterType,
 } from "../../store/slices/uiPreferencesSlice";
 import {
@@ -29,6 +31,11 @@ import { MovieCard } from "../../components/MovieCard/MovieCard";
 import { CharacterCard } from "../../components/CharacterCard/CharacterCard";
 import { AttractionCard } from "../../components/AttractionCard/AttractionCard";
 import { SearchInput } from "../../components/SearchInput";
+import {
+  AlphabetFilter,
+  getIndexCharacter,
+} from "../../components/AlphabetFilter";
+import { SortDropdown, SortOption } from "../../components/SortDropdown";
 import "./FavoritesPage.scss";
 
 type FavoriteItem =
@@ -49,14 +56,23 @@ export const FavoritesPage = () => {
     (state) => state.attractions.allAttractions
   );
   const { parks } = useAppSelector((state) => state.parks);
-  const { gridColumns, searchQuery, filterType } = useAppSelector(
-    (state) =>
-      state.uiPreferences.favorites ?? {
-        gridColumns: 0,
-        searchQuery: "",
-        filterType: "all" as FilterType,
-      }
-  );
+  const { gridColumns, searchQuery, filterType, selectedLetter, sortOrder } =
+    useAppSelector(
+      (state) =>
+        state.uiPreferences.favorites ?? {
+          gridColumns: 0,
+          searchQuery: "",
+          filterType: "all" as FilterType,
+          selectedLetter: null,
+          sortOrder: null,
+        }
+    );
+
+  // Sort options
+  const sortOptions: SortOption[] = [
+    { key: "name-asc", label: "Name (A-Z)" },
+    { key: "name-desc", label: "Name (Z-A)" },
+  ];
 
   // Grid size configuration
   const minColumns = 2;
@@ -191,7 +207,7 @@ export const FavoritesPage = () => {
     });
   }, [favoriteItems]);
 
-  // Apply search filter and type filter to favoriteItems
+  // Apply search filter, type filter, alphabetical filter, and sort to favoriteItems
   const filteredFavorites = useMemo(() => {
     let items = favoriteItems;
 
@@ -204,34 +220,73 @@ export const FavoritesPage = () => {
       items = items.filter((item) => item.type === "attraction");
     }
 
-    // Then apply search filter
-    if (!searchQuery) {
-      return items;
+    // Apply alphabetical filter
+    if (selectedLetter) {
+      items = items.filter((item) => {
+        const name =
+          item.type === "movie"
+            ? (item.data as Movie).title
+            : item.type === "character"
+            ? (item.data as Character).name
+            : (item.data as Attraction).name;
+        const char = getIndexCharacter(name);
+        return char === selectedLetter;
+      });
     }
 
-    const lowerQuery = searchQuery.toLowerCase();
-    return items.filter((item) => {
-      if (item.type === "movie") {
-        const movie = item.data as Movie;
-        return (
-          movie.title.toLowerCase().includes(lowerQuery) ||
-          movie.releaseYear?.toString().includes(lowerQuery)
-        );
-      } else if (item.type === "character") {
-        const character = item.data as Character;
-        return (
-          character.name.toLowerCase().includes(lowerQuery) ||
-          character.debut?.toLowerCase().includes(lowerQuery)
-        );
-      } else {
-        const attraction = item.data as Attraction;
-        return (
-          attraction.name.toLowerCase().includes(lowerQuery) ||
-          attraction.land_area?.toLowerCase().includes(lowerQuery)
-        );
-      }
-    });
-  }, [favoriteItems, searchQuery, filterType]);
+    // Then apply search filter
+    if (searchQuery) {
+      const lowerQuery = searchQuery.toLowerCase();
+      items = items.filter((item) => {
+        if (item.type === "movie") {
+          const movie = item.data as Movie;
+          return (
+            movie.title.toLowerCase().includes(lowerQuery) ||
+            movie.releaseYear?.toString().includes(lowerQuery)
+          );
+        } else if (item.type === "character") {
+          const character = item.data as Character;
+          return (
+            character.name.toLowerCase().includes(lowerQuery) ||
+            character.debut?.toLowerCase().includes(lowerQuery)
+          );
+        } else {
+          const attraction = item.data as Attraction;
+          return (
+            attraction.name.toLowerCase().includes(lowerQuery) ||
+            attraction.land_area?.toLowerCase().includes(lowerQuery)
+          );
+        }
+      });
+    }
+
+    // Apply sorting
+    if (sortOrder) {
+      items = [...items].sort((a, b) => {
+        const nameA =
+          a.type === "movie"
+            ? (a.data as Movie).title
+            : a.type === "character"
+            ? (a.data as Character).name
+            : (a.data as Attraction).name;
+        const nameB =
+          b.type === "movie"
+            ? (b.data as Movie).title
+            : b.type === "character"
+            ? (b.data as Character).name
+            : (b.data as Attraction).name;
+
+        if (sortOrder === "name-asc") {
+          return nameA.localeCompare(nameB);
+        } else if (sortOrder === "name-desc") {
+          return nameB.localeCompare(nameA);
+        }
+        return 0;
+      });
+    }
+
+    return items;
+  }, [favoriteItems, searchQuery, filterType, selectedLetter, sortOrder]);
 
   const handleSearch = useCallback(
     (_results: any[], query: string) => {
@@ -302,6 +357,33 @@ export const FavoritesPage = () => {
     [dispatch]
   );
 
+  const handleLetterSelect = useCallback(
+    (letter: string | null) => {
+      dispatch(setFavoritesSelectedLetter(letter));
+    },
+    [dispatch]
+  );
+
+  const handleSortChange = useCallback(
+    (sort: string | null) => {
+      dispatch(setFavoritesSortOrder(sort));
+    },
+    [dispatch]
+  );
+
+  // Build search index for AlphabetFilter
+  const allFavoriteItems = useMemo(() => {
+    return favoriteItems.map((item) => {
+      if (item.type === "movie") {
+        return { name: (item.data as Movie).title };
+      } else if (item.type === "character") {
+        return { name: (item.data as Character).name };
+      } else {
+        return { name: (item.data as Attraction).name };
+      }
+    });
+  }, [favoriteItems]);
+
   return (
     <motion.div
       className="page-container favorites-page"
@@ -351,45 +433,66 @@ export const FavoritesPage = () => {
         </div>
       ) : (
         <div className="favorites-page__content">
-          <div className="favorites-page__grid-controls">
-            <div className="favorites-page__filter-buttons">
-              <button
-                className={`favorites-page__filter-button ${
-                  filterType === "all" ? "active" : ""
-                }`}
-                onClick={() => handleFilterChange("all")}
-                aria-label="Show all favorites"
-              >
-                All
-              </button>
-              <button
-                className={`favorites-page__filter-button ${
-                  filterType === "movies" ? "active" : ""
-                }`}
-                onClick={() => handleFilterChange("movies")}
-                aria-label="Show movies only"
-              >
-                Movies
-              </button>
-              <button
-                className={`favorites-page__filter-button ${
-                  filterType === "characters" ? "active" : ""
-                }`}
-                onClick={() => handleFilterChange("characters")}
-                aria-label="Show characters only"
-              >
-                Characters
-              </button>
-              <button
-                className={`favorites-page__filter-button ${
-                  filterType === "attractions" ? "active" : ""
-                }`}
-                onClick={() => handleFilterChange("attractions")}
-                aria-label="Show attractions only"
-              >
-                Attractions
-              </button>
+          <div className="favorites-page__filters-section">
+            <AlphabetFilter
+              items={allFavoriteItems}
+              nameKey="name"
+              selectedLetter={selectedLetter}
+              onLetterSelect={handleLetterSelect}
+            />
+            <div className="favorites-page__filter-row">
+              <div className="favorites-page__filter-buttons">
+                <button
+                  className={`favorites-page__filter-button ${
+                    filterType === "all" ? "active" : ""
+                  }`}
+                  onClick={() => handleFilterChange("all")}
+                  aria-label="Show all favorites"
+                >
+                  All
+                </button>
+                <button
+                  className={`favorites-page__filter-button ${
+                    filterType === "movies" ? "active" : ""
+                  }`}
+                  onClick={() => handleFilterChange("movies")}
+                  aria-label="Show movies only"
+                >
+                  Movies
+                </button>
+                <button
+                  className={`favorites-page__filter-button ${
+                    filterType === "characters" ? "active" : ""
+                  }`}
+                  onClick={() => handleFilterChange("characters")}
+                  aria-label="Show characters only"
+                >
+                  Characters
+                </button>
+                <button
+                  className={`favorites-page__filter-button ${
+                    filterType === "attractions" ? "active" : ""
+                  }`}
+                  onClick={() => handleFilterChange("attractions")}
+                  aria-label="Show attractions only"
+                >
+                  Attractions
+                </button>
+              </div>
+              <SortDropdown
+                options={sortOptions}
+                value={sortOrder}
+                onChange={handleSortChange}
+              />
             </div>
+          </div>
+
+          <div className="favorites-page__results-count">
+            {filteredFavorites.length}{" "}
+            {filteredFavorites.length === 1 ? "result" : "results"}
+          </div>
+
+          <div className="favorites-page__grid-controls">
             <CardSizeControl
               currentColumns={activeColumns}
               minColumns={minColumns}

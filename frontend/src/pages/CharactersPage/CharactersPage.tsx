@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CharactersPage.scss";
 import { motion } from "framer-motion";
@@ -14,6 +14,9 @@ import {
   setCharactersSearchQuery,
   incrementCharactersGridItems,
   setCharactersGridColumns,
+  setCharactersSelectedLetter,
+  setCharactersSelectedCategories,
+  setCharactersSortOrder,
 } from "../../store/slices/uiPreferencesSlice";
 import { initializeCachedCharacters } from "../../utils/quizApiCached";
 import { addRecentlyViewedCharacter } from "../../store/slices/recentlyViewedSlice";
@@ -21,6 +24,11 @@ import { ViewModeToggle, ViewMode } from "../../components/ViewModeToggle";
 import { CharactersGridView } from "../../components/CharactersGridView";
 import { CharactersListView } from "../../components/CharactersListView";
 import { SearchInput } from "../../components/SearchInput";
+import {
+  AlphabetFilter,
+  getIndexCharacter,
+} from "../../components/AlphabetFilter";
+import { SortDropdown, SortOption } from "../../components/SortDropdown";
 import { CharacterQuiz } from "../../components/CharacterQuiz";
 import { Character } from "../../types/Character";
 
@@ -29,11 +37,91 @@ export const CharactersPage = () => {
   const navigate = useNavigate();
   const { characters, displayedCharacters, loading, error, pagination } =
     useAppSelector((state) => state.characters);
-  const { viewMode, gridItemsToShow, searchQuery, gridColumns } =
-    useAppSelector((state) => state.uiPreferences.characters);
+  const {
+    viewMode,
+    gridItemsToShow,
+    searchQuery,
+    gridColumns,
+    selectedLetter = null,
+    selectedCategories = [],
+    sortOrder = null,
+  } = useAppSelector((state) => state.uiPreferences.characters);
 
   // Track if we've restored pagination state
   const hasRestoredPagination = useRef(false);
+
+  // Character categories
+  const categories = ["Disney", "Marvel", "Pixar", "Star Wars"];
+
+  // Sort options for characters
+  const sortOptions: SortOption[] = [
+    { key: "name-asc", label: "Name (A-Z)" },
+    { key: "name-desc", label: "Name (Z-A)" },
+  ];
+
+  // Sort functions
+  const sortCharacters = useCallback(
+    (charactersToSort: Character[], order: string | null): Character[] => {
+      if (!order) return charactersToSort;
+
+      const sorted = [...charactersToSort];
+      switch (order) {
+        case "name-asc":
+          return sorted.sort((a, b) => a.name.localeCompare(b.name));
+        case "name-desc":
+          return sorted.sort((a, b) => b.name.localeCompare(a.name));
+        default:
+          return sorted;
+      }
+    },
+    []
+  );
+
+  // Apply filters and sorting to displayed characters
+  const filteredAndSortedCharacters = useMemo(() => {
+    // Start with full dataset if any filter is active, otherwise use displayed
+    let result =
+      selectedLetter || selectedCategories.length > 0
+        ? characters
+        : displayedCharacters;
+
+    // Apply alphabetical filter
+    if (selectedLetter) {
+      result = result.filter((character) => {
+        const char = getIndexCharacter(character.name);
+        return char === selectedLetter;
+      });
+    }
+
+    // Apply category filter
+    if (selectedCategories.length > 0) {
+      result = result.filter((character) =>
+        selectedCategories.includes(character.category)
+      );
+    }
+
+    // Apply sorting
+    result = sortCharacters(result, sortOrder);
+
+    return result;
+  }, [
+    characters,
+    displayedCharacters,
+    selectedLetter,
+    selectedCategories,
+    sortOrder,
+    sortCharacters,
+  ]);
+
+  // Compute hasMore based on whether filters are active
+  const hasMoreToShow = useMemo(() => {
+    // If any filter is active, all filtered results are already showing
+    if (selectedLetter || selectedCategories.length > 0) {
+      return false;
+    }
+    // No filters active - use pagination hasMore
+    return pagination.hasMore;
+  }, [selectedLetter, selectedCategories, pagination.hasMore]);
 
   // Fetch characters on mount
   useEffect(() => {
@@ -152,6 +240,30 @@ export const CharactersPage = () => {
     [dispatch]
   );
 
+  const handleLetterSelect = useCallback(
+    (letter: string | null) => {
+      dispatch(setCharactersSelectedLetter(letter));
+    },
+    [dispatch]
+  );
+
+  const handleCategoryToggle = useCallback(
+    (category: string) => {
+      const newCategories = selectedCategories.includes(category)
+        ? selectedCategories.filter((c) => c !== category)
+        : [...selectedCategories, category];
+      dispatch(setCharactersSelectedCategories(newCategories));
+    },
+    [dispatch, selectedCategories]
+  );
+
+  const handleSortChange = useCallback(
+    (sort: string | null) => {
+      dispatch(setCharactersSortOrder(sort));
+    },
+    [dispatch]
+  );
+
   if (loading) {
     return (
       <motion.div
@@ -229,12 +341,46 @@ export const CharactersPage = () => {
       <div className="characters-page__content">
         <CharacterQuiz />
 
+        <div className="characters-page__filters">
+          <AlphabetFilter
+            items={characters}
+            nameKey="name"
+            selectedLetter={selectedLetter}
+            onLetterSelect={handleLetterSelect}
+          />
+          <div className="characters-page__filter-row">
+            <div className="characters-page__category-filters">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  className={`characters-page__category-btn ${
+                    selectedCategories.includes(category) ? "active" : ""
+                  }`}
+                  onClick={() => handleCategoryToggle(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+            <SortDropdown
+              options={sortOptions}
+              value={sortOrder}
+              onChange={handleSortChange}
+            />
+          </div>
+        </div>
+
+        <div className="characters-page__results-count">
+          {filteredAndSortedCharacters.length}{" "}
+          {filteredAndSortedCharacters.length === 1 ? "result" : "results"}
+        </div>
+
         {viewMode === "grid" ? (
           <CharactersGridView
-            characters={displayedCharacters}
+            characters={filteredAndSortedCharacters}
             onCharacterClick={handleCharacterClick}
             onLoadMore={handleLoadMore}
-            hasMore={pagination.hasMore}
+            hasMore={hasMoreToShow}
             isLoadingMore={pagination.isLoadingMore}
             hideSearch={true}
             gridColumns={gridColumns}
@@ -242,7 +388,7 @@ export const CharactersPage = () => {
           />
         ) : (
           <CharactersListView
-            characters={characters}
+            characters={filteredAndSortedCharacters}
             onCharacterClick={handleCharacterClick}
           />
         )}

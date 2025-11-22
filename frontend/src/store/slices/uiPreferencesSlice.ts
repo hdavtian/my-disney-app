@@ -11,6 +11,10 @@ interface PagePreferences {
   searchQuery: string;
   gridColumns: number;
   filterType?: FilterType;
+  // NEW: Filtering and sorting
+  selectedLetter?: string | null; // 'A', 'B', ..., 'Z', '#', or null for all
+  sortOrder?: string | null; // e.g., 'title-asc', 'year-desc', null for default
+  selectedCategories?: string[]; // For characters: ['Disney', 'Marvel', etc.]
   lastUpdated: number;
 }
 
@@ -79,6 +83,14 @@ const uiPreferencesSlice = createSlice({
       state.movies.gridColumns = action.payload;
       state.movies.lastUpdated = Date.now();
     },
+    setMoviesSelectedLetter: (state, action: PayloadAction<string | null>) => {
+      state.movies.selectedLetter = action.payload;
+      state.movies.lastUpdated = Date.now();
+    },
+    setMoviesSortOrder: (state, action: PayloadAction<string | null>) => {
+      state.movies.sortOrder = action.payload;
+      state.movies.lastUpdated = Date.now();
+    },
     resetMoviesPreferences: (state) => {
       state.movies = { ...DEFAULT_PAGE_PREFERENCES };
     },
@@ -105,6 +117,24 @@ const uiPreferencesSlice = createSlice({
     },
     setCharactersGridColumns: (state, action: PayloadAction<number>) => {
       state.characters.gridColumns = action.payload;
+      state.characters.lastUpdated = Date.now();
+    },
+    setCharactersSelectedLetter: (
+      state,
+      action: PayloadAction<string | null>
+    ) => {
+      state.characters.selectedLetter = action.payload;
+      state.characters.lastUpdated = Date.now();
+    },
+    setCharactersSortOrder: (state, action: PayloadAction<string | null>) => {
+      state.characters.sortOrder = action.payload;
+      state.characters.lastUpdated = Date.now();
+    },
+    setCharactersSelectedCategories: (
+      state,
+      action: PayloadAction<string[]>
+    ) => {
+      state.characters.selectedCategories = action.payload;
       state.characters.lastUpdated = Date.now();
     },
     resetCharactersPreferences: (state) => {
@@ -137,6 +167,17 @@ const uiPreferencesSlice = createSlice({
     },
     setFavoritesFilterType: (state, action: PayloadAction<FilterType>) => {
       state.favorites.filterType = action.payload;
+      state.favorites.lastUpdated = Date.now();
+    },
+    setFavoritesSelectedLetter: (
+      state,
+      action: PayloadAction<string | null>
+    ) => {
+      state.favorites.selectedLetter = action.payload;
+      state.favorites.lastUpdated = Date.now();
+    },
+    setFavoritesSortOrder: (state, action: PayloadAction<string | null>) => {
+      state.favorites.sortOrder = action.payload;
       state.favorites.lastUpdated = Date.now();
     },
     resetFavoritesPreferences: (state) => {
@@ -205,12 +246,17 @@ export const {
   setMoviesSearchQuery,
   incrementMoviesGridItems,
   setMoviesGridColumns,
+  setMoviesSelectedLetter,
+  setMoviesSortOrder,
   resetMoviesPreferences,
   setCharactersViewMode,
   setCharactersGridItemsToShow,
   setCharactersSearchQuery,
   incrementCharactersGridItems,
   setCharactersGridColumns,
+  setCharactersSelectedLetter,
+  setCharactersSortOrder,
+  setCharactersSelectedCategories,
   resetCharactersPreferences,
   setFavoritesViewMode,
   setFavoritesGridItemsToShow,
@@ -218,6 +264,8 @@ export const {
   incrementFavoritesGridItems,
   setFavoritesGridColumns,
   setFavoritesFilterType,
+  setFavoritesSelectedLetter,
+  setFavoritesSortOrder,
   resetFavoritesPreferences,
   setParksSearchQuery,
   setParksSearchMode,
