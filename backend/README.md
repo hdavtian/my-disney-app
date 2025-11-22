@@ -142,6 +142,23 @@ Features:
 - `GET /api/movies/{id}` - Get movie by ID
 - `GET /api/movies/batch?ids=1,5,12` - Batch fetch movies by IDs
 
+**Character Hints API** (`/api/character-hints`):
+
+- `GET /api/character-hints/{urlId}` - Get all hints for a character by URL ID
+- `GET /api/character-hints/{urlId}/limited?count=5` - Get N hints ordered by difficulty (1-50)
+
+**Movie Hints API** (`/api/movie-hints`):
+
+- `GET /api/movie-hints/{urlId}` - Get all hints for a movie by URL ID
+- `GET /api/movie-hints/{urlId}/limited?count=5` - Get N hints ordered by difficulty (1-50)
+
+**Hint System**:
+
+- **6 Hint Types**: BIO, RELATIONSHIP, PLOT, QUOTE, TRIVIA, APPEARANCE
+- **5 Difficulty Levels**: 1 (Easy) → 5 (Expert)
+- **Example**: `GET /api/character-hints/ariel/limited?count=3` returns 3 easiest hints about Ariel
+- Use cases: Quiz games, progressive hint reveals, character/movie guessing games
+
 **Batch Fetch Endpoints** (`/api/{resource}/batch`):
 
 - `GET /api/movies/batch?ids=1,5,12,23,45` - Fetch multiple movies by IDs
@@ -178,7 +195,10 @@ curl "http://localhost:8080/api/movies/batch?ids=880,881,882"
 - `POST /api/admin/reseed-characters` - Reseed characters table from JSON (DELETE ALL + INSERT ALL)
 - `POST /api/admin/reseed-movies` - Reseed movies table from JSON (DELETE ALL + INSERT ALL)
 - `POST /api/admin/reseed-hero-carousel` - Reseed hero carousel (DELETE ALL + regenerate)
-- `POST /api/admin/reseed-all` - Reseed all data from JSON files
+- `POST /api/admin/reseed-character-hints` - Reseed character hints table from JSON
+- `POST /api/admin/reseed-movie-hints` - Reseed movie hints table from JSON
+- `POST /api/admin/reseed-all-hints` - Reseed both hints tables (character + movie)
+- `POST /api/admin/reseed-all` - Reseed all data from JSON files (includes hints)
 
 > **Note**: Admin endpoints use POST method and return JSON with success status and record counts. Use Swagger UI or PowerShell for testing:
 >
@@ -245,6 +265,8 @@ The application automatically seeds data on first run from JSON files in `src/ma
 
 - `disney_characters.json` → `characters` table
 - `disney_movies.json` → `movies` table
+- `character_hints.json` → `character_hints` table (3,440+ hints)
+- `movie_hints.json` → `movie_hints` table (15,840+ hints)
 - Hero carousel is generated from 11 random movies
 
 ### Re-seeding Data
@@ -309,4 +331,5 @@ Production URL: `https://api.movie-app.disney.harma.dev`
 
 ## Recent Updates
 
+- **Hints Feature**: Added character and movie hints API with 19,000+ hints across 6 types and 5 difficulty levels
 - **Batch Endpoints**: Added efficient batch fetch endpoints for characters, movies, and attractions to optimize favorites page loading

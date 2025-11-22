@@ -6,11 +6,16 @@ import com.harmadavtian.disneyapp.model.Character;
 import com.harmadavtian.disneyapp.model.Movie;
 import com.harmadavtian.disneyapp.model.DisneyPark;
 import com.harmadavtian.disneyapp.model.DisneyParkAttraction;
+import com.harmadavtian.disneyapp.model.CharacterHint;
+import com.harmadavtian.disneyapp.model.MovieHint;
+import com.harmadavtian.disneyapp.model.HintType;
 import com.harmadavtian.disneyapp.repository.CharacterRepository;
 import com.harmadavtian.disneyapp.repository.MovieRepository;
 import com.harmadavtian.disneyapp.repository.HeroMovieCarouselRepository;
 import com.harmadavtian.disneyapp.repository.DisneyParkRepository;
 import com.harmadavtian.disneyapp.repository.DisneyParkAttractionRepository;
+import com.harmadavtian.disneyapp.repository.CharacterHintRepository;
+import com.harmadavtian.disneyapp.repository.MovieHintRepository;
 import com.harmadavtian.disneyapp.model.HeroMovieCarousel;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -37,18 +42,24 @@ public class DataSeeder implements CommandLineRunner {
     private final HeroMovieCarouselRepository heroMovieCarouselRepository;
     private final DisneyParkRepository disneyParkRepository;
     private final DisneyParkAttractionRepository disneyParkAttractionRepository;
+    private final CharacterHintRepository characterHintRepository;
+    private final MovieHintRepository movieHintRepository;
     private final ObjectMapper objectMapper;
 
     public DataSeeder(CharacterRepository characterRepository, MovieRepository movieRepository,
             HeroMovieCarouselRepository heroMovieCarouselRepository,
             DisneyParkRepository disneyParkRepository,
             DisneyParkAttractionRepository disneyParkAttractionRepository,
+            CharacterHintRepository characterHintRepository,
+            MovieHintRepository movieHintRepository,
             ObjectMapper objectMapper) {
         this.characterRepository = characterRepository;
         this.movieRepository = movieRepository;
         this.heroMovieCarouselRepository = heroMovieCarouselRepository;
         this.disneyParkRepository = disneyParkRepository;
         this.disneyParkAttractionRepository = disneyParkAttractionRepository;
+        this.characterHintRepository = characterHintRepository;
+        this.movieHintRepository = movieHintRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -78,6 +89,14 @@ public class DataSeeder implements CommandLineRunner {
 
         // Seed movie-character relationships after both movies and characters exist
         seedMovieCharacterRelationships();
+
+        // Seed hints AFTER characters and movies exist
+        if (characterHintRepository.count() == 0) {
+            seedCharacterHints();
+        }
+        if (movieHintRepository.count() == 0) {
+            seedMovieHints();
+        }
     }
 
     /**
@@ -412,5 +431,231 @@ public class DataSeeder implements CommandLineRunner {
         disneyParkAttractionRepository.flush();
         seedDisneyParksAttractions();
         log.info("Disney Parks Attractions reseeded successfully");
+    }
+
+    // ============================================================================
+    // Character Hints Seeding
+    // ============================================================================
+
+    /**
+     * Seed character hints from JSON file (initial seed only if empty).
+     */
+    @Transactional
+    protected void seedCharacterHints() {
+        try {
+            log.info("Seeding character hints from JSON...");
+            ClassPathResource resource = new ClassPathResource("database/character_hints.json");
+            List<Map<String, Object>> characterHintsData;
+
+            try (InputStream inputStream = resource.getInputStream()) {
+                characterHintsData = objectMapper.readValue(inputStream,
+                        new TypeReference<List<Map<String, Object>>>() {
+                        });
+            }
+
+            List<CharacterHint> allHints = new ArrayList<>();
+            int skipped = 0;
+
+            for (Map<String, Object> characterData : characterHintsData) {
+                String characterUrlId = (String) characterData.get("character_url_id");
+
+                // Validate that character exists before adding hints
+                if (characterRepository.findByUrlId(characterUrlId).isEmpty()) {
+                    @SuppressWarnings("unchecked")
+                    List<Map<String, Object>> hints = (List<Map<String, Object>>) characterData.get("hints");
+                    int hintCount = hints != null ? hints.size() : 0;
+                    skipped += hintCount;
+                    log.warn("Skipping {} hints for non-existent character: {}", hintCount, characterUrlId);
+                    continue;
+                }
+
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> hints = (List<Map<String, Object>>) characterData.get("hints");
+
+                if (hints != null) {
+                    for (Map<String, Object> hintMap : hints) {
+                        CharacterHint hint = new CharacterHint();
+                        hint.setCharacterUrlId(characterUrlId);
+                        hint.setContent((String) hintMap.get("content"));
+                        hint.setDifficulty((Integer) hintMap.get("difficulty"));
+                        hint.setHintType(HintType.valueOf((String) hintMap.get("hint_type")));
+                        allHints.add(hint);
+                    }
+                }
+            }
+
+            characterHintRepository.saveAll(allHints);
+            log.info("Seeded {} character hints successfully (skipped {} hints for non-existent characters)",
+                    allHints.size(), skipped);
+        } catch (IOException e) {
+            log.error("Error seeding character hints", e);
+        }
+    }
+
+    /**
+     * Reseed character hints table: DELETE all + INSERT all from JSON
+     */
+    @Transactional
+    public Map<String, Integer> reseedCharacterHints() throws IOException {
+        log.info("Reseeding character hints: deleting all existing records...");
+        characterHintRepository.deleteAll();
+        characterHintRepository.flush();
+
+        log.info("Loading character hints from JSON...");
+        ClassPathResource resource = new ClassPathResource("database/character_hints.json");
+        List<Map<String, Object>> characterHintsData;
+
+        try (InputStream inputStream = resource.getInputStream()) {
+            characterHintsData = objectMapper.readValue(inputStream, new TypeReference<List<Map<String, Object>>>() {
+            });
+        }
+
+        List<CharacterHint> allHints = new ArrayList<>();
+        int skipped = 0;
+
+        for (Map<String, Object> characterData : characterHintsData) {
+            String characterUrlId = (String) characterData.get("character_url_id");
+
+            // Validate that character exists before adding hints
+            if (characterRepository.findByUrlId(characterUrlId).isEmpty()) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> hints = (List<Map<String, Object>>) characterData.get("hints");
+                int hintCount = hints != null ? hints.size() : 0;
+                skipped += hintCount;
+                log.warn("Skipping {} hints for non-existent character: {}", hintCount, characterUrlId);
+                continue;
+            }
+
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> hints = (List<Map<String, Object>>) characterData.get("hints");
+
+            if (hints != null) {
+                for (Map<String, Object> hintMap : hints) {
+                    CharacterHint hint = new CharacterHint();
+                    hint.setCharacterUrlId(characterUrlId);
+                    hint.setContent((String) hintMap.get("content"));
+                    hint.setDifficulty((Integer) hintMap.get("difficulty"));
+                    hint.setHintType(HintType.valueOf((String) hintMap.get("hint_type")));
+                    allHints.add(hint);
+                }
+            }
+        }
+
+        characterHintRepository.saveAll(allHints);
+        log.info("Reseeded {} character hints successfully (skipped {} for non-existent characters)", allHints.size(),
+                skipped);
+        return Map.of("inserted", allHints.size(), "skipped", skipped);
+    }
+
+    // ============================================================================
+    // Movie Hints Seeding
+    // ============================================================================
+
+    /**
+     * Seed movie hints from JSON file (initial seed only if empty).
+     */
+    @Transactional
+    protected void seedMovieHints() {
+        try {
+            log.info("Seeding movie hints from JSON...");
+            ClassPathResource resource = new ClassPathResource("database/movie_hints.json");
+            List<Map<String, Object>> movieHintsData;
+
+            try (InputStream inputStream = resource.getInputStream()) {
+                movieHintsData = objectMapper.readValue(inputStream, new TypeReference<List<Map<String, Object>>>() {
+                });
+            }
+
+            List<MovieHint> allHints = new ArrayList<>();
+            int skipped = 0;
+
+            for (Map<String, Object> movieData : movieHintsData) {
+                String movieUrlId = (String) movieData.get("movie_url_id");
+
+                // Validate that movie exists before adding hints
+                if (movieRepository.findByUrlId(movieUrlId).isEmpty()) {
+                    @SuppressWarnings("unchecked")
+                    List<Map<String, Object>> hints = (List<Map<String, Object>>) movieData.get("hints");
+                    int hintCount = hints != null ? hints.size() : 0;
+                    skipped += hintCount;
+                    log.warn("Skipping {} hints for non-existent movie: {}", hintCount, movieUrlId);
+                    continue;
+                }
+
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> hints = (List<Map<String, Object>>) movieData.get("hints");
+
+                if (hints != null) {
+                    for (Map<String, Object> hintMap : hints) {
+                        MovieHint hint = new MovieHint();
+                        hint.setMovieUrlId(movieUrlId);
+                        hint.setContent((String) hintMap.get("content"));
+                        hint.setDifficulty((Integer) hintMap.get("difficulty"));
+                        hint.setHintType(HintType.valueOf((String) hintMap.get("hint_type")));
+                        allHints.add(hint);
+                    }
+                }
+            }
+
+            movieHintRepository.saveAll(allHints);
+            log.info("Seeded {} movie hints successfully (skipped {} hints for non-existent movies)", allHints.size(),
+                    skipped);
+        } catch (IOException e) {
+            log.error("Error seeding movie hints", e);
+        }
+    }
+
+    /**
+     * Reseed movie hints table: DELETE all + INSERT all from JSON
+     */
+    @Transactional
+    public Map<String, Integer> reseedMovieHints() throws IOException {
+        log.info("Reseeding movie hints: deleting all existing records...");
+        movieHintRepository.deleteAll();
+        movieHintRepository.flush();
+
+        log.info("Loading movie hints from JSON...");
+        ClassPathResource resource = new ClassPathResource("database/movie_hints.json");
+        List<Map<String, Object>> movieHintsData;
+
+        try (InputStream inputStream = resource.getInputStream()) {
+            movieHintsData = objectMapper.readValue(inputStream, new TypeReference<List<Map<String, Object>>>() {
+            });
+        }
+
+        List<MovieHint> allHints = new ArrayList<>();
+        int skipped = 0;
+
+        for (Map<String, Object> movieData : movieHintsData) {
+            String movieUrlId = (String) movieData.get("movie_url_id");
+
+            // Validate that movie exists before adding hints
+            if (movieRepository.findByUrlId(movieUrlId).isEmpty()) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> hints = (List<Map<String, Object>>) movieData.get("hints");
+                int hintCount = hints != null ? hints.size() : 0;
+                skipped += hintCount;
+                log.warn("Skipping {} hints for non-existent movie: {}", hintCount, movieUrlId);
+                continue;
+            }
+
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> hints = (List<Map<String, Object>>) movieData.get("hints");
+
+            if (hints != null) {
+                for (Map<String, Object> hintMap : hints) {
+                    MovieHint hint = new MovieHint();
+                    hint.setMovieUrlId(movieUrlId);
+                    hint.setContent((String) hintMap.get("content"));
+                    hint.setDifficulty((Integer) hintMap.get("difficulty"));
+                    hint.setHintType(HintType.valueOf((String) hintMap.get("hint_type")));
+                    allHints.add(hint);
+                }
+            }
+        }
+
+        movieHintRepository.saveAll(allHints);
+        log.info("Reseeded {} movie hints successfully (skipped {} for non-existent movies)", allHints.size(), skipped);
+        return Map.of("inserted", allHints.size(), "skipped", skipped);
     }
 }
