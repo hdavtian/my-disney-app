@@ -158,9 +158,77 @@ public class AdminController {
     }
 
     /**
+     * Reseed character hints table from JSON file (DELETE ALL + INSERT ALL).
+     */
+    @PostMapping("/reseed-character-hints")
+    public ResponseEntity<?> reseedCharacterHints() {
+        try {
+            log.info("ADMIN ACTION: Reseeding character hints from JSON file");
+            Map<String, Integer> result = dataSeeder.reseedCharacterHints();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Character hints reseeded successfully");
+            response.put("count", result.get("inserted"));
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error reseeding character hints", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "error", e.getMessage()));
+        }
+    }
+
+    /**
+     * Reseed movie hints table from JSON file (DELETE ALL + INSERT ALL).
+     */
+    @PostMapping("/reseed-movie-hints")
+    public ResponseEntity<?> reseedMovieHints() {
+        try {
+            log.info("ADMIN ACTION: Reseeding movie hints from JSON file");
+            Map<String, Integer> result = dataSeeder.reseedMovieHints();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Movie hints reseeded successfully");
+            response.put("count", result.get("inserted"));
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error reseeding movie hints", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "error", e.getMessage()));
+        }
+    }
+
+    /**
+     * Reseed all hints (character hints + movie hints) from JSON files.
+     */
+    @PostMapping("/reseed-all-hints")
+    public ResponseEntity<?> reseedAllHints() {
+        try {
+            log.info("ADMIN ACTION: Reseeding all hints from JSON files");
+
+            Map<String, Integer> characterHintsResult = dataSeeder.reseedCharacterHints();
+            Map<String, Integer> movieHintsResult = dataSeeder.reseedMovieHints();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "All hints reseeded successfully");
+            response.put("characterHints", characterHintsResult.get("inserted"));
+            response.put("movieHints", movieHintsResult.get("inserted"));
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error reseeding all hints", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "error", e.getMessage()));
+        }
+    }
+
+    /**
      * Reseed all data (characters, movies, hero carousel, relationships, parks,
-     * attractions) from JSON
-     * files.
+     * attractions, hints) from JSON files.
      */
     @PostMapping("/reseed-all")
     public ResponseEntity<?> reseedAll() {
@@ -173,6 +241,8 @@ public class AdminController {
             Map<String, Integer> relationshipsResult = dataSeeder.reseedMovieCharacterRelationships();
             dataSeeder.reseedDisneyParks();
             dataSeeder.reseedDisneyParksAttractions();
+            Map<String, Integer> characterHintsResult = dataSeeder.reseedCharacterHints();
+            Map<String, Integer> movieHintsResult = dataSeeder.reseedMovieHints();
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -183,6 +253,8 @@ public class AdminController {
             response.put("relationships", relationshipsResult.get("inserted"));
             response.put("parks", "reseeded");
             response.put("attractions", "reseeded");
+            response.put("characterHints", characterHintsResult.get("inserted"));
+            response.put("movieHints", movieHintsResult.get("inserted"));
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
