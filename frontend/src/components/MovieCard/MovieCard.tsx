@@ -9,9 +9,15 @@ export interface MovieCardProps {
   movie: Movie;
   onClick?: (movieId: string) => void;
   index?: number;
+  skipAnimation?: boolean;
 }
 
-export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
+export const MovieCard = ({
+  movie,
+  onClick,
+  index = 0,
+  skipAnimation = false,
+}: MovieCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
@@ -34,9 +40,11 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
   return (
     <motion.div
       className="movie-card"
-      initial={{ opacity: 0, y: 20 }}
+      initial={skipAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.05 }}
+      transition={
+        skipAnimation ? { duration: 0 } : { duration: 0.3, delay: index * 0.05 }
+      }
     >
       <a
         href={`/movie/${movie.id}`}

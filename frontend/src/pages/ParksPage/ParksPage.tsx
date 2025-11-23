@@ -137,6 +137,7 @@ export const ParksPage = () => {
           <div className="parks-page__floating-search">
             <div className="parks-page__search-row">
               <SearchInput
+                key={`search-${searchHandlers.searchMode}`}
                 items={searchHandlers.searchableAttractions}
                 onSearch={searchHandlers.handleSearch}
                 searchFields={["name", "attraction_type", "land_area", "theme"]}
@@ -157,6 +158,7 @@ export const ParksPage = () => {
                 }
                 onSelectItem={searchHandlers.handleSelectAttraction}
                 keepQueryOnSelect
+                loading={searchHandlers.loading}
               />
 
               <div className="parks-page__search-mode">
