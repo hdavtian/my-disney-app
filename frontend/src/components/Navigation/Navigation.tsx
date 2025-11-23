@@ -11,6 +11,7 @@ export const Navigation = () => {
   const location = useLocation();
 
   const navItems = [
+    { path: "/search", label: "Disney Search" },
     { path: "/movies", label: "Movies" },
     { path: "/characters", label: "Characters" },
     { path: "/parks", label: "Parks & Attractions" },

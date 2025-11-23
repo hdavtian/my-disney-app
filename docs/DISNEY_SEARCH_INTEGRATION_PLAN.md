@@ -22,6 +22,109 @@ Requirement coverage from `DISNEY_SEARCH_PAGE_PLAN.md`:
 
 This mapping should be revisited if the design doc changes.
 
+---
+
+## Phase 1 Design Snapshot
+
+To keep execution aligned, Phase 1 deliverables adhere to the following structures:
+
+### Capabilities Registry (YAML → `@ConfigurationProperties`)
+
+```yaml
+search:
+  categories:
+    movies:
+      label: "Movies"
+      scopes:
+        basic:
+          label: "Basic"
+          fields: [title, short_description, long_description]
+        extended:
+          label: "Extended"
+          fields:
+            [
+              title,
+              short_description,
+              long_description,
+              creation_year,
+              hidden_tags,
+              movie_rating,
+            ]
+    characters:
+      label: "Characters"
+      scopes:
+        basic:
+          fields: [name, short_description, long_description]
+        extended:
+          fields:
+            [
+              name,
+              short_description,
+              long_description,
+              first_appearance,
+              franchise,
+              character_type,
+            ]
+    parks:
+      label: "Parks"
+      scopes:
+        basic:
+          fields: [name, short_description, theme]
+        extended:
+          fields:
+            [
+              name,
+              short_description,
+              theme,
+              land_area,
+              attraction_type,
+              thrill_level,
+            ]
+```
+
+### DTO Hierarchy
+
+- `DisneySearchResultDto` (abstract/base): `id`, `type`, `title`, `descriptionSnippet`, `imageUrl`, `detailPath`, `highlights` map.
+- `MovieSearchResultDto`, `CharacterSearchResultDto`, `ParkSearchResultDto` extend base, adding type-specific metadata (e.g., `creationYear`, `firstAppearance`, `parkName`).
+
+### Highlight Metadata
+
+```json
+"highlights": {
+  "title": [{ "start": 2, "end": 7 }],
+  "description": [{ "start": 4, "end": 9 }, { "start": 32, "end": 37 }]
+}
+```
+
+`HighlightingUtils` computes ranges + snippet window (~100 chars) per field, truncating with ellipses.
+
+### `/api/search` Contract (simplified)
+
+`GET /api/search?query=ariel&categories=movies,characters&scope[movies]=extended`
+
+```json
+{
+  "movies": {
+    "total": 12,
+    "results": [MovieSearchResultDto]
+  },
+  "characters": {
+    "total": 4,
+    "results": [CharacterSearchResultDto]
+  },
+  "parks": {
+    "total": 0,
+    "results": []
+  }
+}
+```
+
+### `/api/search/capabilities` Response
+
+Echoes the YAML registry (labels, scopes, fields, version) so the frontend stays data-driven.
+
+---
+
 ## Phase 0 – Prep & Alignment
 
 - **Scope:** Finalize contracts/doc updates before coding.
