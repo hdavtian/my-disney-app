@@ -5,6 +5,8 @@ import { clearPreferencesFromStorage } from "../../store/middleware/localStorage
 import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
 import { hydrateFavorites } from "../../store/slices/favoritesSlice";
 import { clearDisclaimer } from "../../utils/disclaimerGate";
+import { resetPagination as resetMoviesPagination } from "../../store/slices/moviesSlice";
+import { resetPagination as resetCharactersPagination } from "../../store/slices/charactersSlice";
 import { useTheme } from "../../hooks/useTheme";
 import { VersionInfo } from "../VersionInfo/VersionInfo";
 import "./SiteSettings.scss";
@@ -122,6 +124,8 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 gridItemsToShow: 20,
                 searchQuery: "",
                 gridColumns: 0,
+                selectedLetter: null,
+                sortOrder: null,
                 lastUpdated: Date.now(),
               },
               characters: {
@@ -129,6 +133,9 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 gridItemsToShow: 20,
                 searchQuery: "",
                 gridColumns: 0,
+                selectedLetter: null,
+                sortOrder: null,
+                selectedCategories: [],
                 lastUpdated: Date.now(),
               },
               favorites: {
@@ -144,9 +151,16 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                 searchMode: "current",
                 lastUpdated: Date.now(),
               },
-              theme: "light",
+              theme: "light", // Reset to default theme
             })
           );
+          // Reset pagination state in movies and characters slices
+          // This ensures displayedMovies/displayedCharacters arrays are reset to initial 20 items
+          dispatch(resetMoviesPagination());
+          dispatch(resetCharactersPagination());
+          // Reset theme to default using changeTheme from useTheme hook
+          // This properly updates both Redux state AND applies theme to body element
+          changeTheme("auto");
           clearedItems.push("View Preferences");
         }
 
@@ -330,7 +344,8 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                           View Preferences
                         </div>
                         <div className="clear-option__description">
-                          Grid/list views, search filters, pagination settings
+                          Grid/list views, search filters, pagination settings,
+                          theme
                         </div>
                       </div>
                     </label>
