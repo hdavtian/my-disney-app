@@ -15,6 +15,8 @@ export interface MoviesGridViewProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   isLoadingMore?: boolean;
+  /** Number of items to load per page */
+  pageSize?: number;
   /** Skip card animations (for load more scenario) */
   skipAnimation?: boolean;
   /** Number of columns to display (0 = use default) */
@@ -38,6 +40,7 @@ export const MoviesGridView = ({
   onLoadMore,
   hasMore,
   isLoadingMore,
+  pageSize = 20,
   skipAnimation = false,
   gridColumns = 0,
   onGridColumnsChange,
@@ -60,23 +63,24 @@ export const MoviesGridView = ({
 
   // Infinite scroll handler for window scroll
   useEffect(() => {
-    if (!onLoadMore || !hasMore || hideSearch) return;
+    if (!onLoadMore || !hasMore) return;
 
     const handleScroll = () => {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight;
       const clientHeight = window.innerHeight;
-      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 200; // 200px threshold
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 400; // 400px threshold for better trackpad detection
 
       if (isNearBottom && !isLoadingMore) {
+        console.log("🔽 Infinite scroll triggered - Loading more movies...");
         onLoadMore();
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [onLoadMore, hasMore, isLoadingMore, hideSearch]);
+  }, [onLoadMore, hasMore, isLoadingMore]);
 
   return (
     <div className="movies-grid-view">
@@ -151,7 +155,7 @@ export const MoviesGridView = ({
             ))}
           </div>
 
-          {/* Load More Section */}
+          {/* Infinite Scroll Section */}
           {hideSearch && onLoadMore && (
             <div className="movies-grid-view__load-more">
               {isLoadingMore && (
@@ -162,20 +166,55 @@ export const MoviesGridView = ({
               )}
 
               {!isLoadingMore && hasMore && (
-                <motion.button
-                  className="movies-grid-view__load-more-btn btn-primary"
-                  onClick={onLoadMore}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <motion.div
+                  className="movies-grid-view__scroll-indicator"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  Load More Movies
-                </motion.button>
+                  <div className="movies-grid-view__scroll-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <polyline points="7 13 12 18 17 13"></polyline>
+                      <polyline points="7 6 12 11 17 6"></polyline>
+                    </svg>
+                  </div>
+                  <p className="movies-grid-view__scroll-text">
+                    Scroll down to load <strong>{pageSize} more movies</strong>
+                  </p>
+                </motion.div>
               )}
 
               {!hasMore && filteredMovies.length > 20 && (
-                <div className="movies-grid-view__end-message">
-                  You've seen all movies!
-                </div>
+                <motion.div
+                  className="movies-grid-view__end-message"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <h3>That's all the movies!</h3>
+                  <p>
+                    You've reached the end of the collection (
+                    {filteredMovies.length} movies)
+                  </p>
+                </motion.div>
               )}
             </div>
           )}

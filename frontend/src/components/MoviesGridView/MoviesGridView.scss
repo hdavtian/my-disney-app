@@ -128,35 +128,70 @@
         }
     }
 
-    &__load-more-btn {
-        background: var(--btn-contrast-bg);
-        color: var(--btn-contrast-text);
-        border: none;
-        padding: var(--space-3) var(--space-6);
-        border-radius: var(--radius-full);
-        font-size: var(--text-base);
-        font-weight: var(--font-medium);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: var(--card-shadow);
+    &__scroll-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-6);
+        color: var(--text-secondary);
+    }
 
-        &:hover {
-            box-shadow: 0 6px 16px var(--shadow-color);
-            transform: translateY(-2px);
-            opacity: 0.9;
+    &__scroll-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--card-bg);
+        border: 2px solid var(--card-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: bounce 2s infinite;
+
+        svg {
+            color: var(--accent-primary);
         }
+    }
 
-        &:active {
-            transform: translateY(0);
+    &__scroll-text {
+        font-size: var(--text-base);
+        color: var(--text-secondary);
+        text-align: center;
+        margin: 0;
+
+        strong {
+            color: var(--text-primary);
+            font-weight: var(--font-semibold);
         }
     }
 
     &__end-message {
-        color: var(--text-tertiary);
-        font-size: var(--text-sm);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-8) var(--space-4);
         text-align: center;
-        padding: var(--space-4);
-        opacity: 0.8;
+
+        svg {
+            color: var(--accent-primary);
+            opacity: 0.6;
+            margin-bottom: var(--space-2);
+        }
+
+        h3 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--text-primary);
+            margin: 0 0 var(--space-2);
+        }
+
+        p {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+            opacity: 0.8;
+            margin: 0;
+        }
     }
 }
 
@@ -167,5 +202,17 @@
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(8px);
     }
 }

@@ -353,6 +353,7 @@ export const MoviesPage = () => {
             onLoadMore={handleLoadMore}
             hasMore={hasMoreToShow}
             isLoadingMore={pagination.isLoadingMore}
+            pageSize={pagination.pageSize}
             hideSearch={true}
             gridColumns={gridColumns}
             onGridColumnsChange={handleGridColumnsChange}
