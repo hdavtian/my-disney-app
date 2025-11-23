@@ -9,6 +9,7 @@ export interface CharacterCardProps {
   character: Character;
   onClick?: (characterId: string) => void;
   index?: number;
+  skipAnimation?: boolean;
   // Quiz-specific props
   showTitle?: boolean;
   enableFavoriting?: boolean;
@@ -20,6 +21,7 @@ export const CharacterCard = ({
   character,
   onClick,
   index = 0,
+  skipAnimation = false,
   showTitle = true,
   enableFavoriting = true,
   disableNavigation = false,
@@ -101,9 +103,11 @@ export const CharacterCard = ({
       className={`character-card ${
         size === "large" ? "character-card--large" : ""
       }`}
-      initial={{ opacity: 0, y: 20 }}
+      initial={skipAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.05 }}
+      transition={
+        skipAnimation ? { duration: 0 } : { duration: 0.3, delay: index * 0.05 }
+      }
     >
       {disableNavigation ? (
         <div

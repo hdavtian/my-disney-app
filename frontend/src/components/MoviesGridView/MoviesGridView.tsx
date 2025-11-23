@@ -15,6 +15,8 @@ export interface MoviesGridViewProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   isLoadingMore?: boolean;
+  /** Skip card animations (for load more scenario) */
+  skipAnimation?: boolean;
   /** Number of columns to display (0 = use default) */
   gridColumns?: number;
   /** Callback when grid columns change */
@@ -36,6 +38,7 @@ export const MoviesGridView = ({
   onLoadMore,
   hasMore,
   isLoadingMore,
+  skipAnimation = false,
   gridColumns = 0,
   onGridColumnsChange,
   minColumns = 2,
@@ -143,6 +146,7 @@ export const MoviesGridView = ({
                 movie={movie}
                 onClick={onMovieClick}
                 index={index}
+                skipAnimation={skipAnimation}
               />
             ))}
           </div>

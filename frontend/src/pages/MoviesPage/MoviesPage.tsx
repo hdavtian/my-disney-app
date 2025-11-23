@@ -45,6 +45,8 @@ export const MoviesPage = () => {
 
   // Track if we've restored pagination state
   const hasRestoredPagination = useRef(false);
+  // Track if user has loaded more items (to skip animations)
+  const hasLoadedMore = useRef(false);
 
   // Sort options for movies
   const sortOptions: SortOption[] = [
@@ -207,6 +209,7 @@ export const MoviesPage = () => {
       console.log(
         `🔽 Load More clicked - Current items: ${displayedMovies.length}, Adding: ${pagination.pageSize}`
       );
+      hasLoadedMore.current = true;
       dispatch(loadMoreMovies());
       // Increment the grid items count by pageSize (default 20)
       dispatch(incrementMoviesGridItems(pagination.pageSize));
@@ -353,6 +356,7 @@ export const MoviesPage = () => {
             hideSearch={true}
             gridColumns={gridColumns}
             onGridColumnsChange={handleGridColumnsChange}
+            skipAnimation={hasLoadedMore.current}
           />
         ) : (
           <MoviesListView

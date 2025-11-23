@@ -49,6 +49,8 @@ export const CharactersPage = () => {
 
   // Track if we've restored pagination state
   const hasRestoredPagination = useRef(false);
+  // Track if user has loaded more items (to skip animations)
+  const hasLoadedMore = useRef(false);
 
   // Character categories
   const categories = ["Disney", "Marvel", "Pixar", "Star Wars"];
@@ -214,6 +216,7 @@ export const CharactersPage = () => {
       console.log(
         `🔽 Load More clicked - Current items: ${displayedCharacters.length}, Adding: ${pagination.pageSize}`
       );
+      hasLoadedMore.current = true;
       dispatch(loadMoreCharacters());
       // Increment the grid items count by pageSize (default 20)
       dispatch(incrementCharactersGridItems(pagination.pageSize));
@@ -385,6 +388,7 @@ export const CharactersPage = () => {
             hideSearch={true}
             gridColumns={gridColumns}
             onGridColumnsChange={handleGridColumnsChange}
+            skipAnimation={hasLoadedMore.current}
           />
         ) : (
           <CharactersListView
