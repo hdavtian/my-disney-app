@@ -73,7 +73,7 @@ export const HomePage = () => {
         {/* Movie Slider Row */}
         <div className="movie-slider-section">
           <div className="section-header">
-            <h2 className="section-title">Featured Movies</h2>
+            <h2 className="section-title">Disney Movies</h2>
             <SearchInput<Movie>
               items={allMovies}
               onSearch={handleMovieSearch}
