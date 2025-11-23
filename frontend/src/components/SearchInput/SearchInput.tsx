@@ -13,6 +13,7 @@ export interface SearchInputProps<T> {
   onSelectItem?: (item: T) => void;
   initialValue?: string;
   keepQueryOnSelect?: boolean;
+  loading?: boolean;
 }
 
 export const SearchInput = <T extends { id: number | string }>({
@@ -26,6 +27,7 @@ export const SearchInput = <T extends { id: number | string }>({
   onSelectItem,
   initialValue = "",
   keepQueryOnSelect = false,
+  loading = false,
 }: SearchInputProps<T>) => {
   const [query, setQuery] = useState(initialValue);
   const [filteredResults, setFilteredResults] = useState<T[]>([]);
@@ -40,7 +42,40 @@ export const SearchInput = <T extends { id: number | string }>({
   // Sync internal query state when initialValue prop changes externally
   useEffect(() => {
     setQuery(initialValue);
-  }, [initialValue]);
+
+    // Immediately perform search if we have a valid initial value and data is ready
+    // This ensures filteredResults are populated before checking if dropdown should show
+    if (!loading && initialValue.length >= minCharacters) {
+      // Clear the debounce - we want immediate search on mount
+      const lowerQuery = initialValue.toLowerCase();
+      const results = items.filter((item) => {
+        return searchFields.some((field) => {
+          const value = item[field];
+          if (typeof value === "string") {
+            return value.toLowerCase().includes(lowerQuery);
+          }
+          return false;
+        });
+      });
+
+      setFilteredResults(results);
+
+      // Show dropdown if we have results and user hasn't dismissed
+      if (results.length > 0 && !userDismissed) {
+        setShowDropdown(true);
+      }
+
+      onSearch(results, initialValue);
+    }
+  }, [
+    initialValue,
+    loading,
+    minCharacters,
+    items,
+    searchFields,
+    onSearch,
+    userDismissed,
+  ]);
 
   // Debounced search function
   const performSearch = useCallback(

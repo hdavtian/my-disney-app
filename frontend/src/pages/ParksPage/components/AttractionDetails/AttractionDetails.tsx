@@ -34,6 +34,7 @@ export interface SearchHandlers {
   searchMode: SearchMode;
   getParkName: (parkUrlId: string) => string;
   parkName?: string;
+  loading: boolean;
 }
 
 export const useAttractionSearch = (
@@ -115,6 +116,10 @@ export const useAttractionSearch = (
     [dispatch]
   );
 
+  const { loading: attractionsLoading } = useAppSelector(
+    (state) => state.attractions
+  );
+
   return {
     searchableAttractions,
     handleSearch,
@@ -124,6 +129,7 @@ export const useAttractionSearch = (
     searchMode,
     getParkName,
     parkName,
+    loading: attractionsLoading,
   };
 };
 
