@@ -464,25 +464,27 @@ export const DisneySearchPage = () => {
                           key={`${result.type}-${result.id}`}
                           className="result-card"
                         >
-                          <span className="result-card__type-badge">
-                            {result.type}
-                          </span>
-                          <div className="result-card__image">
-                            {imageUrl ? (
-                              <img
-                                src={imageUrl}
-                                alt={result.title}
-                                loading="lazy"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).style.display =
-                                    "none";
-                                }}
-                              />
-                            ) : (
-                              <div className="result-card__image-placeholder">
-                                {result.title.charAt(0)}
-                              </div>
-                            )}
+                          <div className="result-card__image-wrapper">
+                            <div className="result-card__image">
+                              {imageUrl ? (
+                                <img
+                                  src={imageUrl}
+                                  alt={result.title}
+                                  loading="lazy"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).style.display =
+                                      "none";
+                                  }}
+                                />
+                              ) : (
+                                <div className="result-card__image-placeholder">
+                                  {result.title.charAt(0)}
+                                </div>
+                              )}
+                            </div>
+                            <span className="result-card__type-badge">
+                              {result.type}
+                            </span>
                           </div>
                           <div className="result-card__content">
                             <h4 className="result-card__title">
