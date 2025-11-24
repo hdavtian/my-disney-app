@@ -385,39 +385,6 @@ export const DisneySearchPage = () => {
             </div>
 
             <div className="disney-search-form__group">
-              <p className="group-label">Scope settings</p>
-              <p className="group-help-text">
-                Choose how much detail to include in search results for each
-                category
-              </p>
-              <div className="scope-grid">
-                {availableCategories.map((category) => (
-                  <label
-                    key={`${category.key}-scope`}
-                    className="scope-grid__item"
-                  >
-                    <span>{category.label}</span>
-                    <select
-                      value={scopeSelections[category.key]}
-                      onChange={(event) =>
-                        handleScopeChange(
-                          category.key,
-                          event.target.value as SearchScopeKey
-                        )
-                      }
-                    >
-                      {availableScopes(category.key).map((scope) => (
-                        <option key={scope.key} value={scope.key}>
-                          {scope.label}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="disney-search-form__group">
               <p className="group-label">Scope presets</p>
               <p className="group-help-text">
                 Quick presets to apply common search configurations

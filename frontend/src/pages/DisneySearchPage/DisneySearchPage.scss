@@ -239,43 +239,6 @@
         }
     }
 
-    // Scope settings - compact checkboxes
-    .scope-grid {
-        display: flex;
-        gap: var(--space-4);
-        flex-wrap: wrap;
-
-        &__item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--text-sm);
-            color: var(--text-primary);
-
-            select {
-                padding: var(--space-2) var(--space-3);
-                border-radius: var(--border-radius);
-                border: 1px solid var(--card-border);
-                background: var(--bg-primary);
-                color: var(--text-primary);
-                font-size: var(--text-sm);
-                font-weight: var(--font-medium);
-                cursor: pointer;
-                transition: all var(--transition-normal);
-
-                &:focus {
-                    outline: none;
-                    border-color: var(--accent-secondary);
-                    box-shadow: 0 0 0 3px var(--focus-ring);
-                }
-
-                &:hover {
-                    border-color: var(--accent-secondary);
-                }
-            }
-        }
-    }
-
     // Scope presets - compact cards with radio buttons
     .preset-grid {
         display: flex;
