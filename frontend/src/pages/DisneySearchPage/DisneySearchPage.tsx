@@ -2,11 +2,12 @@ import { FormEvent, ReactNode, useCallback, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { selectPark } from "../../store/slices/parksSlice";
+import { selectPark, fetchParks } from "../../store/slices/parksSlice";
 import {
   selectAttraction,
   fetchAttractionsByPark,
 } from "../../store/slices/attractionsSlice";
+import type { Attraction } from "../../types/Attraction";
 import {
   clearError,
   executeSearch,
@@ -194,6 +195,11 @@ export const DisneySearchPage = () => {
     }
   }, [capabilities, capabilitiesLoading, dispatch]);
 
+  // Fetch parks data for park attraction navigation
+  useEffect(() => {
+    dispatch(fetchParks());
+  }, [dispatch]);
+
   const availableCategories = useMemo(
     () => getCategoryList(capabilities),
     [capabilities]
@@ -260,18 +266,26 @@ export const DisneySearchPage = () => {
       dispatch(selectPark(targetPark));
 
       // Fetch attractions for the park and then select the specific attraction
-      dispatch(fetchAttractionsByPark(parkUrlId)).then(() => {
-        // We need to construct the attraction object to select it
-        // The attraction should be in the Redux store after fetching
-        // We'll use setTimeout to ensure the attractions are loaded
-        setTimeout(() => {
-          dispatch(
-            selectAttraction({
-              url_id: attractionUrlId,
-              park_url_id: parkUrlId,
-            } as any)
+      dispatch(fetchAttractionsByPark(parkUrlId)).then((action) => {
+        // Get attractions from the fulfilled action payload
+        if (fetchAttractionsByPark.fulfilled.match(action)) {
+          const attractions = action.payload.attractions;
+
+          // Find the full attraction object
+          const fullAttraction = attractions.find(
+            (attr: Attraction) => attr.url_id === attractionUrlId
           );
-        }, 300);
+
+          if (fullAttraction) {
+            // Select the specific attraction immediately (overriding the auto-select)
+            dispatch(selectAttraction(fullAttraction));
+          } else {
+            console.error(
+              "Could not find attraction with url_id:",
+              attractionUrlId
+            );
+          }
+        }
       });
     },
     [dispatch, navigate, parks]
