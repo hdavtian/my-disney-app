@@ -357,6 +357,10 @@ export const DisneySearchPage = () => {
           <div className="disney-search-form__controls">
             <div className="disney-search-form__group">
               <p className="group-label">Categories</p>
+              <p className="group-help-text">
+                Select which content types to search across (you can select
+                multiple)
+              </p>
               <div
                 className="pill-list"
                 role="group"
@@ -382,6 +386,10 @@ export const DisneySearchPage = () => {
 
             <div className="disney-search-form__group">
               <p className="group-label">Scope settings</p>
+              <p className="group-help-text">
+                Choose how much detail to include in search results for each
+                category
+              </p>
               <div className="scope-grid">
                 {availableCategories.map((category) => (
                   <label
@@ -411,19 +419,30 @@ export const DisneySearchPage = () => {
 
             <div className="disney-search-form__group">
               <p className="group-label">Scope presets</p>
-              <div className="preset-grid">
+              <p className="group-help-text">
+                Quick presets to apply common search configurations
+              </p>
+              <div
+                className="preset-grid"
+                role="radiogroup"
+                aria-label="Scope presets"
+              >
                 {scopePresets.map((preset) => (
-                  <button
-                    key={preset.id}
-                    type="button"
-                    className="preset-card"
-                    onClick={() => dispatch(applyScopePreset(preset.scopes))}
-                  >
-                    <span className="preset-card__label">{preset.label}</span>
-                    <span className="preset-card__description">
-                      {preset.description}
-                    </span>
-                  </button>
+                  <label key={preset.id} className="preset-card">
+                    <input
+                      type="radio"
+                      name="scope-preset"
+                      value={preset.id}
+                      defaultChecked={preset.id === "story-core"}
+                      onChange={() => dispatch(applyScopePreset(preset.scopes))}
+                    />
+                    <div className="preset-card__content">
+                      <span className="preset-card__label">{preset.label}</span>
+                      <span className="preset-card__description">
+                        {preset.description}
+                      </span>
+                    </div>
+                  </label>
                 ))}
               </div>
             </div>
@@ -507,6 +526,9 @@ export const DisneySearchPage = () => {
                           key={`${result.type}-${result.id}`}
                           className="result-card"
                         >
+                          <span className="result-card__type-badge">
+                            {result.type}
+                          </span>
                           <div className="result-card__image">
                             {imageUrl ? (
                               <img
@@ -525,10 +547,9 @@ export const DisneySearchPage = () => {
                             )}
                           </div>
                           <div className="result-card__content">
-                            <div className="result-card__title-row">
-                              <p className="eyebrow">{result.type}</p>
-                              <h4>{result.title}</h4>
-                            </div>
+                            <h4 className="result-card__title">
+                              {result.title}
+                            </h4>
 
                             {extractHighlightedFields(result) ? (
                               <div className="result-card__highlights">
