@@ -22,6 +22,7 @@ import {
   SearchHistoryEntry,
   SearchScopeKey,
 } from "../../types/DisneySearch";
+import { getImageUrl } from "../../config/assets";
 import "./DisneySearchPage.scss";
 
 const scopePresets: Array<{
@@ -49,6 +50,25 @@ const fallbackCategories: Array<{ key: SearchCategoryKey; label: string }> = [
   { key: "characters", label: "Characters" },
   { key: "parks", label: "Parks" },
 ];
+
+/**
+ * Map search result type to asset category for getImageUrl utility.
+ */
+const getAssetCategory = (
+  resultType: string
+): "movies" | "characters" | "attractions" => {
+  switch (resultType.toLowerCase()) {
+    case "movie":
+      return "movies";
+    case "character":
+      return "characters";
+    case "park":
+    case "attraction":
+      return "attractions";
+    default:
+      return "movies"; // fallback
+  }
+};
 
 const highlightContent = (
   text?: string | null,
@@ -85,12 +105,25 @@ const highlightContent = (
   return <span>{fragments}</span>;
 };
 
-const extractFirstHighlightField = (result: DisneySearchResult) => {
+const extractHighlightedFields = (result: DisneySearchResult) => {
   const entries = result.highlights ? Object.entries(result.highlights) : [];
   if (entries.length === 0) return null;
-  const [field, ranges] = entries[0];
-  const sourceText = (result as Record<string, string | undefined>)[field];
-  return highlightContent(sourceText ?? result.descriptionSnippet, ranges);
+
+  return entries
+    .map(([field, ranges], index) => {
+      const sourceText = (result as Record<string, string | undefined>)[field];
+      if (!sourceText) return null;
+
+      return (
+        <div key={`${field}-${index}`} className="highlight-match">
+          <span className="field-label">{field}:</span>
+          <span className="field-value">
+            {highlightContent(sourceText, ranges)}
+          </span>
+        </div>
+      );
+    })
+    .filter(Boolean);
 };
 
 const resolveDetailPath = (detailPath?: string | null) => {
@@ -239,7 +272,14 @@ export const DisneySearchPage = () => {
               className="primary"
               disabled={loading || query.trim().length === 0}
             >
-              {loading ? "Searching..." : "Search"}
+              {loading ? (
+                <>
+                  <span className="spinner"></span>
+                  Searching...
+                </>
+              ) : (
+                "Search"
+              )}
             </button>
           </div>
 
@@ -374,30 +414,63 @@ export const DisneySearchPage = () => {
                 ) : (
                   <ul>
                     {items.map((result) => {
-                      const resolvedDetailPath = resolveDetailPath(
-                        result.detailPath
-                      );
+                      const rawImageUrl = (result as any).image_url;
+                      const rawDetailPath = (result as any).detail_path;
+                      const resolvedDetailPath =
+                        resolveDetailPath(rawDetailPath);
+                      const assetCategory = getAssetCategory(result.type);
+                      const imageUrl = rawImageUrl
+                        ? getImageUrl(assetCategory, rawImageUrl)
+                        : null;
+
+                      console.log("[DisneySearch] Result processing:", {
+                        title: result.title,
+                        type: result.type,
+                        rawImageUrl,
+                        assetCategory,
+                        computedImageUrl: imageUrl,
+                        rawDetailPath,
+                        resolvedDetailPath,
+                      });
+
                       return (
                         <li
                           key={`${result.type}-${result.id}`}
                           className="result-card"
                         >
-                          {result.imageUrl && (
-                            <img
-                              src={result.imageUrl}
-                              alt={result.title}
-                              loading="lazy"
-                            />
-                          )}
-                          <div>
+                          <div className="result-card__image">
+                            {imageUrl ? (
+                              <img
+                                src={imageUrl}
+                                alt={result.title}
+                                loading="lazy"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display =
+                                    "none";
+                                }}
+                              />
+                            ) : (
+                              <div className="result-card__image-placeholder">
+                                {result.title.charAt(0)}
+                              </div>
+                            )}
+                          </div>
+                          <div className="result-card__content">
                             <div className="result-card__title-row">
                               <p className="eyebrow">{result.type}</p>
                               <h4>{result.title}</h4>
                             </div>
-                            <p className="result-card__snippet">
-                              {extractFirstHighlightField(result) ??
-                                result.descriptionSnippet}
-                            </p>
+
+                            {extractHighlightedFields(result) ? (
+                              <div className="result-card__highlights">
+                                {extractHighlightedFields(result)}
+                              </div>
+                            ) : (
+                              <p className="result-card__snippet">
+                                {(result as any).description_snippet}
+                              </p>
+                            )}
+
                             {resolvedDetailPath && (
                               <Link
                                 to={resolvedDetailPath}
