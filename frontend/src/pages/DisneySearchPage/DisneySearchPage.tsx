@@ -15,7 +15,6 @@ import {
   selectDisneySearchHistory,
   selectDisneySearchState,
   setQuery,
-  setScopeSelection,
   toggleCategory,
   applyScopePreset,
 } from "../../store/slices/disneySearchSlice";
@@ -115,30 +114,24 @@ const extractHighlightedFields = (result: DisneySearchResult) => {
   const entries = result.highlights ? Object.entries(result.highlights) : [];
   if (entries.length === 0) return null;
 
-  // Map backend field names to frontend field names
-  const fieldMap: Record<string, string> = {
-    title: "title",
-    short_description: "description_snippet",
-    long_description: "description_snippet",
-  };
-
-  return entries
-    .map(([field, ranges], index) => {
-      // Get the frontend field name (or use the backend field name if no mapping exists)
-      const frontendField = fieldMap[field] || field;
-      const sourceText = (result as any)[frontendField];
-      if (!sourceText) return null;
+  // Now each highlight contains both text and ranges
+  // We can display ALL fields without worrying about text/highlight mismatch
+  const highlightElements = entries
+    .map(([field, fieldHighlight], index) => {
+      if (!fieldHighlight.text) return null;
 
       return (
         <div key={`${field}-${index}`} className="highlight-match">
           <span className="field-label">{field.replace(/_/g, " ")}:</span>
           <span className="field-value">
-            {highlightContent(sourceText, ranges)}
+            {highlightContent(fieldHighlight.text, fieldHighlight.ranges)}
           </span>
         </div>
       );
     })
     .filter(Boolean);
+
+  return highlightElements.length > 0 ? highlightElements : null;
 };
 
 const resolveDetailPath = (result: DisneySearchResult) => {
@@ -223,12 +216,6 @@ export const DisneySearchPage = () => {
     [dispatch]
   );
 
-  const handleScopeChange = useCallback(
-    (category: SearchCategoryKey, scope: SearchScopeKey) =>
-      dispatch(setScopeSelection({ category, scope })),
-    [dispatch]
-  );
-
   const handleHistoryReplay = (entry: SearchHistoryEntry) => {
     dispatch(restoreFromHistory(entry));
     dispatch(
@@ -289,22 +276,6 @@ export const DisneySearchPage = () => {
   const hasResults = Object.values(results).some(
     (categoryResult) => categoryResult?.results?.length
   );
-
-  const availableScopes = (
-    category: SearchCategoryKey
-  ): Array<{ key: string; label: string }> => {
-    const scopeConfig = capabilities?.categories?.[category]?.scopes;
-    if (!scopeConfig) {
-      return [
-        { key: "basic", label: "Basic" },
-        { key: "extended", label: "Extended" },
-      ];
-    }
-    return Object.entries(scopeConfig).map(([key, value]) => ({
-      key,
-      label: value.label,
-    }));
-  };
 
   return (
     <div className="disney-search-page">
@@ -523,8 +494,8 @@ export const DisneySearchPage = () => {
                                 {extractHighlightedFields(result)}
                               </div>
                             ) : (
-                              <p className="result-card__snippet">
-                                {(result as any).description_snippet}
+                              <p className="result-card__snippet result-card__snippet--empty">
+                                No additional details available
                               </p>
                             )}
 

@@ -7,14 +7,18 @@ export interface HighlightRange {
   end: number;
 }
 
+export interface FieldHighlight {
+  text: string;
+  ranges: HighlightRange[];
+}
+
 export interface DisneySearchResult {
   id: number;
   type: SearchResultType;
   title: string;
-  descriptionSnippet?: string | null;
   imageUrl?: string | null;
   detailPath?: string | null;
-  highlights?: Record<string, HighlightRange[]>;
+  highlights?: Record<string, FieldHighlight>;
   [key: string]: unknown;
 }
 

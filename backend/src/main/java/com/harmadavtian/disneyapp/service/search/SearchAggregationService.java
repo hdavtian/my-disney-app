@@ -11,7 +11,6 @@ import com.harmadavtian.disneyapp.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,8 +126,7 @@ public class SearchAggregationService {
             dto.setCreationYear(movie.getCreationYear());
             dto.setMovieRating(movie.getMovieRating());
             return dto;
-        }, MOVIE_FIELD_EXTRACTORS, movie -> truncDescription(movie.getShortDescription(), movie.getLongDescription()),
-                query);
+        }, MOVIE_FIELD_EXTRACTORS, query);
     }
 
     private SearchCategoryResultDto buildCharacterResults(String query, List<String> fields, int limit) {
@@ -144,8 +142,7 @@ public class SearchAggregationService {
             dto.setFirstAppearance(character.getFirstAppearance());
             dto.setFranchise(character.getFranchise());
             return dto;
-        }, CHARACTER_FIELD_EXTRACTORS,
-                character -> truncDescription(character.getShortDescription(), character.getLongDescription()), query);
+        }, CHARACTER_FIELD_EXTRACTORS, query);
     }
 
     private SearchCategoryResultDto buildParkResults(String query, List<String> fields, int limit) {
@@ -166,8 +163,7 @@ public class SearchAggregationService {
             dto.setParkUrlId(attraction.getParkUrlId());
             dto.setAttractionType(attraction.getAttractionType());
             return dto;
-        }, PARK_FIELD_EXTRACTORS,
-                attraction -> truncDescription(attraction.getShortDescription(), attraction.getTheme()), query);
+        }, PARK_FIELD_EXTRACTORS, query);
     }
 
     private <T> SearchCategoryResultDto buildCategoryResult(List<T> entities,
@@ -175,7 +171,6 @@ public class SearchAggregationService {
             int limit,
             Function<T, DisneySearchResultDto> dtoFactory,
             Map<String, Function<T, String>> fieldExtractors,
-            Function<T, String> fallbackDescriptionSupplier,
             String query) {
         SearchCategoryResultDto categoryResult = new SearchCategoryResultDto();
         int added = 0;
@@ -192,10 +187,6 @@ public class SearchAggregationService {
             }
             DisneySearchResultDto dto = dtoFactory.apply(entity);
             dto.setHighlights(computation.highlightMap);
-            String descriptionSnippet = computation.descriptionSnippet != null
-                    ? computation.descriptionSnippet
-                    : safeTruncate(fallbackDescriptionSupplier.apply(entity));
-            dto.setDescriptionSnippet(descriptionSnippet);
             categoryResult.getResults().add(dto);
             added++;
         }
@@ -207,8 +198,7 @@ public class SearchAggregationService {
             List<String> fields,
             Map<String, Function<T, String>> extractors,
             String query) {
-        Map<String, List<HighlightRangeDto>> highlightMap = new LinkedHashMap<>();
-        String descriptionSnippet = null;
+        Map<String, FieldHighlightDto> highlightMap = new LinkedHashMap<>();
         boolean matched = false;
         for (String field : fields) {
             Function<T, String> extractor = extractors.get(field);
@@ -221,26 +211,10 @@ public class SearchAggregationService {
             if (computation.isPresent()) {
                 matched = true;
                 SearchHighlightingUtils.HighlightComputation result = computation.get();
-                highlightMap.put(field, result.ranges());
-                if (snippetField && descriptionSnippet == null) {
-                    descriptionSnippet = result.renderedText();
-                }
+                highlightMap.put(field, new FieldHighlightDto(result.renderedText(), result.ranges()));
             }
         }
-        return new MatchComputation(matched, descriptionSnippet, highlightMap);
-    }
-
-    private String truncDescription(String primary, String secondary) {
-        String candidate = firstNonBlank(primary, secondary);
-        return safeTruncate(candidate);
-    }
-
-    private String safeTruncate(String value) {
-        if (!StringUtils.hasText(value)) {
-            return null;
-        }
-        String trimmed = value.trim();
-        return trimmed.length() <= 200 ? trimmed : trimmed.substring(0, 200) + "…";
+        return new MatchComputation(matched, highlightMap);
     }
 
     @SafeVarargs
@@ -257,7 +231,6 @@ public class SearchAggregationService {
     }
 
     private record MatchComputation(boolean matched,
-            String descriptionSnippet,
-            Map<String, List<HighlightRangeDto>> highlightMap) {
+            Map<String, FieldHighlightDto> highlightMap) {
     }
 }
