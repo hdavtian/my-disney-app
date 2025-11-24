@@ -1,7 +1,12 @@
 import { FormEvent, ReactNode, useCallback, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { selectPark } from "../../store/slices/parksSlice";
+import {
+  selectAttraction,
+  fetchAttractionsByPark,
+} from "../../store/slices/attractionsSlice";
 import {
   clearError,
   executeSearch,
@@ -126,20 +131,28 @@ const extractHighlightedFields = (result: DisneySearchResult) => {
     .filter(Boolean);
 };
 
-const resolveDetailPath = (detailPath?: string | null) => {
-  if (!detailPath) {
+const resolveDetailPath = (result: DisneySearchResult) => {
+  const rawDetailPath = (result as any).detail_path;
+
+  if (!rawDetailPath) {
     return null;
   }
-  if (detailPath.startsWith("/movies/")) {
-    return detailPath.replace("/movies/", "/movie/");
+
+  // For movies and characters, use the ID instead of url_id
+  if (result.type === "movie") {
+    return `/movie/${result.id}`;
   }
-  if (detailPath.startsWith("/characters/")) {
-    return detailPath.replace("/characters/", "/character/");
+
+  if (result.type === "character") {
+    return `/character/${result.id}`;
   }
-  if (detailPath.startsWith("/parks/")) {
+
+  // Parks are handled separately with button click
+  if (result.type === "park") {
     return "/parks";
   }
-  return detailPath;
+
+  return null;
 };
 
 const getCategoryList = (
@@ -156,6 +169,7 @@ const getCategoryList = (
 
 export const DisneySearchPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     query,
     selectedCategories,
@@ -167,6 +181,7 @@ export const DisneySearchPage = () => {
     error,
   } = useAppSelector(selectDisneySearchState);
   const history = useAppSelector(selectDisneySearchHistory);
+  const { parks } = useAppSelector((state) => state.parks);
 
   useEffect(() => {
     if (!capabilities && !capabilitiesLoading) {
@@ -214,6 +229,52 @@ export const DisneySearchPage = () => {
       })
     );
   };
+
+  const handleParkAttractionClick = useCallback(
+    (result: DisneySearchResult) => {
+      const rawDetailPath = (result as any).detail_path;
+      if (!rawDetailPath || !rawDetailPath.startsWith("/parks/")) return;
+
+      // Extract attraction URL ID from path like "/parks/space_mountain"
+      const attractionUrlId = rawDetailPath.replace("/parks/", "");
+
+      // Extract park URL ID from result (should be in the result data)
+      const parkUrlId = (result as any).park_url_id;
+      if (!parkUrlId) {
+        console.error("No park_url_id found for attraction:", result);
+        return;
+      }
+
+      // Find the park
+      const targetPark = parks.find((p) => p.url_id === parkUrlId);
+      if (!targetPark) {
+        console.error("Could not find park with url_id:", parkUrlId);
+        return;
+      }
+
+      // Navigate to parks page
+      navigate("/parks");
+
+      // Select the park
+      dispatch(selectPark(targetPark));
+
+      // Fetch attractions for the park and then select the specific attraction
+      dispatch(fetchAttractionsByPark(parkUrlId)).then(() => {
+        // We need to construct the attraction object to select it
+        // The attraction should be in the Redux store after fetching
+        // We'll use setTimeout to ensure the attractions are loaded
+        setTimeout(() => {
+          dispatch(
+            selectAttraction({
+              url_id: attractionUrlId,
+              park_url_id: parkUrlId,
+            } as any)
+          );
+        }, 300);
+      });
+    },
+    [dispatch, navigate, parks]
+  );
 
   const hasResults = Object.values(results).some(
     (categoryResult) => categoryResult?.results?.length
@@ -415,9 +476,7 @@ export const DisneySearchPage = () => {
                   <ul>
                     {items.map((result) => {
                       const rawImageUrl = (result as any).image_url;
-                      const rawDetailPath = (result as any).detail_path;
-                      const resolvedDetailPath =
-                        resolveDetailPath(rawDetailPath);
+                      const resolvedDetailPath = resolveDetailPath(result);
                       const assetCategory = getAssetCategory(result.type);
                       const imageUrl = rawImageUrl
                         ? getImageUrl(assetCategory, rawImageUrl)
@@ -426,10 +485,10 @@ export const DisneySearchPage = () => {
                       console.log("[DisneySearch] Result processing:", {
                         title: result.title,
                         type: result.type,
+                        id: result.id,
                         rawImageUrl,
                         assetCategory,
                         computedImageUrl: imageUrl,
-                        rawDetailPath,
                         resolvedDetailPath,
                       });
 
@@ -471,14 +530,25 @@ export const DisneySearchPage = () => {
                               </p>
                             )}
 
-                            {resolvedDetailPath && (
-                              <Link
-                                to={resolvedDetailPath}
-                                className="result-card__link"
-                              >
-                                View details
-                              </Link>
-                            )}
+                            {resolvedDetailPath &&
+                              (result.type === "park" ? (
+                                <button
+                                  onClick={() =>
+                                    handleParkAttractionClick(result)
+                                  }
+                                  className="result-card__link"
+                                  type="button"
+                                >
+                                  View details
+                                </button>
+                              ) : (
+                                <Link
+                                  to={resolvedDetailPath}
+                                  className="result-card__link"
+                                >
+                                  View details
+                                </Link>
+                              ))}
                           </div>
                         </li>
                       );
