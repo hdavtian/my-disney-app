@@ -186,11 +186,13 @@ export const CharactersPage = () => {
 
   const handleSearch = useCallback(
     (_results: Character[], query: string) => {
-      // SearchInput handles the filtering, but we update Redux state with the query
-      dispatch(setSearchFilter(query));
-      dispatch(setCharactersSearchQuery(query));
+      // Only update if query actually changed to avoid unnecessary re-renders
+      if (query !== searchQuery) {
+        dispatch(setSearchFilter(query));
+        dispatch(setCharactersSearchQuery(query));
+      }
     },
-    [dispatch]
+    [dispatch, searchQuery]
   );
 
   const handleSearchItemClick = useCallback(
