@@ -167,6 +167,42 @@
             }
         }
 
+        // Match mode radios - simple side-by-side toggle
+        &__match-mode {
+            margin-top: var(--space-3);
+
+            .match-mode-radios {
+                display: flex;
+                gap: var(--space-4);
+                align-items: center;
+            }
+
+            .match-mode-radio {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                cursor: pointer;
+                font-size: var(--text-sm);
+                color: var(--text-secondary);
+                transition: color var(--transition-normal);
+
+                &:hover {
+                    color: var(--text-primary);
+                }
+
+                input[type="radio"] {
+                    cursor: pointer;
+                    width: 16px;
+                    height: 16px;
+                    margin: 0;
+                }
+
+                span {
+                    font-weight: var(--font-medium);
+                }
+            }
+        }
+
         // Compact controls section - footer-like
         &__controls {
             display: flex;
@@ -316,6 +352,13 @@
             font-size: var(--text-2xl);
             font-weight: var(--font-bold);
             color: var(--text-primary);
+        }
+
+        .total-count {
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
         }
     }
 

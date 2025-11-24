@@ -1,4 +1,5 @@
 import {
+  MatchMode,
   SearchCapabilitiesResponse,
   SearchCategoryKey,
   SearchResultsResponse,
@@ -12,6 +13,7 @@ export interface DisneySearchRequest {
   query: string;
   categories: SearchCategoryKey[];
   scopes: Record<SearchCategoryKey, SearchScopeKey>;
+  matchMode?: MatchMode;
   limit?: number;
 }
 
@@ -19,6 +21,7 @@ const buildSearchUrl = ({
   query,
   categories,
   scopes,
+  matchMode,
   limit,
 }: DisneySearchRequest): string => {
   const params = new URLSearchParams();
@@ -26,6 +29,10 @@ const buildSearchUrl = ({
 
   if (categories.length > 0) {
     params.append("categories", categories.join(","));
+  }
+
+  if (matchMode) {
+    params.append("matchMode", matchMode);
   }
 
   if (typeof limit === "number") {

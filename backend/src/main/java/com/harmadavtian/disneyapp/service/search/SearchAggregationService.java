@@ -66,12 +66,14 @@ public class SearchAggregationService {
     public SearchResponseDto search(String rawQuery,
             Set<String> requestedCategories,
             Map<String, String> scopeOverrides,
-            Integer limitPerCategory) {
+            Integer limitPerCategory,
+            String matchMode) {
         if (!StringUtils.hasText(rawQuery) || rawQuery.trim().length() < 2) {
             throw new IllegalArgumentException("Search query must be at least 2 characters long.");
         }
         String normalizedQuery = rawQuery.trim();
         int limit = (limitPerCategory == null || limitPerCategory <= 0) ? DEFAULT_LIMIT : limitPerCategory;
+        String effectiveMatchMode = (matchMode == null || matchMode.isBlank()) ? "partial" : matchMode;
 
         Map<String, SearchCapabilitiesProperties.Category> configuredCategories = capabilities.getCategories();
         Set<String> categoriesToProcess = requestedCategories == null || requestedCategories.isEmpty()
@@ -95,9 +97,9 @@ public class SearchAggregationService {
             }
 
             SearchCategoryResultDto categoryResult = switch (categoryKey) {
-                case "movies" -> buildMovieResults(normalizedQuery, fields, limit);
-                case "characters" -> buildCharacterResults(normalizedQuery, fields, limit);
-                case "parks" -> buildParkResults(normalizedQuery, fields, limit);
+                case "movies" -> buildMovieResults(normalizedQuery, fields, limit, effectiveMatchMode);
+                case "characters" -> buildCharacterResults(normalizedQuery, fields, limit, effectiveMatchMode);
+                case "parks" -> buildParkResults(normalizedQuery, fields, limit, effectiveMatchMode);
                 default -> null;
             };
 
@@ -113,7 +115,7 @@ public class SearchAggregationService {
         return capabilities;
     }
 
-    private SearchCategoryResultDto buildMovieResults(String query, List<String> fields, int limit) {
+    private SearchCategoryResultDto buildMovieResults(String query, List<String> fields, int limit, String matchMode) {
         List<Movie> movies = movieRepository.findAll();
         return buildCategoryResult(movies, fields, limit, entity -> {
             Movie movie = entity;
@@ -126,10 +128,11 @@ public class SearchAggregationService {
             dto.setCreationYear(movie.getCreationYear());
             dto.setMovieRating(movie.getMovieRating());
             return dto;
-        }, MOVIE_FIELD_EXTRACTORS, query);
+        }, MOVIE_FIELD_EXTRACTORS, query, matchMode);
     }
 
-    private SearchCategoryResultDto buildCharacterResults(String query, List<String> fields, int limit) {
+    private SearchCategoryResultDto buildCharacterResults(String query, List<String> fields, int limit,
+            String matchMode) {
         List<Character> characters = characterRepository.findAll();
         return buildCategoryResult(characters, fields, limit, entity -> {
             Character character = entity;
@@ -142,10 +145,10 @@ public class SearchAggregationService {
             dto.setFirstAppearance(character.getFirstAppearance());
             dto.setFranchise(character.getFranchise());
             return dto;
-        }, CHARACTER_FIELD_EXTRACTORS, query);
+        }, CHARACTER_FIELD_EXTRACTORS, query, matchMode);
     }
 
-    private SearchCategoryResultDto buildParkResults(String query, List<String> fields, int limit) {
+    private SearchCategoryResultDto buildParkResults(String query, List<String> fields, int limit, String matchMode) {
         List<DisneyParkAttraction> attractions = attractionRepository.findAll();
         return buildCategoryResult(attractions, fields, limit, entity -> {
             DisneyParkAttraction attraction = entity;
@@ -163,7 +166,7 @@ public class SearchAggregationService {
             dto.setParkUrlId(attraction.getParkUrlId());
             dto.setAttractionType(attraction.getAttractionType());
             return dto;
-        }, PARK_FIELD_EXTRACTORS, query);
+        }, PARK_FIELD_EXTRACTORS, query, matchMode);
     }
 
     private <T> SearchCategoryResultDto buildCategoryResult(List<T> entities,
@@ -171,13 +174,14 @@ public class SearchAggregationService {
             int limit,
             Function<T, DisneySearchResultDto> dtoFactory,
             Map<String, Function<T, String>> fieldExtractors,
-            String query) {
+            String query,
+            String matchMode) {
         SearchCategoryResultDto categoryResult = new SearchCategoryResultDto();
         int added = 0;
         long totalMatches = 0;
 
         for (T entity : entities) {
-            MatchComputation computation = evaluateEntity(entity, fields, fieldExtractors, query);
+            MatchComputation computation = evaluateEntity(entity, fields, fieldExtractors, query, matchMode);
             if (!computation.matched) {
                 continue;
             }
@@ -197,7 +201,8 @@ public class SearchAggregationService {
     private <T> MatchComputation evaluateEntity(T entity,
             List<String> fields,
             Map<String, Function<T, String>> extractors,
-            String query) {
+            String query,
+            String matchMode) {
         Map<String, FieldHighlightDto> highlightMap = new LinkedHashMap<>();
         boolean matched = false;
         for (String field : fields) {
@@ -207,7 +212,7 @@ public class SearchAggregationService {
             }
             String value = extractor.apply(entity);
             boolean snippetField = DESCRIPTION_FIELDS.contains(field);
-            var computation = SearchHighlightingUtils.compute(value, query, snippetField);
+            var computation = SearchHighlightingUtils.compute(value, query, snippetField, matchMode);
             if (computation.isPresent()) {
                 matched = true;
                 SearchHighlightingUtils.HighlightComputation result = computation.get();

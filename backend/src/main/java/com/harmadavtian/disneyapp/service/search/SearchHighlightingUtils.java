@@ -19,7 +19,8 @@ public final class SearchHighlightingUtils {
     private SearchHighlightingUtils() {
     }
 
-    public static Optional<HighlightComputation> compute(String value, String normalizedQuery, boolean snippet) {
+    public static Optional<HighlightComputation> compute(String value, String normalizedQuery, boolean snippet,
+            String matchMode) {
         if (value == null || value.isBlank()) {
             return Optional.empty();
         }
@@ -31,15 +32,30 @@ public final class SearchHighlightingUtils {
         String lowerQuery = normalizedQuery.toLowerCase(Locale.ROOT);
 
         int queryLength = lowerQuery.length();
-        int index = lowerValue.indexOf(lowerQuery);
-        if (index < 0) {
-            return Optional.empty();
+        List<HighlightRangeDto> rawRanges = new ArrayList<>();
+
+        if ("exact".equalsIgnoreCase(matchMode)) {
+            // Use word boundary matching for exact mode
+            String pattern = "\\b" + java.util.regex.Pattern.quote(lowerQuery) + "\\b";
+            java.util.regex.Pattern regex = java.util.regex.Pattern.compile(pattern);
+            java.util.regex.Matcher matcher = regex.matcher(lowerValue);
+            while (matcher.find() && rawRanges.size() < MAX_RANGES) {
+                rawRanges.add(new HighlightRangeDto(matcher.start(), matcher.end()));
+            }
+        } else {
+            // Partial matching (default) - substring anywhere
+            int index = lowerValue.indexOf(lowerQuery);
+            if (index < 0) {
+                return Optional.empty();
+            }
+            while (index >= 0 && rawRanges.size() < MAX_RANGES) {
+                rawRanges.add(new HighlightRangeDto(index, index + queryLength));
+                index = lowerValue.indexOf(lowerQuery, index + queryLength);
+            }
         }
 
-        List<HighlightRangeDto> rawRanges = new ArrayList<>();
-        while (index >= 0 && rawRanges.size() < MAX_RANGES) {
-            rawRanges.add(new HighlightRangeDto(index, index + queryLength));
-            index = lowerValue.indexOf(lowerQuery, index + queryLength);
+        if (rawRanges.isEmpty()) {
+            return Optional.empty();
         }
 
         int snippetStart;

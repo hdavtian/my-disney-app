@@ -35,6 +35,7 @@ public class SearchController {
     public ResponseEntity<SearchResponseDto> search(@RequestParam String query,
             @RequestParam(required = false) String categories,
             @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false, defaultValue = "partial") String matchMode,
             @RequestParam(required = false) MultiValueMap<String, String> scope) {
         Set<String> categorySet = parseCategories(categories);
         Map<String, String> scopeOverrides = scope == null
@@ -48,7 +49,8 @@ public class SearchController {
         SearchResponseDto response = searchAggregationService.search(query,
                 categorySet,
                 scopeOverrides,
-                limit);
+                limit,
+                matchMode);
         return ResponseEntity.ok(response);
     }
 

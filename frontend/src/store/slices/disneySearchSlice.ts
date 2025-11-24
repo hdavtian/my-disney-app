@@ -5,6 +5,7 @@ import {
   fetchSearchResults,
 } from "../../api/disneySearchApi";
 import {
+  MatchMode,
   SearchCapabilitiesResponse,
   SearchCategoryKey,
   SearchHistoryEntry,
@@ -16,6 +17,7 @@ export interface DisneySearchState {
   query: string;
   selectedCategories: SearchCategoryKey[];
   scopeSelections: Record<SearchCategoryKey, SearchScopeKey>;
+  matchMode: MatchMode;
   capabilities?: SearchCapabilitiesResponse;
   capabilitiesLoading: boolean;
   history: SearchHistoryEntry[];
@@ -34,6 +36,7 @@ const initialState: DisneySearchState = {
     characters: "basic",
     parks: "basic",
   },
+  matchMode: "exact",
   capabilitiesLoading: false,
   history: [],
   results: {},
@@ -54,10 +57,14 @@ export const executeSearch = createAsyncThunk<
     query: string;
     categories: SearchCategoryKey[];
     scopes: Record<SearchCategoryKey, SearchScopeKey>;
+    matchMode: MatchMode;
   }
->("disneySearch/executeSearch", async ({ query, categories, scopes }) => {
-  return fetchSearchResults({ query, categories, scopes });
-});
+>(
+  "disneySearch/executeSearch",
+  async ({ query, categories, scopes, matchMode }) => {
+    return fetchSearchResults({ query, categories, scopes, matchMode });
+  }
+);
 
 const disneySearchSlice = createSlice({
   name: "disneySearch",
@@ -65,6 +72,9 @@ const disneySearchSlice = createSlice({
   reducers: {
     setQuery(state, action: PayloadAction<string>) {
       state.query = action.payload;
+    },
+    setMatchMode(state, action: PayloadAction<MatchMode>) {
+      state.matchMode = action.payload;
     },
     toggleCategory(state, action: PayloadAction<SearchCategoryKey>) {
       const category = action.payload;
@@ -156,6 +166,7 @@ const disneySearchSlice = createSlice({
 
 export const {
   setQuery,
+  setMatchMode,
   toggleCategory,
   setScopeSelection,
   applyScopePreset,

@@ -1,6 +1,7 @@
 export type SearchCategoryKey = "movies" | "characters" | "parks";
 export type SearchScopeKey = "basic" | "extended" | string;
 export type SearchResultType = "movie" | "character" | "park";
+export type MatchMode = "partial" | "exact";
 
 export interface HighlightRange {
   start: number;

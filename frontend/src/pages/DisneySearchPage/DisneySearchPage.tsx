@@ -14,6 +14,7 @@ import {
   restoreFromHistory,
   selectDisneySearchHistory,
   selectDisneySearchState,
+  setMatchMode,
   setQuery,
   toggleCategory,
   applyScopePreset,
@@ -177,6 +178,7 @@ export const DisneySearchPage = () => {
     query,
     selectedCategories,
     scopeSelections,
+    matchMode,
     capabilities,
     capabilitiesLoading,
     results,
@@ -207,6 +209,7 @@ export const DisneySearchPage = () => {
         query: query.trim(),
         categories: selectedCategories,
         scopes: scopeSelections,
+        matchMode,
       })
     );
   };
@@ -223,6 +226,7 @@ export const DisneySearchPage = () => {
         query: entry.query,
         categories: entry.categories,
         scopes: entry.scopes,
+        matchMode,
       })
     );
   };
@@ -325,6 +329,35 @@ export const DisneySearchPage = () => {
             </button>
           </div>
 
+          <div className="disney-search-form__match-mode">
+            <div
+              className="match-mode-radios"
+              role="radiogroup"
+              aria-label="Match mode"
+            >
+              <label className="match-mode-radio">
+                <input
+                  type="radio"
+                  name="match-mode"
+                  value="exact"
+                  checked={matchMode === "exact"}
+                  onChange={() => dispatch(setMatchMode("exact"))}
+                />
+                <span>Exact Words</span>
+              </label>
+              <label className="match-mode-radio">
+                <input
+                  type="radio"
+                  name="match-mode"
+                  value="partial"
+                  checked={matchMode === "partial"}
+                  onChange={() => dispatch(setMatchMode("partial"))}
+                />
+                <span>Partial Match</span>
+              </label>
+            </div>
+          </div>
+
           <div className="disney-search-form__controls">
             <div className="disney-search-form__group">
               <p className="group-label">Categories</p>
@@ -381,7 +414,7 @@ export const DisneySearchPage = () => {
                       </span>
                     </div>
                   </label>
-                ))}
+                ))}{" "}
               </div>
             </div>
           </div>
@@ -402,6 +435,15 @@ export const DisneySearchPage = () => {
           <div>
             <p className="eyebrow">Live results</p>
             <h2>Search spotlight</h2>
+            {hasResults && (
+              <p className="total-count" aria-live="polite">
+                {Object.values(results).reduce(
+                  (sum, cat) => sum + (cat?.total ?? 0),
+                  0
+                )}{" "}
+                total matches
+              </p>
+            )}
           </div>
           {history.length > 0 && (
             <div className="history-chip" aria-live="polite">
@@ -472,8 +514,9 @@ export const DisneySearchPage = () => {
                                   alt={result.title}
                                   loading="lazy"
                                   onError={(e) => {
-                                    (e.target as HTMLImageElement).style.display =
-                                      "none";
+                                    (
+                                      e.target as HTMLImageElement
+                                    ).style.display = "none";
                                   }}
                                 />
                               ) : (
