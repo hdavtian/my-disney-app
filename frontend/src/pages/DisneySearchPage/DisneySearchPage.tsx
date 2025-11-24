@@ -26,6 +26,7 @@ import {
   SearchCategoryKey,
   SearchHistoryEntry,
   SearchScopeKey,
+  SearchResultType,
 } from "../../types/DisneySearch";
 import { getImageUrl } from "../../config/assets";
 import "./DisneySearchPage.scss";
@@ -60,7 +61,7 @@ const fallbackCategories: Array<{ key: SearchCategoryKey; label: string }> = [
  * Map search result type to asset category for getImageUrl utility.
  */
 const getAssetCategory = (
-  resultType: string
+  resultType: SearchResultType
 ): "movies" | "characters" | "attractions" => {
   switch (resultType.toLowerCase()) {
     case "movie":
@@ -114,14 +115,23 @@ const extractHighlightedFields = (result: DisneySearchResult) => {
   const entries = result.highlights ? Object.entries(result.highlights) : [];
   if (entries.length === 0) return null;
 
+  // Map backend field names to frontend field names
+  const fieldMap: Record<string, string> = {
+    title: "title",
+    short_description: "description_snippet",
+    long_description: "description_snippet",
+  };
+
   return entries
     .map(([field, ranges], index) => {
-      const sourceText = (result as Record<string, string | undefined>)[field];
+      // Get the frontend field name (or use the backend field name if no mapping exists)
+      const frontendField = fieldMap[field] || field;
+      const sourceText = (result as any)[frontendField];
       if (!sourceText) return null;
 
       return (
         <div key={`${field}-${index}`} className="highlight-match">
-          <span className="field-label">{field}:</span>
+          <span className="field-label">{field.replace(/_/g, " ")}:</span>
           <span className="field-value">
             {highlightContent(sourceText, ranges)}
           </span>

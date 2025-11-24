@@ -1,5 +1,6 @@
 export type SearchCategoryKey = "movies" | "characters" | "parks";
 export type SearchScopeKey = "basic" | "extended" | string;
+export type SearchResultType = "movie" | "character" | "park";
 
 export interface HighlightRange {
   start: number;
@@ -8,7 +9,7 @@ export interface HighlightRange {
 
 export interface DisneySearchResult {
   id: number;
-  type: SearchCategoryKey;
+  type: SearchResultType;
   title: string;
   descriptionSnippet?: string | null;
   imageUrl?: string | null;
