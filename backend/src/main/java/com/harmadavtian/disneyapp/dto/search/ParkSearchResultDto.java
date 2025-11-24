@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public class ParkSearchResultDto extends DisneySearchResultDto {
     private String parkUrlId;
+    private String parkName;
     private String attractionType;
 }

@@ -164,6 +164,7 @@ public class SearchAggregationService {
                     attraction.getImage5()));
             dto.setDetailPath(attraction.getUrlId() == null ? null : "/parks/" + attraction.getUrlId());
             dto.setParkUrlId(attraction.getParkUrlId());
+            dto.setParkName(attraction.getPark() != null ? attraction.getPark().getName() : null);
             dto.setAttractionType(attraction.getAttractionType());
             return dto;
         }, PARK_FIELD_EXTRACTORS, query, matchMode);

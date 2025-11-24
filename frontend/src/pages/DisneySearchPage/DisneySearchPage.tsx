@@ -504,6 +504,7 @@ export const DisneySearchPage = () => {
                       const imageUrl = rawImageUrl
                         ? getImageUrl(assetCategory, rawImageUrl)
                         : null;
+                      const parkName = (result as any).park_name;
 
                       console.log("[DisneySearch] Result processing:", {
                         title: result.title,
@@ -513,6 +514,7 @@ export const DisneySearchPage = () => {
                         assetCategory,
                         computedImageUrl: imageUrl,
                         resolvedDetailPath,
+                        parkName,
                       });
 
                       return (
@@ -520,29 +522,24 @@ export const DisneySearchPage = () => {
                           key={`${result.type}-${result.id}`}
                           className="result-card"
                         >
-                          <div className="result-card__image-wrapper">
-                            <div className="result-card__image">
-                              {imageUrl ? (
-                                <img
-                                  src={imageUrl}
-                                  alt={result.title}
-                                  loading="lazy"
-                                  onError={(e) => {
-                                    (
-                                      e.target as HTMLImageElement
-                                    ).style.display = "none";
-                                  }}
-                                />
-                              ) : (
-                                <div className="result-card__image-placeholder">
-                                  {result.title.charAt(0)}
-                                </div>
-                              )}
-                            </div>
-                            <span className="result-card__type-badge">
-                              {result.type}
-                            </span>
+                          <div className="result-card__image">
+                            {imageUrl ? (
+                              <img
+                                src={imageUrl}
+                                alt={result.title}
+                                loading="lazy"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display =
+                                    "none";
+                                }}
+                              />
+                            ) : (
+                              <div className="result-card__image-placeholder">
+                                {result.title.charAt(0)}
+                              </div>
+                            )}
                           </div>
+
                           <div className="result-card__content">
                             <h4 className="result-card__title">
                               {result.title}
@@ -557,6 +554,17 @@ export const DisneySearchPage = () => {
                                 No additional details available
                               </p>
                             )}
+
+                            <div className="result-card__badges">
+                              <span className="result-card__type-badge">
+                                {result.type}
+                              </span>
+                              {parkName && (
+                                <span className="result-card__park-badge">
+                                  {parkName}
+                                </span>
+                              )}
+                            </div>
 
                             {resolvedDetailPath &&
                               (result.type === "park" ? (
