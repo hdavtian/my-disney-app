@@ -182,6 +182,17 @@ Features:
 
 > **⚡ Performance**: Batch endpoints are optimized for loading favorites and related items. Instead of fetching all 800+ movies to display 3 favorites, batch endpoints fetch only what you need in a single HTTP request. This results in 10x faster load times and 100x smaller payloads.
 
+**Disney Search API** (Unified Search):
+
+- `GET /api/search?query={term}&categories=movies,characters,parks` - Aggregate search across all content
+- `GET /api/search/capabilities` - Get available search scopes and fields
+- **Match Modes**: Exact word matching or partial substring matching
+- **Search Scopes**: Basic (titles/descriptions) or Extended (metadata, tags, years)
+- **Field Highlighting**: Returns matched snippets with position markers for UI highlighting
+- **Category Filtering**: Search movies, characters, parks/attractions independently or together
+
+> **🔍 Smart Search**: The Disney Search API supports advanced features like word boundary matching, multi-field search (titles, descriptions, metadata), and intelligent highlighting. Search can target specific fields like creation year, movie rating, character type, park location, and more in extended mode.
+
 **Carousel API**:
 
 - `GET /api/carousels?location=homepage` - Get carousel items
@@ -339,6 +350,18 @@ backend/
 - **Attraction Filtering**: By park, type, thrill level, and operational status
 - **Search Functionality**: Find attractions by keyword
 - **Castle Parks**: Identify iconic castle parks
+
+### Disney Search
+
+- **Unified Search**: Search across movies, characters, and parks/attractions in one query
+- **Match Modes**: Exact word matching (whole words only) or partial matching (substring)
+- **Search Scopes**:
+  - **Basic**: Search titles and descriptions
+  - **Extended**: Include metadata (years, ratings, tags, types, locations)
+- **Smart Highlighting**: Visual markup shows exactly where search terms match
+- **Multi-Category**: Search all categories together or filter to specific types
+- **Field-Level Results**: See which fields matched (title, description, year, rating, etc.)
+- **Responsive Cards**: Inline image layout with badges showing content type and park names
 
 ### Character Quiz Game
 

@@ -8,6 +8,7 @@ import uiPreferencesReducer from "./slices/uiPreferencesSlice";
 import themeReducer from "./slices/themeSlice";
 import parksReducer from "./slices/parksSlice";
 import attractionsReducer from "./slices/attractionsSlice";
+import disneySearchReducer from "./slices/disneySearchSlice";
 import {
   localStorageSyncMiddleware,
   loadPreferencesFromStorage,
@@ -28,6 +29,7 @@ export const store = configureStore({
     theme: themeReducer,
     parks: parksReducer,
     attractions: attractionsReducer,
+    disneySearch: disneySearchReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(localStorageSyncMiddleware),

@@ -1,0 +1,57 @@
+search:
+  version: 1
+  categories:
+    movies:
+      label: "Movies"
+      scopes:
+        basic:
+          label: "Basic"
+          fields:
+            - title
+            # - short_description
+            - long_description
+        extended:
+          label: "Extended"
+          fields:
+            - title
+            - short_description
+            - long_description
+            - creation_year
+            - hidden_tags
+            - movie_rating
+    characters:
+      label: "Characters"
+      scopes:
+        basic:
+          label: "Basic"
+          fields:
+            - name
+            # - short_description
+            - long_description
+        extended:
+          label: "Extended"
+          fields:
+            - name
+            - short_description
+            - long_description
+            - first_appearance
+            - franchise
+            - character_type
+    parks:
+      label: "Parks"
+      scopes:
+        basic:
+          label: "Basic"
+          fields:
+            - name
+            - short_description
+            - theme
+        extended:
+          label: "Extended"
+          fields:
+            - name
+            - short_description
+            - theme
+            - land_area
+            - attraction_type
+            - thrill_level
