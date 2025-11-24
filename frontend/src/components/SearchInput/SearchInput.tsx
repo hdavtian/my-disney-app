@@ -65,15 +65,17 @@ export const SearchInput = <T extends { id: number | string }>({
         setShowDropdown(true);
       }
 
-      onSearch(results, initialValue);
+      // Don't call onSearch here - it can cause infinite loops
+      // The parent already has the initialValue, so no need to notify
     }
+    // Removed onSearch from dependencies to prevent infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     initialValue,
     loading,
     minCharacters,
     items,
     searchFields,
-    onSearch,
     userDismissed,
   ]);
 
