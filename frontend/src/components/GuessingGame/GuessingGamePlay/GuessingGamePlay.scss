@@ -1,0 +1,404 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.guessing-game-play {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+
+    &--loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+
+        .loading-spinner {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Score Row */
+.guessing-game-play__score-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    @include mobile {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .score-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+
+        .score-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .score-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+    }
+
+    .quit-button {
+        padding: 0.5rem 1.5rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: var(--border-radius-md);
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}
+
+/* Main Content */
+.guessing-game-play__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+
+    @include tablet {
+        grid-template-columns: 1fr;
+    }
+
+    @include mobile {
+        gap: 1.5rem;
+    }
+}
+
+/* Hints Column */
+.guessing-game-play__hints-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .hints-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .hint-card {
+        background: var(--color-card-bg);
+        border: 2px solid var(--color-border-light);
+        border-radius: var(--border-radius-md);
+        padding: 1.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+
+        &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .hint-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+
+            .hint-number {
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: var(--color-primary);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .hint-type {
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--color-text-secondary);
+                background: var(--color-background-secondary);
+                padding: 0.25rem 0.75rem;
+                border-radius: var(--border-radius-sm);
+            }
+        }
+
+        .hint-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            margin: 0;
+        }
+    }
+
+    .hint-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+
+        .hint-action-button {
+            padding: 0.875rem 1.5rem;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+            &:hover:not(:disabled) {
+                background: var(--color-primary-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            &:disabled {
+                background: var(--color-background-secondary);
+                color: var(--color-text-disabled);
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+
+            &--eliminate {
+                background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
+                }
+            }
+
+            &--show {
+                background: linear-gradient(135deg, #ffa502 0%, #ff6348 100%);
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(135deg, #ff9500 0%, #ff5533 100%);
+                }
+            }
+        }
+    }
+}
+
+/* Answers Column */
+.guessing-game-play__answers-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .answers-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .answer-choices {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .answer-choice {
+            position: relative;
+            padding: 1rem 1.25rem;
+            background: var(--color-card-bg);
+            border: 2px solid var(--color-border-light);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+            &:hover:not(:disabled) {
+                border-color: var(--color-primary);
+                background: var(--color-background-hover);
+                transform: translateX(4px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+            }
+
+            &--selected {
+                border-color: var(--color-primary);
+                background: var(--color-primary-light);
+                color: var(--color-primary-dark);
+                font-weight: 700;
+            }
+
+            &--eliminated {
+                opacity: 0.4;
+                text-decoration: line-through;
+                cursor: not-allowed;
+                border-color: var(--color-border-light);
+
+                .eliminated-badge {
+                    position: absolute;
+                    top: 50%;
+                    right: 1rem;
+                    transform: translateY(-50%);
+                    font-size: 1.25rem;
+                }
+            }
+
+            &--correct {
+                border-color: #2ecc71;
+                background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+                color: #155724;
+            }
+
+            &--incorrect {
+                border-color: #e74c3c;
+                background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+                color: #721c24;
+            }
+
+            &:disabled {
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .submit-answer-button {
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius-md);
+        font-size: 1.125rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        margin-top: 1rem;
+
+        &:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        &:disabled {
+            background: var(--color-background-secondary);
+            color: var(--color-text-disabled);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+    }
+}
+
+/* Answer Feedback */
+.answer-feedback {
+    padding: 1.5rem;
+    border-radius: var(--border-radius-md);
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    &--correct {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border: 2px solid #2ecc71;
+
+        .feedback-title {
+            color: #155724;
+        }
+    }
+
+    &--incorrect {
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+        border: 2px solid #e74c3c;
+
+        .feedback-title {
+            color: #721c24;
+        }
+    }
+
+    .feedback-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 0.75rem 0;
+    }
+
+    .feedback-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin: 0 0 0.5rem 0;
+        color: var(--color-text-primary);
+
+        strong {
+            font-weight: 700;
+            color: inherit;
+        }
+    }
+
+    .feedback-note {
+        font-size: 0.875rem;
+        font-style: italic;
+        color: var(--color-text-secondary);
+        margin: 0 0 1rem 0;
+    }
+
+    .next-question-button {
+        padding: 0.875rem 2rem;
+        background: var(--color-primary);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius-md);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        margin-top: 0.5rem;
+
+        &:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}

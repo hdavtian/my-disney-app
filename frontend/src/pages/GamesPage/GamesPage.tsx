@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { GuessingGameStart } from "../../components/GuessingGame/GuessingGameStart/GuessingGameStart";
+import { GuessingGamePlay } from "../../components/GuessingGame/GuessingGamePlay/GuessingGamePlay";
 import type { guessing_game_options } from "../../types/guessingGame";
 import "./GamesPage.scss";
 
@@ -15,8 +16,20 @@ export const GamesPage = React.memo(() => {
   const handle_start_guessing_game = (options: guessing_game_options) => {
     set_guessing_game_options(options);
     set_is_guessing_game_active(true);
-    // TODO: Phase 4 - Navigate to game play component
-    console.log("Starting Guessing Game with options:", options);
+  };
+
+  // Handler for completing the game
+  const handle_game_complete = (stats: any) => {
+    console.log("Game completed with stats:", stats);
+    // TODO: Phase 5 - Navigate to completion screen
+    set_is_guessing_game_active(false);
+    set_guessing_game_options(null);
+  };
+
+  // Handler for quitting the game
+  const handle_quit_game = () => {
+    set_is_guessing_game_active(false);
+    set_guessing_game_options(null);
   };
 
   return (
@@ -72,7 +85,15 @@ export const GamesPage = React.memo(() => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.4 }}
         >
-          <GuessingGameStart on_start_game={handle_start_guessing_game} />
+          {is_guessing_game_active && guessing_game_options ? (
+            <GuessingGamePlay
+              options={guessing_game_options}
+              on_game_complete={handle_game_complete}
+              on_quit={handle_quit_game}
+            />
+          ) : (
+            <GuessingGameStart on_start_game={handle_start_guessing_game} />
+          )}
         </motion.section>
 
         {/* Row 3: Future Game Placeholder */}

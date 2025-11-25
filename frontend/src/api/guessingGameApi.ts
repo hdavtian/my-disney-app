@@ -102,6 +102,22 @@ export const fetch_random_movie_hint = async (
 };
 
 /**
+ * Get all hints for a movie
+ * @param movie_url_id The URL ID of the movie
+ */
+export const fetch_all_movie_hints = async (
+  movie_url_id: string
+): Promise<game_hint[]> => {
+  const url = `${API_BASE_URL}/movie-hints/${movie_url_id}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch movie hints: ${response.statusText}`);
+  }
+  return response.json();
+};
+
+/**
  * Get a random character hint by difficulty
  * @param character_url_id The URL ID of the character
  * @param difficulty Difficulty level (1=easy, 2=medium, 3=hard)
@@ -115,6 +131,22 @@ export const fetch_random_character_hint = async (
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch character hint: ${response.statusText}`);
+  }
+  return response.json();
+};
+
+/**
+ * Get all hints for a character
+ * @param character_url_id The URL ID of the character
+ */
+export const fetch_all_character_hints = async (
+  character_url_id: string
+): Promise<game_hint[]> => {
+  const url = `${API_BASE_URL}/character-hints/${character_url_id}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch character hints: ${response.statusText}`);
   }
   return response.json();
 };
