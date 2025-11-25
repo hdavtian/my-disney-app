@@ -2,14 +2,30 @@
   {
     "movie_url_id": "captain_marvel",
     "hints": [
-      { "content": "A pilot discovers she has superpowers and her true identity.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Brie Larson stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Samuel L. Jackson stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A pilot discovers she has superpowers and her true identity.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Brie Larson stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Samuel L. Jackson stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Jude Law stars.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Carol Danvers.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Nick Fury.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Yon-Rogg.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Captain Marvel.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Kree.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Skrulls.", "difficulty": 2, "hint_type": "BIO" },
@@ -17,28 +33,64 @@
       { "content": "Flerken.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "1990s.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Tesseract.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Ben Mendelsohn stars.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Ben Mendelsohn stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Talos.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Photon blasts.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Higher, further, faster.", "difficulty": 2, "hint_type": "QUOTE" },
+      {
+        "content": "Higher, further, faster.",
+        "difficulty": 2,
+        "hint_type": "QUOTE"
+      },
       { "content": "Blockbuster.", "difficulty": 2, "hint_type": "BIO" }
     ]
   },
   {
     "movie_url_id": "dumbo_2019",
     "hints": [
-      { "content": "A young elephant with big ears learns to fly.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Colin Farrell stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Michael Keaton stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Danny DeVito stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A young elephant with big ears learns to fly.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Colin Farrell stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Michael Keaton stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Danny DeVito stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Eva Green stars.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Dumbo.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Holt Farrier.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "V.A. Vandevere.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Max Medici.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "Tim Burton directed.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Live-action remake.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Tim Burton directed.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Live-action remake.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Dumbo.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Flying elephant.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Big ears.", "difficulty": 1, "hint_type": "APPEARANCE" },
@@ -52,9 +104,21 @@
   {
     "movie_url_id": "penguins",
     "hints": [
-      { "content": "Documentary following an Adelie penguin in Antarctica.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Ed Helms narrates.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "Documentary following an Adelie penguin in Antarctica.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Ed Helms narrates.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disneynature.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Penguins.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Steve.", "difficulty": 1, "hint_type": "BIO" },
@@ -67,8 +131,16 @@
       { "content": "Killer whales.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Chicks.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Nature.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "Alastair Fothergill directed.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Jeff Wilson directed.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Alastair Fothergill directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Jeff Wilson directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Colony.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Ice.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Adeline.", "difficulty": 2, "hint_type": "BIO" }
@@ -77,116 +149,288 @@
   {
     "movie_url_id": "avengers_endgame",
     "hints": [
-      { "content": "The Avengers attempt to reverse Thanos's snap.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Robert Downey Jr. stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Chris Evans stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Chris Hemsworth stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Scarlett Johansson stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Mark Ruffalo stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "The Avengers attempt to reverse Thanos's snap.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Robert Downey Jr. stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Chris Evans stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Chris Hemsworth stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Scarlett Johansson stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Mark Ruffalo stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Iron Man.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Captain America.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Thor.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Black Widow.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Hulk.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "Avengers: Endgame.", "difficulty": 1, "hint_type": "QUOTE" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Avengers: Endgame.",
+        "difficulty": 1,
+        "hint_type": "QUOTE"
+      },
       { "content": "Time heist.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Quantum Realm.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "I am Iron Man.", "difficulty": 1, "hint_type": "QUOTE" },
-      { "content": "Avengers assemble.", "difficulty": 1, "hint_type": "QUOTE" },
-      { "content": "Russo Brothers directed.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Sequel to Infinity War.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Avengers assemble.",
+        "difficulty": 1,
+        "hint_type": "QUOTE"
+      },
+      {
+        "content": "Russo Brothers directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Sequel to Infinity War.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Snap.", "difficulty": 2, "hint_type": "BIO" }
     ]
   },
   {
     "movie_url_id": "aladdin_2019",
     "hints": [
-      { "content": "A street thief finds a magic lamp with a genie.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Mena Massoud stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Naomi Scott stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Will Smith stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A street thief finds a magic lamp with a genie.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Mena Massoud stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Naomi Scott stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Will Smith stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Aladdin.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Jasmine.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Genie.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Jafar.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "Live-action remake.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Live-action remake.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Aladdin.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Magic lamp.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Three wishes.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Magic carpet.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "A Whole New World.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A Whole New World.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Agrabah.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Abu.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Cave of Wonders.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Speechless.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Guy Ritchie directed.", "difficulty": 2, "hint_type": "TRIVIA" }
+      {
+        "content": "Guy Ritchie directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      }
     ]
   },
   {
     "movie_url_id": "toy_story_4",
     "hints": [
-      { "content": "Woody goes on a road trip and meets a new toy.", "difficulty": 1, "hint_type": "PLOT" },
+      {
+        "content": "Woody goes on a road trip and meets a new toy.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
       { "content": "Woody.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Buzz Lightyear.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Bo Peep.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Forky.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Pixar.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Tom Hanks voices Woody.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Tim Allen voices Buzz.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Annie Potts voices Bo Peep.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Tony Hale voices Forky.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Tom Hanks voices Woody.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Tim Allen voices Buzz.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Annie Potts voices Bo Peep.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Tony Hale voices Forky.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Toy Story 4.", "difficulty": 1, "hint_type": "QUOTE" },
-      { "content": "I'm not a toy, I'm trash!", "difficulty": 2, "hint_type": "QUOTE" },
+      {
+        "content": "I'm not a toy, I'm trash!",
+        "difficulty": 2,
+        "hint_type": "QUOTE"
+      },
       { "content": "Spork.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Gabby Gabby.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Duke Caboom.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Antique store.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "RV trip.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Bonnie.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Keanu Reeves voices Duke Caboom.", "difficulty": 2, "hint_type": "TRIVIA" }
+      {
+        "content": "Keanu Reeves voices Duke Caboom.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      }
     ]
   },
   {
-    "movie_url_id": "a_hrefhttpsd23comatozlionkingtheliveactionfilmthe_lion_kinga",
+    "movie_url_id": "the_lion_king",
     "hints": [
-      { "content": "A lion prince must reclaim his kingdom.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Donald Glover voices Simba.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Beyonce voices Nala.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "James Earl Jones voices Mufasa.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Chiwetel Ejiofor voices Scar.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A lion prince must reclaim his kingdom.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Donald Glover voices Simba.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Beyonce voices Nala.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "James Earl Jones voices Mufasa.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Chiwetel Ejiofor voices Scar.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Simba.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Nala.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Mufasa.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Scar.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Timon.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Pumbaa.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "Jon Favreau directed.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Live-action/CGI remake.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Jon Favreau directed.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Live-action/CGI remake.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "The Lion King.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Circle of Life.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Hakuna Matata.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Pride Rock.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Stampede.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Remember who you are.", "difficulty": 2, "hint_type": "QUOTE" }
+      {
+        "content": "Remember who you are.",
+        "difficulty": 2,
+        "hint_type": "QUOTE"
+      }
     ]
   },
   {
-    "movie_url_id": "a_hrefhttpsd23comatozmaleficentmistressofevilfilmmaleficent_mistress_of_evila",
+    "movie_url_id": "maleficent_mistress_of_evil",
     "hints": [
-      { "content": "Maleficent and Aurora face a new threat.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Angelina Jolie stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Elle Fanning stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Michelle Pfeiffer stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Maleficent and Aurora face a new threat.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Angelina Jolie stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Elle Fanning stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Michelle Pfeiffer stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Maleficent.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Aurora.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Queen Ingrith.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "Sequel to Maleficent.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Maleficent: Mistress of Evil.", "difficulty": 1, "hint_type": "QUOTE" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Sequel to Maleficent.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Maleficent: Mistress of Evil.",
+        "difficulty": 1,
+        "hint_type": "QUOTE"
+      },
       { "content": "Dark Fey.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Ulstead.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Prince Phillip.", "difficulty": 2, "hint_type": "BIO" },
@@ -195,22 +439,50 @@
       { "content": "Iron.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Wedding.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Moors.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Chiwetel Ejiofor stars.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Chiwetel Ejiofor stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Ed Skrein stars.", "difficulty": 2, "hint_type": "TRIVIA" }
     ]
   },
   {
     "movie_url_id": "lady_and_the_tramp_2019",
     "hints": [
-      { "content": "A pampered dog and a street dog fall in love.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Tessa Thompson voices Lady.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Justin Theroux voices Tramp.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A pampered dog and a street dog fall in love.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Tessa Thompson voices Lady.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Justin Theroux voices Tramp.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Lady.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Tramp.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "Live-action/CGI remake.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Live-action/CGI remake.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Lady and the Tramp.", "difficulty": 1, "hint_type": "QUOTE" },
+      {
+        "content": "Lady and the Tramp.",
+        "difficulty": 1,
+        "hint_type": "QUOTE"
+      },
       { "content": "Spaghetti.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Cocker Spaniel.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Mutt.", "difficulty": 2, "hint_type": "BIO" },
@@ -219,7 +491,11 @@
       { "content": "Bella Notte.", "difficulty": 2, "hint_type": "TRIVIA" },
       { "content": "Muzzle.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Pound.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Charlie Bean directed.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Charlie Bean directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Romance.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Dogs.", "difficulty": 1, "hint_type": "BIO" }
     ]
@@ -227,14 +503,34 @@
   {
     "movie_url_id": "noelle",
     "hints": [
-      { "content": "Santa's daughter must save Christmas.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Anna Kendrick stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Bill Hader stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Shirley MacLaine stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Santa's daughter must save Christmas.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Anna Kendrick stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Bill Hader stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Shirley MacLaine stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Noelle Kringle.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Nick Kringle.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Elf Polly.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
       { "content": "Noelle.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Santa Claus.", "difficulty": 1, "hint_type": "BIO" },
@@ -243,74 +539,174 @@
       { "content": "Phoenix.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Reindeer.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Snowcone.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Marc Lawrence directed.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Marc Lawrence directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Comedy.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Magic.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "Billy Eichner stars.", "difficulty": 2, "hint_type": "TRIVIA" }
+      {
+        "content": "Billy Eichner stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      }
     ]
   },
   {
-    "movie_url_id": "a_hrefhttpsd23comatozfrozen2filmfrozen_2a",
+    "movie_url_id": "frozen_2",
     "hints": [
-      { "content": "Elsa discovers the origin of her powers.", "difficulty": 1, "hint_type": "PLOT" },
+      {
+        "content": "Elsa discovers the origin of her powers.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
       { "content": "Elsa.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Anna.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Kristoff.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Olaf.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Sven.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "Idina Menzel voices Elsa.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Kristen Bell voices Anna.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Jonathan Groff voices Kristoff.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Josh Gad voices Olaf.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Idina Menzel voices Elsa.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Kristen Bell voices Anna.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Jonathan Groff voices Kristoff.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Josh Gad voices Olaf.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Frozen 2.", "difficulty": 1, "hint_type": "QUOTE" },
-      { "content": "Into the Unknown.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Into the Unknown.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Enchanted Forest.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Northuldra.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Ahtohallan.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Fifth spirit.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Water has memory.", "difficulty": 2, "hint_type": "QUOTE" },
-      { "content": "Sequel to Frozen.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Sequel to Frozen.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Show Yourself.", "difficulty": 2, "hint_type": "TRIVIA" }
     ]
   },
   {
-    "movie_url_id": "a_hrefhttpsd23comatozstarwarstheriseofskywalkerstar_wars_the_rise_of_skywalkera",
+    "movie_url_id": "star_wars_the_rise_of_skywalker",
     "hints": [
-      { "content": "Rey faces her destiny and battles the Emperor.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Daisy Ridley stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Adam Driver stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "John Boyega stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Oscar Isaac stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Rey faces her destiny and battles the Emperor.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Daisy Ridley stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Adam Driver stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "John Boyega stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Oscar Isaac stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Rey.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Kylo Ren.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Finn.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Poe Dameron.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
-      { "content": "J.J. Abrams directed.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "The Rise of Skywalker.", "difficulty": 1, "hint_type": "QUOTE" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "J.J. Abrams directed.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "The Rise of Skywalker.",
+        "difficulty": 1,
+        "hint_type": "QUOTE"
+      },
       { "content": "Emperor Palpatine.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Exegol.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Sith dagger.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "I am all the Jedi.", "difficulty": 2, "hint_type": "QUOTE" },
+      {
+        "content": "I am all the Jedi.",
+        "difficulty": 2,
+        "hint_type": "QUOTE"
+      },
       { "content": "Yellow lightsaber.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Tatooine.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Final film in Skywalker Saga.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Final film in Skywalker Saga.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Rey Skywalker.", "difficulty": 2, "hint_type": "BIO" }
     ]
   },
   {
     "movie_url_id": "togo",
     "hints": [
-      { "content": "A sled dog leads a dangerous mission to deliver medicine.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Willem Dafoe stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Julianne Nicholson stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A sled dog leads a dangerous mission to deliver medicine.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Willem Dafoe stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Julianne Nicholson stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Leonhard Seppala.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Togo.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Constance Seppala.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2019.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2019.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Based on a true story.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Based on a true story.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Togo.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Sled dog.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Alaska.", "difficulty": 1, "hint_type": "BIO" },
@@ -319,7 +715,11 @@
       { "content": "Diphtheria.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "1925.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Ice.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Ericson Core directed.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Ericson Core directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Drama.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Siberian Husky.", "difficulty": 2, "hint_type": "BIO" }
     ]
@@ -327,40 +727,92 @@
   {
     "movie_url_id": "timmy_failure_mistakes_were_made",
     "hints": [
-      { "content": "A boy runs a detective agency with his imaginary polar bear.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Winslow Fegley stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Ophelia Lovibond stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A boy runs a detective agency with his imaginary polar bear.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Winslow Fegley stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Ophelia Lovibond stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Timmy Failure.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Total.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Patty Failure.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2020.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2020.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Based on the book series by Stephan Pastis.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Timmy Failure: Mistakes Were Made.", "difficulty": 1, "hint_type": "QUOTE" },
+      {
+        "content": "Based on the book series by Stephan Pastis.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Timmy Failure: Mistakes Were Made.",
+        "difficulty": 1,
+        "hint_type": "QUOTE"
+      },
       { "content": "Detective.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Polar bear.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Imaginary friend.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Total Failure Inc.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Portland.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Comedy.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "Tom McCarthy directed.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Craig Robinson stars.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Tom McCarthy directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Craig Robinson stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Mr. Crocus.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Scooter.", "difficulty": 2, "hint_type": "BIO" }
     ]
   },
   {
-    "movie_url_id": "a_hrefhttpsd23comatozonwardfilmonwarda",
+    "movie_url_id": "onward",
     "hints": [
-      { "content": "Two elf brothers go on a quest to spend one day with their father.", "difficulty": 1, "hint_type": "PLOT" },
+      {
+        "content": "Two elf brothers go on a quest to spend one day with their father.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
       { "content": "Ian Lightfoot.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Barley Lightfoot.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Laurel Lightfoot.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2020.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2020.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Pixar.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Tom Holland voices Ian.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Chris Pratt voices Barley.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Julia Louis-Dreyfus voices Laurel.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Tom Holland voices Ian.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Chris Pratt voices Barley.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Julia Louis-Dreyfus voices Laurel.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Onward.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Elves.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Magic.", "difficulty": 1, "hint_type": "BIO" },
@@ -371,28 +823,60 @@
       { "content": "Manticore.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Quest.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Brothers.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "Dan Scanlon directed.", "difficulty": 2, "hint_type": "TRIVIA" }
+      {
+        "content": "Dan Scanlon directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      }
     ]
   },
   {
     "movie_url_id": "stargirl",
     "hints": [
-      { "content": "A free-spirited girl changes a high school.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Grace VanderWaal stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Graham Verchere stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A free-spirited girl changes a high school.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Grace VanderWaal stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Graham Verchere stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Stargirl Caraway.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Leo Borlock.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2020.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2020.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Based on the novel by Jerry Spinelli.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Based on the novel by Jerry Spinelli.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Stargirl.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Ukulele.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Mica High.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Arizona.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Nonconformist.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Drama.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "Julia Hart directed.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Giancarlo Esposito stars.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Julia Hart directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Giancarlo Esposito stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Archie.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Kindness.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Romance.", "difficulty": 1, "hint_type": "BIO" },
@@ -402,9 +886,21 @@
   {
     "movie_url_id": "dolphin_reef",
     "hints": [
-      { "content": "Documentary following a young dolphin.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Natalie Portman narrates.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "It was released in 2020.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "Documentary following a young dolphin.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Natalie Portman narrates.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "It was released in 2020.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disneynature.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
       { "content": "Dolphin Reef.", "difficulty": 1, "hint_type": "QUOTE" },
@@ -416,8 +912,16 @@
       { "content": "Red Sea.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Humpback whales.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Nature.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "Alastair Fothergill directed.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Keith Scholey directed.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Alastair Fothergill directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Keith Scholey directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Marine life.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Underwater.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Family.", "difficulty": 1, "hint_type": "BIO" },
@@ -427,9 +931,21 @@
   {
     "movie_url_id": "elephant",
     "hints": [
-      { "content": "Documentary following an elephant family in Africa.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Meghan, Duchess of Sussex narrates.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "It was released in 2020.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "Documentary following an elephant family in Africa.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Meghan, Duchess of Sussex narrates.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "It was released in 2020.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disneynature.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
       { "content": "Elephant.", "difficulty": 1, "hint_type": "QUOTE" },
@@ -441,8 +957,16 @@
       { "content": "Documentary.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Migration.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Herd.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Mark Linfield directed.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Vanessa Berlowitz directed.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Mark Linfield directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Vanessa Berlowitz directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Nature.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Water.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Family.", "difficulty": 1, "hint_type": "BIO" },
@@ -452,23 +976,51 @@
   {
     "movie_url_id": "artemis_fowl",
     "hints": [
-      { "content": "A boy genius searches for his missing father.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Ferdia Shaw stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Lara McDonnell stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "A boy genius searches for his missing father.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Ferdia Shaw stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Lara McDonnell stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Josh Gad stars.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Artemis Fowl II.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Holly Short.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Mulch Diggums.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2020.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2020.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Based on the book by Eoin Colfer.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Based on the book by Eoin Colfer.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Artemis Fowl.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Fairies.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "LEPrecon.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Aculos.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Fowl Manor.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Kenneth Branagh directed.", "difficulty": 2, "hint_type": "TRIVIA" },
-      { "content": "Colin Farrell stars.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Kenneth Branagh directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Colin Farrell stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Artemis Fowl I.", "difficulty": 2, "hint_type": "BIO" },
       { "content": "Fantasy.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Dwarf.", "difficulty": 2, "hint_type": "BIO" }
@@ -477,25 +1029,57 @@
   {
     "movie_url_id": "hamilton",
     "hints": [
-      { "content": "Filmed version of the Broadway musical about Alexander Hamilton.", "difficulty": 1, "hint_type": "PLOT" },
-      { "content": "Lin-Manuel Miranda stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Leslie Odom Jr. stars.", "difficulty": 1, "hint_type": "TRIVIA" },
-      { "content": "Daveed Diggs stars.", "difficulty": 1, "hint_type": "TRIVIA" },
+      {
+        "content": "Filmed version of the Broadway musical about Alexander Hamilton.",
+        "difficulty": 1,
+        "hint_type": "PLOT"
+      },
+      {
+        "content": "Lin-Manuel Miranda stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Leslie Odom Jr. stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
+      {
+        "content": "Daveed Diggs stars.",
+        "difficulty": 1,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Alexander Hamilton.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Aaron Burr.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Thomas Jefferson.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "It was released in 2020.", "difficulty": 3, "hint_type": "TRIVIA" },
+      {
+        "content": "It was released in 2020.",
+        "difficulty": 3,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Disney+.", "difficulty": 2, "hint_type": "TRIVIA" },
       { "content": "Hamilton.", "difficulty": 1, "hint_type": "QUOTE" },
       { "content": "Musical.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Broadway.", "difficulty": 1, "hint_type": "TRIVIA" },
       { "content": "Hip-hop.", "difficulty": 1, "hint_type": "BIO" },
       { "content": "Founding Fathers.", "difficulty": 1, "hint_type": "BIO" },
-      { "content": "Renee Elise Goldsberry stars.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Renee Elise Goldsberry stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Angelica Schuyler.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Phillipa Soo stars.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Phillipa Soo stars.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "Eliza Hamilton.", "difficulty": 2, "hint_type": "BIO" },
-      { "content": "Thomas Kail directed.", "difficulty": 2, "hint_type": "TRIVIA" },
+      {
+        "content": "Thomas Kail directed.",
+        "difficulty": 2,
+        "hint_type": "TRIVIA"
+      },
       { "content": "My Shot.", "difficulty": 2, "hint_type": "TRIVIA" }
     ]
   }
