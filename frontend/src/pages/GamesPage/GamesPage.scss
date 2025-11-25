@@ -1,0 +1,196 @@
+@use "../../styles/variables.scss" as *;
+@use "../../styles/mixins.scss" as *;
+
+.games-page {
+    min-height: 100vh;
+    padding: var(--space-6) var(--space-4);
+    background: var(--bg-primary);
+
+    @include tablet-up {
+        padding: var(--space-8) var(--space-6);
+    }
+
+    @include desktop-up {
+        padding: var(--space-10) var(--space-8);
+    }
+
+    // Page Header
+    &__header {
+        text-align: center;
+        margin-bottom: var(--space-8);
+        padding-bottom: var(--space-6);
+        border-bottom: 2px solid var(--card-border);
+    }
+
+    &__title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: var(--font-bold);
+        color: var(--accent-secondary);
+        margin: 0 0 var(--space-3) 0;
+        text-shadow: var(--shadow-color);
+        font-family: "Georgia", "Times New Roman", serif;
+        letter-spacing: 1px;
+
+        // Gradient effect for title
+        background: linear-gradient(135deg,
+                var(--accent-secondary),
+                var(--accent-primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    &__subtitle {
+        font-size: var(--text-xl);
+        color: var(--text-secondary);
+        font-weight: var(--font-medium);
+        margin: 0;
+        font-family: "Helvetica", "Arial", sans-serif;
+        letter-spacing: 0.5px;
+    }
+
+    // Games Container
+    &__container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+
+        @include tablet-up {
+            gap: var(--space-8);
+        }
+    }
+
+    // Game Row
+    &__game-row {
+        position: relative;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--border-radius-lg);
+        padding: var(--space-6);
+        box-shadow: var(--card-shadow);
+        transition: all var(--transition-normal);
+
+        @include tablet-up {
+            padding: var(--space-8);
+        }
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-secondary);
+        }
+
+        // Collapsed state
+        &--collapsed {
+            min-height: 60px;
+            padding: var(--space-4);
+        }
+
+        // Placeholder styling
+        &--placeholder {
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    // Collapse/Expand Toggle Button
+    &__collapse-toggle {
+        position: absolute;
+        top: var(--space-3);
+        right: var(--space-3);
+        width: auto;
+        height: auto;
+        padding: var(--space-1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        color: var(--text-secondary);
+        border: none;
+        border-radius: 0;
+        font-size: 1.25rem;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        z-index: 10;
+        box-shadow: none;
+
+        &:hover {
+            color: var(--accent-primary);
+            transform: scale(1.1);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    // Game Title (shown when collapsed)
+    &__game-title {
+        font-size: var(--text-xl);
+        font-weight: var(--font-bold);
+        color: var(--text-primary);
+        margin: 0;
+        font-family: "Georgia", "Times New Roman", serif;
+
+        @include mobile-only {
+            font-size: var(--text-lg);
+        }
+    }
+
+    // Placeholder Content
+    &__placeholder {
+        text-align: center;
+        padding: var(--space-6);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    &__placeholder-icon {
+        font-size: 4rem;
+        margin-bottom: var(--space-4);
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    &__placeholder-title {
+        font-size: var(--text-2xl);
+        font-weight: var(--font-bold);
+        color: var(--accent-secondary);
+        margin: 0 0 var(--space-3) 0;
+        font-family: "Georgia", "Times New Roman", serif;
+    }
+
+    &__placeholder-text {
+        font-size: var(--text-base);
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin: 0;
+        font-family: "Helvetica", "Arial", sans-serif;
+    }
+
+    // Responsive adjustments
+    @include mobile-only {
+        &__game-row {
+            min-height: 250px;
+        }
+
+        &__placeholder-icon {
+            font-size: 3rem;
+        }
+
+        &__placeholder-title {
+            font-size: var(--text-xl);
+        }
+
+        &__placeholder-text {
+            font-size: var(--text-sm);
+        }
+    }
+}

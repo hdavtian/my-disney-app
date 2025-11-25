@@ -67,10 +67,24 @@ export const CharacterQuiz = React.memo(() => {
   // Banner state for random characters
   const [bannerCharacters, setBannerCharacters] = useState<Character[]>([]);
 
-  // Load preferences on component mount
+  // Load preferences and saved game state on component mount
   useEffect(() => {
     quiz.loadPreferences();
+    quiz.loadSavedState();
   }, []);
+
+  // Auto-save game state whenever it changes
+  useEffect(() => {
+    if (quiz.isGameActive) {
+      quiz.saveCurrentState();
+    }
+  }, [
+    quiz.isGameActive,
+    quiz.currentQuestionIndex,
+    quiz.score,
+    quiz.currentQuestion,
+    quiz.questionAnswered,
+  ]);
 
   // Initialize cached characters for quiz API when available (only once)
   useEffect(() => {
@@ -89,8 +103,9 @@ export const CharacterQuiz = React.memo(() => {
       const randomIds = getRandomCharacterIds("1", 5);
       const characters = getCharactersByIds(randomIds);
       setBannerCharacters(characters);
+      console.log("🎨 Banner characters loaded:", characters.length);
     }
-  }, [cachedCharacters.length]);
+  }, [cachedCharacters]);
 
   // ESC key support for modal
   useEffect(() => {
@@ -307,19 +322,12 @@ export const CharacterQuiz = React.memo(() => {
   };
 
   const handleRestartGame = () => {
-    // Check if cached characters are available
-    if (cachedCharacters.length === 0) {
-      console.warn(
-        "Cannot restart quiz: Characters not loaded yet. Please wait..."
-      );
-      alert("Please wait for characters to load before restarting the quiz!");
-      return;
-    }
-
+    // Reset UI state
     setCurrentCharacter(null);
     setSelectedAnswer(null);
     setCharacterAnimationState("normal");
     setSectionBackgroundState("normal");
+
     // Use restart action to return to game setup screen
     quiz.restartGame();
     // No longer auto-starting game - user can choose new options
@@ -353,21 +361,6 @@ export const CharacterQuiz = React.memo(() => {
     selectedAnswer,
   ]);
 
-  if (!quiz.isVisible) {
-    return (
-      <div className="character-quiz character-quiz--hidden">
-        <button
-          type="button"
-          className="character-quiz__show-button"
-          onClick={quiz.toggleVisibility}
-          aria-label="Show Character Quiz"
-        >
-          🎮 Show Quiz
-        </button>
-      </div>
-    );
-  }
-
   return (
     <motion.div
       key="character-quiz-main"
@@ -377,19 +370,6 @@ export const CharacterQuiz = React.memo(() => {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Header with toggle button */}
-      <div className="character-quiz__header">
-        <h2 className="character-quiz__title">Character Quiz</h2>
-        <button
-          type="button"
-          className="character-quiz__hide-button"
-          onClick={quiz.toggleVisibility}
-          aria-label="Hide Character Quiz"
-        >
-          ✕
-        </button>
-      </div>
-
       {/* Loading State */}
       {quiz.isLoading && (
         <div className="character-quiz__loading">

@@ -95,4 +95,30 @@ public class CharacterService {
                 movie.getMovieRating(),
                 movie.getImage1());
     }
+
+    /**
+     * Get random characters excluding specific IDs.
+     * Used for generating wrong answer choices in guessing games.
+     * 
+     * @param excludeIds List of character IDs to exclude
+     * @param count      Number of random characters to return
+     * @return List of random characters
+     */
+    public List<Character> getRandomCharactersExcept(List<Long> excludeIds, int count) {
+        if (excludeIds == null || excludeIds.isEmpty()) {
+            return characterRepository.findRandom(count);
+        }
+        return characterRepository.findRandomExcept(excludeIds, count);
+    }
+
+    /**
+     * Get character IDs that have hints available.
+     * Used in guessing games to ensure selected characters can provide hints to
+     * players.
+     * 
+     * @return List of character IDs that have at least one hint
+     */
+    public List<Long> getCharacterIdsWithHints() {
+        return characterRepository.findIdsWithHints();
+    }
 }

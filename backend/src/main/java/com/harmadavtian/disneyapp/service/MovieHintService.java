@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -88,5 +90,38 @@ public class MovieHintService {
                 hint.getContent(),
                 hint.getDifficulty(),
                 hint.getHintType());
+    }
+
+    /**
+     * Get a random hint for a movie filtered by difficulty level.
+     * Used for guessing games to provide progressive difficulty hints.
+     * 
+     * @param movieUrlId The URL identifier of the movie
+     * @param difficulty The difficulty level (1=easy, 2=medium, 3=hard)
+     * @return A random hint DTO at the specified difficulty, or null if none found
+     */
+    public MovieHintDto getRandomHintByDifficulty(String movieUrlId, int difficulty) {
+        log.debug("Fetching random hint for movie: {} with difficulty: {}", movieUrlId, difficulty);
+        MovieHint hint = movieHintRepository.findRandomByMovieUrlIdAndDifficulty(movieUrlId, difficulty);
+        return hint != null ? convertToDto(hint) : null;
+    }
+
+    /**
+     * Get all hints for multiple movies in a single call.
+     * Optimized for batch loading in guessing games.
+     * 
+     * @param movieUrlIds List of movie URL identifiers
+     * @return Map of movie URL IDs to their hints
+     */
+    public Map<String, List<MovieHintDto>> getBatchHints(List<String> movieUrlIds) {
+        log.debug("Fetching hints for {} movies", movieUrlIds.size());
+        Map<String, List<MovieHintDto>> result = new HashMap<>();
+
+        for (String urlId : movieUrlIds) {
+            List<MovieHintDto> hints = getAllHintsByMovieUrlId(urlId);
+            result.put(urlId, hints);
+        }
+
+        return result;
     }
 }

@@ -1,0 +1,51 @@
+@use "./variables.scss" as *;
+@use "./mixins.scss" as *;
+
+// Shared Game Selector Button Styles
+// Used by both Character Quiz (Toon Quiz) and The Guessing Game
+
+.game-selector-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    width: 100%;
+
+    @include mobile-only {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+}
+
+.game-selector-option {
+    @include btn-base;
+    padding: var(--space-3);
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    text-align: center;
+
+    &:hover:not(.game-selector-option--selected) {
+        background: var(--card-bg-hover);
+        border-color: var(--accent-secondary);
+        transform: translateY(-1px);
+    }
+
+    &--selected {
+        background: var(--accent-secondary);
+        border-color: var(--accent-secondary);
+        color: var(--btn-primary-text);
+        font-weight: var(--font-bold);
+        box-shadow: var(--card-shadow);
+
+        &:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+    }
+}

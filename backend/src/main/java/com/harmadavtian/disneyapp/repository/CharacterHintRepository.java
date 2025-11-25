@@ -42,4 +42,16 @@ public interface CharacterHintRepository extends JpaRepository<CharacterHint, Lo
      * @return The number of hints for the character
      */
     long countByCharacterUrlId(String characterUrlId);
+
+    /**
+     * Find a random hint for a character filtered by difficulty level.
+     * Used for guessing games to provide progressive difficulty hints.
+     * 
+     * @param characterUrlId The URL identifier of the character
+     * @param difficulty     The difficulty level (1=easy, 2=medium, 3=hard)
+     * @return A random hint at the specified difficulty, or null if none found
+     */
+    @Query(value = "SELECT * FROM character_hints WHERE character_url_id = :characterUrlId AND difficulty = :difficulty ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
+    CharacterHint findRandomByCharacterUrlIdAndDifficulty(@Param("characterUrlId") String characterUrlId,
+            @Param("difficulty") int difficulty);
 }

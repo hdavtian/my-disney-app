@@ -32,38 +32,6 @@
         }
     }
 
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--space-4);
-        border-bottom: 1px solid var(--card-border);
-        padding-bottom: var(--space-3);
-    }
-
-    &__title {
-        color: var(--accent-secondary);
-        font-size: var(--text-xl);
-        font-weight: var(--font-bold);
-        margin: 0;
-        text-shadow: var(--shadow-color);
-    }
-
-    &__hide-button {
-        @include btn-base;
-        color: var(--text-tertiary);
-        font-size: var(--text-lg);
-        cursor: pointer;
-        padding: var(--space-1);
-        border-radius: var(--border-radius);
-        transition: all var(--transition-normal);
-
-        &:hover {
-            color: var(--text-primary);
-            background: var(--card-bg);
-        }
-    }
-
     &__loading {
         text-align: center;
         padding: var(--space-8);

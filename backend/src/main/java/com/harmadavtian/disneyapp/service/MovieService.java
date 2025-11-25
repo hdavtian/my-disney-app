@@ -73,4 +73,42 @@ public class MovieService {
                 character.getSpecies(),
                 character.getProfileImage1());
     }
+
+    /**
+     * Get all movie IDs.
+     * Used for random selection in games without loading full movie objects.
+     * 
+     * @return List of all movie IDs
+     */
+    public List<Long> getAllMovieIds() {
+        return movieRepository.findAll().stream()
+                .map(Movie::getId)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get random movies excluding specific IDs.
+     * Used for generating wrong answer choices in guessing games.
+     * 
+     * @param excludeIds List of movie IDs to exclude
+     * @param count      Number of random movies to return
+     * @return List of random movies
+     */
+    public List<Movie> getRandomMoviesExcept(List<Long> excludeIds, int count) {
+        if (excludeIds == null || excludeIds.isEmpty()) {
+            return movieRepository.findRandom(count);
+        }
+        return movieRepository.findRandomExcept(excludeIds, count);
+    }
+
+    /**
+     * Get movie IDs that have hints available.
+     * Used in guessing games to ensure selected movies can provide hints to
+     * players.
+     * 
+     * @return List of movie IDs that have at least one hint
+     */
+    public List<Long> getMovieIdsWithHints() {
+        return movieRepository.findIdsWithHints();
+    }
 }

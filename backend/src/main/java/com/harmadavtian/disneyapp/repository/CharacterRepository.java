@@ -35,4 +35,33 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
      */
     @Query(value = "SELECT id FROM characters WHERE id != :excludeId ORDER BY RANDOM() LIMIT :count", nativeQuery = true)
     List<Long> findRandomIdsExcluding(@Param("excludeId") Long excludeId, @Param("count") int count);
+
+    /**
+     * Find random characters excluding specific IDs.
+     * Uses native SQL for random selection with PostgreSQL's RANDOM() function.
+     * 
+     * @param excludeIds List of character IDs to exclude from results
+     * @param limit      Maximum number of characters to return
+     * @return List of random characters
+     */
+    @Query(value = "SELECT * FROM characters WHERE id NOT IN :excludeIds ORDER BY RANDOM() LIMIT :limit", nativeQuery = true)
+    List<Character> findRandomExcept(@Param("excludeIds") List<Long> excludeIds, @Param("limit") int limit);
+
+    /**
+     * Find random characters when no exclusions are needed.
+     * 
+     * @param limit Maximum number of characters to return
+     * @return List of random characters
+     */
+    @Query(value = "SELECT * FROM characters ORDER BY RANDOM() LIMIT :limit", nativeQuery = true)
+    List<Character> findRandom(@Param("limit") int limit);
+
+    /**
+     * Find all character IDs that have hints available.
+     * Used in guessing games to ensure selected characters can provide hints.
+     * 
+     * @return List of character IDs that have at least one hint
+     */
+    @Query(value = "SELECT DISTINCT c.id FROM characters c INNER JOIN character_hints ch ON c.url_id = ch.character_url_id ORDER BY c.id", nativeQuery = true)
+    List<Long> findIdsWithHints();
 }

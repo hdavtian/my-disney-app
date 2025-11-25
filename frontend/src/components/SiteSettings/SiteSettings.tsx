@@ -5,6 +5,8 @@ import { clearPreferencesFromStorage } from "../../store/middleware/localStorage
 import { rehydratePreferences } from "../../store/slices/uiPreferencesSlice";
 import { hydrateFavorites } from "../../store/slices/favoritesSlice";
 import { clearDisclaimer } from "../../utils/disclaimerGate";
+import { clear_guessing_game_state } from "../../utils/guessingGameStorage";
+import { clearGameState as clearToonQuizState } from "../../utils/quizStorage";
 import { resetPagination as resetMoviesPagination } from "../../store/slices/moviesSlice";
 import { resetPagination as resetCharactersPagination } from "../../store/slices/charactersSlice";
 import { useTheme } from "../../hooks/useTheme";
@@ -41,6 +43,8 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
     preferences: true,
     favorites: true,
     disclaimer: true,
+    guessingGame: true,
+    toonQuiz: true,
   });
 
   // Refresh cache stats when modal opens
@@ -92,12 +96,16 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
           return "Favorites";
         case "disclaimer":
           return "Disclaimer Agreement";
+        case "guessingGame":
+          return "Guessing Game Progress";
+        case "toonQuiz":
+          return "Toon Quiz Progress";
         default:
           return key;
       }
     });
 
-    const allSelected = selectedItems.length === 4;
+    const allSelected = selectedItems.length === 6;
     const message = allSelected
       ? "⚠️ This will clear ALL site data. The page will reload after clearing. Are you sure?"
       : `Are you sure you want to clear: ${itemLabels.join(", ")}?`;
@@ -112,6 +120,18 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
         if (clearOptions.cachedData) {
           CacheService.clear();
           clearedItems.push("Cached API Data");
+        }
+
+        // Clear Guessing Game state
+        if (clearOptions.guessingGame) {
+          clear_guessing_game_state();
+          clearedItems.push("Guessing Game Progress");
+        }
+
+        // Clear Toon Quiz state
+        if (clearOptions.toonQuiz) {
+          clearToonQuizState();
+          clearedItems.push("Toon Quiz Progress");
         }
 
         // Clear preferences
@@ -383,6 +403,40 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                         </div>
                       </div>
                     </label>
+
+                    <label className="clear-option">
+                      <input
+                        type="checkbox"
+                        checked={clearOptions.guessingGame}
+                        onChange={() => handleToggleClearOption("guessingGame")}
+                      />
+                      <div className="clear-option__content">
+                        <div className="clear-option__label">
+                          <i className="fas fa-gamepad"></i>
+                          Guessing Game Progress
+                        </div>
+                        <div className="clear-option__description">
+                          Saved game state, score, and current question
+                        </div>
+                      </div>
+                    </label>
+
+                    <label className="clear-option">
+                      <input
+                        type="checkbox"
+                        checked={clearOptions.toonQuiz}
+                        onChange={() => handleToggleClearOption("toonQuiz")}
+                      />
+                      <div className="clear-option__content">
+                        <div className="clear-option__label">
+                          <i className="fas fa-question-circle"></i>
+                          Toon Quiz Progress
+                        </div>
+                        <div className="clear-option__description">
+                          Saved quiz state, score, and current question
+                        </div>
+                      </div>
+                    </label>
                   </div>
 
                   {/* Clear Button */}
@@ -393,7 +447,9 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                       !clearOptions.cachedData &&
                       !clearOptions.preferences &&
                       !clearOptions.favorites &&
-                      !clearOptions.disclaimer
+                      !clearOptions.disclaimer &&
+                      !clearOptions.guessingGame &&
+                      !clearOptions.toonQuiz
                     }
                   >
                     <i className="fas fa-broom"></i>

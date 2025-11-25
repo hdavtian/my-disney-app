@@ -29,7 +29,6 @@ import {
   getIndexCharacter,
 } from "../../components/AlphabetFilter";
 import { SortDropdown, SortOption } from "../../components/SortDropdown";
-import { CharacterQuiz } from "../../components/CharacterQuiz";
 import { Character } from "../../types/Character";
 
 export const CharactersPage = () => {
@@ -344,8 +343,6 @@ export const CharactersPage = () => {
       </div>
 
       <div className="characters-page__content">
-        <CharacterQuiz />
-
         <div className="characters-page__filters">
           <AlphabetFilter
             items={characters}

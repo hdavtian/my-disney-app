@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -88,5 +90,39 @@ public class CharacterHintService {
                 hint.getContent(),
                 hint.getDifficulty(),
                 hint.getHintType());
+    }
+
+    /**
+     * Get a random hint for a character filtered by difficulty level.
+     * Used for guessing games to provide progressive difficulty hints.
+     * 
+     * @param characterUrlId The URL identifier of the character
+     * @param difficulty     The difficulty level (1=easy, 2=medium, 3=hard)
+     * @return A random hint DTO at the specified difficulty, or null if none found
+     */
+    public CharacterHintDto getRandomHintByDifficulty(String characterUrlId, int difficulty) {
+        log.debug("Fetching random hint for character: {} with difficulty: {}", characterUrlId, difficulty);
+        CharacterHint hint = characterHintRepository.findRandomByCharacterUrlIdAndDifficulty(characterUrlId,
+                difficulty);
+        return hint != null ? convertToDto(hint) : null;
+    }
+
+    /**
+     * Get all hints for multiple characters in a single call.
+     * Optimized for batch loading in guessing games.
+     * 
+     * @param characterUrlIds List of character URL identifiers
+     * @return Map of character URL IDs to their hints
+     */
+    public Map<String, List<CharacterHintDto>> getBatchHints(List<String> characterUrlIds) {
+        log.debug("Fetching hints for {} characters", characterUrlIds.size());
+        Map<String, List<CharacterHintDto>> result = new HashMap<>();
+
+        for (String urlId : characterUrlIds) {
+            List<CharacterHintDto> hints = getAllHintsByCharacterUrlId(urlId);
+            result.put(urlId, hints);
+        }
+
+        return result;
     }
 }

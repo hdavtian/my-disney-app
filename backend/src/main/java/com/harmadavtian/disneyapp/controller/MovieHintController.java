@@ -13,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST controller for managing movie hints.
@@ -99,5 +101,81 @@ public class MovieHintController {
         }
 
         return ResponseEntity.ok(hints);
+    }
+
+    /**
+     * Get a random hint for a movie filtered by difficulty.
+     * Used for guessing games to provide progressive difficulty hints.
+     * 
+     * @param movie_url_id The URL identifier of the movie
+     * @param difficulty   The difficulty level (easy, medium, hard)
+     * @return ResponseEntity containing a random hint at the specified difficulty
+     */
+    @GetMapping("/random")
+    @Operation(summary = "Get random hint by difficulty", description = "Retrieves a random hint for a specific movie filtered by difficulty level. "
+            +
+            "Used in guessing games to provide progressive difficulty hints. " +
+            "Difficulty levels: easy (1), medium (2), hard (3).")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved random hint", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MovieHintDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid difficulty parameter", content = @Content),
+            @ApiResponse(responseCode = "404", description = "No hints found for the specified movie and difficulty", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<MovieHintDto> getRandomHintByDifficulty(
+            @Parameter(description = "URL identifier of the movie", example = "snow_white_and_the_seven_dwarfs", required = true) @RequestParam String movie_url_id,
+            @Parameter(description = "Difficulty level (1=easy, 2=medium, 3=hard)", example = "1", required = true) @RequestParam int difficulty) {
+
+        log.debug("Request received for random hint of movie: {} with difficulty: {}", movie_url_id, difficulty);
+
+        if (difficulty < 1 || difficulty > 3) {
+            log.warn("Invalid difficulty requested: {}. Must be 1 (easy), 2 (medium), or 3 (hard).", difficulty);
+            return ResponseEntity.badRequest().build();
+        }
+
+        MovieHintDto hint = movieHintService.getRandomHintByDifficulty(movie_url_id, difficulty);
+
+        if (hint == null) {
+            log.warn("No hint found for movie: {} with difficulty: {}", movie_url_id, difficulty);
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(hint);
+    }
+
+    /**
+     * Get hints for multiple movies in a single batch request.
+     * Optimized endpoint for loading all hints needed for a guessing game at once.
+     * 
+     * @param urlIds Comma-separated list of movie URL identifiers
+     * @return ResponseEntity containing map of movie URL IDs to their hints
+     */
+    @GetMapping("/batch")
+    @Operation(summary = "Batch fetch hints for multiple movies", description = "Retrieves all hints for multiple movies in a single request by providing a comma-separated list of movie URL IDs. "
+            +
+            "Optimized for guessing games to load all hints upfront, reducing API calls from N to 1. " +
+            "Returns a map where keys are movie URL IDs and values are lists of hints.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved hints for all movies", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Invalid URL ID format or empty list", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<Map<String, List<MovieHintDto>>> getBatchHints(
+            @Parameter(description = "Comma-separated list of movie URL identifiers", example = "snow_white_and_the_seven_dwarfs,the_lion_king,aladdin", required = true) @RequestParam String urlIds) {
+
+        log.debug("Request received for batch hints: {}", urlIds);
+
+        List<String> urlIdList = Arrays.stream(urlIds.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+
+        if (urlIdList.isEmpty()) {
+            log.warn("Empty URL ID list provided");
+            return ResponseEntity.badRequest().build();
+        }
+
+        Map<String, List<MovieHintDto>> hintsMap = movieHintService.getBatchHints(urlIdList);
+        return ResponseEntity.ok(hintsMap);
     }
 }

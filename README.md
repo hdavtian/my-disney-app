@@ -370,6 +370,18 @@ backend/
 - Character image recognition
 - Progressive difficulty
 
+### The Guessing Game
+
+- **Hint-based trivia** for Disney movies and characters
+- **Three game modes**: Movies only, Characters only, or Mixed
+- **Difficulty levels**: Easy, Medium, Hard (affects hint complexity)
+- **Question counts**: 10, 20, or 50 questions per session
+- **Progressive hints**: Reveal hints one at a time to identify the answer
+- **Smart selection**: Only uses movies/characters with available hints (792 movies, 172 characters)
+- **Hint button**: Eliminates one wrong answer
+- **Show Answer**: Reveals correct answer (counts as wrong)
+- **Statistics tracking**: Tracks correct/incorrect answers and hint usage
+
 ### Dynamic Carousels
 
 - Hero carousel on homepage
