@@ -9,6 +9,7 @@ import { MovieDetailPage } from "./pages/MovieDetailPage/MovieDetailPage";
 import { CharacterDetailPage } from "./pages/CharacterDetailPage/CharacterDetailPage";
 import { DisneySearchPage } from "./pages/DisneySearchPage/DisneySearchPage";
 import { ParksPage } from "./pages/ParksPage";
+import { GamesPage } from "./pages/GamesPage";
 import { DisclaimerPage } from "./pages/DisclaimerPage";
 import { Footer } from "./components/Footer/Footer";
 import { RequireDisclaimer } from "./components/AccessGate/RequireDisclaimer";
@@ -34,6 +35,7 @@ function App() {
             <Route path="/movies" element={<MoviesPage />} />
             <Route path="/movie/:id" element={<MovieDetailPage />} />
             <Route path="/parks" element={<ParksPage />} />
+            <Route path="/games" element={<GamesPage />} />
             <Route path="/search" element={<DisneySearchPage />} />
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/about" element={<AboutPage />} />

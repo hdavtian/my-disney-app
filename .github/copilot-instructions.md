@@ -98,6 +98,36 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 - Respect structure and naming conventions defined throughout this file.
 - Copilot must prioritize file-specific instruction files (`.instructions.md`) over these global rules.
 
+### ⚡ Critical Workflow Rules (ALWAYS FOLLOW)
+
+**Terminal Command Paths:**
+
+- **ALWAYS use absolute paths** when running npm/mvn commands - never run from wrong directory
+- **Frontend commands:** Must run in `C:\sites\my-disney-app\frontend` directory
+  - Example: `cd C:\sites\my-disney-app\frontend; npm run dev`
+  - Example: `cd C:\sites\my-disney-app\frontend; npm run build`
+- **Backend commands:** Must run in `C:\sites\my-disney-app\backend` directory
+  - Example: `cd C:\sites\my-disney-app\backend; mvn clean compile`
+  - Example: `cd C:\sites\my-disney-app\backend; mvn test`
+- **NEVER** run npm commands from root `C:\sites\my-disney-app` - this will fail with ENOENT errors
+
+**Frontend Dev Server Management:**
+
+- **BEFORE running `npm run dev` or `npm start`:** ALWAYS check if port 3000 is already running
+- **Check terminal history** or use `netstat` to verify if dev server is already active
+- **DO NOT start multiple dev servers** - this creates unnecessary secondary ports (3001, 3002, etc.) and wastes time
+- If dev server is already running on port 3000, skip the `npm run dev` command entirely
+- Only start dev server if it's confirmed to NOT be running
+
+**Backend Server Management:**
+
+- **BEFORE testing backend APIs:** ALWAYS check if port 8080 is already running
+- **DO NOT** attempt to start or stop the backend server - always ask the user
+- **CAN** run `mvn clean compile` to check for compilation errors
+- **CAN** run `mvn test` to run unit tests
+- **MUST** use cURL to test API endpoints after creating/modifying them
+- User runs backend server via IntelliJ IDEA
+
 ---
 
 ## 🧩 JavaScript / TypeScript Rules

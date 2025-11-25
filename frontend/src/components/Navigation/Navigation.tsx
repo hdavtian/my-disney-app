@@ -14,6 +14,7 @@ export const Navigation = () => {
     { path: "/movies", label: "Movies" },
     { path: "/characters", label: "Characters" },
     { path: "/parks", label: "Parks & Attractions" },
+    { path: "/games", label: "Games" },
     { path: "/search", label: "Disney Search" },
     { path: "/favorites", label: "Favorites" },
     { path: "/about", label: "About this Demo" },
