@@ -5,6 +5,7 @@
 
 // Type definitions for asset kinds
 type AssetKind = "movies" | "characters" | "parks" | "attractions";
+type ImageSize = "tn" | "md" | "lrg";
 
 // Configuration constants
 const ALLOWED_FILENAME_PATTERN = /^[a-zA-Z0-9._-]+$/;
@@ -94,28 +95,33 @@ function sanitizeFilename(filename: string): string | null {
 }
 
 /**
- * Construct a full URL for an image asset.
+ * Construct a full URL for an image asset with optional size variant.
  *
  * @param kind - The type of asset ('movies', 'characters', 'parks', or 'attractions')
  * @param filename - The filename (without path or extension)
+ * @param size - The image size variant: 'tn' (thumbnail ~200px), 'md' (medium ~1200px), or 'lrg' (full-size, default)
  * @returns Full URL to the asset or placeholder if invalid
  *
  * @example
- * // Development (VITE_ASSETS_BASE_URL=http://localhost:5001)
+ * // Full-size image (default)
  * getImageUrl('movies', 'frozen')
  * // Returns: 'http://localhost:5001/movies/webp/frozen.webp'
  *
  * @example
- * // Production (VITE_ASSETS_BASE_URL=https://cdn.example.com)
- * getImageUrl('characters', 'elsa')
- * // Returns: 'https://cdn.example.com/characters/webp/elsa.webp'
+ * // Medium-size image (when available)
+ * getImageUrl('movies', 'frozen', 'md')
+ * // Returns: 'http://localhost:5001/movies/webp/md/frozen.webp'
  *
  * @example
- * // With versioning (VITE_ASSETS_PREFIX=v123)
- * getImageUrl('movies', 'moana')
- * // Returns: 'https://cdn.example.com/v123/movies/webp/moana.webp'
+ * // Thumbnail image
+ * getImageUrl('characters', 'elsa', 'tn')
+ * // Returns: 'http://localhost:5001/characters/webp/tn/elsa.webp'
  */
-export function getImageUrl(kind: AssetKind, filename: string): string {
+export function getImageUrl(
+  kind: AssetKind,
+  filename: string,
+  size: ImageSize = "lrg"
+): string {
   // Handle missing or empty filename
   if (!filename) {
     return PLACEHOLDER_IMAGE;
@@ -139,9 +145,12 @@ export function getImageUrl(kind: AssetKind, filename: string): string {
   // Map attractions to parks directory since they share the same image repository
   const directory = kind === "attractions" ? "parks" : kind;
 
-  // Construct the full URL with /webp subdirectory
-  // Format: {baseUrl}{prefix}/{directory}/webp/{filename}.webp
-  const url = `${baseUrl}${prefix}/${directory}/webp/${filenameWithExt}`;
+  // Build the path based on size variant
+  // lrg: /webp/{filename}
+  // md:  /webp/md/{filename}
+  // tn:  /webp/tn/{filename}
+  const sizePath = size === "lrg" ? "" : `${size}/`;
+  const url = `${baseUrl}${prefix}/${directory}/webp/${sizePath}${filenameWithExt}`;
 
   // Collapse any duplicate slashes (except in protocol://)
   return url.replace(/([^:]\/)\/+/g, "$1");
