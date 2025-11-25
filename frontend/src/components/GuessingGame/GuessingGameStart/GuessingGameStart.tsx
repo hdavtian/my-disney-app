@@ -61,9 +61,13 @@ export const GuessingGameStart = ({
   };
 
   return (
-    <div className="guessing-game-start">
+    <div
+      className="guessing-game-start"
+      role="main"
+      aria-label="The Guessing Game start screen"
+    >
       {/* Left Column: Background Grid - 8x8 movie posters */}
-      <div className="guessing-game-start__left-column">
+      <div className="guessing-game-start__left-column" aria-hidden="true">
         <div className="background-grid">
           {is_loading_background ? (
             <div className="loading-placeholder">Loading...</div>
@@ -73,7 +77,7 @@ export const GuessingGameStart = ({
                 <div key={movie.id} className="background-grid-item">
                   <img
                     src={getImageUrl("movies", movie.image_1)}
-                    alt={movie.title}
+                    alt=""
                     loading="lazy"
                   />
                 </div>
@@ -104,6 +108,7 @@ export const GuessingGameStart = ({
             <button
               className="guessing-game-start__info-icon"
               onClick={() => set_show_info_modal(true)}
+              aria-label="How to play The Guessing Game"
               title="How to Play"
             >
               ℹ️
@@ -111,13 +116,21 @@ export const GuessingGameStart = ({
           </div>
 
           {/* Game Options */}
-          <div className="game-options">
+          <div
+            className="game-options"
+            role="form"
+            aria-label="Game configuration options"
+          >
             {/* Question Count Selector */}
             <div className="option-group">
-              <label className="option-label">
+              <label className="option-label" id="question-count-label">
                 Choose number of questions:
               </label>
-              <div className="game-selector-options">
+              <div
+                className="game-selector-options"
+                role="group"
+                aria-labelledby="question-count-label"
+              >
                 {[10, 20, 50].map((count) => (
                   <button
                     key={count}
@@ -130,6 +143,8 @@ export const GuessingGameStart = ({
                     onClick={() =>
                       set_selected_question_count(count as question_count)
                     }
+                    aria-pressed={selected_question_count === count}
+                    aria-label={`${count} questions`}
                   >
                     {count} Questions
                   </button>
@@ -139,8 +154,14 @@ export const GuessingGameStart = ({
 
             {/* Difficulty Selector */}
             <div className="option-group option-group--difficulty">
-              <label className="option-label">Choose difficulty level:</label>
-              <div className="game-selector-options">
+              <label className="option-label" id="difficulty-label">
+                Choose difficulty level:
+              </label>
+              <div
+                className="game-selector-options"
+                role="group"
+                aria-labelledby="difficulty-label"
+              >
                 {[1, 2, 3].map((level, index) => (
                   <button
                     key={level}
@@ -153,6 +174,10 @@ export const GuessingGameStart = ({
                     onClick={() =>
                       set_selected_difficulty(level as difficulty_level)
                     }
+                    aria-pressed={selected_difficulty === level}
+                    aria-label={`${
+                      ["Easy", "Medium", "Hard"][index]
+                    } difficulty`}
                   >
                     {["Easy", "Medium", "Hard"][index]}
                   </button>
@@ -162,8 +187,14 @@ export const GuessingGameStart = ({
 
             {/* Category Selector */}
             <div className="option-group">
-              <label className="option-label">Choose category:</label>
-              <div className="game-selector-options">
+              <label className="option-label" id="category-label">
+                Choose category:
+              </label>
+              <div
+                className="game-selector-options"
+                role="group"
+                aria-labelledby="category-label"
+              >
                 {(["movies", "characters", "mixed"] as const).map((cat) => (
                   <button
                     key={cat}
@@ -174,6 +205,10 @@ export const GuessingGameStart = ({
                         : ""
                     }`}
                     onClick={() => set_selected_category(cat)}
+                    aria-pressed={selected_category === cat}
+                    aria-label={`${
+                      cat.charAt(0).toUpperCase() + cat.slice(1)
+                    } category`}
                   >
                     {cat.charAt(0).toUpperCase() + cat.slice(1)}
                   </button>

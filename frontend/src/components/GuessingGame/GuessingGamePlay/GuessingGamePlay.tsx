@@ -344,29 +344,65 @@ export const GuessingGamePlay = ({
 
   if (loading || !current_question) {
     return (
-      <div className="guessing-game-play guessing-game-play--loading">
+      <div
+        className="guessing-game-play guessing-game-play--loading"
+        role="status"
+        aria-live="polite"
+      >
         <div className="loading-spinner">Loading question...</div>
       </div>
     );
   }
 
   return (
-    <div className="guessing-game-play">
+    <div className="guessing-game-play" role="main" aria-label="Game play area">
+      {/* Screen reader announcements */}
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {is_answered
+          ? `Question ${question_number} answered ${
+              selected_answer?.is_correct ? "correctly" : "incorrectly"
+            }. Score: ${score.correct} out of ${question_number}.`
+          : `Question ${question_number} of ${options.question_count}. ${
+              revealed_hints.length
+            } hint${revealed_hints.length !== 1 ? "s" : ""} revealed.`}
+      </div>
+
       {/* Score Row */}
-      <div className="guessing-game-play__score-row">
+      <div
+        className="guessing-game-play__score-row"
+        role="status"
+        aria-label="Game progress"
+      >
         <div className="score-item">
           <span className="score-label">Question:</span>
-          <span className="score-value">
+          <span
+            className="score-value"
+            aria-label={`Question ${question_number} of ${options.question_count}`}
+          >
             {question_number} / {options.question_count}
           </span>
         </div>
         <div className="score-item">
           <span className="score-label">Score:</span>
-          <span className="score-value">
+          <span
+            className="score-value"
+            aria-label={`Score: ${score.correct} correct out of ${
+              question_number - 1
+            } answered`}
+          >
             {score.correct} / {question_number - 1}
           </span>
         </div>
-        <button className="quit-button" onClick={on_quit}>
+        <button
+          className="quit-button"
+          onClick={on_quit}
+          aria-label="Quit game and return to start"
+        >
           Quit Game
         </button>
       </div>
@@ -374,8 +410,12 @@ export const GuessingGamePlay = ({
       {/* Main Content Area */}
       <div className="guessing-game-play__content">
         {/* Hints Column */}
-        <div className="guessing-game-play__hints-column">
-          <h2 className="hints-title">
+        <div
+          className="guessing-game-play__hints-column"
+          role="region"
+          aria-label="Game hints"
+        >
+          <h2 className="hints-title" id="hints-heading">
             Hints (
             {current_question.category === "movie" ? "Movie" : "Character"})
           </h2>
@@ -385,12 +425,19 @@ export const GuessingGamePlay = ({
               <motion.div
                 key={`hint-${index}`}
                 className="hint-card"
+                role="article"
+                aria-label={`Hint ${index + 1}: ${hint.hint_type}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <span className="hint-type-badge">{hint.hint_type}</span>
+                <span
+                  className="hint-type-badge"
+                  aria-label={`Hint type: ${hint.hint_type}`}
+                >
+                  {hint.hint_type}
+                </span>
                 <p className="hint-content">{hint.content}</p>
               </motion.div>
             ))}
@@ -398,8 +445,14 @@ export const GuessingGamePlay = ({
         </div>
 
         {/* Answers Column */}
-        <div className="guessing-game-play__answers-column">
-          <h2 className="answers-title">Select Your Answer</h2>
+        <div
+          className="guessing-game-play__answers-column"
+          role="region"
+          aria-labelledby="answers-heading"
+        >
+          <h2 className="answers-title" id="answers-heading">
+            Select Your Answer
+          </h2>
 
           <div
             className={`answer-choices ${
@@ -407,9 +460,29 @@ export const GuessingGamePlay = ({
                 ? "answer-choices--two-columns"
                 : ""
             }`}
+            role="group"
+            aria-label="Answer choices"
           >
             {current_question.all_answers.map((answer, index) => {
               const letter = String.fromCharCode(65 + index); // A, B, C, D...
+              const answer_name =
+                current_question.category === "movie"
+                  ? answer.title
+                  : answer.name;
+
+              let aria_label = `${letter}) ${answer_name}`;
+              if (answer.is_eliminated) {
+                aria_label += " (eliminated)";
+              } else if (is_answered && answer.is_correct) {
+                aria_label += " (correct answer)";
+              } else if (
+                is_answered &&
+                selected_answer?.id === answer.id &&
+                !answer.is_correct
+              ) {
+                aria_label += " (your incorrect answer)";
+              }
+
               return (
                 <motion.button
                   key={answer.id}
@@ -432,6 +505,9 @@ export const GuessingGamePlay = ({
                   }`}
                   onClick={() => handle_answer_select(answer)}
                   disabled={is_answered || answer.is_eliminated}
+                  aria-label={aria_label}
+                  aria-pressed={selected_answer?.id === answer.id}
+                  aria-disabled={is_answered || answer.is_eliminated}
                   whileHover={
                     !is_answered && !answer.is_eliminated ? { scale: 1.02 } : {}
                   }
@@ -450,13 +526,18 @@ export const GuessingGamePlay = ({
 
           {/* Game Action Buttons */}
           {!is_answered && (
-            <div className="game-actions">
+            <div
+              className="game-actions"
+              role="group"
+              aria-label="Game actions"
+            >
               {options.difficulty !== 3 && (
                 <>
                   <button
                     className="hint-action-button hint-action-button--eliminate"
                     onClick={use_hint_button}
                     disabled={is_answered}
+                    aria-label="Use hint to eliminate one wrong answer"
                   >
                     💡 Hint
                   </button>
@@ -465,6 +546,12 @@ export const GuessingGamePlay = ({
                     className="hint-action-button hint-action-button--show"
                     onClick={use_show_answer}
                     disabled={show_answer_used || is_answered}
+                    aria-label={
+                      show_answer_used
+                        ? "Show answer already used"
+                        : "Show the correct answer"
+                    }
+                    aria-disabled={show_answer_used}
                   >
                     👁️ Show Answer {show_answer_used ? "(Used)" : ""}
                   </button>
@@ -475,6 +562,12 @@ export const GuessingGamePlay = ({
                 className="submit-answer-button"
                 onClick={submit_answer}
                 disabled={!selected_answer}
+                aria-label={
+                  selected_answer
+                    ? "Submit your selected answer"
+                    : "Select an answer first"
+                }
+                aria-disabled={!selected_answer}
               >
                 Submit Answer
               </button>
@@ -483,8 +576,16 @@ export const GuessingGamePlay = ({
 
           {/* Next Question Button */}
           {is_answered && (
-            <div className="game-actions">
-              <button className="next-question-button" onClick={next_question}>
+            <div className="game-actions" role="group" aria-label="Next action">
+              <button
+                className="next-question-button"
+                onClick={next_question}
+                aria-label={
+                  question_number >= options.question_count
+                    ? "View your game results"
+                    : `Continue to question ${question_number + 1}`
+                }
+              >
                 {question_number >= options.question_count
                   ? "View Results"
                   : "Next Question →"}

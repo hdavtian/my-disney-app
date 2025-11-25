@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, lazy } from "react";
 import { motion } from "framer-motion";
 import { GuessingGameStart } from "../../components/GuessingGame/GuessingGameStart/GuessingGameStart";
 import { GuessingGamePlay } from "../../components/GuessingGame/GuessingGamePlay/GuessingGamePlay";
-import { GuessingGameComplete } from "../../components/GuessingGame/GuessingGameComplete/GuessingGameComplete";
+import { GameErrorBoundary } from "../../components/GuessingGame/GameErrorBoundary";
 import type {
   guessing_game_options,
   game_question,
 } from "../../types/guessingGame";
 import "./GamesPage.scss";
+
+// Lazy load completion screen for better initial load performance
+const GuessingGameComplete = lazy(() =>
+  import(
+    "../../components/GuessingGame/GuessingGameComplete/GuessingGameComplete"
+  ).then((module) => ({ default: module.GuessingGameComplete }))
+);
 
 export const GamesPage = React.memo(() => {
   // Game state management
@@ -118,25 +125,35 @@ export const GamesPage = React.memo(() => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.4 }}
         >
-          {is_guessing_game_complete &&
-          guessing_game_options &&
-          guessing_game_results ? (
-            <GuessingGameComplete
-              options={guessing_game_options}
-              questions={guessing_game_results.questions}
-              score={guessing_game_results.score}
-              on_play_again={handle_play_again}
-              on_return_to_start={handle_return_to_start}
-            />
-          ) : is_guessing_game_active && guessing_game_options ? (
-            <GuessingGamePlay
-              options={guessing_game_options}
-              on_game_complete={handle_game_complete}
-              on_quit={handle_quit_game}
-            />
-          ) : (
-            <GuessingGameStart on_start_game={handle_start_guessing_game} />
-          )}
+          <GameErrorBoundary on_reset={handle_quit_game}>
+            {is_guessing_game_complete &&
+            guessing_game_options &&
+            guessing_game_results ? (
+              <React.Suspense
+                fallback={
+                  <div className="guessing-game-play guessing-game-play--loading">
+                    <div className="loading-spinner">Loading results...</div>
+                  </div>
+                }
+              >
+                <GuessingGameComplete
+                  options={guessing_game_options}
+                  questions={guessing_game_results.questions}
+                  score={guessing_game_results.score}
+                  on_play_again={handle_play_again}
+                  on_return_to_start={handle_return_to_start}
+                />
+              </React.Suspense>
+            ) : is_guessing_game_active && guessing_game_options ? (
+              <GuessingGamePlay
+                options={guessing_game_options}
+                on_game_complete={handle_game_complete}
+                on_quit={handle_quit_game}
+              />
+            ) : (
+              <GuessingGameStart on_start_game={handle_start_guessing_game} />
+            )}
+          </GameErrorBoundary>
         </motion.section>
 
         {/* Row 3: Future Game Placeholder */}
