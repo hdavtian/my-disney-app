@@ -1,0 +1,365 @@
+/**
+ * GuessingGameComplete.scss
+ * Styles for game completion and statistics screen
+ */
+
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.guessing-game-complete {
+    min-height: 100vh;
+    padding: var(--space-6) var(--space-4);
+    background: var(--bg-primary);
+
+    @include mobile {
+        padding: var(--space-4) var(--space-3);
+    }
+
+    &__container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    // Header Section
+    &__header {
+        text-align: center;
+        margin-bottom: var(--space-6);
+    }
+
+    &__title {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        color: var(--text-primary);
+        margin: 0 0 var(--space-2);
+        font-weight: 700;
+
+        @include mobile {
+            font-size: 2rem;
+        }
+    }
+
+    &__subtitle {
+        font-family: var(--font-primary);
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    // Score Card
+    &__score-card {
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        text-align: center;
+        margin-bottom: var(--space-6);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+        @include mobile {
+            padding: var(--space-4);
+        }
+    }
+
+    &__score-main {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-3);
+    }
+
+    &__score-value {
+        font-family: var(--font-display);
+        font-size: 5rem;
+        font-weight: 700;
+        color: white;
+        line-height: 1;
+
+        @include mobile {
+            font-size: 3rem;
+        }
+    }
+
+    &__score-divider {
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1;
+
+        @include mobile {
+            font-size: 2rem;
+        }
+    }
+
+    &__score-total {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1;
+
+        @include mobile {
+            font-size: 2rem;
+        }
+    }
+
+    &__accuracy {
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 600;
+
+        @include mobile {
+            font-size: 1.25rem;
+        }
+    }
+
+    // Statistics Grid
+    &__stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-4);
+        margin-bottom: var(--space-6);
+
+        @include tablet {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include mobile {
+            grid-template-columns: 1fr;
+            gap: var(--space-3);
+        }
+    }
+
+    &__stat-card {
+        background: var(--bg-secondary);
+        border-radius: var(--radius-md);
+        padding: var(--space-4);
+        text-align: center;
+        border: 2px solid var(--border-color);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    &__stat-icon {
+        font-size: 2rem;
+        margin-bottom: var(--space-2);
+    }
+
+    &__stat-value {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        display: block;
+        margin-bottom: var(--space-1);
+    }
+
+    &__stat-label {
+        font-family: var(--font-primary);
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    // Question Review
+    &__review {
+        background: var(--bg-secondary);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        margin-bottom: var(--space-6);
+        border: 2px solid var(--border-color);
+
+        @include mobile {
+            padding: var(--space-3);
+        }
+    }
+
+    &__review-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin: 0 0 var(--space-4);
+        font-weight: 600;
+    }
+
+    &__review-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: var(--space-2);
+
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-radius: var(--radius-sm);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: var(--radius-sm);
+
+            &:hover {
+                background: var(--text-tertiary);
+            }
+        }
+    }
+
+    &__review-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3);
+        background: var(--bg-primary);
+        border-radius: var(--radius-md);
+        border: 2px solid transparent;
+        transition: border-color 0.2s ease;
+
+        &.correct {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        &.incorrect {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        @include mobile {
+            gap: var(--space-2);
+            padding: var(--space-2);
+        }
+    }
+
+    &__review-number {
+        font-family: var(--font-primary);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-tertiary);
+        min-width: 36px;
+    }
+
+    &__review-image {
+        width: 60px;
+        height: 60px;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        flex-shrink: 0;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @include mobile {
+            width: 48px;
+            height: 48px;
+        }
+    }
+
+    &__review-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__review-name {
+        font-family: var(--font-primary);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: var(--space-1);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @include mobile {
+            font-size: 0.875rem;
+        }
+    }
+
+    &__review-wrong {
+        font-family: var(--font-primary);
+        font-size: 0.875rem;
+        color: var(--error);
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @include mobile {
+            font-size: 0.75rem;
+        }
+    }
+
+    &__review-result {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+
+    // Action Buttons
+    &__actions {
+        display: flex;
+        gap: var(--space-4);
+        justify-content: center;
+
+        @include mobile {
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+    }
+
+    &__button {
+        padding: var(--space-3) var(--space-6);
+        font-family: var(--font-primary);
+        font-size: 1.125rem;
+        font-weight: 600;
+        border-radius: var(--radius-md);
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 200px;
+
+        @include mobile {
+            width: 100%;
+            min-width: 0;
+        }
+
+        &--primary {
+            background: var(--accent-secondary);
+            color: var(--text-inverse);
+
+            &:hover {
+                background: var(--accent-secondary-hover);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(253, 208, 23, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        &--secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+
+            &:hover {
+                background: var(--bg-secondary);
+                border-color: var(--text-tertiary);
+                transform: translateY(-2px);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+}

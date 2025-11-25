@@ -2,34 +2,67 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { GuessingGameStart } from "../../components/GuessingGame/GuessingGameStart/GuessingGameStart";
 import { GuessingGamePlay } from "../../components/GuessingGame/GuessingGamePlay/GuessingGamePlay";
-import type { guessing_game_options } from "../../types/guessingGame";
+import { GuessingGameComplete } from "../../components/GuessingGame/GuessingGameComplete/GuessingGameComplete";
+import type {
+  guessing_game_options,
+  game_question,
+} from "../../types/guessingGame";
 import "./GamesPage.scss";
 
 export const GamesPage = React.memo(() => {
   // Game state management
   const [is_guessing_game_active, set_is_guessing_game_active] =
     useState(false);
+  const [is_guessing_game_complete, set_is_guessing_game_complete] =
+    useState(false);
   const [guessing_game_options, set_guessing_game_options] =
     useState<guessing_game_options | null>(null);
+  const [guessing_game_results, set_guessing_game_results] = useState<{
+    questions: game_question[];
+    score: { correct: number; incorrect: number; show_answers_used: number };
+  } | null>(null);
 
   // Handler for starting The Guessing Game
   const handle_start_guessing_game = (options: guessing_game_options) => {
     set_guessing_game_options(options);
     set_is_guessing_game_active(true);
+    set_is_guessing_game_complete(false);
+    set_guessing_game_results(null);
   };
 
   // Handler for completing the game
-  const handle_game_complete = (stats: any) => {
-    console.log("Game completed with stats:", stats);
-    // TODO: Phase 5 - Navigate to completion screen
+  const handle_game_complete = (stats: {
+    questions: game_question[];
+    score: { correct: number; incorrect: number; show_answers_used: number };
+  }) => {
+    set_guessing_game_results(stats);
     set_is_guessing_game_active(false);
+    set_is_guessing_game_complete(true);
+  };
+
+  // Handler for playing again
+  const handle_play_again = () => {
+    if (guessing_game_options) {
+      set_is_guessing_game_complete(false);
+      set_guessing_game_results(null);
+      set_is_guessing_game_active(true);
+    }
+  };
+
+  // Handler for returning to start
+  const handle_return_to_start = () => {
+    set_is_guessing_game_active(false);
+    set_is_guessing_game_complete(false);
     set_guessing_game_options(null);
+    set_guessing_game_results(null);
   };
 
   // Handler for quitting the game
   const handle_quit_game = () => {
     set_is_guessing_game_active(false);
+    set_is_guessing_game_complete(false);
     set_guessing_game_options(null);
+    set_guessing_game_results(null);
   };
 
   return (
@@ -85,7 +118,17 @@ export const GamesPage = React.memo(() => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.4 }}
         >
-          {is_guessing_game_active && guessing_game_options ? (
+          {is_guessing_game_complete &&
+          guessing_game_options &&
+          guessing_game_results ? (
+            <GuessingGameComplete
+              options={guessing_game_options}
+              questions={guessing_game_results.questions}
+              score={guessing_game_results.score}
+              on_play_again={handle_play_again}
+              on_return_to_start={handle_return_to_start}
+            />
+          ) : is_guessing_game_active && guessing_game_options ? (
             <GuessingGamePlay
               options={guessing_game_options}
               on_game_complete={handle_game_complete}

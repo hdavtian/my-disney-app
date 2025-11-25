@@ -21,11 +21,12 @@ export interface GuessingGamePlayProps {
 }
 
 interface game_statistics {
-  total_questions: number;
-  correct_answers: number;
-  incorrect_answers: number;
-  show_answers_used: number;
-  average_hints_per_question: number;
+  questions: game_question[];
+  score: {
+    correct: number;
+    incorrect: number;
+    show_answers_used: number;
+  };
 }
 
 export const GuessingGamePlay = ({
@@ -36,6 +37,7 @@ export const GuessingGamePlay = ({
   // Game state
   const [current_question, set_current_question] =
     useState<game_question | null>(null);
+  const [all_questions, set_all_questions] = useState<game_question[]>([]);
   const [question_number, set_question_number] = useState(1);
   const [score, set_score] = useState({ correct: 0, incorrect: 0 });
   const [total_show_answers_used, set_total_show_answers_used] = useState(0);
@@ -309,14 +311,24 @@ export const GuessingGamePlay = ({
    * Move to next question
    */
   const next_question = () => {
+    // Save the current question to history
+    if (current_question) {
+      set_all_questions((prev) => [...prev, current_question]);
+    }
+
     if (question_number >= options.question_count) {
-      // Game complete
+      // Game complete - pass all questions and score
+      const final_questions = current_question
+        ? [...all_questions, current_question]
+        : all_questions;
+
       const stats: game_statistics = {
-        total_questions: options.question_count,
-        correct_answers: score.correct,
-        incorrect_answers: score.incorrect,
-        show_answers_used: total_show_answers_used,
-        average_hints_per_question: 0,
+        questions: final_questions,
+        score: {
+          correct: score.correct,
+          incorrect: score.incorrect,
+          show_answers_used: total_show_answers_used,
+        },
       };
       on_game_complete(stats);
     } else {
