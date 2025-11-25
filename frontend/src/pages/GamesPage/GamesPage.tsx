@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { GuessingGameStart } from "../../components/GuessingGame/GuessingGameStart/GuessingGameStart";
 import { GuessingGamePlay } from "../../components/GuessingGame/GuessingGamePlay/GuessingGamePlay";
 import { GameErrorBoundary } from "../../components/GuessingGame/GameErrorBoundary";
+import { CharacterQuiz } from "../../components/CharacterQuiz";
 import type {
   guessing_game_options,
   game_question,
@@ -102,20 +103,14 @@ export const GamesPage = React.memo(() => {
 
       {/* Games Container */}
       <div className="games-page__container">
-        {/* Row 1: Toon Quiz Placeholder */}
+        {/* Row 1: Toon Quiz (Character Identification) */}
         <motion.section
-          className="games-page__game-row games-page__game-row--placeholder"
+          className="games-page__game-row games-page__game-row--toon-quiz"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.4 }}
         >
-          <div className="games-page__placeholder">
-            <div className="games-page__placeholder-icon">🎯</div>
-            <h3 className="games-page__placeholder-title">Toon Quiz</h3>
-            <p className="games-page__placeholder-text">
-              Character identification game - Coming soon to this page!
-            </p>
-          </div>
+          <CharacterQuiz />
         </motion.section>
 
         {/* Row 2: The Guessing Game */}
