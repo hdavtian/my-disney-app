@@ -1,0 +1,398 @@
+@use "../../../styles/variables.scss" as *;
+@use "../../../styles/mixins.scss" as *;
+@use "../../../styles/game-buttons.scss" as *;
+
+.guessing-game-start {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 600px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--border-radius-lg);
+
+    @include tablet {
+        grid-template-columns: 1fr;
+        min-height: 800px;
+    }
+
+    @include mobile-only {
+        grid-template-columns: 1fr;
+        min-height: 700px;
+    }
+
+    // Left Column: Background Grid
+    &__left-column {
+        position: relative;
+        overflow: hidden;
+
+        @include tablet {
+            min-height: 400px;
+        }
+
+        @include mobile-only {
+            min-height: 300px;
+        }
+    }
+
+    // Background Grid - 8x8 movie posters (64 images)
+    .background-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        gap: 0;
+        z-index: 1;
+
+        .loading-placeholder {
+            grid-column: 1 / -1;
+            grid-row: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+        }
+
+        .background-grid-item {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: brightness(0.4) blur(1px);
+                transition: filter var(--transition-normal);
+            }
+
+            &:hover img {
+                filter: brightness(0.5) blur(0.5px);
+            }
+        }
+    }
+
+    // Content Overlay
+    .content-overlay {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        min-height: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg,
+                rgba(0, 0, 0, 0.85) 0%,
+                rgba(20, 20, 40, 0.90) 50%,
+                rgba(0, 0, 0, 0.85) 100%);
+        padding: var(--space-4);
+
+        @include tablet-up {
+            padding: var(--space-6);
+        }
+    }
+
+    // Start Screen Container
+    .start-screen-container {
+        max-width: 700px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: var(--border-radius-lg);
+        padding: var(--space-6);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+        @include tablet-up {
+            padding: var(--space-8);
+        }
+
+        @include desktop-up {
+            padding: var(--space-10);
+        }
+    }
+
+    // Title
+    .game-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: var(--font-bold);
+        color: var(--accent-secondary);
+        margin: 0 0 var(--space-2) 0;
+        text-align: center;
+        font-family: "Georgia", "Times New Roman", serif;
+        letter-spacing: 1px;
+        background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .game-subtitle {
+        font-size: var(--text-lg);
+        color: var(--text-secondary);
+        text-align: center;
+        margin: 0 0 var(--space-8) 0;
+        font-family: "Helvetica", "Arial", sans-serif;
+    }
+
+    // Game Options
+    .game-options {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        margin-bottom: var(--space-8);
+    }
+
+    .option-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    .option-label {
+        font-size: var(--text-base);
+        font-weight: var(--font-semibold);
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: "Helvetica", "Arial", sans-serif;
+    }
+
+    .option-buttons {
+        display: flex;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+
+        @include mobile-only {
+            flex-direction: column;
+        }
+    }
+
+    .option-button {
+        flex: 1;
+        min-width: 120px;
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--text-base);
+        font-weight: var(--font-medium);
+        color: var(--text-primary);
+        background: var(--bg-primary);
+        border: 2px solid var(--card-border);
+        border-radius: var(--border-radius-md);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-family: "Helvetica", "Arial", sans-serif;
+
+        &:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        &.selected {
+            background: var(--accent-secondary);
+            color: var(--text-inverse);
+            border-color: var(--accent-secondary);
+            box-shadow: var(--shadow-md);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        @include mobile-only {
+            min-width: 100%;
+        }
+    }
+
+    // Action Buttons
+    .action-buttons {
+        display: flex;
+        gap: var(--space-4);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .info-button,
+    .start-button {
+        padding: var(--space-4) var(--space-6);
+        font-size: var(--text-lg);
+        font-weight: var(--font-semibold);
+        border-radius: var(--border-radius-md);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-family: "Helvetica", "Arial", sans-serif;
+        border: 2px solid transparent;
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+
+    .info-button {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        border-color: var(--card-border);
+
+        &:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+    }
+
+    .start-button {
+        background: var(--accent-primary);
+        color: var(--text-inverse);
+        box-shadow: var(--shadow-md);
+
+        &:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+    }
+
+    // Modal
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: var(--space-4);
+    }
+
+    .modal-content {
+        background: var(--bg-primary);
+        border-radius: var(--border-radius-lg);
+        padding: var(--space-6);
+        max-width: 600px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+
+        @include tablet-up {
+            padding: var(--space-8);
+        }
+
+        h2 {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--accent-secondary);
+            margin: 0 0 var(--space-6) 0;
+            text-align: center;
+            font-family: "Georgia", "Times New Roman", serif;
+        }
+
+        h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            margin: var(--space-4) 0 var(--space-2) 0;
+            font-family: "Helvetica", "Arial", sans-serif;
+        }
+
+        ul {
+            margin: 0 0 var(--space-4) var(--space-4);
+            padding: 0;
+            color: var(--text-secondary);
+            line-height: 1.8;
+
+            li {
+                margin-bottom: var(--space-2);
+                font-family: "Helvetica", "Arial", sans-serif;
+
+                strong {
+                    color: var(--text-primary);
+                    font-weight: var(--font-semibold);
+                }
+            }
+        }
+
+        section {
+            margin-bottom: var(--space-5);
+
+            &:last-of-type {
+                margin-bottom: var(--space-6);
+            }
+        }
+    }
+
+    .modal-body {
+        margin-bottom: var(--space-6);
+    }
+
+    .modal-close-button {
+        width: 100%;
+        padding: var(--space-4);
+        font-size: var(--text-lg);
+        font-weight: var(--font-semibold);
+        background: var(--accent-primary);
+        color: var(--text-inverse);
+        border: none;
+        border-radius: var(--border-radius-md);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-family: "Helvetica", "Arial", sans-serif;
+
+        &:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    // Responsive adjustments
+    @include mobile-only {
+        min-height: 500px;
+
+        .start-screen-container {
+            padding: var(--space-4);
+        }
+
+        .game-title {
+            font-size: 1.75rem;
+        }
+
+        .game-subtitle {
+            font-size: var(--text-base);
+        }
+
+        .option-label {
+            font-size: var(--text-sm);
+        }
+
+        .option-button {
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--text-sm);
+        }
+
+        .info-button,
+        .start-button {
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-base);
+            width: 100%;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+}
