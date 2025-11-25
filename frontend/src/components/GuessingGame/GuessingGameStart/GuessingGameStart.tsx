@@ -69,20 +69,14 @@ export const GuessingGameStart = ({
             <div className="loading-placeholder">Loading...</div>
           ) : (
             <>
-              {background_movies.map((movie, index) => (
-                <motion.div
-                  key={movie.id}
-                  className="background-grid-item"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 0.3, scale: 1 }}
-                  transition={{ delay: index * 0.02, duration: 0.4 }}
-                >
+              {background_movies.map((movie) => (
+                <div key={movie.id} className="background-grid-item">
                   <img
                     src={getImageUrl("movies", movie.image_1)}
                     alt={movie.title}
                     loading="lazy"
                   />
-                </motion.div>
+                </div>
               ))}
             </>
           )}
@@ -144,14 +138,14 @@ export const GuessingGameStart = ({
             </div>
 
             {/* Difficulty Selector */}
-            <div className="option-group">
+            <div className="option-group option-group--difficulty">
               <label className="option-label">Choose difficulty level:</label>
               <div className="game-selector-options">
                 {[1, 2, 3].map((level, index) => (
                   <button
                     key={level}
                     type="button"
-                    className={`game-selector-option ${
+                    className={`game-selector-option game-selector-option--difficulty ${
                       selected_difficulty === level
                         ? "game-selector-option--selected"
                         : ""
