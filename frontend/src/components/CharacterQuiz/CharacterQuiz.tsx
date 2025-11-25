@@ -89,8 +89,9 @@ export const CharacterQuiz = React.memo(() => {
       const randomIds = getRandomCharacterIds("1", 5);
       const characters = getCharactersByIds(randomIds);
       setBannerCharacters(characters);
+      console.log("🎨 Banner characters loaded:", characters.length);
     }
-  }, [cachedCharacters.length]);
+  }, [cachedCharacters]);
 
   // ESC key support for modal
   useEffect(() => {

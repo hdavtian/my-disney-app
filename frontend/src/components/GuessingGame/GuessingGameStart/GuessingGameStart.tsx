@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import type {
   game_category,
@@ -6,9 +6,9 @@ import type {
   question_count,
   guessing_game_options,
 } from "../../../types/guessingGame";
-import { fetch_random_movies_except } from "../../../api/guessingGameApi";
-import type { movie_response } from "../../../types/guessingGame";
-import { getImageUrl } from "../../../config/assets";
+// import { fetch_random_movies_except } from "../../../api/guessingGameApi";
+// import type { movie_response } from "../../../types/guessingGame";
+// import { getImageUrl } from "../../../config/assets";
 import "./GuessingGameStart.scss";
 
 interface GuessingGameStartProps {
@@ -28,27 +28,27 @@ export const GuessingGameStart = ({
   const [show_info_modal, set_show_info_modal] = useState(false);
 
   // Background grid state
-  const [background_movies, set_background_movies] = useState<movie_response[]>(
-    []
-  );
-  const [is_loading_background, set_is_loading_background] = useState(true);
+  // const [background_movies, set_background_movies] = useState<movie_response[]>(
+  //   []
+  // );
+  // const [is_loading_background, set_is_loading_background] = useState(true);
 
   // Fetch 64 random movies for 8x8 background grid
-  useEffect(() => {
-    const load_background_movies = async () => {
-      try {
-        set_is_loading_background(true);
-        const movies = await fetch_random_movies_except([], 64);
-        set_background_movies(movies);
-      } catch (error) {
-        console.error("Failed to load background movies:", error);
-      } finally {
-        set_is_loading_background(false);
-      }
-    };
+  // useEffect(() => {
+  //   const load_background_movies = async () => {
+  //     try {
+  //       set_is_loading_background(true);
+  //       const movies = await fetch_random_movies_except([], 64);
+  //       set_background_movies(movies);
+  //     } catch (error) {
+  //       console.error("Failed to load background movies:", error);
+  //     } finally {
+  //       set_is_loading_background(false);
+  //     }
+  //   };
 
-    load_background_movies();
-  }, []);
+  //   load_background_movies();
+  // }, []);
 
   // Handle start game button click
   const handle_start_game = () => {
@@ -67,7 +67,7 @@ export const GuessingGameStart = ({
       aria-label="The Guessing Game start screen"
     >
       {/* Left Column: Background Grid - 8x8 movie posters */}
-      <div className="guessing-game-start__left-column" aria-hidden="true">
+      {/* <div className="guessing-game-start__left-column" aria-hidden="true">
         <div className="background-grid">
           {is_loading_background ? (
             <div className="loading-placeholder">Loading...</div>
@@ -87,10 +87,10 @@ export const GuessingGameStart = ({
         </div>
 
         {/* Title Overlay on Grid */}
-        <div className="guessing-game-start__title-overlay">
+      {/* <div className="guessing-game-start__title-overlay">
           <h1 className="guessing-game-start__grid-title">The Guessing Game</h1>
         </div>
-      </div>
+      </div> */}
 
       {/* Right Column: Game Options */}
       <div className="guessing-game-start__right-column">
