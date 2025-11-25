@@ -95,4 +95,51 @@ public class MovieController {
                 List<Movie> movies = movieService.findByIds(idList);
                 return ResponseEntity.ok(movies);
         }
+
+        @GetMapping("/ids")
+        @Operation(summary = "Get all movie IDs", description = "Retrieves a list of all movie IDs in the database. "
+                        +
+                        "Useful for random selection in games without loading full movie objects.")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Successfully retrieved movie IDs", content = @Content(mediaType = "application/json")),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        public ResponseEntity<List<Long>> getAllMovieIds() {
+                List<Long> ids = movieService.getAllMovieIds();
+                return ResponseEntity.ok(ids);
+        }
+
+        @GetMapping("/ids-with-hints")
+        @Operation(summary = "Get movie IDs that have hints", description = "Retrieves a list of movie IDs for movies that have hints available. "
+                        +
+                        "Used in guessing games to ensure selected movies can provide hints to players.")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Successfully retrieved movie IDs with hints", content = @Content(mediaType = "application/json")),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        public ResponseEntity<List<Long>> getMovieIdsWithHints() {
+                List<Long> ids = movieService.getMovieIdsWithHints();
+                return ResponseEntity.ok(ids);
+        }
+
+        @GetMapping("/random-except")
+        @Operation(summary = "Get random movies excluding specific IDs", description = "Retrieves random movies from the database while excluding specified IDs. "
+                        +
+                        "Used for generating wrong answer choices in guessing games.")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Successfully retrieved random movies", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))),
+                        @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        public ResponseEntity<List<Movie>> getRandomMoviesExcept(
+                        @Parameter(description = "Comma-separated list of movie IDs to exclude", example = "2494,2495,2496") @RequestParam(required = false) String exclude_ids,
+                        @Parameter(description = "Number of random movies to return", example = "3") @RequestParam(defaultValue = "3") int count) {
+                List<Long> excludeIdList = (exclude_ids == null || exclude_ids.isEmpty()) ? List.of()
+                                : Arrays.stream(exclude_ids.split(","))
+                                                .map(String::trim)
+                                                .map(Long::parseLong)
+                                                .toList();
+                List<Movie> movies = movieService.getRandomMoviesExcept(excludeIdList, count);
+                return ResponseEntity.ok(movies);
+        }
 }

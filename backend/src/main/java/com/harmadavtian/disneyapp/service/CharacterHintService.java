@@ -89,4 +89,19 @@ public class CharacterHintService {
                 hint.getDifficulty(),
                 hint.getHintType());
     }
+
+    /**
+     * Get a random hint for a character filtered by difficulty level.
+     * Used for guessing games to provide progressive difficulty hints.
+     * 
+     * @param characterUrlId The URL identifier of the character
+     * @param difficulty     The difficulty level (1=easy, 2=medium, 3=hard)
+     * @return A random hint DTO at the specified difficulty, or null if none found
+     */
+    public CharacterHintDto getRandomHintByDifficulty(String characterUrlId, int difficulty) {
+        log.debug("Fetching random hint for character: {} with difficulty: {}", characterUrlId, difficulty);
+        CharacterHint hint = characterHintRepository.findRandomByCharacterUrlIdAndDifficulty(characterUrlId,
+                difficulty);
+        return hint != null ? convertToDto(hint) : null;
+    }
 }

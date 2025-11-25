@@ -89,4 +89,18 @@ public class MovieHintService {
                 hint.getDifficulty(),
                 hint.getHintType());
     }
+
+    /**
+     * Get a random hint for a movie filtered by difficulty level.
+     * Used for guessing games to provide progressive difficulty hints.
+     * 
+     * @param movieUrlId The URL identifier of the movie
+     * @param difficulty The difficulty level (1=easy, 2=medium, 3=hard)
+     * @return A random hint DTO at the specified difficulty, or null if none found
+     */
+    public MovieHintDto getRandomHintByDifficulty(String movieUrlId, int difficulty) {
+        log.debug("Fetching random hint for movie: {} with difficulty: {}", movieUrlId, difficulty);
+        MovieHint hint = movieHintRepository.findRandomByMovieUrlIdAndDifficulty(movieUrlId, difficulty);
+        return hint != null ? convertToDto(hint) : null;
+    }
 }

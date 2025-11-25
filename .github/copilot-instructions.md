@@ -123,10 +123,22 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 
 - **BEFORE testing backend APIs:** ALWAYS check if port 8080 is already running
 - **DO NOT** attempt to start or stop the backend server - always ask the user
-- **CAN** run `mvn clean compile` to check for compilation errors
+- **AFTER modifying Java code:** IMMEDIATELY ask user to restart backend server in IntelliJ - DO NOT attempt to test endpoints before asking
+- **NEVER** try to test endpoints and fail before asking - this wastes time
+- **CAN** run `mvn clean compile` to check for compilation errors (but NOT to run the server)
 - **CAN** run `mvn test` to run unit tests
-- **MUST** use cURL to test API endpoints after creating/modifying them
+- **MUST** use cURL to test API endpoints after user confirms backend restart
 - User runs backend server via IntelliJ IDEA
+
+**Swagger/OpenAPI Documentation:**
+
+- **ALWAYS use realistic example values** in `@Parameter` annotations for Swagger endpoints
+- **NEVER use placeholder values** like `"frozen"`, `"1,5,12"`, or generic examples that won't work
+- **Example values MUST be actual working values** from the database that will return successful responses
+- **Verify example format** matches the actual data format (e.g., `"snow_white_and_the_seven_dwarfs"` not `"frozen"`)
+- **For ID parameters**: Use actual IDs from database (e.g., `"2494,2495,2496"` for movies, `"362,363,364"` for characters)
+- **For url_id parameters**: Use snake_case full names (e.g., `"snow_white_and_the_seven_dwarfs"`, `"aladdin"`)
+- **Goal**: Users should be able to click "Try it out" in Swagger UI and get successful responses immediately without guessing values
 
 ---
 

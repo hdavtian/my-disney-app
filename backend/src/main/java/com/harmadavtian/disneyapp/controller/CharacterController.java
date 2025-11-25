@@ -81,6 +81,48 @@ public class CharacterController {
                 return ResponseEntity.ok(characterIds);
         }
 
+        @GetMapping("/ids-with-hints")
+        @Operation(summary = "Get character IDs that have hints", description = "Retrieves a list of character IDs for characters that have hints available. "
+                        +
+                        "Used in guessing games to ensure selected characters can provide hints to players.")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Successfully retrieved character IDs with hints", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Long.class))),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        public ResponseEntity<List<Long>> getCharacterIdsWithHints() {
+                List<Long> characterIds = characterService.getCharacterIdsWithHints();
+                return ResponseEntity.ok(characterIds);
+        }
+
+        /**
+         * Get a specified number of random characters excluding specified IDs.
+         * Used for generating wrong answers in the guessing game.
+         * 
+         * @param exclude_ids Comma-separated character IDs to exclude
+         * @param count       The number of random characters to return (default: 3)
+         * @return ResponseEntity containing list of random characters
+         */
+        @GetMapping("/random-except")
+        @Operation(summary = "Get random characters excluding specific IDs", description = "Retrieves random characters from the database while excluding specified IDs. "
+                        +
+                        "Used for generating wrong answer choices in guessing games.")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Successfully retrieved random characters", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Character.class))),
+                        @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        public ResponseEntity<List<Character>> getRandomCharactersExceptIds(
+                        @Parameter(description = "Comma-separated list of character IDs to exclude", example = "362,363,364") @RequestParam(required = false) String exclude_ids,
+                        @Parameter(description = "Number of random characters to return", example = "3") @RequestParam(defaultValue = "3") int count) {
+                List<Long> excludeIdList = (exclude_ids == null || exclude_ids.isEmpty()) ? List.of()
+                                : Arrays.stream(exclude_ids.split(","))
+                                                .map(String::trim)
+                                                .map(Long::parseLong)
+                                                .toList();
+                List<Character> characters = characterService.getRandomCharactersExcept(excludeIdList, count);
+                return ResponseEntity.ok(characters);
+        }
+
         /**
          * Get a specified number of random character IDs excluding the specified ID.
          * Used for generating wrong answers in the character quiz game and other

@@ -42,4 +42,16 @@ public interface MovieHintRepository extends JpaRepository<MovieHint, Long> {
      * @return The number of hints for the movie
      */
     long countByMovieUrlId(String movieUrlId);
+
+    /**
+     * Find a random hint for a movie filtered by difficulty level.
+     * Used for guessing games to provide progressive difficulty hints.
+     * 
+     * @param movieUrlId The URL identifier of the movie
+     * @param difficulty The difficulty level (1=easy, 2=medium, 3=hard)
+     * @return A random hint at the specified difficulty, or null if none found
+     */
+    @Query(value = "SELECT * FROM movie_hints WHERE movie_url_id = :movieUrlId AND difficulty = :difficulty ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
+    MovieHint findRandomByMovieUrlIdAndDifficulty(@Param("movieUrlId") String movieUrlId,
+            @Param("difficulty") int difficulty);
 }
