@@ -13,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST controller for managing movie hints.
@@ -139,5 +141,41 @@ public class MovieHintController {
         }
 
         return ResponseEntity.ok(hint);
+    }
+
+    /**
+     * Get hints for multiple movies in a single batch request.
+     * Optimized endpoint for loading all hints needed for a guessing game at once.
+     * 
+     * @param urlIds Comma-separated list of movie URL identifiers
+     * @return ResponseEntity containing map of movie URL IDs to their hints
+     */
+    @GetMapping("/batch")
+    @Operation(summary = "Batch fetch hints for multiple movies", description = "Retrieves all hints for multiple movies in a single request by providing a comma-separated list of movie URL IDs. "
+            +
+            "Optimized for guessing games to load all hints upfront, reducing API calls from N to 1. " +
+            "Returns a map where keys are movie URL IDs and values are lists of hints.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved hints for all movies", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Invalid URL ID format or empty list", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<Map<String, List<MovieHintDto>>> getBatchHints(
+            @Parameter(description = "Comma-separated list of movie URL identifiers", example = "snow_white_and_the_seven_dwarfs,the_lion_king,aladdin", required = true) @RequestParam String urlIds) {
+
+        log.debug("Request received for batch hints: {}", urlIds);
+
+        List<String> urlIdList = Arrays.stream(urlIds.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+
+        if (urlIdList.isEmpty()) {
+            log.warn("Empty URL ID list provided");
+            return ResponseEntity.badRequest().build();
+        }
+
+        Map<String, List<MovieHintDto>> hintsMap = movieHintService.getBatchHints(urlIdList);
+        return ResponseEntity.ok(hintsMap);
     }
 }

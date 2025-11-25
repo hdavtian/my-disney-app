@@ -10,6 +10,7 @@ import {
   game_question,
 } from "../../../types/guessingGame";
 import { getImageUrl } from "../../../config/assets";
+import { Confetti } from "../Confetti/Confetti";
 import "./GuessingGameComplete.scss";
 
 /**
@@ -100,6 +101,7 @@ export function GuessingGameComplete({
       ? Math.round((score.correct / total_questions) * 100)
       : 0;
   const hints_used = questions.filter((q) => q.hint_button_used).length;
+  const is_perfect_score = accuracy === 100;
 
   // Animated counts
   const animated_correct = useCountingAnimation(score.correct, 800);
@@ -114,6 +116,8 @@ export function GuessingGameComplete({
       role="main"
       aria-label="Game completion screen"
     >
+      {/* Confetti for perfect score */}
+      {is_perfect_score && <Confetti trigger={true} />}
       {/* Screen reader announcement */}
       <div
         className="sr-only"

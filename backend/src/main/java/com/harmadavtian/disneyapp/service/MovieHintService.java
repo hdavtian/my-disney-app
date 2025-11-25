@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -102,5 +104,24 @@ public class MovieHintService {
         log.debug("Fetching random hint for movie: {} with difficulty: {}", movieUrlId, difficulty);
         MovieHint hint = movieHintRepository.findRandomByMovieUrlIdAndDifficulty(movieUrlId, difficulty);
         return hint != null ? convertToDto(hint) : null;
+    }
+
+    /**
+     * Get all hints for multiple movies in a single call.
+     * Optimized for batch loading in guessing games.
+     * 
+     * @param movieUrlIds List of movie URL identifiers
+     * @return Map of movie URL IDs to their hints
+     */
+    public Map<String, List<MovieHintDto>> getBatchHints(List<String> movieUrlIds) {
+        log.debug("Fetching hints for {} movies", movieUrlIds.size());
+        Map<String, List<MovieHintDto>> result = new HashMap<>();
+
+        for (String urlId : movieUrlIds) {
+            List<MovieHintDto> hints = getAllHintsByMovieUrlId(urlId);
+            result.put(urlId, hints);
+        }
+
+        return result;
     }
 }

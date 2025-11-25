@@ -6,6 +6,12 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem 1rem;
+    transition: opacity 0.15s ease-in-out;
+
+    &--transitioning {
+        pointer-events: none;
+        opacity: 0.6;
+    }
 
     &--loading {
         display: flex;

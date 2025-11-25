@@ -195,22 +195,29 @@
         padding-right: var(--space-2);
 
         &::-webkit-scrollbar {
-            width: 8px;
+            width: 14px;
         }
 
         &::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-            border-radius: var(--radius-sm);
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 7px;
         }
 
         &::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: var(--radius-sm);
+            background: var(--primary-color);
+            border-radius: 7px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
 
             &:hover {
-                background: var(--text-tertiary);
+                background: var(--primary-dark);
+                background-clip: padding-box;
             }
         }
+
+        // Firefox scrollbar
+        scrollbar-width: auto;
+        scrollbar-color: var(--primary-color) rgba(0, 0, 0, 0.1);
     }
 
     &__review-item {

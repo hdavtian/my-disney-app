@@ -118,6 +118,26 @@ export const fetch_all_movie_hints = async (
 };
 
 /**
+ * Get hints for multiple movies in a single batch request
+ * @param movie_url_ids Array of movie URL IDs
+ * @returns Map of movie URL IDs to their hints
+ */
+export const fetch_batch_movie_hints = async (
+  movie_url_ids: string[]
+): Promise<Record<string, game_hint[]>> => {
+  const url_ids_param = movie_url_ids.join(",");
+  const url = `${API_BASE_URL}/movie-hints/batch?urlIds=${url_ids_param}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch batch movie hints: ${response.statusText}`
+    );
+  }
+  return response.json();
+};
+
+/**
  * Get a random character hint by difficulty
  * @param character_url_id The URL ID of the character
  * @param difficulty Difficulty level (1=easy, 2=medium, 3=hard)
@@ -147,6 +167,26 @@ export const fetch_all_character_hints = async (
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch character hints: ${response.statusText}`);
+  }
+  return response.json();
+};
+
+/**
+ * Get hints for multiple characters in a single batch request
+ * @param character_url_ids Array of character URL IDs
+ * @returns Map of character URL IDs to their hints
+ */
+export const fetch_batch_character_hints = async (
+  character_url_ids: string[]
+): Promise<Record<string, game_hint[]>> => {
+  const url_ids_param = character_url_ids.join(",");
+  const url = `${API_BASE_URL}/character-hints/batch?urlIds=${url_ids_param}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch batch character hints: ${response.statusText}`
+    );
   }
   return response.json();
 };

@@ -67,10 +67,24 @@ export const CharacterQuiz = React.memo(() => {
   // Banner state for random characters
   const [bannerCharacters, setBannerCharacters] = useState<Character[]>([]);
 
-  // Load preferences on component mount
+  // Load preferences and saved game state on component mount
   useEffect(() => {
     quiz.loadPreferences();
+    quiz.loadSavedState();
   }, []);
+
+  // Auto-save game state whenever it changes
+  useEffect(() => {
+    if (quiz.isGameActive) {
+      quiz.saveCurrentState();
+    }
+  }, [
+    quiz.isGameActive,
+    quiz.currentQuestionIndex,
+    quiz.score,
+    quiz.currentQuestion,
+    quiz.questionAnswered,
+  ]);
 
   // Initialize cached characters for quiz API when available (only once)
   useEffect(() => {
@@ -308,19 +322,12 @@ export const CharacterQuiz = React.memo(() => {
   };
 
   const handleRestartGame = () => {
-    // Check if cached characters are available
-    if (cachedCharacters.length === 0) {
-      console.warn(
-        "Cannot restart quiz: Characters not loaded yet. Please wait..."
-      );
-      alert("Please wait for characters to load before restarting the quiz!");
-      return;
-    }
-
+    // Reset UI state
     setCurrentCharacter(null);
     setSelectedAnswer(null);
     setCharacterAnimationState("normal");
     setSectionBackgroundState("normal");
+
     // Use restart action to return to game setup screen
     quiz.restartGame();
     // No longer auto-starting game - user can choose new options

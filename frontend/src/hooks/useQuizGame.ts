@@ -7,6 +7,8 @@ import {
   setQuestionsCount,
   setDifficulty,
   loadPreferences,
+  loadSavedState,
+  saveCurrentState,
   startNewGame,
   restartGame,
   submitAnswer,
@@ -76,6 +78,14 @@ export const useQuizGame = () => {
     () => dispatch(loadPreferences()),
     [dispatch]
   );
+  const loadSavedStateAction = useCallback(
+    () => dispatch(loadSavedState()),
+    [dispatch]
+  );
+  const saveCurrentStateAction = useCallback(
+    () => dispatch(saveCurrentState()),
+    [dispatch]
+  );
   const restartGameAction = useCallback(
     () => dispatch(restartGame()),
     [dispatch]
@@ -110,7 +120,9 @@ export const useQuizGame = () => {
     // Game preferences
     setQuestionsCount: setQuestionCountAction,
     setDifficulty: setDifficultyAction,
-    loadPreferences: loadPreferencesAction, // Question actions
+    loadPreferences: loadPreferencesAction,
+    loadSavedState: loadSavedStateAction,
+    saveCurrentState: saveCurrentStateAction, // Question actions
     submitAnswer: submitAnswerAction,
     useHint: useHintAction,
     revealAnswer: revealAnswerAction,

@@ -9,8 +9,8 @@ import type {
 import {
   fetch_random_movies_except,
   fetch_random_characters_except,
-  fetch_all_movie_hints,
-  fetch_all_character_hints,
+  fetch_batch_movie_hints,
+  fetch_batch_character_hints,
 } from "../../../api/guessingGameApi";
 import "./GuessingGamePlay.scss";
 
@@ -38,6 +38,9 @@ export const GuessingGamePlay = ({
   const [current_question, set_current_question] =
     useState<game_question | null>(null);
   const [all_questions, set_all_questions] = useState<game_question[]>([]);
+  const [pre_loaded_questions, set_pre_loaded_questions] = useState<
+    game_question[]
+  >([]);
   const [question_number, set_question_number] = useState(1);
   const [score, set_score] = useState({ correct: 0, incorrect: 0 });
   const [total_show_answers_used, set_total_show_answers_used] = useState(0);
@@ -64,178 +67,215 @@ export const GuessingGamePlay = ({
   };
 
   /**
-   * Load a new question
+   * Pre-load all questions at game start for instant transitions
+   * Reduces API calls from 30 to 2-3 total
    */
-  const load_new_question = async () => {
+  const pre_load_all_questions = async () => {
     try {
       set_loading(true);
-      set_revealed_hints([]);
-      set_selected_answer(null);
-      set_is_answered(false);
-      set_show_answer_used(false);
 
-      // Determine category for this question
-      const category =
-        options.category === "mixed"
-          ? Math.random() > 0.5
-            ? "movies"
-            : "characters"
-          : options.category;
+      const questions: game_question[] = [];
+      const movie_url_ids: string[] = [];
+      const character_url_ids: string[] = [];
 
-      if (category === "movies") {
-        await load_movie_question();
+      // Determine how many of each category we need
+      let movies_needed = 0;
+      let characters_needed = 0;
+
+      if (options.category === "movies") {
+        movies_needed = options.question_count;
+      } else if (options.category === "characters") {
+        characters_needed = options.question_count;
       } else {
-        await load_character_question();
+        // Mixed mode - roughly 50/50 split
+        for (let i = 0; i < options.question_count; i++) {
+          if (Math.random() > 0.5) {
+            movies_needed++;
+          } else {
+            characters_needed++;
+          }
+        }
       }
+
+      const answer_count = get_answer_count(options.difficulty);
+      const wrong_count = answer_count - 1;
+
+      // Fetch all movies if needed
+      let movie_items: any[] = [];
+      if (movies_needed > 0) {
+        const total_movies_needed = movies_needed * answer_count;
+        movie_items = await fetch_random_movies_except([], total_movies_needed);
+      }
+
+      // Fetch all characters if needed
+      let character_items: any[] = [];
+      if (characters_needed > 0) {
+        const total_characters_needed = characters_needed * answer_count;
+        character_items = await fetch_random_characters_except(
+          [],
+          total_characters_needed
+        );
+      }
+
+      // Split into batches for correct answers and wrong answers
+      let movie_index = 0;
+      let character_index = 0;
+
+      // Build questions based on category order
+      const categories_sequence: ("movies" | "characters")[] = [];
+      if (options.category === "movies") {
+        categories_sequence.push(...Array(movies_needed).fill("movies"));
+      } else if (options.category === "characters") {
+        categories_sequence.push(
+          ...Array(characters_needed).fill("characters")
+        );
+      } else {
+        // Mixed: randomize
+        for (let i = 0; i < movies_needed; i++)
+          categories_sequence.push("movies");
+        for (let i = 0; i < characters_needed; i++)
+          categories_sequence.push("characters");
+        categories_sequence.sort(() => Math.random() - 0.5);
+      }
+
+      // Create questions from fetched items
+      for (let i = 0; i < categories_sequence.length; i++) {
+        const category = categories_sequence[i];
+        const q_num = i + 1;
+
+        if (category === "movies" && movie_index < movie_items.length) {
+          const correct_movie = movie_items[movie_index];
+          movie_url_ids.push(correct_movie.url_id);
+          movie_index++;
+
+          const wrong_movies = movie_items.slice(
+            movie_index,
+            movie_index + wrong_count
+          );
+          movie_index += wrong_count;
+
+          const correct_answer: answer_choice = {
+            id: correct_movie.id,
+            url_id: correct_movie.url_id,
+            name: correct_movie.title,
+            title: correct_movie.title,
+            image_1: correct_movie.image_1,
+            is_correct: true,
+            is_eliminated: false,
+          };
+
+          const wrong_answers: answer_choice[] = wrong_movies.map(
+            (movie: any) => ({
+              id: movie.id,
+              url_id: movie.url_id,
+              name: movie.title,
+              title: movie.title,
+              image_1: movie.image_1,
+              is_correct: false,
+              is_eliminated: false,
+            })
+          );
+
+          const all_answers = [...wrong_answers, correct_answer].sort(
+            () => Math.random() - 0.5
+          );
+
+          questions.push({
+            question_number: q_num,
+            category: "movie",
+            correct_answer,
+            wrong_answers,
+            all_answers,
+            revealed_hints: [], // Will be populated after batch fetch
+            hint_button_used: false,
+            show_answer_used: false,
+            is_answered: false,
+          });
+        } else if (
+          category === "characters" &&
+          character_index < character_items.length
+        ) {
+          const correct_character = character_items[character_index];
+          character_url_ids.push(correct_character.url_id);
+          character_index++;
+
+          const wrong_characters = character_items.slice(
+            character_index,
+            character_index + wrong_count
+          );
+          character_index += wrong_count;
+
+          const correct_answer: answer_choice = {
+            id: correct_character.id,
+            url_id: correct_character.url_id,
+            name: correct_character.name,
+            profile_image_1: correct_character.profile_image_1,
+            is_correct: true,
+            is_eliminated: false,
+          };
+
+          const wrong_answers: answer_choice[] = wrong_characters.map(
+            (character: any) => ({
+              id: character.id,
+              url_id: character.url_id,
+              name: character.name,
+              profile_image_1: character.profile_image_1,
+              is_correct: false,
+              is_eliminated: false,
+            })
+          );
+
+          const all_answers = [...wrong_answers, correct_answer].sort(
+            () => Math.random() - 0.5
+          );
+
+          questions.push({
+            question_number: q_num,
+            category: "character",
+            correct_answer,
+            wrong_answers,
+            all_answers,
+            revealed_hints: [], // Will be populated after batch fetch
+            hint_button_used: false,
+            show_answer_used: false,
+            is_answered: false,
+          });
+        }
+      }
+
+      // Batch fetch all hints
+      let movie_hints_map: Record<string, game_hint[]> = {};
+      let character_hints_map: Record<string, game_hint[]> = {};
+
+      if (movie_url_ids.length > 0) {
+        movie_hints_map = await fetch_batch_movie_hints(movie_url_ids);
+      }
+
+      if (character_url_ids.length > 0) {
+        character_hints_map = await fetch_batch_character_hints(
+          character_url_ids
+        );
+      }
+
+      // Populate hints into questions
+      const initial_hints_count = get_initial_hints_count(options.difficulty);
+      for (const question of questions) {
+        const url_id = question.correct_answer.url_id;
+        const hints_map =
+          question.category === "movie" ? movie_hints_map : character_hints_map;
+        const all_hints = hints_map[url_id] || [];
+        const initial_hints = all_hints.slice(0, initial_hints_count);
+        question.revealed_hints = initial_hints;
+      }
+
+      set_pre_loaded_questions(questions);
+      set_current_question(questions[0]);
+      set_revealed_hints(questions[0].revealed_hints);
+      set_loading(false);
     } catch (error) {
-      console.error("Error loading question:", error);
-    } finally {
+      console.error("Error pre-loading questions:", error);
       set_loading(false);
     }
-  };
-
-  /**
-   * Load a movie question
-   */
-  const load_movie_question = async () => {
-    // Fetch random movie for correct answer
-    const correct_movies = await fetch_random_movies_except([], 1);
-    if (!correct_movies || correct_movies.length === 0) {
-      throw new Error("Failed to fetch correct movie");
-    }
-
-    const correct_movie = correct_movies[0];
-    const answer_count = get_answer_count(options.difficulty);
-    const wrong_count = answer_count - 1;
-
-    // Fetch wrong answers
-    const wrong_movies = await fetch_random_movies_except(
-      [correct_movie.id],
-      wrong_count
-    );
-
-    // Convert to answer choices
-    const correct_answer: answer_choice = {
-      id: correct_movie.id,
-      url_id: correct_movie.url_id,
-      name: correct_movie.title,
-      title: correct_movie.title,
-      image_1: correct_movie.image_1,
-      is_correct: true,
-      is_eliminated: false,
-    };
-
-    const wrong_answers: answer_choice[] = wrong_movies.map((movie) => ({
-      id: movie.id,
-      url_id: movie.url_id,
-      name: movie.title,
-      title: movie.title,
-      image_1: movie.image_1,
-      is_correct: false,
-      is_eliminated: false,
-    }));
-
-    // Shuffle all answers
-    const all_answers = [...wrong_answers, correct_answer].sort(
-      () => Math.random() - 0.5
-    );
-
-    // Fetch hints for correct movie
-    const all_hints: game_hint[] = await fetch_all_movie_hints(
-      correct_movie.url_id
-    );
-
-    // Reveal initial hints based on difficulty
-    const initial_count = get_initial_hints_count(options.difficulty);
-    const initial_hints = all_hints.slice(0, initial_count);
-
-    set_revealed_hints(initial_hints);
-
-    const question: game_question = {
-      question_number,
-      category: "movie",
-      correct_answer,
-      wrong_answers,
-      all_answers,
-      revealed_hints: initial_hints,
-      hint_button_used: false,
-      show_answer_used: false,
-      is_answered: false,
-    };
-
-    set_current_question(question);
-  };
-
-  /**
-   * Load a character question
-   */
-  const load_character_question = async () => {
-    // Fetch random character for correct answer
-    const correct_characters = await fetch_random_characters_except([], 1);
-    if (!correct_characters || correct_characters.length === 0) {
-      throw new Error("Failed to fetch correct character");
-    }
-
-    const correct_character = correct_characters[0];
-    const answer_count = get_answer_count(options.difficulty);
-    const wrong_count = answer_count - 1;
-
-    // Fetch wrong answers
-    const wrong_characters = await fetch_random_characters_except(
-      [correct_character.id],
-      wrong_count
-    );
-
-    // Convert to answer choices
-    const correct_answer: answer_choice = {
-      id: correct_character.id,
-      url_id: correct_character.url_id,
-      name: correct_character.name,
-      profile_image_1: correct_character.profile_image_1,
-      is_correct: true,
-      is_eliminated: false,
-    };
-
-    const wrong_answers: answer_choice[] = wrong_characters.map(
-      (character) => ({
-        id: character.id,
-        url_id: character.url_id,
-        name: character.name,
-        profile_image_1: character.profile_image_1,
-        is_correct: false,
-        is_eliminated: false,
-      })
-    );
-
-    // Shuffle all answers
-    const all_answers = [...wrong_answers, correct_answer].sort(
-      () => Math.random() - 0.5
-    );
-
-    // Fetch hints for correct character
-    const all_hints: game_hint[] = await fetch_all_character_hints(
-      correct_character.url_id
-    );
-
-    // Reveal initial hints based on difficulty
-    const initial_count = get_initial_hints_count(options.difficulty);
-    const initial_hints = all_hints.slice(0, initial_count);
-
-    set_revealed_hints(initial_hints);
-
-    const question: game_question = {
-      question_number,
-      category: "character",
-      correct_answer,
-      wrong_answers,
-      all_answers,
-      revealed_hints: initial_hints,
-      hint_button_used: false,
-      show_answer_used: false,
-      is_answered: false,
-    };
-
-    set_current_question(question);
   };
 
   /**
@@ -280,6 +320,15 @@ export const GuessingGamePlay = ({
     set_show_answer_used(true);
     set_total_show_answers_used((prev) => prev + 1);
     set_score((prev) => ({ ...prev, correct: prev.correct + 1 }));
+
+    // Update current question with answer info
+    set_current_question({
+      ...current_question,
+      selected_answer: correct,
+      is_correct: true,
+      is_answered: true,
+      show_answer_used: true,
+    });
   };
 
   /**
@@ -299,6 +348,14 @@ export const GuessingGamePlay = ({
 
     const correct = selected_answer.is_correct;
     set_is_answered(true);
+
+    // Update current question with answer info
+    set_current_question({
+      ...current_question,
+      selected_answer: selected_answer,
+      is_correct: correct,
+      is_answered: true,
+    });
 
     if (correct) {
       set_score((prev) => ({ ...prev, correct: prev.correct + 1 }));
@@ -332,16 +389,28 @@ export const GuessingGamePlay = ({
       };
       on_game_complete(stats);
     } else {
-      set_question_number((prev) => prev + 1);
-      load_new_question();
+      // Load next question from pre-loaded array
+      const next_index = question_number; // Current question_number is 1-indexed, array is 0-indexed
+      const next = pre_loaded_questions[next_index];
+
+      if (next) {
+        set_current_question(next);
+        set_revealed_hints(next.revealed_hints);
+        set_selected_answer(null);
+        set_is_answered(false);
+        set_show_answer_used(false);
+        set_question_number((prev) => prev + 1);
+      }
     }
   };
 
-  // Load first question on mount
+  // Pre-load all questions on mount (only once - not dependent on options changes)
   useEffect(() => {
-    load_new_question();
+    pre_load_all_questions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Show loading state during pre-loading
   if (loading || !current_question) {
     return (
       <div
@@ -349,7 +418,7 @@ export const GuessingGamePlay = ({
         role="status"
         aria-live="polite"
       >
-        <div className="loading-spinner">Loading question...</div>
+        <div className="loading-spinner">Loading game...</div>
       </div>
     );
   }
@@ -427,10 +496,15 @@ export const GuessingGamePlay = ({
                 className="hint-card"
                 role="article"
                 aria-label={`Hint ${index + 1}: ${hint.hint_type}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 50, scale: 0.9 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 25,
+                  duration: 0.4,
+                }}
               >
                 <span
                   className="hint-type-badge"
@@ -509,11 +583,27 @@ export const GuessingGamePlay = ({
                   aria-pressed={selected_answer?.id === answer.id}
                   aria-disabled={is_answered || answer.is_eliminated}
                   whileHover={
-                    !is_answered && !answer.is_eliminated ? { scale: 1.02 } : {}
+                    !is_answered && !answer.is_eliminated
+                      ? { scale: 1.03, y: -2 }
+                      : {}
                   }
                   whileTap={
-                    !is_answered && !answer.is_eliminated ? { scale: 0.98 } : {}
+                    !is_answered && !answer.is_eliminated ? { scale: 0.97 } : {}
                   }
+                  initial={false}
+                  animate={
+                    selected_answer?.id === answer.id && !is_answered
+                      ? {
+                          scale: 1.02,
+                        }
+                      : {
+                          scale: 1,
+                        }
+                  }
+                  transition={{
+                    duration: 0.2,
+                    ease: "easeOut",
+                  }}
                 >
                   {answer.is_eliminated && (
                     <span className="eliminated-badge">❌</span>

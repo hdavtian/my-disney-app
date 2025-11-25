@@ -1,9 +1,14 @@
-import React, { useState, lazy } from "react";
+import React, { useState, useEffect, lazy } from "react";
 import { motion } from "framer-motion";
 import { GuessingGameStart } from "../../components/GuessingGame/GuessingGameStart/GuessingGameStart";
 import { GuessingGamePlay } from "../../components/GuessingGame/GuessingGamePlay/GuessingGamePlay";
 import { GameErrorBoundary } from "../../components/GuessingGame/GameErrorBoundary";
 import { CharacterQuiz } from "../../components/CharacterQuiz";
+import {
+  save_guessing_game_state,
+  load_guessing_game_state,
+  clear_guessing_game_state,
+} from "../../utils/guessingGameStorage";
 import type {
   guessing_game_options,
   game_question,
@@ -23,7 +28,7 @@ export const GamesPage = React.memo(() => {
   const [is_guessing_game_collapsed, set_is_guessing_game_collapsed] =
     useState(false);
 
-  // Game state management
+  // Game state management - initialize from localStorage if available
   const [is_guessing_game_active, set_is_guessing_game_active] =
     useState(false);
   const [is_guessing_game_complete, set_is_guessing_game_complete] =
@@ -34,6 +39,43 @@ export const GamesPage = React.memo(() => {
     questions: game_question[];
     score: { correct: number; incorrect: number; show_answers_used: number };
   } | null>(null);
+
+  // Load saved state on component mount
+  useEffect(() => {
+    const saved_state = load_guessing_game_state();
+    if (saved_state) {
+      set_is_guessing_game_active(saved_state.is_active);
+      set_is_guessing_game_complete(saved_state.is_complete);
+      set_guessing_game_options(saved_state.options);
+      set_guessing_game_results(saved_state.results);
+    }
+  }, []);
+
+  // Save state to localStorage whenever it changes (debounced to prevent flash on every answer)
+  useEffect(() => {
+    if (
+      is_guessing_game_active ||
+      is_guessing_game_complete ||
+      guessing_game_options
+    ) {
+      const timer = setTimeout(() => {
+        save_guessing_game_state({
+          is_active: is_guessing_game_active,
+          is_complete: is_guessing_game_complete,
+          options: guessing_game_options,
+          results: guessing_game_results,
+          last_updated: Date.now(),
+        });
+      }, 100); // Small debounce to batch rapid updates
+
+      return () => clearTimeout(timer);
+    }
+  }, [
+    is_guessing_game_active,
+    is_guessing_game_complete,
+    guessing_game_options,
+    guessing_game_results,
+  ]);
 
   // Handler for starting The Guessing Game
   const handle_start_guessing_game = (options: guessing_game_options) => {
@@ -68,6 +110,7 @@ export const GamesPage = React.memo(() => {
     set_is_guessing_game_complete(false);
     set_guessing_game_options(null);
     set_guessing_game_results(null);
+    clear_guessing_game_state(); // Clear saved state when returning to start
   };
 
   // Handler for quitting the game
@@ -76,6 +119,7 @@ export const GamesPage = React.memo(() => {
     set_is_guessing_game_complete(false);
     set_guessing_game_options(null);
     set_guessing_game_results(null);
+    clear_guessing_game_state(); // Clear saved state when quitting
   };
 
   return (

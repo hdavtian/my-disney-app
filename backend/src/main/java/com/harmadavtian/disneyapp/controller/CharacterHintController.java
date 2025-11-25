@@ -13,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST controller for managing character hints.
@@ -141,5 +143,41 @@ public class CharacterHintController {
         }
 
         return ResponseEntity.ok(hint);
+    }
+
+    /**
+     * Get hints for multiple characters in a single batch request.
+     * Optimized endpoint for loading all hints needed for a guessing game at once.
+     * 
+     * @param urlIds Comma-separated list of character URL identifiers
+     * @return ResponseEntity containing map of character URL IDs to their hints
+     */
+    @GetMapping("/batch")
+    @Operation(summary = "Batch fetch hints for multiple characters", description = "Retrieves all hints for multiple characters in a single request by providing a comma-separated list of character URL IDs. "
+            +
+            "Optimized for guessing games to load all hints upfront, reducing API calls from N to 1. " +
+            "Returns a map where keys are character URL IDs and values are lists of hints.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved hints for all characters", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Invalid URL ID format or empty list", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<Map<String, List<CharacterHintDto>>> getBatchHints(
+            @Parameter(description = "Comma-separated list of character URL identifiers", example = "aladdin,elsa,anna", required = true) @RequestParam String urlIds) {
+
+        log.debug("Request received for batch hints: {}", urlIds);
+
+        List<String> urlIdList = Arrays.stream(urlIds.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+
+        if (urlIdList.isEmpty()) {
+            log.warn("Empty URL ID list provided");
+            return ResponseEntity.badRequest().build();
+        }
+
+        Map<String, List<CharacterHintDto>> hintsMap = characterHintService.getBatchHints(urlIdList);
+        return ResponseEntity.ok(hintsMap);
     }
 }
