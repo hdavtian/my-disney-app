@@ -64,7 +64,6 @@ export interface game_question {
   wrong_answers: answer_choice[];
   all_answers: answer_choice[]; // Shuffled array of correct + wrong
   revealed_hints: game_hint[];
-  available_hints: game_hint[];
   hint_button_used: boolean;
   show_answer_used: boolean;
   is_answered: boolean;
@@ -85,8 +84,6 @@ export interface guessing_game_state {
   score: {
     correct: number;
     incorrect: number;
-    hints_revealed: number;
-    hint_buttons_used: number;
     show_answers_used: number;
   };
   available_movie_ids: number[];

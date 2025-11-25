@@ -9,7 +9,11 @@ applyTo: "**/*.{scss,css}"
 - Use **SCSS** for styles whenever possible.
 - Do **not** use inline styles or style definitions inside JavaScript/TypeScript files.
 - Keep styles modular and component-scoped.
-- @impoprts are being deprecated, use @use and @forward instead, if running into unresolvable errors, only then you can use @import
+- **CRITICAL**: Use `@use` and `@forward` instead of deprecated `@import` statements
+  - Example: `@use "../../../styles/variables.scss" as *;`
+  - Example: `@use "../../../styles/mixins.scss" as *;`
+  - The `as *` syntax allows using variables/mixins without a namespace prefix
+  - **NEVER use `@import`** - it causes deprecation warnings during build and will be removed in Dart Sass 3.0.0
 
 ---
 

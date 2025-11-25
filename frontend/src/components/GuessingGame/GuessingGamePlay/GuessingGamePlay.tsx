@@ -24,8 +24,6 @@ interface game_statistics {
   total_questions: number;
   correct_answers: number;
   incorrect_answers: number;
-  hints_revealed: number;
-  hint_buttons_used: number;
   show_answers_used: number;
   average_hints_per_question: number;
 }
@@ -40,20 +38,15 @@ export const GuessingGamePlay = ({
     useState<game_question | null>(null);
   const [question_number, set_question_number] = useState(1);
   const [score, set_score] = useState({ correct: 0, incorrect: 0 });
-  const [total_hints_revealed, set_total_hints_revealed] = useState(0);
-  const [total_hint_buttons_used, set_total_hint_buttons_used] = useState(0);
   const [total_show_answers_used, set_total_show_answers_used] = useState(0);
 
   // Question state
   const [revealed_hints, set_revealed_hints] = useState<game_hint[]>([]);
-  const [available_hints, set_available_hints] = useState<game_hint[]>([]);
   const [selected_answer, set_selected_answer] = useState<answer_choice | null>(
     null
   );
   const [is_answered, set_is_answered] = useState(false);
-  const [is_correct, set_is_correct] = useState<boolean | null>(null);
   const [loading, set_loading] = useState(true);
-  const [hint_button_used, set_hint_button_used] = useState(false);
   const [show_answer_used, set_show_answer_used] = useState(false);
 
   // Difficulty mapping: 1 = 4 answers, 2 = 6 answers, 3 = 8 answers
@@ -75,11 +68,8 @@ export const GuessingGamePlay = ({
     try {
       set_loading(true);
       set_revealed_hints([]);
-      set_available_hints([]);
       set_selected_answer(null);
       set_is_answered(false);
-      set_is_correct(null);
-      set_hint_button_used(false);
       set_show_answer_used(false);
 
       // Determine category for this question
@@ -156,10 +146,8 @@ export const GuessingGamePlay = ({
     // Reveal initial hints based on difficulty
     const initial_count = get_initial_hints_count(options.difficulty);
     const initial_hints = all_hints.slice(0, initial_count);
-    const remaining_hints = all_hints.slice(initial_count);
 
     set_revealed_hints(initial_hints);
-    set_available_hints(remaining_hints);
 
     const question: game_question = {
       question_number,
@@ -168,7 +156,6 @@ export const GuessingGamePlay = ({
       wrong_answers,
       all_answers,
       revealed_hints: initial_hints,
-      available_hints: remaining_hints,
       hint_button_used: false,
       show_answer_used: false,
       is_answered: false,
@@ -231,10 +218,8 @@ export const GuessingGamePlay = ({
     // Reveal initial hints based on difficulty
     const initial_count = get_initial_hints_count(options.difficulty);
     const initial_hints = all_hints.slice(0, initial_count);
-    const remaining_hints = all_hints.slice(initial_count);
 
     set_revealed_hints(initial_hints);
-    set_available_hints(remaining_hints);
 
     const question: game_question = {
       question_number,
@@ -243,7 +228,6 @@ export const GuessingGamePlay = ({
       wrong_answers,
       all_answers,
       revealed_hints: initial_hints,
-      available_hints: remaining_hints,
       hint_button_used: false,
       show_answer_used: false,
       is_answered: false,
@@ -253,34 +237,24 @@ export const GuessingGamePlay = ({
   };
 
   /**
-   * Reveal next hint
-   */
-  const reveal_next_hint = () => {
-    if (available_hints.length === 0 || is_answered) return;
-
-    const next_hint = available_hints[0];
-    const remaining = available_hints.slice(1);
-
-    set_revealed_hints([...revealed_hints, next_hint]);
-    set_available_hints(remaining);
-    set_total_hints_revealed((prev) => prev + 1);
-  };
-
-  /**
-   * Use hint button - eliminates wrong answers
+   * Use hint button - highlights a random wrong answer
    */
   const use_hint_button = () => {
-    if (hint_button_used || is_answered || !current_question) return;
+    if (is_answered || !current_question) return;
 
-    // Eliminate half of wrong answers (rounded down)
+    // Find all wrong answers that aren't eliminated
     const wrong_answers = current_question.all_answers.filter(
-      (a) => !a.is_correct
+      (a) => !a.is_correct && !a.is_eliminated
     );
-    const eliminate_count = Math.floor(wrong_answers.length / 2);
-    const to_eliminate = wrong_answers.slice(0, eliminate_count);
+
+    if (wrong_answers.length === 0) return;
+
+    // Randomly select one wrong answer to eliminate
+    const random_index = Math.floor(Math.random() * wrong_answers.length);
+    const to_eliminate = wrong_answers[random_index];
 
     const updated_answers = current_question.all_answers.map((answer) => {
-      if (to_eliminate.find((e) => e.id === answer.id)) {
+      if (answer.id === to_eliminate.id) {
         return { ...answer, is_eliminated: true };
       }
       return answer;
@@ -290,9 +264,6 @@ export const GuessingGamePlay = ({
       ...current_question,
       all_answers: updated_answers,
     });
-
-    set_hint_button_used(true);
-    set_total_hint_buttons_used((prev) => prev + 1);
   };
 
   /**
@@ -304,7 +275,6 @@ export const GuessingGamePlay = ({
     const correct = current_question.correct_answer;
     set_selected_answer(correct);
     set_is_answered(true);
-    set_is_correct(true);
     set_show_answer_used(true);
     set_total_show_answers_used((prev) => prev + 1);
     set_score((prev) => ({ ...prev, correct: prev.correct + 1 }));
@@ -327,7 +297,6 @@ export const GuessingGamePlay = ({
 
     const correct = selected_answer.is_correct;
     set_is_answered(true);
-    set_is_correct(correct);
 
     if (correct) {
       set_score((prev) => ({ ...prev, correct: prev.correct + 1 }));
@@ -346,11 +315,8 @@ export const GuessingGamePlay = ({
         total_questions: options.question_count,
         correct_answers: score.correct,
         incorrect_answers: score.incorrect,
-        hints_revealed: total_hints_revealed,
-        hint_buttons_used: total_hint_buttons_used,
         show_answers_used: total_show_answers_used,
-        average_hints_per_question:
-          total_hints_revealed / options.question_count,
+        average_hints_per_question: 0,
       };
       on_game_complete(stats);
     } else {
@@ -388,10 +354,6 @@ export const GuessingGamePlay = ({
             {score.correct} / {question_number - 1}
           </span>
         </div>
-        <div className="score-item">
-          <span className="score-label">Hints Used:</span>
-          <span className="score-value">{total_hints_revealed}</span>
-        </div>
         <button className="quit-button" onClick={on_quit}>
           Quit Game
         </button>
@@ -416,126 +378,106 @@ export const GuessingGamePlay = ({
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="hint-header">
-                  <span className="hint-number">Hint {index + 1}</span>
-                  <span className="hint-type">{hint.hint_type}</span>
-                </div>
+                <span className="hint-type-badge">{hint.hint_type}</span>
                 <p className="hint-content">{hint.content}</p>
               </motion.div>
             ))}
           </AnimatePresence>
-
-          {/* Hint Actions */}
-          <div className="hint-actions">
-            <button
-              className="hint-action-button"
-              onClick={reveal_next_hint}
-              disabled={available_hints.length === 0 || is_answered}
-            >
-              {available_hints.length > 0
-                ? `Reveal Next Hint (${available_hints.length} left)`
-                : "No More Hints"}
-            </button>
-
-            <button
-              className="hint-action-button hint-action-button--eliminate"
-              onClick={use_hint_button}
-              disabled={hint_button_used || is_answered}
-            >
-              {hint_button_used ? "Hint Used" : "Eliminate Half"}
-            </button>
-
-            <button
-              className="hint-action-button hint-action-button--show"
-              onClick={use_show_answer}
-              disabled={show_answer_used || is_answered}
-            >
-              {show_answer_used ? "Answer Shown" : "Show Answer"}
-            </button>
-          </div>
         </div>
 
         {/* Answers Column */}
         <div className="guessing-game-play__answers-column">
           <h2 className="answers-title">Select Your Answer</h2>
 
-          <div className="answer-choices">
-            {current_question.all_answers.map((answer) => (
-              <motion.button
-                key={answer.id}
-                className={`answer-choice ${
-                  selected_answer?.id === answer.id
-                    ? "answer-choice--selected"
-                    : ""
-                } ${answer.is_eliminated ? "answer-choice--eliminated" : ""} ${
-                  is_answered && answer.is_correct
-                    ? "answer-choice--correct"
-                    : ""
-                } ${
-                  is_answered &&
-                  selected_answer?.id === answer.id &&
-                  !answer.is_correct
-                    ? "answer-choice--incorrect"
-                    : ""
-                }`}
-                onClick={() => handle_answer_select(answer)}
-                disabled={is_answered || answer.is_eliminated}
-                whileHover={
-                  !is_answered && !answer.is_eliminated ? { scale: 1.02 } : {}
-                }
-                whileTap={
-                  !is_answered && !answer.is_eliminated ? { scale: 0.98 } : {}
-                }
-              >
-                {answer.is_eliminated && (
-                  <span className="eliminated-badge">❌</span>
-                )}
-                {answer.name}
-              </motion.button>
-            ))}
+          <div
+            className={`answer-choices ${
+              current_question.all_answers.length >= 6
+                ? "answer-choices--two-columns"
+                : ""
+            }`}
+          >
+            {current_question.all_answers.map((answer, index) => {
+              const letter = String.fromCharCode(65 + index); // A, B, C, D...
+              return (
+                <motion.button
+                  key={answer.id}
+                  className={`answer-choice ${
+                    selected_answer?.id === answer.id
+                      ? "answer-choice--selected"
+                      : ""
+                  } ${
+                    answer.is_eliminated ? "answer-choice--eliminated" : ""
+                  } ${
+                    is_answered && answer.is_correct
+                      ? "answer-choice--correct"
+                      : ""
+                  } ${
+                    is_answered &&
+                    selected_answer?.id === answer.id &&
+                    !answer.is_correct
+                      ? "answer-choice--incorrect"
+                      : ""
+                  }`}
+                  onClick={() => handle_answer_select(answer)}
+                  disabled={is_answered || answer.is_eliminated}
+                  whileHover={
+                    !is_answered && !answer.is_eliminated ? { scale: 1.02 } : {}
+                  }
+                  whileTap={
+                    !is_answered && !answer.is_eliminated ? { scale: 0.98 } : {}
+                  }
+                >
+                  {answer.is_eliminated && (
+                    <span className="eliminated-badge">❌</span>
+                  )}
+                  <span className="answer-letter">{letter})</span> {answer.name}
+                </motion.button>
+              );
+            })}
           </div>
 
-          {/* Submit Button */}
+          {/* Game Action Buttons */}
           {!is_answered && (
-            <button
-              className="submit-answer-button"
-              onClick={submit_answer}
-              disabled={!selected_answer}
-            >
-              Submit Answer
-            </button>
+            <div className="game-actions">
+              {options.difficulty !== 3 && (
+                <>
+                  <button
+                    className="hint-action-button hint-action-button--eliminate"
+                    onClick={use_hint_button}
+                    disabled={is_answered}
+                  >
+                    💡 Hint
+                  </button>
+
+                  <button
+                    className="hint-action-button hint-action-button--show"
+                    onClick={use_show_answer}
+                    disabled={show_answer_used || is_answered}
+                  >
+                    👁️ Show Answer {show_answer_used ? "(Used)" : ""}
+                  </button>
+                </>
+              )}
+
+              <button
+                className="submit-answer-button"
+                onClick={submit_answer}
+                disabled={!selected_answer}
+              >
+                Submit Answer
+              </button>
+            </div>
           )}
 
-          {/* Feedback */}
+          {/* Next Question Button */}
           {is_answered && (
-            <motion.div
-              className={`answer-feedback ${
-                is_correct
-                  ? "answer-feedback--correct"
-                  : "answer-feedback--incorrect"
-              }`}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-              <h3 className="feedback-title">
-                {is_correct ? "✓ Correct!" : "✗ Incorrect"}
-              </h3>
-              <p className="feedback-text">
-                The answer was:{" "}
-                <strong>{current_question.correct_answer.name}</strong>
-              </p>
-              {show_answer_used && (
-                <p className="feedback-note">
-                  (Answer revealed using Show Answer button)
-                </p>
-              )}
+            <div className="game-actions">
               <button className="next-question-button" onClick={next_question}>
                 {question_number >= options.question_count
                   ? "View Results"
                   : "Next Question →"}
               </button>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>
