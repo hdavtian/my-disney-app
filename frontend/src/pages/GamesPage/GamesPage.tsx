@@ -18,6 +18,11 @@ const GuessingGameComplete = lazy(() =>
 );
 
 export const GamesPage = React.memo(() => {
+  // Collapse state for games
+  const [is_toon_quiz_collapsed, set_is_toon_quiz_collapsed] = useState(false);
+  const [is_guessing_game_collapsed, set_is_guessing_game_collapsed] =
+    useState(false);
+
   // Game state management
   const [is_guessing_game_active, set_is_guessing_game_active] =
     useState(false);
@@ -105,50 +110,94 @@ export const GamesPage = React.memo(() => {
       <div className="games-page__container">
         {/* Row 1: Toon Quiz (Character Identification) */}
         <motion.section
-          className="games-page__game-row games-page__game-row--toon-quiz"
+          className={`games-page__game-row games-page__game-row--toon-quiz ${
+            is_toon_quiz_collapsed ? "games-page__game-row--collapsed" : ""
+          }`}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.4 }}
         >
-          <CharacterQuiz />
+          <button
+            className="games-page__collapse-toggle"
+            onClick={() => set_is_toon_quiz_collapsed(!is_toon_quiz_collapsed)}
+            aria-label={
+              is_toon_quiz_collapsed ? "Expand Toon Quiz" : "Collapse Toon Quiz"
+            }
+            title={is_toon_quiz_collapsed ? "Expand" : "Collapse"}
+          >
+            <i
+              className={`fas fa-chevron-${
+                is_toon_quiz_collapsed ? "up" : "down"
+              }`}
+            ></i>
+          </button>
+          {is_toon_quiz_collapsed && (
+            <h3 className="games-page__game-title">Toon Quiz</h3>
+          )}
+          {!is_toon_quiz_collapsed && <CharacterQuiz />}
         </motion.section>
 
         {/* Row 2: The Guessing Game */}
         <motion.section
-          className="games-page__game-row games-page__game-row--guessing-game"
+          className={`games-page__game-row games-page__game-row--guessing-game ${
+            is_guessing_game_collapsed ? "games-page__game-row--collapsed" : ""
+          }`}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.4 }}
         >
-          <GameErrorBoundary on_reset={handle_quit_game}>
-            {is_guessing_game_complete &&
-            guessing_game_options &&
-            guessing_game_results ? (
-              <React.Suspense
-                fallback={
-                  <div className="guessing-game-play guessing-game-play--loading">
-                    <div className="loading-spinner">Loading results...</div>
-                  </div>
-                }
-              >
-                <GuessingGameComplete
+          <button
+            className="games-page__collapse-toggle"
+            onClick={() =>
+              set_is_guessing_game_collapsed(!is_guessing_game_collapsed)
+            }
+            aria-label={
+              is_guessing_game_collapsed
+                ? "Expand The Guessing Game"
+                : "Collapse The Guessing Game"
+            }
+            title={is_guessing_game_collapsed ? "Expand" : "Collapse"}
+          >
+            <i
+              className={`fas fa-chevron-${
+                is_guessing_game_collapsed ? "up" : "down"
+              }`}
+            ></i>
+          </button>
+          {is_guessing_game_collapsed && (
+            <h3 className="games-page__game-title">The Guessing Game</h3>
+          )}
+          {!is_guessing_game_collapsed && (
+            <GameErrorBoundary on_reset={handle_quit_game}>
+              {is_guessing_game_complete &&
+              guessing_game_options &&
+              guessing_game_results ? (
+                <React.Suspense
+                  fallback={
+                    <div className="guessing-game-play guessing-game-play--loading">
+                      <div className="loading-spinner">Loading results...</div>
+                    </div>
+                  }
+                >
+                  <GuessingGameComplete
+                    options={guessing_game_options}
+                    questions={guessing_game_results.questions}
+                    score={guessing_game_results.score}
+                    on_play_again={handle_play_again}
+                    on_return_to_start={handle_return_to_start}
+                  />
+                </React.Suspense>
+              ) : is_guessing_game_active && guessing_game_options ? (
+                <GuessingGamePlay
                   options={guessing_game_options}
-                  questions={guessing_game_results.questions}
-                  score={guessing_game_results.score}
-                  on_play_again={handle_play_again}
-                  on_return_to_start={handle_return_to_start}
+                  on_game_complete={handle_game_complete}
+                  on_quit={handle_quit_game}
                 />
-              </React.Suspense>
-            ) : is_guessing_game_active && guessing_game_options ? (
-              <GuessingGamePlay
-                options={guessing_game_options}
-                on_game_complete={handle_game_complete}
-                on_quit={handle_quit_game}
-              />
-            ) : (
-              <GuessingGameStart on_start_game={handle_start_guessing_game} />
-            )}
-          </GameErrorBoundary>
+              ) : (
+                <GuessingGameStart on_start_game={handle_start_guessing_game} />
+              )}
+            </GameErrorBoundary>
+          )}
         </motion.section>
 
         {/* Row 3: Future Game Placeholder */}

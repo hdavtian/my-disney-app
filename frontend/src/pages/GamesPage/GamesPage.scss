@@ -64,6 +64,7 @@
 
     // Game Row
     &__game-row {
+        position: relative;
         background: var(--card-bg);
         border: 1px solid var(--card-border);
         border-radius: var(--border-radius-lg);
@@ -81,12 +82,66 @@
             border-color: var(--accent-secondary);
         }
 
+        // Collapsed state
+        &--collapsed {
+            min-height: 60px;
+            padding: var(--space-4);
+        }
+
         // Placeholder styling
         &--placeholder {
             min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+    }
+
+    // Collapse/Expand Toggle Button
+    &__collapse-toggle {
+        position: absolute;
+        top: var(--space-3);
+        right: var(--space-3);
+        width: auto;
+        height: auto;
+        padding: var(--space-1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        color: var(--text-secondary);
+        border: none;
+        border-radius: 0;
+        font-size: 1.25rem;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        z-index: 10;
+        box-shadow: none;
+
+        &:hover {
+            color: var(--accent-primary);
+            transform: scale(1.1);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    // Game Title (shown when collapsed)
+    &__game-title {
+        font-size: var(--text-xl);
+        font-weight: var(--font-bold);
+        color: var(--text-primary);
+        margin: 0;
+        font-family: "Georgia", "Times New Roman", serif;
+
+        @include mobile-only {
+            font-size: var(--text-lg);
         }
     }
 

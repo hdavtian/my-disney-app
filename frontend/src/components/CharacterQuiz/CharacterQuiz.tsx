@@ -354,21 +354,6 @@ export const CharacterQuiz = React.memo(() => {
     selectedAnswer,
   ]);
 
-  if (!quiz.isVisible) {
-    return (
-      <div className="character-quiz character-quiz--hidden">
-        <button
-          type="button"
-          className="character-quiz__show-button"
-          onClick={quiz.toggleVisibility}
-          aria-label="Show Character Quiz"
-        >
-          🎮 Show Quiz
-        </button>
-      </div>
-    );
-  }
-
   return (
     <motion.div
       key="character-quiz-main"
@@ -378,19 +363,6 @@ export const CharacterQuiz = React.memo(() => {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Header with toggle button */}
-      <div className="character-quiz__header">
-        <h2 className="character-quiz__title">Character Quiz</h2>
-        <button
-          type="button"
-          className="character-quiz__hide-button"
-          onClick={quiz.toggleVisibility}
-          aria-label="Hide Character Quiz"
-        >
-          ✕
-        </button>
-      </div>
-
       {/* Loading State */}
       {quiz.isLoading && (
         <div className="character-quiz__loading">
