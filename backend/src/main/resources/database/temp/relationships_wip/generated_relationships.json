@@ -1,3418 +1,3418 @@
 [
-    {
-        "movie_url_id":  "aladdin_1992",
-        "character_url_id":  "aladdin",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "aladdin",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "aladdin_2019",
-        "character_url_id":  "aladdin",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_1951",
-        "character_url_id":  "alice",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_2010",
-        "character_url_id":  "alice",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "alice",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "lady_and_the_tramp_1955",
-        "character_url_id":  "angel",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "angel",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "lady_and_the_tramp_2019",
-        "character_url_id":  "angel",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "animal",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_muppets",
-        "character_url_id":  "animal",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "muppets_2_the_film",
-        "character_url_id":  "animal",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "animal",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "frozen_film",
-        "character_url_id":  "anna",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "anna",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozfrozen2filmfrozen_2a",
-        "character_url_id":  "anna",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_1989",
-        "character_url_id":  "ariel",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "ariel",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_2023",
-        "character_url_id":  "ariel",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "sleeping_beauty",
-        "character_url_id":  "aurora",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "waking_sleeping_beauty",
-        "character_url_id":  "aurora",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "aurora",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "bambi",
-        "character_url_id":  "bambi",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "bambi",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "big_hero_6",
-        "character_url_id":  "baymax",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "baymax",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_1991",
-        "character_url_id":  "beast",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_2017",
-        "character_url_id":  "beast",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "beast",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_1991",
-        "character_url_id":  "belle",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_2017",
-        "character_url_id":  "belle",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "belle",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "ben",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "bingo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "bingo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "peter_pan",
-        "character_url_id":  "captain_hook",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "captain_hook",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "peter_pan_wendy",
-        "character_url_id":  "captain_hook",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "pirates_of_the_caribbean_the_curse_of_the_black_pearl",
-        "character_url_id":  "captain_jack_sparrow",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "pirates_of_the_caribbean_dead_mans_chest",
-        "character_url_id":  "captain_jack_sparrow",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "pirates_of_the_caribbean_at_worlds_end",
-        "character_url_id":  "captain_jack_sparrow",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "pirates_of_the_caribbean_on_stranger_tides",
-        "character_url_id":  "captain_jack_sparrow",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "pirates_of_the_caribbean_dead_men_tell_no_tales",
-        "character_url_id":  "captain_jack_sparrow",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "captain_jack_sparrow",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  6
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "captain_jake",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_1951",
-        "character_url_id":  "cheshire_cat",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_2010",
-        "character_url_id":  "cheshire_cat",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "cheshire_cat",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_1991",
-        "character_url_id":  "chip_beauty_and_the_beast",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_2017",
-        "character_url_id":  "chip_beauty_and_the_beast",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "chip_beauty_and_the_beast",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "chip_n_dale",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "chip_n_dale_rescue_rangers",
-        "character_url_id":  "chip_n_dale",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "cinderella_1950",
-        "character_url_id":  "cinderella",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cinderella_2015",
-        "character_url_id":  "cinderella",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "cinderella",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_1991",
-        "character_url_id":  "cogsworth",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_2017",
-        "character_url_id":  "cogsworth",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "cogsworth",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "101_dalmatians",
-        "character_url_id":  "cruella_de_vil",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "cruella_de_vil",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "daisy_duck",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "doc_mcstuffins",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "donald_duck",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "snow_white_and_the_seven_dwarfs",
-        "character_url_id":  "dopey",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "dopey",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "snow_white",
-        "character_url_id":  "dopey",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "dumbo_1941",
-        "character_url_id":  "dumbo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "operation_dumbo_drop",
-        "character_url_id":  "dumbo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "dumbo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "dumbo_2019",
-        "character_url_id":  "dumbo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "the_many_adventures_of_winnie_the_pooh",
-        "character_url_id":  "eeyore",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "winnie_the_pooh",
-        "character_url_id":  "eeyore",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "eeyore",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "elena",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "frozen_film",
-        "character_url_id":  "elsa",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "elsa",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozfrozen2filmfrozen_2a",
-        "character_url_id":  "elsa",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "evie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "snow_white_and_the_seven_dwarfs",
-        "character_url_id":  "evil_queen",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "evil_queen",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "snow_white",
-        "character_url_id":  "evil_queen",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "fairies",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "figment",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "flash",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_1989",
-        "character_url_id":  "flounder",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "flounder",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_2023",
-        "character_url_id":  "flounder",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "bambi",
-        "character_url_id":  "flower",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "flower",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "tangled",
-        "character_url_id":  "flynn_rider",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "flynn_rider",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "fozzie_bear",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_muppets",
-        "character_url_id":  "fozzie_bear",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "muppets_2_the_film",
-        "character_url_id":  "fozzie_bear",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "fozzie_bear",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_1991",
-        "character_url_id":  "gaston",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_2017",
-        "character_url_id":  "gaston",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "gaston",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "genie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "goofy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "snow_white_and_the_seven_dwarfs",
-        "character_url_id":  "grumpy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "grumpy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "snow_white",
-        "character_url_id":  "grumpy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "cinderella_1950",
-        "character_url_id":  "gus",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cinderella_2015",
-        "character_url_id":  "gus",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "gus",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "hissy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_nightmare_before_christmas",
-        "character_url_id":  "jack_skellington",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jack_skellington",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "cinderella_1950",
-        "character_url_id":  "jaq",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cinderella_2015",
-        "character_url_id":  "jaq",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jaq",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "aladdin_1992",
-        "character_url_id":  "jasmine",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jasmine",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "aladdin_2019",
-        "character_url_id":  "jasmine",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "pinocchio_1940",
-        "character_url_id":  "jiminy_cricket",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jiminy_cricket",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "pinocchio_2022",
-        "character_url_id":  "jiminy_cricket",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "zootopia",
-        "character_url_id":  "judy_hopps",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "judy_hopps",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "kermit_the_frog",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_muppets",
-        "character_url_id":  "kermit_the_frog",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "muppets_2_the_film",
-        "character_url_id":  "kermit_the_frog",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "kermit_the_frog",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "frozen_film",
-        "character_url_id":  "kristoff",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "kristoff",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozfrozen2filmfrozen_2a",
-        "character_url_id":  "kristoff",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "lambie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "lilo_stitch_2002",
-        "character_url_id":  "lilo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "lilo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "lilo_stitch_2025",
-        "character_url_id":  "lilo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_1991",
-        "character_url_id":  "lumiere",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_2017",
-        "character_url_id":  "lumiere",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "lumiere",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_1951",
-        "character_url_id":  "mad_hatter",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_2010",
-        "character_url_id":  "mad_hatter",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mad_hatter",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mal",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "sleeping_beauty",
-        "character_url_id":  "maleficent",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "waking_sleeping_beauty",
-        "character_url_id":  "maleficent",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "maleficent",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_aristocats",
-        "character_url_id":  "marie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "marie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "moana",
-        "character_url_id":  "maui",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "maui",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "moana_2",
-        "character_url_id":  "maui",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "pocahontas",
-        "character_url_id":  "meeko",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "meeko",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mickey_mouse",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "minnie_mouse",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "miss_bunny",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "miss_piggy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_muppets",
-        "character_url_id":  "miss_piggy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "muppets_2_the_film",
-        "character_url_id":  "miss_piggy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "miss_piggy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "moana",
-        "character_url_id":  "moana",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "moana",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "moana_2",
-        "character_url_id":  "moana",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_1991",
-        "character_url_id":  "mrs_potts",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "beauty_and_the_beast_2017",
-        "character_url_id":  "mrs_potts",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mrs_potts",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "mulan_1998",
-        "character_url_id":  "mulan",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mulan",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "mulan_2020",
-        "character_url_id":  "mulan",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "mulan_1998",
-        "character_url_id":  "mushu",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mushu",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "mulan_2020",
-        "character_url_id":  "mushu",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "zootopia",
-        "character_url_id":  "nick_wilde",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "nick_wilde",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "frozen_film",
-        "character_url_id":  "olaf",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "olaf",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozfrozen2filmfrozen_2a",
-        "character_url_id":  "olaf",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_nightmare_before_christmas",
-        "character_url_id":  "oogie_boogie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "oogie_boogie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "tangled",
-        "character_url_id":  "pascal",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "pascal",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "peter_pan",
-        "character_url_id":  "peter_pan",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "peter_pan",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "peter_pan_wendy",
-        "character_url_id":  "peter_pan",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_many_adventures_of_winnie_the_pooh",
-        "character_url_id":  "piglet",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "winnie_the_pooh",
-        "character_url_id":  "piglet",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "piglet",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "pinocchio_1940",
-        "character_url_id":  "pinocchio",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "pinocchio",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "pinocchio_2022",
-        "character_url_id":  "pinocchio",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "pluto",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "pocahontas",
-        "character_url_id":  "pocahontas",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "pocahontas",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "snow_white_and_the_seven_dwarfs",
-        "character_url_id":  "prince_snow_white",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "prince_snow_white",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "snow_white",
-        "character_url_id":  "prince_snow_white",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "cinderella_1950",
-        "character_url_id":  "prince_charming",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cinderella_2015",
-        "character_url_id":  "prince_charming",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "prince_charming",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_1989",
-        "character_url_id":  "prince_eric",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "prince_eric",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_2023",
-        "character_url_id":  "prince_eric",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "moana",
-        "character_url_id":  "pua",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "pua",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "moana_2",
-        "character_url_id":  "pua",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_lion_king",
-        "character_url_id":  "pumbaa",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "pumbaa",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozlionkingtheliveactionfilmthe_lion_kinga",
-        "character_url_id":  "pumbaa",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "mufasa_the_lion_king",
-        "character_url_id":  "pumbaa",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_1951",
-        "character_url_id":  "queen_of_hearts",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_2010",
-        "character_url_id":  "queen_of_hearts",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "queen_of_hearts",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "tangled",
-        "character_url_id":  "rapunzel",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "rapunzel",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "101_dalmatians",
-        "character_url_id":  "rolly",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "rolly",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "cars",
-        "character_url_id":  "sally",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cars_2",
-        "character_url_id":  "sally",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "cars_3",
-        "character_url_id":  "sally",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "sally",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "scrump",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_1989",
-        "character_url_id":  "sebastian",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "sebastian",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_2023",
-        "character_url_id":  "sebastian",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_lion_king",
-        "character_url_id":  "simba",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "simba",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozlionkingtheliveactionfilmthe_lion_kinga",
-        "character_url_id":  "simba",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "mufasa_the_lion_king",
-        "character_url_id":  "simba",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "skylar",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "snow_white_and_the_seven_dwarfs",
-        "character_url_id":  "snow_white",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "snow_white",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "snow_white",
-        "character_url_id":  "snow_white",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "lilo_stitch_2002",
-        "character_url_id":  "stitch",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "stitch",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "lilo_stitch_2025",
-        "character_url_id":  "stitch",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "frozen_film",
-        "character_url_id":  "sven",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "sven",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozfrozen2filmfrozen_2a",
-        "character_url_id":  "sven",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "bambi",
-        "character_url_id":  "thumper",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "thumper",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_princess_and_the_frog",
-        "character_url_id":  "tiana",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "tiana",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_many_adventures_of_winnie_the_pooh",
-        "character_url_id":  "tigger",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "winnie_the_pooh",
-        "character_url_id":  "tigger",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "tigger",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_lion_king",
-        "character_url_id":  "timon",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "timon",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozlionkingtheliveactionfilmthe_lion_kinga",
-        "character_url_id":  "timon",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "mufasa_the_lion_king",
-        "character_url_id":  "timon",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "peter_pan",
-        "character_url_id":  "tinker_bell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "tinker_bell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "peter_pan_wendy",
-        "character_url_id":  "tinker_bell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "uma",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_1989",
-        "character_url_id":  "ursula",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "ursula",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_little_mermaid_2023",
-        "character_url_id":  "ursula",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_1951",
-        "character_url_id":  "white_rabbit",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "alice_in_wonderland_2010",
-        "character_url_id":  "white_rabbit",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "white_rabbit",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_many_adventures_of_winnie_the_pooh",
-        "character_url_id":  "winnie_the_pooh",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "winnie_the_pooh",
-        "character_url_id":  "winnie_the_pooh",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "winnie_the_pooh",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_nightmare_before_christmas",
-        "character_url_id":  "zero",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "zero",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "ant_man",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "black_panther",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "black_widow",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "captain_america",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "captain_marvel",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "doctor_strange",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_guardian",
-        "character_url_id":  "drax",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_film",
-        "character_url_id":  "drax",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_2",
-        "character_url_id":  "drax",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "drax",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_3",
-        "character_url_id":  "drax",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "the_guardian",
-        "character_url_id":  "gamora",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_film",
-        "character_url_id":  "gamora",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_2",
-        "character_url_id":  "gamora",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "gamora",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_3",
-        "character_url_id":  "gamora",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "green_goblin",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_guardian",
-        "character_url_id":  "groot",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_film",
-        "character_url_id":  "groot",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_2",
-        "character_url_id":  "groot",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "groot",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_3",
-        "character_url_id":  "groot",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "hawkeye",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "hulk",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "iron_man",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_guardian",
-        "character_url_id":  "rocket_raccoon",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_film",
-        "character_url_id":  "rocket_raccoon",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_2",
-        "character_url_id":  "rocket_raccoon",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "rocket_raccoon",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_3",
-        "character_url_id":  "rocket_raccoon",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "scarlet_witch",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "spider_man",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "the_guardian",
-        "character_url_id":  "star_lord",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_film",
-        "character_url_id":  "star_lord",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_2",
-        "character_url_id":  "star_lord",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "star_lord",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "guardians_of_the_galaxy_vol_3",
-        "character_url_id":  "star_lord",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "thanos",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "thor",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "3_peas_in_a_pod",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "3_peas_in_a_pod",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "3_peas_in_a_pod",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "3_peas_in_a_pod",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "3_peas_in_a_pod",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "aliens",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "aliens",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "aliens",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "aliens",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "aliens",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "inside_out",
-        "character_url_id":  "anger",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "anger",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "inside_out_2",
-        "character_url_id":  "anger",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "finding_dory",
-        "character_url_id":  "bailey",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "bailey",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "inside_out",
-        "character_url_id":  "bing_bong",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "bing_bong",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "inside_out_2",
-        "character_url_id":  "bing_bong",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "finding_nemo",
-        "character_url_id":  "bruce",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "bruce",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "bullseye",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "bullseye",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "bullseye",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "bullseye",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "bullseye",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "buzz_lightyear",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "buzz_lightyear",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "buzz_lightyear",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "buzz_lightyear",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "buzz_lightyear",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "superdad",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "ernest_scared_stupid",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "honey_i_blew_up_the_kid",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_muppet_christmas_carol",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "super_mario_bros",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "the_air_up_there",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  6
-    },
-    {
-        "movie_url_id":  "robert_a_heinleins_the_puppet_masters",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  7
-    },
-    {
-        "movie_url_id":  "muppet_treasure_island",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  8
-    },
-    {
-        "movie_url_id":  "up_close_and_personal",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  9
-    },
-    {
-        "movie_url_id":  "dougs_1supstsup_movie",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  10
-    },
-    {
-        "movie_url_id":  "the_13supthsup_warrior",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  11
-    },
-    {
-        "movie_url_id":  "25supthsup_hour",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  12
-    },
-    {
-        "movie_url_id":  "step_up",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  13
-    },
-    {
-        "movie_url_id":  "step_up_2_the_streets",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  14
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  15
-    },
-    {
-        "movie_url_id":  "walt_el_grupo",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  16
-    },
-    {
-        "movie_url_id":  "step_up_3d",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  17
-    },
-    {
-        "movie_url_id":  "the_muppets",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  18
-    },
-    {
-        "movie_url_id":  "muppets_2_the_film",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  19
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  20
-    },
-    {
-        "movie_url_id":  "ant_man_and_the_wasp_quantumania_duplicate",
-        "character_url_id":  "carl",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  21
-    },
-    {
-        "movie_url_id":  "cars",
-        "character_url_id":  "cruz_ramirez",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cars_2",
-        "character_url_id":  "cruz_ramirez",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "cars_3",
-        "character_url_id":  "cruz_ramirez",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "cruz_ramirez",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "inside_out",
-        "character_url_id":  "disgust",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "disgust",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "inside_out_2",
-        "character_url_id":  "disgust",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "finding_nemo",
-        "character_url_id":  "dory",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "dory",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "superdad",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "ernest_scared_stupid",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "honey_i_blew_up_the_kid",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_muppet_christmas_carol",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "super_mario_bros",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "the_air_up_there",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  6
-    },
-    {
-        "movie_url_id":  "robert_a_heinleins_the_puppet_masters",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  7
-    },
-    {
-        "movie_url_id":  "muppet_treasure_island",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  8
-    },
-    {
-        "movie_url_id":  "up_close_and_personal",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  9
-    },
-    {
-        "movie_url_id":  "dougs_1supstsup_movie",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  10
-    },
-    {
-        "movie_url_id":  "the_13supthsup_warrior",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  11
-    },
-    {
-        "movie_url_id":  "25supthsup_hour",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  12
-    },
-    {
-        "movie_url_id":  "step_up",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  13
-    },
-    {
-        "movie_url_id":  "step_up_2_the_streets",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  14
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  15
-    },
-    {
-        "movie_url_id":  "walt_el_grupo",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  16
-    },
-    {
-        "movie_url_id":  "step_up_3d",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  17
-    },
-    {
-        "movie_url_id":  "the_muppets",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  18
-    },
-    {
-        "movie_url_id":  "muppets_2_the_film",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  19
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  20
-    },
-    {
-        "movie_url_id":  "ant_man_and_the_wasp_quantumania_duplicate",
-        "character_url_id":  "dug",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  21
-    },
-    {
-        "movie_url_id":  "the_incredibles",
-        "character_url_id":  "edna_mode",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "edna_mode",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozincredibles2filmincredibles_2a",
-        "character_url_id":  "edna_mode",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "eve",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "inside_out",
-        "character_url_id":  "fear",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "fear",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "inside_out_2",
-        "character_url_id":  "fear",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "hamm",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "hamm",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "hamm",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "hamm",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "hamm",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "the_incredibles",
-        "character_url_id":  "jack_jack",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jack_jack",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozincredibles2filmincredibles_2a",
-        "character_url_id":  "jack_jack",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "cars",
-        "character_url_id":  "jackson_storm",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cars_2",
-        "character_url_id":  "jackson_storm",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "cars_3",
-        "character_url_id":  "jackson_storm",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jackson_storm",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "jessie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "jessie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "jessie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jessie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "jessie",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "inside_out",
-        "character_url_id":  "joy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "joy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "inside_out_2",
-        "character_url_id":  "joy",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "cars",
-        "character_url_id":  "lightning_mcqueen",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "cars_2",
-        "character_url_id":  "lightning_mcqueen",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "cars_3",
-        "character_url_id":  "lightning_mcqueen",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "lightning_mcqueen",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "brave",
-        "character_url_id":  "merida",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "merida",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "captain_america_brave_new_world",
-        "character_url_id":  "merida",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "monsters_inc",
-        "character_url_id":  "mike_wazowski",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mike_wazowski",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "the_incredibles",
-        "character_url_id":  "mr_incredible",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mr_incredible",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozincredibles2filmincredibles_2a",
-        "character_url_id":  "mr_incredible",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_incredibles",
-        "character_url_id":  "mrs_incredible",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "mrs_incredible",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "a_hrefhttpsd23comatozincredibles2filmincredibles_2a",
-        "character_url_id":  "mrs_incredible",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "finding_nemo",
-        "character_url_id":  "nemo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "nemo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "rex",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "rex",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "rex",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "rex",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "rex",
-        "character_role":  "sidekick",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "superdad",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "ernest_scared_stupid",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "honey_i_blew_up_the_kid",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "the_muppet_christmas_carol",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "super_mario_bros",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "the_air_up_there",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  6
-    },
-    {
-        "movie_url_id":  "robert_a_heinleins_the_puppet_masters",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  7
-    },
-    {
-        "movie_url_id":  "muppet_treasure_island",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  8
-    },
-    {
-        "movie_url_id":  "up_close_and_personal",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  9
-    },
-    {
-        "movie_url_id":  "dougs_1supstsup_movie",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  10
-    },
-    {
-        "movie_url_id":  "the_13supthsup_warrior",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  11
-    },
-    {
-        "movie_url_id":  "25supthsup_hour",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  12
-    },
-    {
-        "movie_url_id":  "step_up",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  13
-    },
-    {
-        "movie_url_id":  "step_up_2_the_streets",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  14
-    },
-    {
-        "movie_url_id":  "up",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  15
-    },
-    {
-        "movie_url_id":  "walt_el_grupo",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  16
-    },
-    {
-        "movie_url_id":  "step_up_3d",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  17
-    },
-    {
-        "movie_url_id":  "the_muppets",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  18
-    },
-    {
-        "movie_url_id":  "muppets_2_the_film",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  19
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  20
-    },
-    {
-        "movie_url_id":  "ant_man_and_the_wasp_quantumania_duplicate",
-        "character_url_id":  "russell",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  21
-    },
-    {
-        "movie_url_id":  "inside_out",
-        "character_url_id":  "sadness",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "sadness",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "inside_out_2",
-        "character_url_id":  "sadness",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "finding_dory",
-        "character_url_id":  "sea_otters",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "sea_otters",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "finding_nemo",
-        "character_url_id":  "squirt",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "squirt",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "monsters_inc",
-        "character_url_id":  "sulley",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "sulley",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story",
-        "character_url_id":  "woody",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "toy_story_2",
-        "character_url_id":  "woody",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "toy_story_3",
-        "character_url_id":  "woody",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  3
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "woody",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  4
-    },
-    {
-        "movie_url_id":  "toy_story_4",
-        "character_url_id":  "woody",
-        "character_role":  "protagonist",
-        "importance_level":  1,
-        "sort_order":  5
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "ahsoka_tano",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "bb_8",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "boba_fett",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "c_3po",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "captain_phasma",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "chewbacca",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "darth_vader",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "ewoks",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "finn",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "han_solo",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "jabba_the_hutt",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "kylo_ren",
-        "character_role":  "antagonist",
-        "importance_level":  1,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "luke_skywalker",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "obi_wan_kenobi",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "poe_dameron",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "porgs",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "princess_leia",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "r2_d2",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "rey",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "rogue_one_a_star_wars_story",
-        "character_url_id":  "sergeant_jyn_erso",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "sergeant_jyn_erso",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  2
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "stormtroopers",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "the_child",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    },
-    {
-        "movie_url_id":  "",
-        "character_url_id":  "yoda",
-        "character_role":  "supporting",
-        "importance_level":  2,
-        "sort_order":  1
-    }
+  {
+    "movie_url_id": "aladdin_1992",
+    "character_url_id": "aladdin",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "aladdin",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "aladdin_2019",
+    "character_url_id": "aladdin",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_1951",
+    "character_url_id": "alice",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_2010",
+    "character_url_id": "alice",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "alice",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "lady_and_the_tramp_1955",
+    "character_url_id": "angel",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "angel",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "lady_and_the_tramp_2019",
+    "character_url_id": "angel",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "animal",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_muppets",
+    "character_url_id": "animal",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "muppets_2_the_film",
+    "character_url_id": "animal",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "animal",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "frozen_film",
+    "character_url_id": "anna",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "anna",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "frozen_2",
+    "character_url_id": "anna",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_little_mermaid_1989",
+    "character_url_id": "ariel",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "ariel",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_little_mermaid_2023",
+    "character_url_id": "ariel",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "sleeping_beauty",
+    "character_url_id": "aurora",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "waking_sleeping_beauty",
+    "character_url_id": "aurora",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "aurora",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "bambi",
+    "character_url_id": "bambi",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "bambi",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "big_hero_6",
+    "character_url_id": "baymax",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "baymax",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "beast",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_2017",
+    "character_url_id": "beast",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "beast",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "belle",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_2017",
+    "character_url_id": "belle",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "belle",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "ben",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "bingo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "bingo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "peter_pan",
+    "character_url_id": "captain_hook",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "captain_hook",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "peter_pan_wendy",
+    "character_url_id": "captain_hook",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "pirates_of_the_caribbean_the_curse_of_the_black_pearl",
+    "character_url_id": "captain_jack_sparrow",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "pirates_of_the_caribbean_dead_mans_chest",
+    "character_url_id": "captain_jack_sparrow",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "pirates_of_the_caribbean_at_worlds_end",
+    "character_url_id": "captain_jack_sparrow",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "pirates_of_the_caribbean_on_stranger_tides",
+    "character_url_id": "captain_jack_sparrow",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "pirates_of_the_caribbean_dead_men_tell_no_tales",
+    "character_url_id": "captain_jack_sparrow",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "captain_jack_sparrow",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 6
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "captain_jake",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_1951",
+    "character_url_id": "cheshire_cat",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_2010",
+    "character_url_id": "cheshire_cat",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "cheshire_cat",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "chip_beauty_and_the_beast",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_2017",
+    "character_url_id": "chip_beauty_and_the_beast",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "chip_beauty_and_the_beast",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "chip_n_dale",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "chip_n_dale_rescue_rangers",
+    "character_url_id": "chip_n_dale",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "cinderella_1950",
+    "character_url_id": "cinderella",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cinderella_2015",
+    "character_url_id": "cinderella",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "cinderella",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "cogsworth",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_2017",
+    "character_url_id": "cogsworth",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "cogsworth",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "101_dalmatians",
+    "character_url_id": "cruella_de_vil",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "cruella_de_vil",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "daisy_duck",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "doc_mcstuffins",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "donald_duck",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "snow_white_and_the_seven_dwarfs",
+    "character_url_id": "dopey",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "dopey",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "snow_white",
+    "character_url_id": "dopey",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "dumbo_1941",
+    "character_url_id": "dumbo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "operation_dumbo_drop",
+    "character_url_id": "dumbo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "dumbo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "dumbo_2019",
+    "character_url_id": "dumbo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "the_many_adventures_of_winnie_the_pooh",
+    "character_url_id": "eeyore",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "winnie_the_pooh",
+    "character_url_id": "eeyore",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "eeyore",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "elena",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "frozen_film",
+    "character_url_id": "elsa",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "elsa",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "frozen_2",
+    "character_url_id": "elsa",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "evie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "snow_white_and_the_seven_dwarfs",
+    "character_url_id": "evil_queen",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "evil_queen",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "snow_white",
+    "character_url_id": "evil_queen",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "fairies",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "figment",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "flash",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_little_mermaid_1989",
+    "character_url_id": "flounder",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "flounder",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_little_mermaid_2023",
+    "character_url_id": "flounder",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "bambi",
+    "character_url_id": "flower",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "flower",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "tangled",
+    "character_url_id": "flynn_rider",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "flynn_rider",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "fozzie_bear",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_muppets",
+    "character_url_id": "fozzie_bear",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "muppets_2_the_film",
+    "character_url_id": "fozzie_bear",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "fozzie_bear",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "gaston",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_2017",
+    "character_url_id": "gaston",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "gaston",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "genie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "goofy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "snow_white_and_the_seven_dwarfs",
+    "character_url_id": "grumpy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "grumpy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "snow_white",
+    "character_url_id": "grumpy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "cinderella_1950",
+    "character_url_id": "gus",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cinderella_2015",
+    "character_url_id": "gus",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "gus",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "hissy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_nightmare_before_christmas",
+    "character_url_id": "jack_skellington",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jack_skellington",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "cinderella_1950",
+    "character_url_id": "jaq",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cinderella_2015",
+    "character_url_id": "jaq",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jaq",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "aladdin_1992",
+    "character_url_id": "jasmine",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jasmine",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "aladdin_2019",
+    "character_url_id": "jasmine",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "pinocchio_1940",
+    "character_url_id": "jiminy_cricket",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jiminy_cricket",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "pinocchio_2022",
+    "character_url_id": "jiminy_cricket",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "zootopia",
+    "character_url_id": "judy_hopps",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "judy_hopps",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "kermit_the_frog",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_muppets",
+    "character_url_id": "kermit_the_frog",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "muppets_2_the_film",
+    "character_url_id": "kermit_the_frog",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "kermit_the_frog",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "frozen_film",
+    "character_url_id": "kristoff",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "kristoff",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "frozen_2",
+    "character_url_id": "kristoff",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "lambie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "lilo_stitch_2002",
+    "character_url_id": "lilo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "lilo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "lilo_stitch_2025",
+    "character_url_id": "lilo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "lumiere",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_2017",
+    "character_url_id": "lumiere",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "lumiere",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_1951",
+    "character_url_id": "mad_hatter",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_2010",
+    "character_url_id": "mad_hatter",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mad_hatter",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mal",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "sleeping_beauty",
+    "character_url_id": "maleficent",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "waking_sleeping_beauty",
+    "character_url_id": "maleficent",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "maleficent",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_aristocats",
+    "character_url_id": "marie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "marie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "moana",
+    "character_url_id": "maui",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "maui",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "moana_2",
+    "character_url_id": "maui",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "pocahontas",
+    "character_url_id": "meeko",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "meeko",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mickey_mouse",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "minnie_mouse",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "miss_bunny",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "miss_piggy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_muppets",
+    "character_url_id": "miss_piggy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "muppets_2_the_film",
+    "character_url_id": "miss_piggy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "miss_piggy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "moana",
+    "character_url_id": "moana",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "moana",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "moana_2",
+    "character_url_id": "moana",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_1991",
+    "character_url_id": "mrs_potts",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "beauty_and_the_beast_2017",
+    "character_url_id": "mrs_potts",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mrs_potts",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "mulan_1998",
+    "character_url_id": "mulan",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mulan",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "mulan_2020",
+    "character_url_id": "mulan",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "mulan_1998",
+    "character_url_id": "mushu",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mushu",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "mulan_2020",
+    "character_url_id": "mushu",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "zootopia",
+    "character_url_id": "nick_wilde",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "nick_wilde",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "frozen_film",
+    "character_url_id": "olaf",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "olaf",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "frozen_2",
+    "character_url_id": "olaf",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_nightmare_before_christmas",
+    "character_url_id": "oogie_boogie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "oogie_boogie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "tangled",
+    "character_url_id": "pascal",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "pascal",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "peter_pan",
+    "character_url_id": "peter_pan",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "peter_pan",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "peter_pan_wendy",
+    "character_url_id": "peter_pan",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_many_adventures_of_winnie_the_pooh",
+    "character_url_id": "piglet",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "winnie_the_pooh",
+    "character_url_id": "piglet",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "piglet",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "pinocchio_1940",
+    "character_url_id": "pinocchio",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "pinocchio",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "pinocchio_2022",
+    "character_url_id": "pinocchio",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "pluto",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "pocahontas",
+    "character_url_id": "pocahontas",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "pocahontas",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "snow_white_and_the_seven_dwarfs",
+    "character_url_id": "prince_snow_white",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "prince_snow_white",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "snow_white",
+    "character_url_id": "prince_snow_white",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "cinderella_1950",
+    "character_url_id": "prince_charming",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cinderella_2015",
+    "character_url_id": "prince_charming",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "prince_charming",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_little_mermaid_1989",
+    "character_url_id": "prince_eric",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "prince_eric",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_little_mermaid_2023",
+    "character_url_id": "prince_eric",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "moana",
+    "character_url_id": "pua",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "pua",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "moana_2",
+    "character_url_id": "pua",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_lion_king",
+    "character_url_id": "pumbaa",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "pumbaa",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_lion_king",
+    "character_url_id": "pumbaa",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "mufasa_the_lion_king",
+    "character_url_id": "pumbaa",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_1951",
+    "character_url_id": "queen_of_hearts",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_2010",
+    "character_url_id": "queen_of_hearts",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "queen_of_hearts",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "tangled",
+    "character_url_id": "rapunzel",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "rapunzel",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "101_dalmatians",
+    "character_url_id": "rolly",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "rolly",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "cars",
+    "character_url_id": "sally",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cars_2",
+    "character_url_id": "sally",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "cars_3",
+    "character_url_id": "sally",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "sally",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "scrump",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_little_mermaid_1989",
+    "character_url_id": "sebastian",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "sebastian",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_little_mermaid_2023",
+    "character_url_id": "sebastian",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_lion_king",
+    "character_url_id": "simba",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "simba",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_lion_king",
+    "character_url_id": "simba",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "mufasa_the_lion_king",
+    "character_url_id": "simba",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "skylar",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "snow_white_and_the_seven_dwarfs",
+    "character_url_id": "snow_white",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "snow_white",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "snow_white",
+    "character_url_id": "snow_white",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "lilo_stitch_2002",
+    "character_url_id": "stitch",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "stitch",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "lilo_stitch_2025",
+    "character_url_id": "stitch",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "frozen_film",
+    "character_url_id": "sven",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "sven",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "frozen_2",
+    "character_url_id": "sven",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "bambi",
+    "character_url_id": "thumper",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "thumper",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_princess_and_the_frog",
+    "character_url_id": "tiana",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "tiana",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_many_adventures_of_winnie_the_pooh",
+    "character_url_id": "tigger",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "winnie_the_pooh",
+    "character_url_id": "tigger",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "tigger",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_lion_king",
+    "character_url_id": "timon",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "timon",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_lion_king",
+    "character_url_id": "timon",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "mufasa_the_lion_king",
+    "character_url_id": "timon",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "peter_pan",
+    "character_url_id": "tinker_bell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "tinker_bell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "peter_pan_wendy",
+    "character_url_id": "tinker_bell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "uma",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_little_mermaid_1989",
+    "character_url_id": "ursula",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "ursula",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_little_mermaid_2023",
+    "character_url_id": "ursula",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_1951",
+    "character_url_id": "white_rabbit",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "alice_in_wonderland_2010",
+    "character_url_id": "white_rabbit",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "white_rabbit",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_many_adventures_of_winnie_the_pooh",
+    "character_url_id": "winnie_the_pooh",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "winnie_the_pooh",
+    "character_url_id": "winnie_the_pooh",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "winnie_the_pooh",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_nightmare_before_christmas",
+    "character_url_id": "zero",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "zero",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "ant_man",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "black_panther",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "black_widow",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "captain_america",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "captain_marvel",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "doctor_strange",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_guardian",
+    "character_url_id": "drax",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_film",
+    "character_url_id": "drax",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_2",
+    "character_url_id": "drax",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "drax",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_3",
+    "character_url_id": "drax",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "the_guardian",
+    "character_url_id": "gamora",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_film",
+    "character_url_id": "gamora",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_2",
+    "character_url_id": "gamora",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "gamora",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_3",
+    "character_url_id": "gamora",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "green_goblin",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_guardian",
+    "character_url_id": "groot",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_film",
+    "character_url_id": "groot",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_2",
+    "character_url_id": "groot",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "groot",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_3",
+    "character_url_id": "groot",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "hawkeye",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "hulk",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "iron_man",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_guardian",
+    "character_url_id": "rocket_raccoon",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_film",
+    "character_url_id": "rocket_raccoon",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_2",
+    "character_url_id": "rocket_raccoon",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "rocket_raccoon",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_3",
+    "character_url_id": "rocket_raccoon",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "scarlet_witch",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "spider_man",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "the_guardian",
+    "character_url_id": "star_lord",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_film",
+    "character_url_id": "star_lord",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_2",
+    "character_url_id": "star_lord",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "star_lord",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "guardians_of_the_galaxy_vol_3",
+    "character_url_id": "star_lord",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "thanos",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "thor",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "3_peas_in_a_pod",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "3_peas_in_a_pod",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "3_peas_in_a_pod",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "3_peas_in_a_pod",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "3_peas_in_a_pod",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "aliens",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "aliens",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "aliens",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "aliens",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "aliens",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "inside_out",
+    "character_url_id": "anger",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "anger",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "inside_out_2",
+    "character_url_id": "anger",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "finding_dory",
+    "character_url_id": "bailey",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "bailey",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "inside_out",
+    "character_url_id": "bing_bong",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "bing_bong",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "inside_out_2",
+    "character_url_id": "bing_bong",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "finding_nemo",
+    "character_url_id": "bruce",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "bruce",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "bullseye",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "bullseye",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "bullseye",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "bullseye",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "bullseye",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "buzz_lightyear",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "buzz_lightyear",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "buzz_lightyear",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "buzz_lightyear",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "buzz_lightyear",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "superdad",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "ernest_scared_stupid",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "honey_i_blew_up_the_kid",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_muppet_christmas_carol",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "super_mario_bros",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "the_air_up_there",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 6
+  },
+  {
+    "movie_url_id": "robert_a_heinleins_the_puppet_masters",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 7
+  },
+  {
+    "movie_url_id": "muppet_treasure_island",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 8
+  },
+  {
+    "movie_url_id": "up_close_and_personal",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 9
+  },
+  {
+    "movie_url_id": "dougs_1supstsup_movie",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 10
+  },
+  {
+    "movie_url_id": "the_13supthsup_warrior",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 11
+  },
+  {
+    "movie_url_id": "25supthsup_hour",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 12
+  },
+  {
+    "movie_url_id": "step_up",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 13
+  },
+  {
+    "movie_url_id": "step_up_2_the_streets",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 14
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 15
+  },
+  {
+    "movie_url_id": "walt_el_grupo",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 16
+  },
+  {
+    "movie_url_id": "step_up_3d",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 17
+  },
+  {
+    "movie_url_id": "the_muppets",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 18
+  },
+  {
+    "movie_url_id": "muppets_2_the_film",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 19
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 20
+  },
+  {
+    "movie_url_id": "ant_man_and_the_wasp_quantumania_duplicate",
+    "character_url_id": "carl",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 21
+  },
+  {
+    "movie_url_id": "cars",
+    "character_url_id": "cruz_ramirez",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cars_2",
+    "character_url_id": "cruz_ramirez",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "cars_3",
+    "character_url_id": "cruz_ramirez",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "cruz_ramirez",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "inside_out",
+    "character_url_id": "disgust",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "disgust",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "inside_out_2",
+    "character_url_id": "disgust",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "finding_nemo",
+    "character_url_id": "dory",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "dory",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "superdad",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "ernest_scared_stupid",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "honey_i_blew_up_the_kid",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_muppet_christmas_carol",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "super_mario_bros",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "the_air_up_there",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 6
+  },
+  {
+    "movie_url_id": "robert_a_heinleins_the_puppet_masters",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 7
+  },
+  {
+    "movie_url_id": "muppet_treasure_island",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 8
+  },
+  {
+    "movie_url_id": "up_close_and_personal",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 9
+  },
+  {
+    "movie_url_id": "dougs_1supstsup_movie",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 10
+  },
+  {
+    "movie_url_id": "the_13supthsup_warrior",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 11
+  },
+  {
+    "movie_url_id": "25supthsup_hour",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 12
+  },
+  {
+    "movie_url_id": "step_up",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 13
+  },
+  {
+    "movie_url_id": "step_up_2_the_streets",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 14
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 15
+  },
+  {
+    "movie_url_id": "walt_el_grupo",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 16
+  },
+  {
+    "movie_url_id": "step_up_3d",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 17
+  },
+  {
+    "movie_url_id": "the_muppets",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 18
+  },
+  {
+    "movie_url_id": "muppets_2_the_film",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 19
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 20
+  },
+  {
+    "movie_url_id": "ant_man_and_the_wasp_quantumania_duplicate",
+    "character_url_id": "dug",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 21
+  },
+  {
+    "movie_url_id": "the_incredibles",
+    "character_url_id": "edna_mode",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "edna_mode",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "incredibles_2",
+    "character_url_id": "edna_mode",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "eve",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "inside_out",
+    "character_url_id": "fear",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "fear",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "inside_out_2",
+    "character_url_id": "fear",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "hamm",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "hamm",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "hamm",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "hamm",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "hamm",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "the_incredibles",
+    "character_url_id": "jack_jack",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jack_jack",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "incredibles_2",
+    "character_url_id": "jack_jack",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "cars",
+    "character_url_id": "jackson_storm",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cars_2",
+    "character_url_id": "jackson_storm",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "cars_3",
+    "character_url_id": "jackson_storm",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jackson_storm",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "jessie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "jessie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "jessie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jessie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "jessie",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "inside_out",
+    "character_url_id": "joy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "joy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "inside_out_2",
+    "character_url_id": "joy",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "cars",
+    "character_url_id": "lightning_mcqueen",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "cars_2",
+    "character_url_id": "lightning_mcqueen",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "cars_3",
+    "character_url_id": "lightning_mcqueen",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "lightning_mcqueen",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "brave",
+    "character_url_id": "merida",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "merida",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "captain_america_brave_new_world",
+    "character_url_id": "merida",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "monsters_inc",
+    "character_url_id": "mike_wazowski",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mike_wazowski",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "the_incredibles",
+    "character_url_id": "mr_incredible",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mr_incredible",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "incredibles_2",
+    "character_url_id": "mr_incredible",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_incredibles",
+    "character_url_id": "mrs_incredible",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "mrs_incredible",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "incredibles_2",
+    "character_url_id": "mrs_incredible",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "finding_nemo",
+    "character_url_id": "nemo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "nemo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "rex",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "rex",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "rex",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "rex",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "rex",
+    "character_role": "sidekick",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "superdad",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "ernest_scared_stupid",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "honey_i_blew_up_the_kid",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "the_muppet_christmas_carol",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "super_mario_bros",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "the_air_up_there",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 6
+  },
+  {
+    "movie_url_id": "robert_a_heinleins_the_puppet_masters",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 7
+  },
+  {
+    "movie_url_id": "muppet_treasure_island",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 8
+  },
+  {
+    "movie_url_id": "up_close_and_personal",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 9
+  },
+  {
+    "movie_url_id": "dougs_1supstsup_movie",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 10
+  },
+  {
+    "movie_url_id": "the_13supthsup_warrior",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 11
+  },
+  {
+    "movie_url_id": "25supthsup_hour",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 12
+  },
+  {
+    "movie_url_id": "step_up",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 13
+  },
+  {
+    "movie_url_id": "step_up_2_the_streets",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 14
+  },
+  {
+    "movie_url_id": "up",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 15
+  },
+  {
+    "movie_url_id": "walt_el_grupo",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 16
+  },
+  {
+    "movie_url_id": "step_up_3d",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 17
+  },
+  {
+    "movie_url_id": "the_muppets",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 18
+  },
+  {
+    "movie_url_id": "muppets_2_the_film",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 19
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 20
+  },
+  {
+    "movie_url_id": "ant_man_and_the_wasp_quantumania_duplicate",
+    "character_url_id": "russell",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 21
+  },
+  {
+    "movie_url_id": "inside_out",
+    "character_url_id": "sadness",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "sadness",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "inside_out_2",
+    "character_url_id": "sadness",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "finding_dory",
+    "character_url_id": "sea_otters",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "sea_otters",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "finding_nemo",
+    "character_url_id": "squirt",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "squirt",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "monsters_inc",
+    "character_url_id": "sulley",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "sulley",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story",
+    "character_url_id": "woody",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "toy_story_2",
+    "character_url_id": "woody",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "toy_story_3",
+    "character_url_id": "woody",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 3
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "woody",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 4
+  },
+  {
+    "movie_url_id": "toy_story_4",
+    "character_url_id": "woody",
+    "character_role": "protagonist",
+    "importance_level": 1,
+    "sort_order": 5
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "ahsoka_tano",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "bb_8",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "boba_fett",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "c_3po",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "captain_phasma",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "chewbacca",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "darth_vader",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "ewoks",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "finn",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "han_solo",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "jabba_the_hutt",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "kylo_ren",
+    "character_role": "antagonist",
+    "importance_level": 1,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "luke_skywalker",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "obi_wan_kenobi",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "poe_dameron",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "porgs",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "princess_leia",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "r2_d2",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "rey",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "rogue_one_a_star_wars_story",
+    "character_url_id": "sergeant_jyn_erso",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "sergeant_jyn_erso",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 2
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "stormtroopers",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "the_child",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  },
+  {
+    "movie_url_id": "",
+    "character_url_id": "yoda",
+    "character_role": "supporting",
+    "importance_level": 2,
+    "sort_order": 1
+  }
 ]
