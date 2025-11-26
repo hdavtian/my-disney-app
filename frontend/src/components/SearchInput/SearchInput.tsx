@@ -60,12 +60,6 @@ export const SearchInput = <T extends { id: number | string }>({
   useEffect(() => {
     // Only update query if initialValue has actually changed
     if (prevInitialValueRef.current !== initialValue) {
-      console.log(
-        "[SearchInput] initialValue changed from",
-        prevInitialValueRef.current,
-        "to",
-        initialValue
-      );
       prevInitialValueRef.current = initialValue;
       setQuery(initialValue);
 
@@ -102,16 +96,7 @@ export const SearchInput = <T extends { id: number | string }>({
 
   // Debounced search using refs to avoid recreating timer on parent re-renders
   useEffect(() => {
-    console.log(
-      "[SearchInput] Debounced effect triggered - query:",
-      query,
-      "minCharacters:",
-      minCharacters
-    );
-
     const timer = setTimeout(() => {
-      console.log("[SearchInput] Timer fired after 300ms - query:", query);
-
       // Use refs to get current values without triggering effect re-runs
       const currentItems = itemsRef.current;
       const currentOnSearch = onSearchRef.current;
@@ -119,15 +104,7 @@ export const SearchInput = <T extends { id: number | string }>({
       const currentIsSelecting = isSelectingRef.current;
       const currentUserDismissed = userDismissedRef.current;
 
-      console.log(
-        "[SearchInput] Current state - isSelecting:",
-        currentIsSelecting,
-        "userDismissed:",
-        currentUserDismissed
-      );
-
       if (query.length < minCharacters) {
-        console.log("[SearchInput] Query too short, clearing results");
         setFilteredResults([]);
         setShowDropdown(false);
         // Only call onSearch if there was a previous search (don't call on mount)
@@ -148,38 +125,15 @@ export const SearchInput = <T extends { id: number | string }>({
         });
       });
 
-      console.log(
-        "[SearchInput] Search results:",
-        results.length,
-        "items found"
-      );
-      console.log(
-        "[SearchInput] Should show dropdown?",
-        !currentIsSelecting && !currentUserDismissed && results.length > 0
-      );
-
       setFilteredResults(results);
       // Only show dropdown if user hasn't dismissed it and not currently selecting
       if (!currentIsSelecting && !currentUserDismissed) {
-        const shouldShow = results.length > 0;
-        console.log("[SearchInput] Setting showDropdown to:", shouldShow);
-        setShowDropdown(shouldShow);
-      } else {
-        console.log(
-          "[SearchInput] NOT showing dropdown - isSelecting:",
-          currentIsSelecting,
-          "userDismissed:",
-          currentUserDismissed
-        );
+        setShowDropdown(results.length > 0);
       }
       currentOnSearch(results, query);
-      console.log("[SearchInput] Called onSearch callback");
     }, 300); // Debounce delay
 
-    return () => {
-      console.log("[SearchInput] Cleaning up timer for query:", query);
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [query, minCharacters]); // Only query and minCharacters trigger new timers
 
   // Handle keyboard navigation
