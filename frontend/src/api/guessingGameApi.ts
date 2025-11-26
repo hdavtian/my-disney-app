@@ -10,15 +10,14 @@ import {
   character_response,
   difficulty_level,
 } from "../types/guessingGame";
-
-const API_BASE_URL = "http://localhost:8080/api";
+import { getApiUrl } from "../config/api";
 
 /**
  * Get all movie IDs that have hints available
  */
 export const fetch_movie_ids_with_hints =
   async (): Promise<ids_with_hints_response> => {
-    const response = await fetch(`${API_BASE_URL}/movies/ids-with-hints`);
+    const response = await fetch(getApiUrl("/api/movies/ids-with-hints"));
     if (!response.ok) {
       throw new Error(
         `Failed to fetch movie IDs with hints: ${response.statusText}`
@@ -32,7 +31,7 @@ export const fetch_movie_ids_with_hints =
  */
 export const fetch_character_ids_with_hints =
   async (): Promise<ids_with_hints_response> => {
-    const response = await fetch(`${API_BASE_URL}/characters/ids-with-hints`);
+    const response = await fetch(getApiUrl("/api/characters/ids-with-hints"));
     if (!response.ok) {
       throw new Error(
         `Failed to fetch character IDs with hints: ${response.statusText}`
@@ -52,7 +51,9 @@ export const fetch_random_movies_except = async (
 ): Promise<movie_response[]> => {
   const exclude_param =
     exclude_ids.length > 0 ? `exclude_ids=${exclude_ids.join(",")}` : "";
-  const url = `${API_BASE_URL}/movies/random-except?${exclude_param}&count=${count}`;
+  const url = getApiUrl(
+    `/api/movies/random-except?${exclude_param}&count=${count}`
+  );
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -72,7 +73,9 @@ export const fetch_random_characters_except = async (
 ): Promise<character_response[]> => {
   const exclude_param =
     exclude_ids.length > 0 ? `exclude_ids=${exclude_ids.join(",")}` : "";
-  const url = `${API_BASE_URL}/characters/random-except?${exclude_param}&count=${count}`;
+  const url = getApiUrl(
+    `/api/characters/random-except?${exclude_param}&count=${count}`
+  );
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -92,7 +95,9 @@ export const fetch_random_movie_hint = async (
   movie_url_id: string,
   difficulty: difficulty_level
 ): Promise<game_hint> => {
-  const url = `${API_BASE_URL}/movie-hints/random?movie_url_id=${movie_url_id}&difficulty=${difficulty}`;
+  const url = getApiUrl(
+    `/api/movie-hints/random?movie_url_id=${movie_url_id}&difficulty=${difficulty}`
+  );
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -108,7 +113,7 @@ export const fetch_random_movie_hint = async (
 export const fetch_all_movie_hints = async (
   movie_url_id: string
 ): Promise<game_hint[]> => {
-  const url = `${API_BASE_URL}/movie-hints/${movie_url_id}`;
+  const url = getApiUrl(`/api/movie-hints/${movie_url_id}`);
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -126,7 +131,7 @@ export const fetch_batch_movie_hints = async (
   movie_url_ids: string[]
 ): Promise<Record<string, game_hint[]>> => {
   const url_ids_param = movie_url_ids.join(",");
-  const url = `${API_BASE_URL}/movie-hints/batch?urlIds=${url_ids_param}`;
+  const url = getApiUrl(`/api/movie-hints/batch?urlIds=${url_ids_param}`);
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -146,7 +151,9 @@ export const fetch_random_character_hint = async (
   character_url_id: string,
   difficulty: difficulty_level
 ): Promise<game_hint> => {
-  const url = `${API_BASE_URL}/character-hints/random?character_url_id=${character_url_id}&difficulty=${difficulty}`;
+  const url = getApiUrl(
+    `/api/character-hints/random?character_url_id=${character_url_id}&difficulty=${difficulty}`
+  );
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -162,7 +169,7 @@ export const fetch_random_character_hint = async (
 export const fetch_all_character_hints = async (
   character_url_id: string
 ): Promise<game_hint[]> => {
-  const url = `${API_BASE_URL}/character-hints/${character_url_id}`;
+  const url = getApiUrl(`/api/character-hints/${character_url_id}`);
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -180,7 +187,7 @@ export const fetch_batch_character_hints = async (
   character_url_ids: string[]
 ): Promise<Record<string, game_hint[]>> => {
   const url_ids_param = character_url_ids.join(",");
-  const url = `${API_BASE_URL}/character-hints/batch?urlIds=${url_ids_param}`;
+  const url = getApiUrl(`/api/character-hints/batch?urlIds=${url_ids_param}`);
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -198,7 +205,7 @@ export const fetch_batch_character_hints = async (
 export const fetch_movie_by_id = async (
   id: number
 ): Promise<movie_response> => {
-  const response = await fetch(`${API_BASE_URL}/movies/${id}`);
+  const response = await fetch(getApiUrl(`/api/movies/${id}`));
   if (!response.ok) {
     throw new Error(`Failed to fetch movie: ${response.statusText}`);
   }
@@ -212,7 +219,7 @@ export const fetch_movie_by_id = async (
 export const fetch_character_by_id = async (
   id: number
 ): Promise<character_response> => {
-  const response = await fetch(`${API_BASE_URL}/characters/${id}`);
+  const response = await fetch(getApiUrl(`/api/characters/${id}`));
   if (!response.ok) {
     throw new Error(`Failed to fetch character: ${response.statusText}`);
   }

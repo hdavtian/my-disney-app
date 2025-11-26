@@ -1,13 +1,12 @@
 import { Character } from "../types";
-
-const API_BASE_URL = "http://localhost:8080/api";
+import { getApiUrl } from "../config/api";
 
 /**
  * Fetch all character IDs for quiz initialization
  */
 export const fetchCharacterIds = async (): Promise<string[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/characters/ids`);
+    const response = await fetch(getApiUrl("/api/characters/ids"));
     if (!response.ok) {
       throw new Error(`Failed to fetch character IDs: ${response.status}`);
     }
@@ -28,7 +27,7 @@ export const fetchRandomCharacterIds = async (
 ): Promise<string[]> => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/characters/random-except/${excludeId}?count=${count}`
+      getApiUrl(`/api/characters/random-except/${excludeId}?count=${count}`)
     );
 
     if (!response.ok) {
@@ -50,7 +49,7 @@ export const fetchRandomCharacterIds = async (
  */
 export const fetchCharacterById = async (id: string): Promise<Character> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/characters/${id}`);
+    const response = await fetch(getApiUrl(`/api/characters/${id}`));
     if (!response.ok) {
       throw new Error(`Failed to fetch character: ${response.status}`);
     }
