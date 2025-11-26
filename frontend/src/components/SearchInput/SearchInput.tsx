@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./SearchInput.scss";
 
@@ -39,62 +39,107 @@ export const SearchInput = <T extends { id: number | string }>({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Sync internal query state when initialValue prop changes externally
+  // Use refs to keep current values without triggering re-renders
+  const itemsRef = useRef(items);
+  const onSearchRef = useRef(onSearch);
+  const searchFieldsRef = useRef(searchFields);
+  const isSelectingRef = useRef(isSelecting);
+  const userDismissedRef = useRef(userDismissed);
+  const prevInitialValueRef = useRef(initialValue);
+
+  // Update refs when props/state change
   useEffect(() => {
-    setQuery(initialValue);
+    itemsRef.current = items;
+    onSearchRef.current = onSearch;
+    searchFieldsRef.current = searchFields;
+    isSelectingRef.current = isSelecting;
+    userDismissedRef.current = userDismissed;
+  }, [items, onSearch, searchFields, isSelecting, userDismissed]);
 
-    // Immediately perform search if we have a valid initial value and data is ready
-    // This ensures filteredResults are populated before checking if dropdown should show
-    if (!loading && initialValue.length >= minCharacters) {
-      // Clear the debounce - we want immediate search on mount
-      const lowerQuery = initialValue.toLowerCase();
-      const results = items.filter((item) => {
-        return searchFields.some((field) => {
-          const value = item[field];
-          if (typeof value === "string") {
-            return value.toLowerCase().includes(lowerQuery);
-          }
-          return false;
+  // Sync internal query state ONLY when initialValue prop actually changes
+  useEffect(() => {
+    // Only update query if initialValue has actually changed
+    if (prevInitialValueRef.current !== initialValue) {
+      console.log(
+        "[SearchInput] initialValue changed from",
+        prevInitialValueRef.current,
+        "to",
+        initialValue
+      );
+      prevInitialValueRef.current = initialValue;
+      setQuery(initialValue);
+
+      // Immediately perform search if we have a valid initial value and data is ready
+      // This ensures filteredResults are populated before checking if dropdown should show
+      if (!loading && initialValue.length >= minCharacters) {
+        // Clear the debounce - we want immediate search on mount
+        const lowerQuery = initialValue.toLowerCase();
+        const results = items.filter((item) => {
+          return searchFields.some((field) => {
+            const value = item[field];
+            if (typeof value === "string") {
+              return value.toLowerCase().includes(lowerQuery);
+            }
+            return false;
+          });
         });
-      });
 
-      setFilteredResults(results);
+        setFilteredResults(results);
 
-      // Show dropdown if we have results and user hasn't dismissed
-      if (results.length > 0 && !userDismissed) {
-        setShowDropdown(true);
+        // Show dropdown if we have results and user hasn't dismissed
+        if (results.length > 0 && !userDismissed) {
+          setShowDropdown(true);
+        }
+
+        // Don't call onSearch here - it can cause infinite loops
+        // The parent already has the initialValue, so no need to notify
       }
-
-      // Don't call onSearch here - it can cause infinite loops
-      // The parent already has the initialValue, so no need to notify
     }
-    // Removed onSearch from dependencies to prevent infinite loop
+    // NOTE: Intentionally NOT including other values in deps to prevent re-triggering
+    // when parent re-renders. We only want to react to actual initialValue changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    initialValue,
-    loading,
-    minCharacters,
-    items,
-    searchFields,
-    userDismissed,
-  ]);
+  }, [initialValue]);
 
-  // Debounced search function
-  const performSearch = useCallback(
-    (searchQuery: string) => {
-      if (searchQuery.length < minCharacters) {
+  // Debounced search using refs to avoid recreating timer on parent re-renders
+  useEffect(() => {
+    console.log(
+      "[SearchInput] Debounced effect triggered - query:",
+      query,
+      "minCharacters:",
+      minCharacters
+    );
+
+    const timer = setTimeout(() => {
+      console.log("[SearchInput] Timer fired after 300ms - query:", query);
+
+      // Use refs to get current values without triggering effect re-runs
+      const currentItems = itemsRef.current;
+      const currentOnSearch = onSearchRef.current;
+      const currentSearchFields = searchFieldsRef.current;
+      const currentIsSelecting = isSelectingRef.current;
+      const currentUserDismissed = userDismissedRef.current;
+
+      console.log(
+        "[SearchInput] Current state - isSelecting:",
+        currentIsSelecting,
+        "userDismissed:",
+        currentUserDismissed
+      );
+
+      if (query.length < minCharacters) {
+        console.log("[SearchInput] Query too short, clearing results");
         setFilteredResults([]);
         setShowDropdown(false);
         // Only call onSearch if there was a previous search (don't call on mount)
-        if (searchQuery.length > 0) {
-          onSearch(items, ""); // User cleared search, show all items
+        if (query.length > 0) {
+          currentOnSearch(currentItems, ""); // User cleared search, show all items
         }
         return;
       }
 
-      const lowerQuery = searchQuery.toLowerCase();
-      const results = items.filter((item) => {
-        return searchFields.some((field) => {
+      const lowerQuery = query.toLowerCase();
+      const results = currentItems.filter((item) => {
+        return currentSearchFields.some((field) => {
           const value = item[field];
           if (typeof value === "string") {
             return value.toLowerCase().includes(lowerQuery);
@@ -103,23 +148,39 @@ export const SearchInput = <T extends { id: number | string }>({
         });
       });
 
+      console.log(
+        "[SearchInput] Search results:",
+        results.length,
+        "items found"
+      );
+      console.log(
+        "[SearchInput] Should show dropdown?",
+        !currentIsSelecting && !currentUserDismissed && results.length > 0
+      );
+
       setFilteredResults(results);
       // Only show dropdown if user hasn't dismissed it and not currently selecting
-      if (!isSelecting && !userDismissed) {
-        setShowDropdown(results.length > 0);
+      if (!currentIsSelecting && !currentUserDismissed) {
+        const shouldShow = results.length > 0;
+        console.log("[SearchInput] Setting showDropdown to:", shouldShow);
+        setShowDropdown(shouldShow);
+      } else {
+        console.log(
+          "[SearchInput] NOT showing dropdown - isSelecting:",
+          currentIsSelecting,
+          "userDismissed:",
+          currentUserDismissed
+        );
       }
-      onSearch(results, searchQuery);
-    },
-    [items, searchFields, minCharacters, onSearch, isSelecting, userDismissed]
-  );
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      performSearch(query);
+      currentOnSearch(results, query);
+      console.log("[SearchInput] Called onSearch callback");
     }, 300); // Debounce delay
 
-    return () => clearTimeout(timer);
-  }, [query, performSearch]);
+    return () => {
+      console.log("[SearchInput] Cleaning up timer for query:", query);
+      clearTimeout(timer);
+    };
+  }, [query, minCharacters]); // Only query and minCharacters trigger new timers
 
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {

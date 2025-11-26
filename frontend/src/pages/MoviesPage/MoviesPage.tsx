@@ -301,9 +301,14 @@ export const MoviesPage = () => {
             minCharacters={2}
             initialValue={searchQuery}
             getDisplayText={(movie: Movie) => movie.title}
-            getSecondaryText={(movie: Movie) =>
-              `${movie.releaseYear} • ${movie.director}`
-            }
+            getSecondaryText={(movie: Movie) => {
+              const year = movie.creation_year || movie.releaseYear || "";
+              const director = movie.director || "";
+              if (year && director) return `${year} • ${director}`;
+              if (year) return String(year);
+              if (director) return director;
+              return "";
+            }}
             onSelectItem={handleSearchItemClick}
           />
 
