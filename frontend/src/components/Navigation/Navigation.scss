@@ -20,9 +20,18 @@
         align-items: center;
         justify-content: space-between;
         height: 100%;
+        gap: var(--space-4);
 
         @media (max-width: 480px) {
             width: 100%;
+        }
+
+        @include desktop {
+            gap: var(--space-6);
+        }
+
+        @include large-desktop {
+            gap: var(--space-8);
         }
     }
 
@@ -33,16 +42,8 @@
         font-weight: var(--font-extrabold);
         font-size: var(--text-xl);
         font-family: var(--font-display); // Theme-specific display font
-
-        @include desktop {
-            position: absolute;
-            left: var(--space-4);
-        }
-
-        @include large-desktop {
-            position: absolute;
-            left: var(--space-4);
-        }
+        flex-shrink: 0; // Prevent logo from shrinking
+        white-space: nowrap;
 
         &:hover {
             text-decoration: none;
@@ -58,8 +59,38 @@
     }
 
     &__desktop {
-        @include flex-center;
-        gap: var(--space-8);
+        display: flex;
+        align-items: center;
+        gap: clamp(var(--space-2), 2vw, var(--space-8)); // Responsive gap that shrinks before links collide
+        flex: 1; // Take available space
+        justify-content: flex-start; // Align to start when scrolling, center when fits
+        overflow-x: auto; // Enable horizontal scrolling
+        overflow-y: visible; // Allow active dot to show below
+        -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+        scrollbar-width: none; // Hide scrollbar in Firefox
+        -ms-overflow-style: none; // Hide scrollbar in IE/Edge
+        margin-bottom: -12px; // Offset to keep items vertically centered while allowing dot below
+        padding-bottom: 12px; // Space for active dot indicator
+
+        // Center content when it fits, allow scroll when it doesn't
+        &::before,
+        &::after {
+            content: '';
+            margin: auto;
+        }
+
+        // Hide scrollbar in WebKit browsers
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        // Add fade indicator at right edge to show more content
+        mask-image: linear-gradient(to right,
+            black calc(100% - 40px),
+            transparent);
+        -webkit-mask-image: linear-gradient(to right,
+            black calc(100% - 40px),
+            transparent);
 
         @include mobile {
             display: none;
@@ -67,16 +98,6 @@
 
         @include tablet {
             display: none;
-        }
-
-        @include desktop {
-            margin: 0 auto;
-            padding-right: 60px; // Make space for settings button
-        }
-
-        @include large-desktop {
-            margin: 0 auto;
-            padding-right: 60px; // Make space for settings button
         }
     }
 
@@ -93,11 +114,14 @@
         cursor: pointer;
         transition: all var(--transition-fast);
         box-shadow: none;
-        position: absolute;
-        right: var(--space-6);
-        top: 50%;
-        transform: translateY(-50%);
         padding: var(--space-2);
+        flex-shrink: 0; // Prevent settings button from shrinking
+        outline: none !important; // Remove browser focus outline with !important
+
+        &:focus,
+        &:focus-visible {
+            outline: none !important; // Ensure no outline on focus
+        }
 
         i {
             font-size: 1.4rem;
@@ -105,11 +129,11 @@
 
         &:hover {
             color: var(--nav-text-hover);
-            transform: translateY(-50%) rotate(90deg);
+            transform: rotate(90deg);
         }
 
         &:active {
-            transform: translateY(-50%) rotate(90deg) scale(0.95);
+            transform: rotate(90deg) scale(0.95);
         }
 
         @include mobile {
@@ -127,9 +151,17 @@
         font-weight: var(--font-medium);
         font-size: var(--text-base);
         text-decoration: none;
-        padding: var(--space-2) var(--space-3);
+        padding: var(--space-2) clamp(var(--space-1), 1vw, var(--space-3)); // Responsive padding
         border-radius: var(--radius);
         transition: color var(--transition-fast);
+        white-space: nowrap; // Prevent text wrapping
+        flex-shrink: 0; // Don't shrink - allow horizontal scroll instead
+        outline: none !important; // Remove browser focus outline with !important to override global styles
+
+        &:focus,
+        &:focus-visible {
+            outline: none !important; // Ensure no outline on focus
+        }
 
         &:hover {
             color: var(--nav-text-hover);
@@ -142,7 +174,7 @@
             &::after {
                 content: '';
                 position: absolute;
-                bottom: -8px;
+                bottom: -4px;
                 left: 50%;
                 transform: translateX(-50%);
                 width: 6px;
@@ -151,8 +183,6 @@
                 border-radius: 50%;
             }
         }
-
-        @include focus-ring;
     }
 
     &__favorites-chip {
@@ -178,6 +208,12 @@
         background: none;
         border: none;
         cursor: pointer;
+        outline: none; // Remove browser focus outline
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
 
         @include desktop {
             display: none;
@@ -186,8 +222,6 @@
         @include large-desktop {
             display: none;
         }
-
-        @include focus-ring;
     }
 
     &__hamburger {
@@ -249,6 +283,12 @@
         text-decoration: none;
         border-left: 3px solid transparent;
         transition: all var(--transition-fast);
+        outline: none; // Remove browser focus outline
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: -2px;
+        }
 
         &:hover {
             background: var(--card-bg);
@@ -261,8 +301,6 @@
             background: var(--card-bg);
             border-left-color: var(--accent-secondary);
         }
-
-        @include focus-ring;
     }
 
     &__mobile-settings-btn {
@@ -281,6 +319,12 @@
         text-align: left;
         cursor: pointer;
         transition: all var(--transition-fast);
+        outline: none; // Remove browser focus outline
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: -2px;
+        }
 
         i {
             font-size: 1.1rem;

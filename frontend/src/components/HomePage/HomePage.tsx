@@ -80,11 +80,14 @@ export const HomePage = () => {
               searchFields={["title", "director", "rating"]}
               placeholder="Search movies..."
               getDisplayText={(movie) => movie.title}
-              getSecondaryText={(movie) =>
-                `${movie.releaseYear || ""} ${
-                  movie.director ? `• ${movie.director}` : ""
-                }`
-              }
+              getSecondaryText={(movie) => {
+                const year = movie.creation_year || movie.releaseYear || "";
+                const director = movie.director || "";
+                if (year && director) return `${year} • ${director}`;
+                if (year) return String(year);
+                if (director) return director;
+                return "";
+              }}
               onSelectItem={(movie) => {
                 // Navigate to movie detail page when item is selected from dropdown
                 navigate(`/movie/${movie.id}`);
@@ -108,11 +111,15 @@ export const HomePage = () => {
               searchFields={["name"]}
               placeholder="Search characters..."
               getDisplayText={(character) => character.name}
-              getSecondaryText={(character) =>
-                `${character.debut || ""} ${
-                  character.category ? `• ${character.category}` : ""
-                }`
-              }
+              getSecondaryText={(character) => {
+                const debut =
+                  character.debut || character.first_appearance || "";
+                const category = character.category || "";
+                if (debut && category) return `${debut} • ${category}`;
+                if (debut) return debut;
+                if (category) return category;
+                return "";
+              }}
               onSelectItem={(character) => {
                 // Navigate to character detail page when item is selected from dropdown
                 navigate(`/character/${character.id}`);
