@@ -62,6 +62,28 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 - `.gitignore`: exclude build artifacts, IDE configs, Docker volumes.
 - Docker integration planned later.
 
+### CLI Tools Available
+
+- **Azure CLI (`az`)**: Use for Azure resource management, deployments, configuration
+  - Examples: `az webapp`, `az storage`, `az keyvault`, `az login`
+  - Prefer `az` commands over Azure Portal for automation and scripting
+- **GitHub CLI (`gh`)**: Use for GitHub operations, PRs, issues, workflows
+  - Examples: `gh pr create`, `gh issue list`, `gh workflow run`
+  - Prefer `gh` commands for GitHub automation instead of web UI
+- **PowerShell**: Default shell environment (see Critical Workflow Rules below)
+- **Docker + PostgreSQL CLI**: Direct database access via Docker container
+  - Container name: `strange_gagarin`
+  - Database: `disneyapp`
+  - Username: `postgres`
+  - Password: `amelia`
+  - **List databases**: `docker exec strange_gagarin psql -U postgres -c "\l"`
+  - **List tables**: `docker exec strange_gagarin psql -U postgres -d disneyapp -c "\dt"`
+  - **Connect to disneyapp**: `docker exec -it strange_gagarin psql -U postgres -d disneyapp`
+  - **Run SQL query**: `docker exec strange_gagarin psql -U postgres -d disneyapp -c "SELECT COUNT(*) FROM characters;"`
+  - **Check extensions**: `docker exec strange_gagarin psql -U postgres -d disneyapp -c "\dx"`
+  - **Describe table structure**: `docker exec strange_gagarin psql -U postgres -d disneyapp -c "\d table_name"`
+  - Use this for schema verification, migration checks, pgvector validation, etc.
+
 ---
 
 ## 🌐 Website Behavior
@@ -139,6 +161,43 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 - **For ID parameters**: Use actual IDs from database (e.g., `"2494,2495,2496"` for movies, `"362,363,364"` for characters)
 - **For url_id parameters**: Use snake_case full names (e.g., `"snow_white_and_the_seven_dwarfs"`, `"aladdin"`)
 - **Goal**: Users should be able to click "Try it out" in Swagger UI and get successful responses immediately without guessing values
+
+**Swagger Security - CRITICAL:**
+
+- **NEVER expose secrets, API keys, or passwords** in Swagger annotations (`@Parameter`, `@Schema`, `example` attributes)
+- **For API key parameters**: Use placeholder values like `"your-api-key-here"` or `"••••••••"` in examples
+- **For password/access code parameters**: Use generic examples like `"example-access-code"` or `"enter-your-code"`
+- **For authentication headers**: Document that key is required but NEVER show actual production keys
+- **Examples of SAFE documentation**:
+  - ✅ `example = "your-admin-api-key"` for X-Admin-API-Key header
+  - ✅ `example = "premium-access-code"` for access code request body
+  - ✅ `example = "sk_live_abc123xyz789"` for generic secret format examples
+  - ✅ `description = "Premium access code (contact admin for code)"` in parameter docs
+- **Examples of UNSAFE documentation** (NEVER DO THIS):
+  - ❌ Using actual production API keys in examples
+  - ❌ Using actual passwords or access codes in examples
+  - ❌ Copying real secrets into Swagger annotations "just for testing"
+- **Remember**: Swagger UI is publicly accessible in production - treat all examples as public documentation
+
+**Environment Variables & Configuration Management:**
+
+- **NEVER hardcode environment-specific values** (URLs, API keys, database connections, storage paths)
+- **ALWAYS check existing environment files** before adding new configuration:
+  - **Frontend**: `frontend/.env.production` (Vite variables with `VITE_` prefix)
+  - **Backend**: `backend/src/main/resources/application.properties` and profile-specific files
+- **Environment variable patterns**:
+  - Frontend: `VITE_API_BASE_URL`, `VITE_ASSETS_BASE_URL`, etc.
+  - Backend: Spring Boot properties (can use `${ENV_VAR:default}` syntax)
+- **Production mistake prevention**:
+  - Hardcoded `localhost` URLs will break in production
+  - Hardcoded API keys expose security risks
+  - Always externalize configuration
+- **When adding new features requiring configuration**:
+  1. Check if similar config already exists in env files
+  2. Follow existing naming conventions
+  3. Add to appropriate env file(s)
+  4. Document in relevant README
+  5. Use environment variables in code, never hardcode
 
 ---
 

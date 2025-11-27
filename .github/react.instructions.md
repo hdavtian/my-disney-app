@@ -53,6 +53,57 @@ Generate **functional, typed (prefer .tsx)** React components with clean structu
   - **Next.js**: use `getServerSideProps`/`getStaticProps` or **Route Handlers**; hydrate via props.
   - Or use **React Query** for client fetching (loading/error states + caching).
 
+### 🔑 API Response Naming Convention (CRITICAL)
+
+**ALL TypeScript types for API responses MUST use snake_case property names** to match backend JSON.
+
+- **Backend API responses**: Use snake_case (e.g., `url_id`, `short_description`, `image_1`)
+- **TypeScript types**: MUST match API response format exactly (snake_case)
+- **Component variables**: Can destructure or rename to camelCase locally if needed
+
+**Example**:
+
+```typescript
+// ✅ CORRECT - matches API response
+type Movie = {
+  id: number;
+  url_id: string; // snake_case matches API
+  title: string;
+  short_description?: string;
+  long_description?: string;
+  image_1?: string;
+  image_2?: string;
+};
+
+// ❌ WRONG - will break at runtime
+type Movie = {
+  id: number;
+  urlId: string; // camelCase doesn't match API
+  shortDescription?: string;
+  image1?: string;
+};
+```
+
+**When creating new types for API data**:
+
+1. Run cURL command to test API endpoint and see actual response format
+2. Copy property names EXACTLY as they appear in JSON response (usually snake_case)
+3. Define TypeScript type with snake_case properties
+4. Test frontend data fetching before building UI components
+
+**Common mistakes to avoid**:
+
+- ❌ Using camelCase in TypeScript types → runtime undefined errors
+- ❌ Assuming API uses camelCase → data doesn't load, no error messages
+- ❌ Only discovering mismatch after frontend is built → wasted development time
+
+**Verification workflow**:
+
+1. Backend: Check `@JsonProperty` annotations in Java entities
+2. API: Test with cURL and inspect JSON response
+3. Frontend: Define TypeScript type matching JSON exactly
+4. Test: Verify data appears in React DevTools before building UI
+
 ---
 
 ## 🧭 Next.js Conventions
