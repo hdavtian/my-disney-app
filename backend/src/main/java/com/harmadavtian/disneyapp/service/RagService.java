@@ -8,7 +8,8 @@ import com.harmadavtian.disneyapp.repository.ContentEmbeddingRepository;
 import com.harmadavtian.disneyapp.service.llm.LLMClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,10 +41,12 @@ public class RagService {
 
     private final LLMClient llmClient;
     private final ContentEmbeddingRepository embeddingRepository;
+    private final CacheManager cacheManager;
 
-    public RagService(LLMClient llmClient, ContentEmbeddingRepository embeddingRepository) {
+    public RagService(LLMClient llmClient, ContentEmbeddingRepository embeddingRepository, CacheManager cacheManager) {
         this.llmClient = llmClient;
         this.embeddingRepository = embeddingRepository;
+        this.cacheManager = cacheManager;
     }
 
     /**
@@ -56,12 +59,48 @@ public class RagService {
      * @return Response with generated answer and source citations
      * @throws IllegalArgumentException if query is null or empty
      */
-    @Cacheable(value = "rag-queries", key = "#request.query + '_' + #request.contentType")
     public RagQueryResponseDto query(RagQueryRequestDto request) {
         if (request.getQuery() == null || request.getQuery().isBlank()) {
             throw new IllegalArgumentException("Query cannot be null or empty");
         }
 
+        // Check if result is in cache using CacheManager
+        String cacheKey = request.getQuery() + "_" + request.getContentType();
+        Cache cache = cacheManager.getCache("rag-queries");
+
+        if (cache != null) {
+            Cache.ValueWrapper cachedValue = cache.get(cacheKey);
+            if (cachedValue != null && cachedValue.get() != null) {
+                logger.info("RAG query cache HIT: '{}'", request.getQuery());
+                RagQueryResponseDto cachedResult = (RagQueryResponseDto) cachedValue.get();
+                // Return cached result with cached flag set to true
+                return new RagQueryResponseDto(
+                        cachedResult.getAnswer(),
+                        cachedResult.getSources(),
+                        cachedResult.getQuery(),
+                        true);
+            }
+        }
+
+        logger.info("RAG query cache MISS: '{}'", request.getQuery());
+        // Execute query and manually cache result
+        RagQueryResponseDto response = executeQuery(request);
+
+        // Manually put in cache
+        if (cache != null) {
+            cache.put(cacheKey, response);
+        }
+
+        return response;
+    }
+
+    /**
+     * Execute RAG query (without caching logic).
+     * 
+     * @param request Query request
+     * @return Response with cached flag set to false
+     */
+    private RagQueryResponseDto executeQuery(RagQueryRequestDto request) {
         logger.info("Processing RAG query: '{}' (type: {})", request.getQuery(), request.getContentType());
 
         // Step 1: Generate embedding for query
