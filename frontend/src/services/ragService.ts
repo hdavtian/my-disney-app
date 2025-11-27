@@ -33,6 +33,19 @@ export interface RagQueryResponse {
   cached: boolean;
 }
 
+export interface TierStatus {
+  tier: "free" | "premium" | "admin";
+  limit: number;
+  used: number;
+  remaining: number;
+  message: string;
+}
+
+export interface RagStatus {
+  rag_enabled: boolean;
+  message: string;
+}
+
 export interface RagError {
   message: string;
   status?: number;
@@ -55,13 +68,17 @@ export async function queryRag(
         "Content-Type": "application/json",
         "X-Admin-API-Key": ADMIN_API_KEY,
       },
+      credentials: "include",
       body: JSON.stringify(request),
     });
 
     if (!response.ok) {
       if (response.status === 429) {
+        const errorData = await response.json().catch(() => ({}));
         throw {
-          message: "Too many requests. Please wait a moment and try again.",
+          message: `⏱️ Rate limit exceeded! You've used all ${
+            errorData.limit || "your"
+          } queries this hour. Upgrade to premium for more queries.`,
           status: 429,
         } as RagError;
       }
@@ -69,7 +86,7 @@ export async function queryRag(
       if (response.status === 503) {
         throw {
           message:
-            "AI service is temporarily unavailable. Please try again later.",
+            "🚫 AI Assistant is currently offline (disabled by admin). Please check back later.",
           status: 503,
         } as RagError;
       }
@@ -112,4 +129,72 @@ export async function checkRagHealth(): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/**
+ * Get RAG system status (enabled/disabled).
+ *
+ * @returns Promise resolving to RAG status
+ */
+export async function getRagStatus(): Promise<RagStatus> {
+  const response = await fetch(`${API_BASE_URL}/api/rag/status`, {
+    headers: {
+      "X-Admin-API-Key": ADMIN_API_KEY,
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to get RAG status");
+  }
+
+  return response.json();
+}
+
+/**
+ * Get current rate limit tier and usage stats.
+ *
+ * @returns Promise resolving to tier status
+ */
+export async function getTierStatus(): Promise<TierStatus> {
+  const response = await fetch(`${API_BASE_URL}/api/rag/tier-status`, {
+    headers: {
+      "X-Admin-API-Key": ADMIN_API_KEY,
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to get tier status");
+  }
+
+  return response.json();
+}
+
+/**
+ * Unlock premium tier with access code.
+ *
+ * @param accessCode Premium access code
+ * @returns Promise resolving to tier response
+ * @throws Error if access code is invalid
+ */
+export async function unlockPremiumTier(
+  accessCode: string
+): Promise<TierStatus> {
+  const response = await fetch(`${API_BASE_URL}/api/rag/unlock-premium`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Admin-API-Key": ADMIN_API_KEY,
+    },
+    credentials: "include",
+    body: JSON.stringify({ code: accessCode }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Invalid access code");
+  }
+
+  return response.json();
 }

@@ -11,8 +11,12 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   queryRag,
+  getTierStatus,
+  unlockPremiumTier,
+  getRagStatus,
   RagQueryResponse,
   RagError,
+  TierStatus,
 } from "../../services/ragService";
 import { RagCitationCard } from "./RagCitationCard";
 import "./RagQueryPage.scss";
@@ -50,6 +54,11 @@ export function RagChatInterface() {
   });
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [tierStatus, setTierStatus] = useState<TierStatus | null>(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [accessCode, setAccessCode] = useState("");
+  const [upgradeError, setUpgradeError] = useState("");
+  const [ragDisabled, setRagDisabled] = useState(false);
   const [showCitations, setShowCitations] = useState(() => {
     // Load citation preference from sessionStorage
     try {
@@ -74,6 +83,27 @@ export function RagChatInterface() {
       console.error("Failed to save settings:", error);
     }
   }, [showCitations]);
+
+  // Load RAG status and tier info on mount and periodically check
+  useEffect(() => {
+    async function loadStatus() {
+      try {
+        const [status, tier] = await Promise.all([
+          getRagStatus(),
+          getTierStatus(),
+        ]);
+        setRagDisabled(!status.rag_enabled);
+        setTierStatus(tier);
+      } catch (error) {
+        console.error("Failed to load RAG status:", error);
+      }
+    }
+    loadStatus();
+
+    // Check status every 30 seconds to detect admin kill switch changes
+    const interval = setInterval(loadStatus, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Save messages to sessionStorage whenever they change
   useEffect(() => {
@@ -121,6 +151,14 @@ export function RagChatInterface() {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      // Refresh tier status after query
+      try {
+        const tier = await getTierStatus();
+        setTierStatus(tier);
+      } catch (error) {
+        console.error("Failed to refresh tier status:", error);
+      }
     } catch (error) {
       const ragError = error as RagError;
       const errorMessage: Message = {
@@ -138,6 +176,23 @@ export function RagChatInterface() {
     }
   };
 
+  const handleUnlockPremium = async () => {
+    if (!accessCode.trim()) {
+      setUpgradeError("Please enter an access code");
+      return;
+    }
+
+    try {
+      const response = await unlockPremiumTier(accessCode);
+      setTierStatus(response);
+      setAccessCode("");
+      setUpgradeError("");
+      setShowUpgradeModal(false);
+    } catch (error) {
+      setUpgradeError((error as Error).message);
+    }
+  };
+
   const handleCitationClick = (citation: any) => {
     // Navigate to character/movie/park detail page using React Router
     const { content_type, content_id } = citation;
@@ -146,6 +201,85 @@ export function RagChatInterface() {
 
   return (
     <div className="rag-chat-interface">
+      {ragDisabled && (
+        <div className="rag-disabled-banner">
+          🚫 AI Assistant is currently offline (disabled by admin). Please check
+          back later.
+        </div>
+      )}
+
+      {showUpgradeModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowUpgradeModal(false)}
+        >
+          <div className="upgrade-modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              onClick={() => setShowUpgradeModal(false)}
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+
+            <h2>Rate Limit Tier</h2>
+
+            {tierStatus && (
+              <div className="tier-current">
+                <p className="tier-name">
+                  Current Tier: <strong>{tierStatus.tier.toUpperCase()}</strong>
+                </p>
+                <p className="tier-usage">
+                  {tierStatus.used} / {tierStatus.limit} queries used this hour
+                </p>
+                <p className="tier-remaining">
+                  <strong>{tierStatus.remaining}</strong> queries remaining
+                </p>
+              </div>
+            )}
+
+            {tierStatus?.tier !== "premium" && (
+              <div className="tier-upgrade-section">
+                <h3>Upgrade to Premium</h3>
+                <p className="tier-benefits">
+                  Premium tier: <strong>100 queries per hour</strong>
+                </p>
+
+                <div className="access-code-input">
+                  <input
+                    type="password"
+                    placeholder="Enter access code"
+                    value={accessCode}
+                    onChange={(e) => {
+                      setAccessCode(e.target.value);
+                      setUpgradeError("");
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleUnlockPremium();
+                      }
+                    }}
+                  />
+                  <button onClick={handleUnlockPremium}>Unlock Premium</button>
+                </div>
+
+                {upgradeError && (
+                  <p className="upgrade-error">⚠️ {upgradeError}</p>
+                )}
+              </div>
+            )}
+
+            {tierStatus?.tier === "premium" && (
+              <div className="tier-premium-active">
+                <p className="tier-success">
+                  ✨ Premium tier is active! (100 queries/hour)
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="chat-messages">
         {messages.length === 0 && (
           <div className="chat-welcome">
@@ -234,6 +368,36 @@ export function RagChatInterface() {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* Rate limit status - always show tier info when AI is enabled, only show button when limit reached */}
+      {!ragDisabled && tierStatus && (
+        <div className="rate-limit-status">
+          <div className="status-content">
+            <span className="status-icon">
+              {tierStatus.tier === "premium" ? "⭐" : "⏱️"}
+            </span>
+            <div className="status-text">
+              <span className="status-label">
+                {tierStatus.tier === "premium" ? "Premium" : "Free"} Tier
+              </span>
+              <span className="status-usage">
+                {tierStatus.used}/{tierStatus.limit} queries{" "}
+                {tierStatus.remaining === 0 ? "used" : "available"}
+              </span>
+            </div>
+            {tierStatus.remaining === 0 && (
+              <button
+                className="upgrade-button"
+                onClick={() => setShowUpgradeModal(true)}
+              >
+                {tierStatus.tier === "premium"
+                  ? "View Details"
+                  : "Unlock Premium"}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       <form className="chat-input-form" onSubmit={handleSubmit}>
         <div className="input-controls">
           <label className="citation-toggle">
@@ -251,15 +415,21 @@ export function RagChatInterface() {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Ask a question about Disney..."
+            placeholder={
+              tierStatus && tierStatus.remaining === 0
+                ? "Rate limit reached - unlock premium to continue"
+                : "Ask a question about Disney..."
+            }
             className="chat-input"
-            disabled={isLoading}
+            disabled={isLoading || tierStatus?.remaining === 0}
             autoFocus
           />
           <button
             type="submit"
             className="chat-submit-button"
-            disabled={!inputValue.trim() || isLoading}
+            disabled={
+              !inputValue.trim() || isLoading || tierStatus?.remaining === 0
+            }
             aria-label="Send question"
           >
             {isLoading ? "⏳" : "🚀"}

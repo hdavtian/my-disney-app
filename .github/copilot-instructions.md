@@ -162,6 +162,23 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 - **For url_id parameters**: Use snake_case full names (e.g., `"snow_white_and_the_seven_dwarfs"`, `"aladdin"`)
 - **Goal**: Users should be able to click "Try it out" in Swagger UI and get successful responses immediately without guessing values
 
+**Swagger Security - CRITICAL:**
+
+- **NEVER expose secrets, API keys, or passwords** in Swagger annotations (`@Parameter`, `@Schema`, `example` attributes)
+- **For API key parameters**: Use placeholder values like `"your-api-key-here"` or `"••••••••"` in examples
+- **For password/access code parameters**: Use generic examples like `"example-access-code"` or `"enter-your-code"`
+- **For authentication headers**: Document that key is required but NEVER show actual production keys
+- **Examples of SAFE documentation**:
+  - ✅ `example = "your-admin-api-key"` for X-Admin-API-Key header
+  - ✅ `example = "premium-access-code"` for access code request body
+  - ✅ `example = "sk_live_abc123xyz789"` for generic secret format examples
+  - ✅ `description = "Premium access code (contact admin for code)"` in parameter docs
+- **Examples of UNSAFE documentation** (NEVER DO THIS):
+  - ❌ Using actual production API keys in examples
+  - ❌ Using actual passwords or access codes in examples
+  - ❌ Copying real secrets into Swagger annotations "just for testing"
+- **Remember**: Swagger UI is publicly accessible in production - treat all examples as public documentation
+
 **Environment Variables & Configuration Management:**
 
 - **NEVER hardcode environment-specific values** (URLs, API keys, database connections, storage paths)
