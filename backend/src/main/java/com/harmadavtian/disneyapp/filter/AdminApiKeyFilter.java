@@ -42,6 +42,13 @@ public class AdminApiKeyFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
+        // Allow OPTIONS requests (CORS preflight) to pass through without
+        // authentication
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         // Apply to RAG and admin endpoints (exclude health check)
         boolean isProtected = (path.startsWith("/api/rag/") && !path.equals("/api/rag/health"))
                 || path.startsWith("/api/admin/");

@@ -8,6 +8,7 @@ import { AboutPage } from "./pages/AboutPage/AboutPage";
 import { MovieDetailPage } from "./pages/MovieDetailPage/MovieDetailPage";
 import { CharacterDetailPage } from "./pages/CharacterDetailPage/CharacterDetailPage";
 import { DisneySearchPage } from "./pages/DisneySearchPage/DisneySearchPage";
+import { RagQueryPage } from "./pages/RagQueryPage/RagQueryPage";
 import { ParksPage } from "./pages/ParksPage";
 import { GamesPage } from "./pages/GamesPage";
 import { DisclaimerPage } from "./pages/DisclaimerPage";
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route element={<RequireDisclaimer />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/ask" element={<RagQueryPage />} />
             <Route path="/characters" element={<CharactersPage />} />
             <Route path="/character/:id" element={<CharacterDetailPage />} />
             <Route path="/movies" element={<MoviesPage />} />
