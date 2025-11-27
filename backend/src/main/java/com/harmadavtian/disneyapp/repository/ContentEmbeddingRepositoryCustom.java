@@ -28,6 +28,19 @@ public interface ContentEmbeddingRepositoryCustom {
             int limit);
 
     /**
+     * Find top K most similar embeddings across ALL content types.
+     * 
+     * @param queryEmbedding Query vector as float array
+     * @param modelVersion   Model version filter
+     * @param limit          Number of results
+     * @return List of similar embeddings from all content types
+     */
+    List<ContentEmbedding> findTopKSimilarAllTypes(
+            float[] queryEmbedding,
+            String modelVersion,
+            int limit);
+
+    /**
      * Save ContentEmbedding with vector conversion.
      * 
      * @param embedding ContentEmbedding to save (with float[] populated)

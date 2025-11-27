@@ -167,10 +167,9 @@ public class RagService {
                     modelVersion,
                     topK);
         } else {
-            // Search across all content types
-            return embeddingRepository.findTopKSimilarWithVectors(
+            // Search across all content types (characters, movies, parks)
+            return embeddingRepository.findTopKSimilarAllTypes(
                     queryEmbedding,
-                    "character", // TODO: Support multi-type search
                     modelVersion,
                     topK);
         }
@@ -193,12 +192,21 @@ public class RagService {
 
         // System instructions
         prompt.append("You are a helpful Disney expert assistant. ");
-        prompt.append("Answer the user's question using ONLY the context provided below. ");
-        prompt.append("If the context doesn't contain enough information, say so. ");
-        prompt.append("Be conversational and friendly.\n\n");
+        prompt.append("ONLY answer questions related to Disney. ");
+        prompt.append(
+                "If the user asks about non-Disney topics, politely decline and explain that you specialize in Disney content only. ");
+        prompt.append("Suggest they use a general-purpose AI or search engine for non-Disney questions. ");
+        prompt.append("\n\n");
+        prompt.append("For Disney-related questions:\n");
+        prompt.append("- Use the context provided below when it's relevant to the question.\n");
+        prompt.append(
+                "- If the context is about different Disney content than what the user asked, use your general Disney knowledge to help them.\n");
+        prompt.append(
+                "- For example, if they ask about 'Disneyland Tokyo' or 'Tokyo park', they likely mean Tokyo Disneyland or Tokyo DisneySea.\n");
+        prompt.append("- Be conversational, friendly, and helpful.\n\n");
 
         // Context
-        prompt.append("CONTEXT:\n");
+        prompt.append("CONTEXT (may or may not be directly relevant):\n");
         for (int i = 0; i < embeddings.size(); i++) {
             ContentEmbedding emb = embeddings.get(i);
             prompt.append(String.format("[Source %d - %s]\n", i + 1, emb.getContentType()));

@@ -91,6 +91,63 @@ public class ContentEmbeddingRepositoryCustomImpl implements ContentEmbeddingRep
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<ContentEmbedding> findTopKSimilarAllTypes(
+            float[] queryEmbedding,
+            String modelVersion,
+            int limit) {
+
+        List<ContentEmbedding> results = new ArrayList<>();
+        String vectorString = floatArrayToVectorString(queryEmbedding);
+
+        // Native SQL with vector operations - NO content_type filter
+        String sql = """
+                SELECT embedding_id, content_type, content_id, text_content,
+                       embedding::text as embedding_text, model_version, created_at, updated_at
+                FROM content_embeddings
+                WHERE model_version = :modelVersion
+                ORDER BY embedding <=> CAST(:queryEmbedding AS vector)
+                LIMIT :limit
+                """;
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql
+                        .replace(":modelVersion", "?")
+                        .replace(":queryEmbedding", "?")
+                        .replace(":limit", "?"))) {
+
+            stmt.setString(1, modelVersion);
+            stmt.setString(2, vectorString);
+            stmt.setInt(3, limit);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ContentEmbedding emb = new ContentEmbedding();
+                emb.setEmbeddingId(rs.getLong("embedding_id"));
+                emb.setContentType(rs.getString("content_type"));
+                emb.setContentId(rs.getLong("content_id"));
+                emb.setTextContent(rs.getString("text_content"));
+                emb.setModelVersion(rs.getString("model_version"));
+                emb.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                emb.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+
+                String vectorText = rs.getString("embedding_text");
+                emb.setEmbedding(vectorStringToFloatArray(vectorText));
+
+                results.add(emb);
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to query similar embeddings across all types", e);
+        }
+
+        return results;
+    }
+
+    @Override
     @Transactional
     public ContentEmbedding saveWithVector(ContentEmbedding embedding) {
         String vectorString = floatArrayToVectorString(embedding.getEmbedding());
