@@ -2610,6 +2610,74 @@ curl -X POST http://localhost:8080/api/rag/feedback \
 - [ ] **Set up rate limiting** (10 queries/hour per session)
 - [ ] **Keep rollback script handy** in case you need to remove RAG feature
 
+### 🚨 **NEON DATABASE EMBEDDING GENERATION (Before Production Deploy)**
+
+**Status**: ⏳ **PENDING** - Local embeddings generated (1,023 vectors), Neon production DB needs sync
+
+**Prerequisites**:
+
+1. ✅ Local Docker PostgreSQL has embeddings (completed Session 3)
+2. ✅ V4 migration tested locally (content_embeddings table working)
+3. ⏳ V4 migration applied to Neon (happens automatically on first Azure deploy with Flyway)
+4. ⏳ Neon production data up-to-date (characters, movies, parks)
+
+**Verification Script** (run BEFORE embedding generation):
+
+```powershell
+cd C:\sites\my-disney-app\backend
+.\verify-neon-rag-ready.ps1
+```
+
+**Embedding Generation Options**:
+
+**Option 1: Automated (Recommended)**
+
+```powershell
+cd C:\sites\my-disney-app\backend
+.\quick-neon-embeddings.ps1
+```
+
+- Starts Spring Boot connected to Neon in background
+- Automatically calls `/api/admin/embeddings/generate`
+- Stops server when complete
+- Expected: ~1,023 embeddings generated (180 characters, 831 movies, 12 parks)
+
+**Option 2: Manual (for monitoring)**
+
+```powershell
+cd C:\sites\my-disney-app\backend
+.\generate-neon-embeddings.ps1
+```
+
+- Starts Spring Boot connected to Neon (foreground)
+- You manually trigger endpoint in another terminal:
+
+```powershell
+$headers = @{
+  "Content-Type" = "application/json"
+  "X-Admin-API-Key" = "xrn5gEMTwUWHtbLDSlvqY9f6sGAo71iB"
+}
+Invoke-RestMethod -Uri "http://localhost:8080/api/admin/embeddings/generate" -Method Post -Headers $headers
+```
+
+**Verification After Generation**:
+
+```sql
+-- Connect to Neon via psql or Neon console
+SELECT content_type, COUNT(*) as count
+FROM content_embeddings
+GROUP BY content_type
+ORDER BY content_type;
+
+-- Expected output:
+-- character    | 180
+-- movie        | 831
+-- park         | 12
+-- TOTAL        | 1,023
+```
+
+**⚠️ IMPORTANT**: Do NOT deploy frontend changes to production until Neon embeddings are generated, or users will see errors when trying to use AI Assistant feature!
+
 ### Ongoing Maintenance
 
 After each bulk data update (JSON imports):
