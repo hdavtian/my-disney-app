@@ -62,6 +62,16 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 - `.gitignore`: exclude build artifacts, IDE configs, Docker volumes.
 - Docker integration planned later.
 
+### CLI Tools Available
+
+- **Azure CLI (`az`)**: Use for Azure resource management, deployments, configuration
+  - Examples: `az webapp`, `az storage`, `az keyvault`, `az login`
+  - Prefer `az` commands over Azure Portal for automation and scripting
+- **GitHub CLI (`gh`)**: Use for GitHub operations, PRs, issues, workflows
+  - Examples: `gh pr create`, `gh issue list`, `gh workflow run`
+  - Prefer `gh` commands for GitHub automation instead of web UI
+- **PowerShell**: Default shell environment (see Critical Workflow Rules below)
+
 ---
 
 ## 🌐 Website Behavior
