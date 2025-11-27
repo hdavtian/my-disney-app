@@ -32,6 +32,13 @@ public class CorsConfig {
         // Allow all headers
         config.setAllowedHeaders(Arrays.asList("*"));
 
+        // Expose headers for rate limiting and CORS
+        config.setExposedHeaders(Arrays.asList(
+                "X-RateLimit-Limit",
+                "X-RateLimit-Remaining",
+                "X-RateLimit-Reset",
+                "X-Admin-API-Key"));
+
         // Allow credentials (cookies, authorization headers)
         config.setAllowCredentials(true);
 
