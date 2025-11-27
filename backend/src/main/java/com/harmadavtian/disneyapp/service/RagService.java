@@ -118,29 +118,21 @@ public class RagService {
         // Validate topK
         topK = Math.max(1, Math.min(topK, 20));
 
-        // Convert embedding to PostgreSQL vector literal format: '[0.1, 0.2, ...]'
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < queryEmbedding.length; i++) {
-            if (i > 0)
-                sb.append(",");
-            sb.append(queryEmbedding[i]);
-        }
-        sb.append("]");
-        String vectorLiteral = sb.toString();
+        String modelVersion = llmClient.getEmbeddingModelName();
 
         // If content type specified, filter by it
         if (contentType != null && !contentType.isBlank()) {
-            return embeddingRepository.findTopKSimilar(
-                    vectorLiteral,
+            return embeddingRepository.findTopKSimilarWithVectors(
+                    queryEmbedding,
                     contentType,
-                    llmClient.getEmbeddingModelName(),
+                    modelVersion,
                     topK);
         } else {
             // Search across all content types
-            return embeddingRepository.findTopKSimilar(
-                    vectorLiteral,
+            return embeddingRepository.findTopKSimilarWithVectors(
+                    queryEmbedding,
                     "character", // TODO: Support multi-type search
-                    llmClient.getEmbeddingModelName(),
+                    modelVersion,
                     topK);
         }
     }
@@ -197,13 +189,8 @@ public class RagService {
             float[] queryEmbedding) {
         return embeddings.stream()
                 .map(emb -> {
-                    // Calculate cosine distance (for scoring purposes)
-                    double distance = cosineSimilarity(queryEmbedding, emb.getEmbedding());
-
-                    // Normalize to 0.0-1.0 (higher is better)
-                    // pgvector cosine distance: 0 = identical, 2 = opposite
-                    // Convert to similarity: 1 - (distance / 2)
-                    double similarity = 1.0 - (distance / 2.0);
+                    // Calculate cosine similarity
+                    double similarity = cosineSimilarity(queryEmbedding, emb.getEmbedding());
 
                     // Create excerpt (first 200 chars)
                     String excerpt = emb.getTextContent().length() > 200
@@ -223,14 +210,12 @@ public class RagService {
     /**
      * Calculate cosine similarity between two vectors.
      * 
-     * Formula: similarity = dot(A, B) / (||A|| * ||B||)
-     * Result: 1.0 = identical, 0.0 = orthogonal, -1.0 = opposite
-     * 
-     * Note: pgvector embeddings are already normalized, so we can use dot product.
+     * Formula: similarity = 1 - (dot(A, B) / (||A|| * ||B||))
+     * Result: 0.0-1.0 where 1.0 = most similar
      * 
      * @param a First vector
      * @param b Second vector
-     * @return Cosine similarity (0.0-2.0 for distance)
+     * @return Cosine similarity (0.0-1.0)
      */
     private double cosineSimilarity(float[] a, float[] b) {
         if (a.length != b.length) {
@@ -247,7 +232,8 @@ public class RagService {
             normB += b[i] * b[i];
         }
 
-        return 1.0 - (dotProduct / (Math.sqrt(normA) * Math.sqrt(normB)));
+        // Return similarity score (higher is better)
+        return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
     }
 
     /**

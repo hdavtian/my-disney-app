@@ -1,5 +1,6 @@
 package com.harmadavtian.disneyapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -14,9 +15,11 @@ public class RagQueryRequestDto {
     @Schema(description = "User question or query", example = "Tell me about Elsa's powers", required = true)
     private String query;
 
+    @JsonProperty("content_type")
     @Schema(description = "Optional content type filter (character, movie, park, attraction, hint)", example = "character", required = false)
     private String contentType;
 
+    @JsonProperty("top_k")
     @Schema(description = "Number of similar items to retrieve (1-20)", example = "5", required = false)
     private Integer topK = 5;
 

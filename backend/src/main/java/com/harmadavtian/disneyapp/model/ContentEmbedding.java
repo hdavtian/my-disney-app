@@ -62,12 +62,12 @@ public class ContentEmbedding {
 
     /**
      * pgvector embedding (768 dimensions for Gemini).
-     * Stored as PostgreSQL vector type, mapped to float array in Java.
+     * Stored as PostgreSQL vector type, converted manually in repository layer.
+     * Marked @Transient because Hibernate doesn't natively support vector type.
      * 
-     * Note: pgvector uses float4 (32-bit float) internally, so we use float[] not
-     * double[].
+     * Note: Repository queries handle conversion to/from PostgreSQL vector.
      */
-    @Column(name = "embedding", nullable = false, columnDefinition = "vector(768)")
+    @Transient
     private float[] embedding;
 
     /**

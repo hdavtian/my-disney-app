@@ -30,9 +30,9 @@ import java.util.Map;
  * 
  * API Endpoints:
  * - Embeddings: POST
- * https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent
+ * https://generativelanguage.googleapis.com/v1/models/text-embedding-004:embedContent
  * - Generation: POST
- * https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent
+ * https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent
  * 
  * Cost (as of 2024):
  * - Embeddings: Free up to 1500 req/day, then $0.00001/1000 chars
@@ -47,8 +47,8 @@ public class GeminiClient implements LLMClient {
     private static final Logger logger = LoggerFactory.getLogger(GeminiClient.class);
 
     private static final String EMBEDDING_MODEL = "text-embedding-004";
-    private static final String GENERATION_MODEL = "gemini-1.5-flash";
-    private static final String BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
+    private static final String GENERATION_MODEL = "gemini-2.0-flash";
+    private static final String BASE_URL = "https://generativelanguage.googleapis.com/v1/models";
 
     private final RestTemplate restTemplate;
     private final String apiKey;
@@ -71,7 +71,7 @@ public class GeminiClient implements LLMClient {
      * 
      * API Request:
      * POST
-     * https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key={API_KEY}
+     * https://generativelanguage.googleapis.com/v1/models/text-embedding-004:embedContent?key={API_KEY}
      * Body: { "model": "models/text-embedding-004", "content": { "parts": [{
      * "text": "..." }] } }
      * 

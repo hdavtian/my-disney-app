@@ -24,7 +24,8 @@ import java.util.Optional;
  * @author Harma Davtian
  */
 @Repository
-public interface ContentEmbeddingRepository extends JpaRepository<ContentEmbedding, Long> {
+public interface ContentEmbeddingRepository
+        extends JpaRepository<ContentEmbedding, Long>, ContentEmbeddingRepositoryCustom {
 
     /**
      * Find top K most similar embeddings using pgvector cosine distance.
