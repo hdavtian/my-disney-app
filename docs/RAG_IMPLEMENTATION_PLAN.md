@@ -2655,7 +2655,7 @@ cd C:\sites\my-disney-app\backend
 ```powershell
 $headers = @{
   "Content-Type" = "application/json"
-  "X-Admin-API-Key" = "xrn5gEMTwUWHtbLDSlvqY9f6sGAo71iB"
+  "X-Admin-API-Key" = "your-admin-api-key-here"
 }
 Invoke-RestMethod -Uri "http://localhost:8080/api/admin/embeddings/generate" -Method Post -Headers $headers
 ```
@@ -2718,7 +2718,7 @@ After each bulk data update (JSON imports):
    cd C:\sites\my-disney-app\backend
    Invoke-RestMethod -Uri "http://localhost:8080/api/admin/embeddings/generate" `
      -Method Post `
-     -Headers @{"Content-Type"="application/json"; "X-Admin-API-Key"="xrn5gEMTwUWHtbLDSlvqY9f6sGAo71iB"} `
+     -Headers @{"Content-Type"="application/json"; "X-Admin-API-Key"="your-admin-api-key-here"} `
      -Body '{"forceRegenerate":true}'
    ```
 3. **Test park queries** to verify fix:

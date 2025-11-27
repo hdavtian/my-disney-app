@@ -9,8 +9,7 @@
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
-const ADMIN_API_KEY =
-  import.meta.env.VITE_ADMIN_API_KEY || "xrn5gEMTwUWHtbLDSlvqY9f6sGAo71iB";
+const ADMIN_API_KEY = import.meta.env.VITE_ADMIN_API_KEY || "";
 
 export interface RagQueryRequest {
   query: string;
