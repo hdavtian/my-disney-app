@@ -2688,6 +2688,59 @@ After each bulk data update (JSON imports):
 
 ---
 
+## TODO: Critical Bug Fix Required
+
+### ⚠️ Park Embeddings Not Searchable - MUST FIX BEFORE PRODUCTION
+
+**Issue Discovered**: Park embeddings exist but don't match well with user queries. Tokyo DisneySea and EPCOT queries return characters instead of parks.
+
+**Root Cause**: `buildParkText()` in `EmbeddingService.java` was too minimal - only included name, location, and long description. Missing critical fields:
+
+- Resort name
+- Park type
+- Theme
+- Opening year
+- Short description (many parks have better short descriptions)
+- State/region in location
+
+**Fix Applied** (code changed, NOT yet regenerated):
+
+- Enhanced `buildParkText()` to include ALL relevant park fields
+- Added "Type: Theme Park" for better semantic matching
+- Improved location formatting (city, state/region, country)
+- Added both short AND long descriptions
+
+**ACTION REQUIRED**:
+
+1. **Restart backend in IntelliJ** to compile new `EmbeddingService.java`
+2. **Regenerate ALL embeddings** with enhanced park text:
+   ```powershell
+   cd C:\sites\my-disney-app\backend
+   Invoke-RestMethod -Uri "http://localhost:8080/api/admin/embeddings/generate" `
+     -Method Post `
+     -Headers @{"Content-Type"="application/json"; "X-Admin-API-Key"="xrn5gEMTwUWHtbLDSlvqY9f6sGAo71iB"} `
+     -Body '{"forceRegenerate":true}'
+   ```
+3. **Test park queries** to verify fix:
+
+   ```powershell
+   # Test Tokyo DisneySea
+   $body = '{"query":"Tell me about the Disney park in Tokyo"}';
+   Invoke-RestMethod -Uri "http://localhost:8080/api/rag/query" ...
+
+   # Test EPCOT
+   $body = '{"query":"Tell me about Epcot theme park"}';
+   Invoke-RestMethod -Uri "http://localhost:8080/api/rag/query" ...
+   ```
+
+4. **Verify park content_type appears in top 5 sources** (not just characters)
+
+**Expected Time**: ~2-3 minutes to regenerate 1,023 embeddings
+
+**Status**: ❌ CODE CHANGED, EMBEDDINGS NOT REGENERATED YET
+
+---
+
 ## Cost Monitoring
 
 **Monthly Cost Estimate:**

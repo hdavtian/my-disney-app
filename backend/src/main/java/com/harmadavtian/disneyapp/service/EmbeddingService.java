@@ -387,7 +387,8 @@ public class EmbeddingService {
     /**
      * Build rich text content for park embedding.
      * 
-     * Format: Park name, location, description.
+     * Format: Park name, location, resort, theme, descriptions.
+     * Enhanced with additional context for better semantic search.
      * 
      * @param park Park entity
      * @return Text content for embedding
@@ -396,16 +397,39 @@ public class EmbeddingService {
         StringBuilder sb = new StringBuilder();
 
         sb.append("Disney Park: ").append(park.getName()).append("\n");
+        sb.append("Type: Theme Park\n");
 
-        if (park.getCity() != null || park.getCountry() != null) {
+        if (park.getCity() != null || park.getStateRegion() != null || park.getCountry() != null) {
             sb.append("Location: ");
+            List<String> locationParts = new ArrayList<>();
             if (park.getCity() != null)
-                sb.append(park.getCity());
-            if (park.getCity() != null && park.getCountry() != null)
-                sb.append(", ");
+                locationParts.add(park.getCity());
+            if (park.getStateRegion() != null)
+                locationParts.add(park.getStateRegion());
             if (park.getCountry() != null)
-                sb.append(park.getCountry());
+                locationParts.add(park.getCountry());
+            sb.append(String.join(", ", locationParts));
             sb.append("\n");
+        }
+
+        if (park.getResort() != null) {
+            sb.append("Resort: ").append(park.getResort()).append("\n");
+        }
+
+        if (park.getParkType() != null) {
+            sb.append("Park Type: ").append(park.getParkType()).append("\n");
+        }
+
+        if (park.getTheme() != null) {
+            sb.append("Theme: ").append(park.getTheme()).append("\n");
+        }
+
+        if (park.getOpeningDate() != null) {
+            sb.append("Opened: ").append(park.getOpeningDate().getYear()).append("\n");
+        }
+
+        if (park.getShortDescription() != null) {
+            sb.append("\n").append(park.getShortDescription()).append("\n");
         }
 
         if (park.getLongDescription() != null) {

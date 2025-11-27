@@ -27,6 +27,7 @@ export interface Message {
 }
 
 const STORAGE_KEY = "rag-chat-history";
+const SETTINGS_KEY = "rag-chat-settings";
 
 export function RagChatInterface() {
   const navigate = useNavigate();
@@ -49,8 +50,30 @@ export function RagChatInterface() {
   });
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showCitations, setShowCitations] = useState(() => {
+    // Load citation preference from sessionStorage
+    try {
+      const stored = sessionStorage.getItem(SETTINGS_KEY);
+      if (stored) {
+        const settings = JSON.parse(stored);
+        return settings.showCitations ?? true;
+      }
+    } catch (error) {
+      console.error("Failed to load settings:", error);
+    }
+    return true; // Default to showing citations
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Save settings to sessionStorage whenever they change
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(SETTINGS_KEY, JSON.stringify({ showCitations }));
+    } catch (error) {
+      console.error("Failed to save settings:", error);
+    }
+  }, [showCitations]);
 
   // Save messages to sessionStorage whenever they change
   useEffect(() => {
@@ -169,7 +192,8 @@ export function RagChatInterface() {
                     )}
                   </div>
 
-                  {message.response?.sources &&
+                  {showCitations &&
+                    message.response?.sources &&
                     message.response.sources.length > 0 && (
                       <div className="message-sources">
                         <h4>Sources:</h4>
@@ -211,24 +235,36 @@ export function RagChatInterface() {
       </div>
 
       <form className="chat-input-form" onSubmit={handleSubmit}>
-        <input
-          ref={inputRef}
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Ask a question about Disney..."
-          className="chat-input"
-          disabled={isLoading}
-          autoFocus
-        />
-        <button
-          type="submit"
-          className="chat-submit-button"
-          disabled={!inputValue.trim() || isLoading}
-          aria-label="Send question"
-        >
-          {isLoading ? "⏳" : "🚀"}
-        </button>
+        <div className="input-controls">
+          <label className="citation-toggle">
+            <input
+              type="checkbox"
+              checked={showCitations}
+              onChange={(e) => setShowCitations(e.target.checked)}
+            />
+            <span>Show citations</span>
+          </label>
+        </div>
+        <div className="input-row">
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Ask a question about Disney..."
+            className="chat-input"
+            disabled={isLoading}
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="chat-submit-button"
+            disabled={!inputValue.trim() || isLoading}
+            aria-label="Send question"
+          >
+            {isLoading ? "⏳" : "🚀"}
+          </button>
+        </div>
       </form>
     </div>
   );
