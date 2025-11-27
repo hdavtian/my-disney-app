@@ -71,6 +71,16 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
   - Examples: `gh pr create`, `gh issue list`, `gh workflow run`
   - Prefer `gh` commands for GitHub automation instead of web UI
 - **PowerShell**: Default shell environment (see Critical Workflow Rules below)
+- **Docker + PostgreSQL CLI**: Direct database access via Docker container
+  - Container name: `strange_gagarin`
+  - Database: `disneyapp`
+  - Username: `postgres`
+  - Password: `amelia`
+  - **List databases**: `docker exec strange_gagarin psql -U postgres -c "\l"`
+  - **Connect to disneyapp**: `docker exec -it strange_gagarin psql -U postgres -d disneyapp`
+  - **Run SQL query**: `docker exec strange_gagarin psql -U postgres -d disneyapp -c "SELECT COUNT(*) FROM characters;"`
+  - **Check extensions**: `docker exec strange_gagarin psql -U postgres -d disneyapp -c "\dx"`
+  - Use this for schema verification, migration checks, pgvector validation, etc.
 
 ---
 
