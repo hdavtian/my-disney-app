@@ -140,6 +140,26 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
 - **For url_id parameters**: Use snake_case full names (e.g., `"snow_white_and_the_seven_dwarfs"`, `"aladdin"`)
 - **Goal**: Users should be able to click "Try it out" in Swagger UI and get successful responses immediately without guessing values
 
+**Environment Variables & Configuration Management:**
+
+- **NEVER hardcode environment-specific values** (URLs, API keys, database connections, storage paths)
+- **ALWAYS check existing environment files** before adding new configuration:
+  - **Frontend**: `frontend/.env.production` (Vite variables with `VITE_` prefix)
+  - **Backend**: `backend/src/main/resources/application.properties` and profile-specific files
+- **Environment variable patterns**:
+  - Frontend: `VITE_API_BASE_URL`, `VITE_ASSETS_BASE_URL`, etc.
+  - Backend: Spring Boot properties (can use `${ENV_VAR:default}` syntax)
+- **Production mistake prevention**:
+  - Hardcoded `localhost` URLs will break in production
+  - Hardcoded API keys expose security risks
+  - Always externalize configuration
+- **When adding new features requiring configuration**:
+  1. Check if similar config already exists in env files
+  2. Follow existing naming conventions
+  3. Add to appropriate env file(s)
+  4. Document in relevant README
+  5. Use environment variables in code, never hardcode
+
 ---
 
 ## 🧩 JavaScript / TypeScript Rules
