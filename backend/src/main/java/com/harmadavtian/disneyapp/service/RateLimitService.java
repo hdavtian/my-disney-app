@@ -10,14 +10,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Service for managing rate limits per session with tier-based quotas.
+ * Service for managing rate limits per session and IP address with tier-based
+ * quotas.
  * Tracks usage in hourly windows and enforces limits based on user tier.
+ * Uses dual tracking (session + IP) to prevent cookie-clearing bypass.
  */
 @Service
 public class RateLimitService {
     private static final Logger logger = LoggerFactory.getLogger(RateLimitService.class);
 
     private final Map<String, UsageTracker> sessionUsage = new ConcurrentHashMap<>();
+    private final Map<String, UsageTracker> ipUsage = new ConcurrentHashMap<>();
 
     /**
      * Tracks usage count and time window for a session.
@@ -63,21 +66,38 @@ public class RateLimitService {
     }
 
     /**
-     * Checks if session can make another query and increments usage counter.
+     * Checks if session/IP can make another query and increments usage counters.
+     * Enforces BOTH session-based and IP-based limits to prevent cookie bypass.
      *
      * @param sessionId Unique session identifier
+     * @param ipAddress Client IP address
      * @param tier      User's rate limit tier (free, premium, admin)
      * @return true if query allowed, false if rate limit exceeded
      */
-    public boolean checkAndIncrementUsage(String sessionId, String tier) {
-        int limit = getTierLimit(tier);
-        UsageTracker tracker = sessionUsage.computeIfAbsent(sessionId, k -> new UsageTracker());
+    public boolean checkAndIncrementUsage(String sessionId, String ipAddress, String tier) {
+        int sessionLimit = getTierLimit(tier);
+        int ipLimit = getIpTierLimit(tier);
 
-        boolean allowed = tracker.incrementAndCheck(limit);
+        // Track session usage
+        UsageTracker sessionTracker = sessionUsage.computeIfAbsent(sessionId, k -> new UsageTracker());
+        boolean sessionAllowed = sessionTracker.incrementAndCheck(sessionLimit);
+
+        // Track IP usage
+        UsageTracker ipTracker = ipUsage.computeIfAbsent(ipAddress, k -> new UsageTracker());
+        boolean ipAllowed = ipTracker.incrementAndCheck(ipLimit);
+
+        // Both must be within limits
+        boolean allowed = sessionAllowed && ipAllowed;
 
         if (!allowed) {
-            logger.warn("Rate limit exceeded for session {} (tier: {}, limit: {})",
-                    sessionId, tier, limit);
+            if (!sessionAllowed) {
+                logger.warn("Session rate limit exceeded for session {} (tier: {}, limit: {})",
+                        sessionId, tier, sessionLimit);
+            }
+            if (!ipAllowed) {
+                logger.warn("IP rate limit exceeded for IP {} (tier: {}, limit: {})",
+                        ipAddress, tier, ipLimit);
+            }
         }
 
         return allowed;
@@ -85,18 +105,33 @@ public class RateLimitService {
 
     /**
      * Gets current usage stats for a session.
+     * Always returns session-based stats for display to user.
+     * IP tracking is invisible - used only for background enforcement.
      *
      * @param sessionId Unique session identifier
+     * @param ipAddress Client IP address
      * @param tier      User's rate limit tier
-     * @return Array: [used, limit, remaining]
+     * @return Array: [used, limit, remaining] based on session
      */
-    public int[] getUsageStats(String sessionId, String tier) {
-        int limit = getTierLimit(tier);
-        UsageTracker tracker = sessionUsage.get(sessionId);
-        int used = tracker != null ? tracker.getCount() : 0;
-        int remaining = Math.max(0, limit - used);
+    public int[] getUsageStats(String sessionId, String ipAddress, String tier) {
+        int sessionLimit = getTierLimit(tier);
+        int ipLimit = getIpTierLimit(tier);
 
-        return new int[] { used, limit, remaining };
+        // Get session stats (what we show to user)
+        UsageTracker sessionTracker = sessionUsage.get(sessionId);
+        int sessionUsed = sessionTracker != null ? sessionTracker.getCount() : 0;
+        int sessionRemaining = Math.max(0, sessionLimit - sessionUsed);
+
+        // Get IP stats (background check only)
+        UsageTracker ipTracker = ipUsage.get(ipAddress);
+        int ipUsed = ipTracker != null ? ipTracker.getCount() : 0;
+        int ipRemaining = Math.max(0, ipLimit - ipUsed);
+
+        // Always return session stats for display
+        // But adjust remaining if IP limit is more restrictive
+        int actualRemaining = Math.min(sessionRemaining, ipRemaining);
+
+        return new int[] { sessionUsed, sessionLimit, actualRemaining };
     }
 
     /**
@@ -111,7 +146,7 @@ public class RateLimitService {
     }
 
     /**
-     * Gets query limit for a tier.
+     * Gets query limit for a tier (session-based).
      *
      * @param tier Rate limit tier name
      * @return Maximum queries per hour for the tier
@@ -121,6 +156,21 @@ public class RateLimitService {
             case "premium" -> 100;
             case "admin" -> 1000;
             default -> 10; // free tier
+        };
+    }
+
+    /**
+     * Gets IP-based query limit for a tier.
+     * Set equal to session limits - IP is the hard cap that can't be bypassed.
+     *
+     * @param tier Rate limit tier name
+     * @return Maximum queries per hour per IP for the tier
+     */
+    private int getIpTierLimit(String tier) {
+        return switch (tier != null ? tier.toLowerCase() : "free") {
+            case "premium" -> 100; // Same as session limit
+            case "admin" -> 1000; // Same as session limit
+            default -> 10; // Same as free tier
         };
     }
 

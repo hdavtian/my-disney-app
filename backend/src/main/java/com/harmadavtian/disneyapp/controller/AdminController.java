@@ -1,8 +1,16 @@
 package com.harmadavtian.disneyapp.controller;
 
+import com.harmadavtian.disneyapp.service.AdminAuthService;
 import com.harmadavtian.disneyapp.service.DataSeeder;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
@@ -13,24 +21,40 @@ import java.util.HashMap;
 
 /**
  * Admin endpoints for data management operations.
+ * All endpoints require X-Admin-API-Key header for authentication.
  */
 @RestController
 @RequestMapping("/api/admin")
+@Tag(name = "Admin - Data Management", description = "Admin endpoints for reseeding database content")
 public class AdminController {
 
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     private final DataSeeder dataSeeder;
+    private final AdminAuthService adminAuthService;
 
-    public AdminController(DataSeeder dataSeeder) {
+    public AdminController(DataSeeder dataSeeder, AdminAuthService adminAuthService) {
         this.dataSeeder = dataSeeder;
+        this.adminAuthService = adminAuthService;
     }
 
     /**
      * Reseed characters table from JSON file (DELETE ALL + INSERT ALL).
      */
     @PostMapping("/reseed-characters")
-    public ResponseEntity<?> reseedCharacters() {
+    @Operation(summary = "Reseed characters", description = "Delete all characters and reseed from JSON file. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Characters reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedCharacters(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding characters from JSON file");
             Map<String, Integer> result = dataSeeder.reseedCharacters();
@@ -52,7 +76,19 @@ public class AdminController {
      * Reseed movies table from JSON file (DELETE ALL + INSERT ALL).
      */
     @PostMapping("/reseed-movies")
-    public ResponseEntity<?> reseedMovies() {
+    @Operation(summary = "Reseed movies", description = "Delete all movies and reseed from JSON file. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movies reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedMovies(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding movies from JSON file");
             Map<String, Integer> result = dataSeeder.reseedMovies();
@@ -74,7 +110,19 @@ public class AdminController {
      * Reseed hero carousel (DELETE ALL + regenerate from movies).
      */
     @PostMapping("/reseed-hero-carousel")
-    public ResponseEntity<?> reseedHeroCarousel() {
+    @Operation(summary = "Reseed hero carousel", description = "Delete all hero carousel items and regenerate from movies. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Hero carousel reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedHeroCarousel(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding hero carousel");
             Map<String, Integer> result = dataSeeder.reseedHeroCarousel();
@@ -96,7 +144,19 @@ public class AdminController {
      * Reseed movie-character relationships from JSON file (CLEAR ALL + INSERT ALL).
      */
     @PostMapping("/reseed-relationships")
-    public ResponseEntity<?> reseedMovieCharacterRelationships() {
+    @Operation(summary = "Reseed movie-character relationships", description = "Clear all relationships and reseed from JSON file. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Relationships reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedMovieCharacterRelationships(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding movie-character relationships from JSON file");
             Map<String, Integer> result = dataSeeder.reseedMovieCharacterRelationships();
@@ -118,7 +178,19 @@ public class AdminController {
      * Reseed Disney Parks table from JSON file (DELETE ALL + INSERT ALL).
      */
     @PostMapping("/reseed-parks")
-    public ResponseEntity<?> reseedDisneyParks() {
+    @Operation(summary = "Reseed Disney parks", description = "Delete all parks and reseed from JSON file. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Disney parks reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedDisneyParks(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding Disney parks from JSON file");
             dataSeeder.reseedDisneyParks();
@@ -140,7 +212,19 @@ public class AdminController {
      * ALL).
      */
     @PostMapping("/reseed-attractions")
-    public ResponseEntity<?> reseedDisneyParksAttractions() {
+    @Operation(summary = "Reseed Disney park attractions", description = "Delete all attractions and reseed from JSON file. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Attractions reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedDisneyParksAttractions(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding Disney park attractions from JSON file");
             dataSeeder.reseedDisneyParksAttractions();
@@ -161,7 +245,19 @@ public class AdminController {
      * Reseed character hints table from JSON file (DELETE ALL + INSERT ALL).
      */
     @PostMapping("/reseed-character-hints")
-    public ResponseEntity<?> reseedCharacterHints() {
+    @Operation(summary = "Reseed character hints", description = "Delete all character hints and reseed from JSON file. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Character hints reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedCharacterHints(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding character hints from JSON file");
             Map<String, Integer> result = dataSeeder.reseedCharacterHints();
@@ -183,7 +279,19 @@ public class AdminController {
      * Reseed movie hints table from JSON file (DELETE ALL + INSERT ALL).
      */
     @PostMapping("/reseed-movie-hints")
-    public ResponseEntity<?> reseedMovieHints() {
+    @Operation(summary = "Reseed movie hints", description = "Delete all movie hints and reseed from JSON file. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movie hints reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedMovieHints(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding movie hints from JSON file");
             Map<String, Integer> result = dataSeeder.reseedMovieHints();
@@ -205,7 +313,19 @@ public class AdminController {
      * Reseed all hints (character hints + movie hints) from JSON files.
      */
     @PostMapping("/reseed-all-hints")
-    public ResponseEntity<?> reseedAllHints() {
+    @Operation(summary = "Reseed all hints", description = "Delete and reseed both character and movie hints from JSON files. **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All hints reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedAllHints(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding all hints from JSON files");
 
@@ -231,7 +351,19 @@ public class AdminController {
      * attractions, hints) from JSON files.
      */
     @PostMapping("/reseed-all")
-    public ResponseEntity<?> reseedAll() {
+    @Operation(summary = "Reseed all data", description = "Delete and reseed ALL database content from JSON files (characters, movies, carousel, relationships, parks, attractions, hints). **Requires X-Admin-API-Key header.**")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All data reseeded successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - missing or invalid admin API key")
+    })
+    public ResponseEntity<?> reseedAll(
+            @Parameter(description = "Admin API key for authentication", example = "your-admin-api-key", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "X-Admin-API-Key", required = true) String apiKey) {
+
+        if (!adminAuthService.validateApiKey(apiKey)) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("success", false, "error", "Unauthorized - invalid or missing admin API key"));
+        }
+
         try {
             log.info("ADMIN ACTION: Reseeding all data from JSON files");
 
