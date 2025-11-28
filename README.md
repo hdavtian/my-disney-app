@@ -476,6 +476,24 @@ mvn verify          # Run tests + integration tests
 - Database: Neon PostgreSQL (cloud)
 - CI/CD: GitHub Actions
 - Container Registry: GitHub Container Registry (GHCR)
+- **Monitoring**: Azure Application Insights (5GB/month free tier)
+
+#### Monitoring & Observability
+
+**Azure Application Insights** is configured for real-time monitoring:
+
+- **📊 Performance Metrics**: Request rates, response times, failure rates
+- **🐛 Error Tracking**: Exceptions, stack traces, failed requests  
+- **📈 Usage Analytics**: User sessions, page views, geographic distribution
+- **🔍 Distributed Tracing**: Track requests across services
+- **💰 Cost**: FREE (well under 5GB/month limit at current traffic)
+
+**Access Application Insights**:
+1. Azure Portal → `ca-movie-app-api-insights`
+2. View live metrics, performance, failures, and usage
+3. Set up custom alerts for error rates or slow responses
+
+**Connection**: Auto-configured via `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable
 
 #### Azure Container App Scaling Configuration
 
