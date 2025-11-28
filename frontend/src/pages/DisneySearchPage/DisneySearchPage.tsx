@@ -30,6 +30,7 @@ import {
   SearchResultType,
 } from "../../types/DisneySearch";
 import { getImageUrl } from "../../config/assets";
+import { trackEvent } from "../../hooks/useAnalytics";
 import "./DisneySearchPage.scss";
 
 const scopePresets: Array<{
@@ -210,6 +211,12 @@ export const DisneySearchPage = () => {
     if (!query.trim()) {
       return;
     }
+
+    // Track Disney search query
+    trackEvent("disney_search", {
+      search_term: query.trim(),
+    });
+
     dispatch(
       executeSearch({
         query: query.trim(),

@@ -9,6 +9,7 @@ import type {
 import { fetch_random_movies_except } from "../../../api/guessingGameApi";
 import type { movie_response } from "../../../types/guessingGame";
 import { getImageUrl } from "../../../config/assets";
+import { trackEvent } from "../../../hooks/useAnalytics";
 import "./GuessingGameStart.scss";
 
 interface GuessingGameStartProps {
@@ -57,6 +58,15 @@ export const GuessingGameStart = ({
       difficulty: selected_difficulty,
       question_count: selected_question_count,
     };
+
+    // Track game start
+    trackEvent("game_started", {
+      game_type: "guessing_game",
+      category: selected_category,
+      difficulty: selected_difficulty,
+      question_count: selected_question_count,
+    });
+
     on_start_game(options);
   };
 

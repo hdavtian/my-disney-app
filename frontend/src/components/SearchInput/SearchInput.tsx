@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackEvent } from "../../hooks/useAnalytics";
 import "./SearchInput.scss";
 
 export interface SearchInputProps<T> {
@@ -131,6 +132,11 @@ export const SearchInput = <T extends { id: number | string }>({
         setShowDropdown(results.length > 0);
       }
       currentOnSearch(results, query);
+
+      // Track search event
+      trackEvent("search", {
+        search_term: query,
+      });
     }, 300); // Debounce delay
 
     return () => clearTimeout(timer);

@@ -11,6 +11,7 @@ import {
 } from "../../../types/guessingGame";
 import { getImageUrl } from "../../../config/assets";
 import { Confetti } from "../Confetti/Confetti";
+import { trackEvent } from "../../../hooks/useAnalytics";
 import "./GuessingGameComplete.scss";
 
 /**
@@ -106,6 +107,20 @@ export function GuessingGameComplete({
   // Animated counts
   const animated_correct = useCountingAnimation(score.correct, 800);
   const animated_accuracy = useCountingAnimation(accuracy, 1200);
+
+  // Track game completion on mount
+  useEffect(() => {
+    trackEvent("game_completed", {
+      game_type: "guessing_game",
+      category: options.category,
+      difficulty: options.difficulty,
+      question_count: total_questions,
+      correct_answers: score.correct,
+      accuracy: accuracy,
+      hints_used: hints_used,
+      show_answers_used: score.show_answers_used,
+    });
+  }, []); // Empty deps - only track once on mount
 
   return (
     <motion.div

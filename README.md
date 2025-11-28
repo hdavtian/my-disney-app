@@ -483,12 +483,13 @@ mvn verify          # Run tests + integration tests
 **Azure Application Insights** is configured for real-time monitoring:
 
 - **📊 Performance Metrics**: Request rates, response times, failure rates
-- **🐛 Error Tracking**: Exceptions, stack traces, failed requests  
+- **🐛 Error Tracking**: Exceptions, stack traces, failed requests
 - **📈 Usage Analytics**: User sessions, page views, geographic distribution
 - **🔍 Distributed Tracing**: Track requests across services
 - **💰 Cost**: FREE (well under 5GB/month limit at current traffic)
 
 **Access Application Insights**:
+
 1. Azure Portal → `ca-movie-app-api-insights`
 2. View live metrics, performance, failures, and usage
 3. Set up custom alerts for error rates or slow responses

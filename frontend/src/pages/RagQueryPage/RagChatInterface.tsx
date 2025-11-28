@@ -19,6 +19,7 @@ import {
   TierStatus,
 } from "../../services/ragService";
 import { RagCitationCard } from "./RagCitationCard";
+import { trackEvent } from "../../hooks/useAnalytics";
 import "./RagQueryPage.scss";
 
 export interface Message {
@@ -137,10 +138,14 @@ export function RagChatInterface() {
     setInputValue("");
     setIsLoading(true);
 
+    const startTime = Date.now();
+
     try {
       const response = await queryRag({
         query: userMessage.content,
       });
+
+      const responseTime = Date.now() - startTime;
 
       const assistantMessage: Message = {
         id: `assistant-${Date.now()}`,
@@ -151,6 +156,15 @@ export function RagChatInterface() {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      // Track successful RAG query in Google Analytics
+      trackEvent("rag_query", {
+        query_length: userMessage.content.length,
+        response_time_ms: responseTime,
+        citation_count: response.sources?.length || 0,
+        user_tier: tierStatus?.tier || "free",
+        has_error: false,
+      });
 
       // Refresh tier status after query
       try {
@@ -170,6 +184,15 @@ export function RagChatInterface() {
       };
 
       setMessages((prev) => [...prev, errorMessage]);
+
+      // Track failed RAG query
+      trackEvent("rag_query", {
+        query_length: userMessage.content.length,
+        response_time_ms: Date.now() - startTime,
+        user_tier: tierStatus?.tier || "free",
+        has_error: true,
+        error_message: ragError.message || "Unknown error",
+      });
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();
@@ -188,8 +211,14 @@ export function RagChatInterface() {
       setAccessCode("");
       setUpgradeError("");
       setShowUpgradeModal(false);
+
+      // Track successful premium unlock
+      trackEvent("premium_unlock", { success: true });
     } catch (error) {
       setUpgradeError((error as Error).message);
+
+      // Track failed premium unlock
+      trackEvent("premium_unlock", { success: false });
     }
   };
 
