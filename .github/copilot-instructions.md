@@ -199,6 +199,70 @@ Goal: build a **modern Disney character catalog** using **React (frontend)** and
   4. Document in relevant README
   5. Use environment variables in code, never hardcode
 
+**🔐 Security & Secrets Management (CRITICAL - NEVER VIOLATE):**
+
+- **ABSOLUTELY NEVER commit secrets to Git** - This includes:
+  - ❌ API keys (Google Gemini, OpenAI, Azure, etc.)
+  - ❌ Database passwords (Neon, PostgreSQL, etc.)
+  - ❌ Access codes or passwords
+  - ❌ Admin API keys
+  - ❌ Authentication tokens
+  - ❌ Any production credentials
+- **Where secrets MUST live**:
+
+  - ✅ Azure Container App environment variables (for production)
+  - ✅ Local `.env` files (gitignored - for development)
+  - ✅ Azure Key Vault (for sensitive production secrets)
+  - ✅ GitHub Secrets (for CI/CD workflows)
+
+- **Where secrets MUST NEVER appear**:
+
+  - ❌ PowerShell scripts (`.ps1` files)
+  - ❌ Bash scripts (`.sh` files)
+  - ❌ Documentation files (`.md` files) - use placeholders like `"your-api-key-here"`
+  - ❌ Source code files (`.ts`, `.tsx`, `.java`, etc.) - use environment variables
+  - ❌ Configuration files committed to Git
+  - ❌ Comments in code
+  - ❌ Terminal command examples
+
+- **When working with secrets**:
+
+  1. ✅ Always read from environment variables: `process.env.VAR_NAME` or `$env:VAR_NAME`
+  2. ✅ Use placeholders in documentation: `"your-gemini-api-key"`, `"example-password"`
+  3. ✅ Check `.gitignore` before creating files with secrets
+  4. ✅ If a script needs a secret, prompt user to set environment variable first
+  5. ✅ Delete temporary scripts that contain secrets after use
+
+- **Code examples with secrets**:
+
+  ```typescript
+  // ❌ WRONG - Hardcoded API key
+  const API_KEY = "AIzaSyAbc123...";
+
+  // ✅ CORRECT - Environment variable
+  const API_KEY = import.meta.env.VITE_API_KEY || "";
+  ```
+
+  ```powershell
+  # ❌ WRONG - Hardcoded password in script
+  $env:DB_PASSWORD = "actual-password-123"
+
+  # ✅ CORRECT - Require user to set it
+  if (-not $env:DB_PASSWORD) {
+      Write-Host "ERROR: DB_PASSWORD not set" -ForegroundColor Red
+      exit 1
+  }
+  ```
+
+- **If you accidentally expose a secret**:
+
+  1. IMMEDIATELY alert the user
+  2. Delete the file or remove the secret
+  3. Recommend rotating the credential
+  4. Never assume "it's just for testing" - treat ALL secrets as production secrets
+
+- **Remember**: GitHub scans commits for secrets. Once committed, even if deleted later, the secret is compromised in Git history forever.
+
 ---
 
 ## 🧩 JavaScript / TypeScript Rules
