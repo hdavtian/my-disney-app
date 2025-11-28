@@ -10,6 +10,7 @@ import { clearGameState as clearToonQuizState } from "../../utils/quizStorage";
 import { resetPagination as resetMoviesPagination } from "../../store/slices/moviesSlice";
 import { resetPagination as resetCharactersPagination } from "../../store/slices/charactersSlice";
 import { useTheme } from "../../hooks/useTheme";
+import { trackEvent } from "../../hooks/useAnalytics";
 import { VersionInfo } from "../VersionInfo/VersionInfo";
 import "./SiteSettings.scss";
 
@@ -478,7 +479,13 @@ export const SiteSettings: React.FC<SiteSettingsProps> = ({ show, onHide }) => {
                         className={`theme-card ${
                           selectedTheme === theme.id ? "theme-card--active" : ""
                         }`}
-                        onClick={() => changeTheme(theme.id)}
+                        onClick={() => {
+                          changeTheme(theme.id);
+                          trackEvent("theme_selected", {
+                            theme_id: theme.id,
+                            theme_name: theme.name,
+                          });
+                        }}
                         aria-label={`Select ${theme.name} theme`}
                         data-theme={theme.id}
                       >

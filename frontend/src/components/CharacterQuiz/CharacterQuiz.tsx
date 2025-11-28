@@ -7,6 +7,7 @@ import { useAppSelector } from "../../hooks/redux";
 import { DIFFICULTY_CONFIGS } from "../../store/slices/quizSlice";
 import { getImageUrl } from "../../config/assets";
 import { initializeCachedCharacters } from "../../utils/quizApiCached";
+import { trackEvent } from "../../hooks/useAnalytics";
 import "./CharacterQuiz.scss";
 
 export const CharacterQuiz = React.memo(() => {
@@ -66,12 +67,47 @@ export const CharacterQuiz = React.memo(() => {
 
   // Banner state for random characters
   const [bannerCharacters, setBannerCharacters] = useState<Character[]>([]);
+  const [hasTrackedCompletion, setHasTrackedCompletion] = useState(false);
 
   // Load preferences and saved game state on component mount
   useEffect(() => {
     quiz.loadPreferences();
     quiz.loadSavedState();
   }, []);
+
+  // Track quiz completion when questionsRemaining reaches 0
+  useEffect(() => {
+    if (
+      quiz.isGameActive &&
+      quiz.questionsRemaining === 0 &&
+      quiz.score.total > 0 &&
+      !hasTrackedCompletion
+    ) {
+      trackEvent("game_completed", {
+        game_type: "character_quiz",
+        difficulty: quiz.selectedDifficulty,
+        total_questions: quiz.score.total,
+        correct_answers: quiz.score.correct,
+        accuracy: quiz.score.percentage,
+        hints_used: quiz.hintsUsed,
+        answers_revealed: quiz.answersRevealed,
+        longest_streak: quiz.streak.longest,
+      });
+      setHasTrackedCompletion(true);
+    }
+  }, [
+    quiz.questionsRemaining,
+    quiz.isGameActive,
+    quiz.score.total,
+    hasTrackedCompletion,
+  ]);
+
+  // Reset completion tracking when game restarts
+  useEffect(() => {
+    if (!quiz.isGameActive) {
+      setHasTrackedCompletion(false);
+    }
+  }, [quiz.isGameActive]);
 
   // Auto-save game state whenever it changes
   useEffect(() => {
@@ -317,6 +353,15 @@ export const CharacterQuiz = React.memo(() => {
       alert("Please wait for characters to load before starting the quiz!");
       return;
     }
+
+    // Track game start
+    trackEvent("game_started", {
+      game_type: "character_quiz",
+      difficulty: quiz.selectedDifficulty,
+      total_questions: quiz.selectedQuestionsCount,
+      timer_enabled: quiz.selectedDifficulty === "harder",
+      show_hints: DIFFICULTY_CONFIGS[quiz.selectedDifficulty].showHints,
+    });
 
     quiz.startGame();
   };

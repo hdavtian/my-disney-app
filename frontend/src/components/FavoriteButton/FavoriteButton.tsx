@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useFavorites, FavoriteType } from "../../hooks/useFavorites";
+import { trackEvent } from "../../hooks/useAnalytics";
 import "./FavoriteButton.scss";
 
 interface FavoriteButtonProps {
@@ -23,8 +24,16 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
     e.stopPropagation();
     if (selected) {
       remove(id, type);
+      trackEvent("favorite_removed", {
+        item_type: type,
+        item_id: id,
+      });
     } else {
       add(id, type);
+      trackEvent("favorite_added", {
+        item_type: type,
+        item_id: id,
+      });
     }
   };
 
