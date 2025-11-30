@@ -1,0 +1,88 @@
+@use "../../styles/variables.scss" as *;
+@use "../../styles/mixins.scss" as *;
+
+.youtube-video {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+        .youtube-video__overlay {
+            opacity: 1;
+        }
+
+        .youtube-video__play-icon {
+            transform: scale(1.1);
+        }
+    }
+
+    &__thumbnail {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; // 16:9 aspect ratio
+        background-color: var(--bg-secondary);
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.2) 0%,
+                rgba(0, 0, 0, 0.4) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    &__play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    &__play-icon {
+        width: 68px;
+        height: 48px;
+        transition: transform 0.3s ease;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+
+    &--error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 200px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        color: var(--text-secondary);
+        font-size: var(--text-sm);
+    }
+
+    // Responsive adjustments
+    @include mobile {
+        &__play-icon {
+            width: 56px;
+            height: 40px;
+        }
+    }
+}
