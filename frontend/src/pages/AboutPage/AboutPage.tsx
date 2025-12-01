@@ -180,15 +180,6 @@ export const AboutPage = () => {
             </div>
           </div>
         </div>
-
-        <div className="content-section">
-          <h3>Coming Soon</h3>
-          <p>
-            Additional content including project walkthroughs and technical
-            deep-dives will be added here.
-          </p>
-          {/* Future: YouTube video embeds and project links will go here */}
-        </div>
       </div>
     </motion.div>
   );

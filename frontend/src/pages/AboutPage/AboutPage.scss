@@ -103,12 +103,6 @@
                         color: var(--accent-primary);
                         font-weight: var(--font-normal);
                     }
-
-                    // Temporary highlight for new content
-                    &.new-content {
-                        color: #00d4ff;
-                        font-weight: var(--font-semibold);
-                    }
                 }
             }
 

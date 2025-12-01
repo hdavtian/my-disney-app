@@ -243,22 +243,6 @@ export const GamesPage = React.memo(() => {
             </GameErrorBoundary>
           )}
         </motion.section>
-
-        {/* Row 3: Future Game Placeholder */}
-        <motion.section
-          className="games-page__game-row games-page__game-row--future"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
-        >
-          <div className="games-page__placeholder">
-            <div className="games-page__placeholder-icon">🎲</div>
-            <h3 className="games-page__placeholder-title">More Games Coming</h3>
-            <p className="games-page__placeholder-text">
-              Stay tuned for more exciting Disney games!
-            </p>
-          </div>
-        </motion.section>
       </div>
     </motion.div>
   );
