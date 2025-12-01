@@ -6,6 +6,22 @@ This document provides instructions for AI assistants to generate high-quality, 
 
 ---
 
+## 📖 How to Read These Tutorials
+
+**Pro Tip:** These tutorials are markdown files. For the best reading experience:
+
+1. **Open preview in VS Code:**
+   - Press `Ctrl + Shift + V` to open preview in a new tab
+   - Or press `Ctrl + K V` to open preview side-by-side with the code
+2. **Or view on GitHub:**
+   - Push changes to GitHub
+   - Navigate to the file in your browser
+   - GitHub will render it beautifully with syntax highlighting and table of contents
+
+The preview mode makes code blocks easier to read, headings stand out, and the overall structure is much clearer!
+
+---
+
 ## Core Principles
 
 ### 1. **Context Over Theory**
@@ -349,6 +365,125 @@ Before finalizing a tutorial, verify:
 
 ---
 
+## How to Request New Tutorials
+
+### Quick Request Format
+
+To generate a new tutorial, use one of these request patterns:
+
+**Pattern 1: By Component Name**
+```
+
+"Create a tutorial for [ComponentName]"
+
+```
+Example: `"Create a tutorial for SearchInput"`
+
+**Pattern 2: By Component + Specific Concepts**
+```
+
+"Create a tutorial for [ComponentName] covering [concept1], [concept2], [concept3]"
+
+```
+Example: `"Create a tutorial for FavoriteButton covering custom hooks, Redux integration, and event handling"`
+
+**Pattern 3: By Concept (AI will choose best component)**
+```
+
+"Create a tutorial about [concept] using an appropriate component from the Disney App"
+
+```
+Example: `"Create a tutorial about useEffect using an appropriate component from the Disney App"`
+
+**Pattern 4: By Difficulty Level**
+```
+
+"Create a [beginner/intermediate/advanced] tutorial on [topic]"
+
+```
+Example: `"Create an intermediate tutorial on form handling"`
+
+### What Happens Next
+
+When you request a tutorial, the AI will:
+
+1. **Analyze the component** - Read the latest version from the codebase
+2. **Identify concepts** - Determine which React patterns are used
+3. **Follow the template** - Use the structure defined in this guideline
+4. **Generate exercises** - Create 3 practice tasks (beginner → advanced)
+5. **Cross-reference** - Link to related components and documentation
+6. **Apply naming convention** - Name file as `[##]_[component-name]_[primary-concept].md`
+
+### Tips for Better Tutorials
+
+**✅ DO:**
+- Specify the component if you know which one you want to study
+- Mention specific concepts if you want deep focus on them
+- Request tutorials in logical progression (simple → complex)
+- Ask for clarification if the generated tutorial is unclear
+
+**❌ DON'T:**
+- Request tutorials for components that don't exist
+- Ask for concepts not present in the component
+- Skip earlier tutorials if they're prerequisites
+
+### Example Requests
+
+Here are some good examples:
+
+**Beginner Level:**
+```
+
+"Create a tutorial for CharacterCard"
+"Create a tutorial for Footer covering basic component structure"
+"I want to learn about props - create a tutorial using a simple component"
+
+```
+
+**Intermediate Level:**
+```
+
+"Create a tutorial for Navigation covering React Router and active states"
+"Create a tutorial for SearchInput covering refs, effects, and TypeScript generics"
+"Create a tutorial about debouncing using SearchInput"
+
+```
+
+**Advanced Level:**
+```
+
+"Create a tutorial for CharacterQuiz covering complex state management and Redux"
+"Create a tutorial for HeroCarousel covering third-party library integration"
+"Create a tutorial about performance optimization using MovieCarousel"
+
+```
+
+### Customizing Tutorials
+
+You can also request modifications to existing tutorials:
+
+```
+
+"Add more exercises to the MovieCard tutorial"
+"Explain the animation section in Tutorial 01 in more detail"
+"Create a variation of the SearchInput tutorial focused only on TypeScript generics"
+
+```
+
+### Tutorial Series Requests
+
+For comprehensive coverage:
+
+```
+
+"Create tutorials for all card components (MovieCard, CharacterCard, AttractionCard)"
+"Create a series on Redux - setup, slices, hooks, and integration"
+"Create tutorials covering the complete user journey from home page to detail page"
+
+```
+
+---
+
 ## Adaptation Notes
 
 When generating coursework:
@@ -384,5 +519,5 @@ This guide should be updated when:
 
 ---
 
-*Last Updated: November 30, 2025*
+*Last Updated: December 1, 2025*
 ```
