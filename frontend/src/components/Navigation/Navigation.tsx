@@ -11,14 +11,14 @@ export const Navigation = () => {
   const location = useLocation();
 
   const navItems = [
-    { path: "/ask", label: "AI Assistant" },
     { path: "/movies", label: "Movies" },
     { path: "/characters", label: "Characters" },
     { path: "/parks", label: "Parks & Attractions" },
     { path: "/games", label: "Games" },
     { path: "/search", label: "Disney Search" },
+    { path: "/ask", label: "AI Assistant" },
     { path: "/favorites", label: "Favorites" },
-    { path: "/about", label: "About this Demo" },
+    { path: "/about", label: "About Demo" },
   ];
 
   // Helper function to determine if a nav item should be active

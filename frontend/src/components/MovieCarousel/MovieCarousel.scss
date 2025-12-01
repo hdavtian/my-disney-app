@@ -37,7 +37,7 @@
         width: 90%;
         max-width: none;
         margin: 0 auto;
-        padding: 1rem var(--space-4);
+        padding: 0.5rem var(--space-4);
 
         @include mobile {
             width: 100%;
@@ -50,18 +50,7 @@
         // Swiper container
         .swiper {
             width: 100%;
-
-            // Prevent layout shift by reserving space for card aspect ratio
-            // Cards are 4:3 ratio + info section (~60px)
-            min-height: 350px;
-
-            @include mobile {
-                min-height: 300px;
-            }
-
-            @media (min-width: 1024px) {
-                min-height: 380px;
-            }
+            // Removed min-height to let content determine height naturally
         }
 
         .swiper-slide {
@@ -138,7 +127,7 @@
     }
 
     .swiper-wrapper {
-        padding-top: 1rem;
+        padding-top: 0;
     }
 
     .movie-card {
