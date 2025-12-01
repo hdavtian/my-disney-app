@@ -1,0 +1,132 @@
+@use "../../styles/variables.scss" as *;
+@use "../../styles/mixins.scss" as *;
+
+.video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: var(--space-4);
+    outline: none;
+
+    @include mobile {
+        padding: var(--space-2);
+    }
+
+    &__content {
+        width: 100%;
+        max-width: 1400px;
+        background-color: var(--bg-primary);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-4) var(--space-6);
+        background-color: var(--bg-secondary);
+        border-bottom: 1px solid var(--card-border);
+
+        @include mobile {
+            padding: var(--space-3) var(--space-4);
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-3);
+        }
+    }
+
+    &__title {
+        font-family: var(--font-display);
+        font-size: var(--text-lg);
+        font-weight: var(--font-semibold);
+        color: var(--text-primary);
+        margin: 0;
+
+        @include mobile {
+            font-size: var(--text-base);
+        }
+    }
+
+    &__controls {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+
+        @include mobile {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+
+    &__button {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        background: none;
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        &--youtube {
+            @include mobile {
+                span {
+                    display: none;
+                }
+            }
+        }
+
+        &--close {
+            padding: var(--space-2);
+
+            &:hover {
+                background-color: #dc3545;
+                border-color: #dc3545;
+            }
+        }
+
+        svg {
+            flex-shrink: 0;
+        }
+    }
+
+    &__player {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; // 16:9 aspect ratio
+        background-color: #000;
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    }
+}

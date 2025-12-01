@@ -260,3 +260,190 @@
         }
     }
 }
+
+// Theme-specific text color overrides for better readability on detail pages with dark overlays
+body.theme-light,
+body.theme-pixar,
+body.theme-military,
+body.theme-matrix,
+body.theme-marvel {
+    .movie-detail-page {
+
+        &__title,
+        &__section-title {
+            color: #ffffff;
+        }
+
+        &__meta,
+        &__year,
+        &__duration {
+            color: #e2e8f0;
+        }
+
+        &__description p {
+            color: #e2e8f0;
+        }
+
+        &__director p {
+            color: #ffffff;
+        }
+    }
+}
+
+// Matrix theme - keep the green aesthetic but lighter
+body.theme-matrix {
+    .movie-detail-page {
+
+        &__title,
+        &__section-title {
+            color: #66ff88;
+        }
+
+        &__meta,
+        &__year,
+        &__duration {
+            color: #44ff66;
+        }
+
+        &__description p {
+            color: #44ff66;
+        }
+
+        &__director p {
+            color: #66ff88;
+        }
+    }
+}
+
+// Pixar theme - light blue tones
+body.theme-pixar {
+    .movie-detail-page {
+
+        &__title,
+        &__section-title {
+            color: #e8f4f8;
+        }
+
+        &__meta,
+        &__year,
+        &__duration {
+            color: #d0e8f0;
+        }
+
+        &__description p {
+            color: #d0e8f0;
+        }
+
+        &__director p {
+            color: #e8f4f8;
+        }
+    }
+}
+
+// Military theme - light tan/cream tones
+body.theme-military {
+    .movie-detail-page {
+
+        &__title,
+        &__section-title {
+            color: #f0ede0;
+        }
+
+        &__meta,
+        &__year,
+        &__duration {
+            color: #d8d5c8;
+        }
+
+        &__description p {
+            color: #d8d5c8;
+        }
+
+        &__director p {
+            color: #f0ede0;
+        }
+    }
+}
+
+// Marvel theme - light pink/white tones
+body.theme-marvel {
+    .movie-detail-page {
+
+        &__title,
+        &__section-title {
+            color: #ffffff;
+        }
+
+        &__meta,
+        &__year,
+        &__duration {
+            color: #f0d0d8;
+        }
+
+        &__description p {
+            color: #f0d0d8;
+        }
+
+        &__director p {
+            color: #ffffff;
+        }
+    }
+}
+
+// Darker overlays for light-background themes to keep text readable
+body.theme-light,
+body.theme-pixar,
+body.theme-dark {
+    .movie-detail-page {
+        &__content::before {
+            // Override with darker gradient that stays dark at bottom
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.25) 0%,
+                    rgba(0, 0, 0, 0.35) 30%,
+                    rgba(0, 0, 0, 0.4) 70%,
+                    rgba(0, 0, 0, 0.45) 100%);
+        }
+
+        // Override section styling
+        &__characters-section {
+            border-top-color: rgba(255, 255, 255, 0.2);
+        }
+
+        &__section-title {
+            color: #ffffff;
+        }
+
+        // Override character card text colors in the bottom section
+        .character-card {
+            &__name {
+                color: #ffffff;
+            }
+
+            &__category-badge {
+                color: var(--accent-secondary);
+            }
+
+            &:hover &__name {
+                color: var(--accent-secondary);
+            }
+        }
+
+        // Override related characters component title
+        .related-characters__title {
+            color: #ffffff;
+        }
+
+        .related-characters__count {
+            color: #e2e8f0;
+        }
+
+        .related-characters__empty,
+        .related-characters__error {
+            color: #e2e8f0;
+
+            p {
+                color: #e2e8f0;
+            }
+        }
+    }
+}

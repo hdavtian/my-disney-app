@@ -91,6 +91,7 @@ my-disney-app/
 
 - Node.js 18+ and npm
 - Visual Studio Code (recommended)
+- **YouTube Data API Key** (optional but recommended for video components)
 
 **Backend**:
 
@@ -109,6 +110,11 @@ cd frontend
 
 # Install dependencies
 npm install
+
+# Create .env.local file with environment variables
+# Copy .env.local.example if available or create manually:
+# VITE_API_BASE_URL=http://localhost:8080
+# VITE_YOUTUBE_API_KEY=your-youtube-api-key-here (optional)
 
 # Start development server
 npm run dev
@@ -389,6 +395,23 @@ backend/
 - Location-based content
 - Featured characters and movies
 
+### YouTube Video Integration
+
+- **Video showcase** on About page
+- **Modal player** with theater mode
+- **2-column slider** layout with video thumbnails and descriptions
+- **YouTube Data API** integration for video metadata (optional)
+- **Keyboard navigation** and accessibility support
+- **"Watch on YouTube"** and fullscreen options
+
+> **🎥 Note**: YouTube video components work without an API key using public thumbnail URLs. To fetch video metadata (title, description, duration) from YouTube, obtain a free API key from [Google Cloud Console](https://console.cloud.google.com/) and add to `.env.local`:
+>
+> ```bash
+> VITE_YOUTUBE_API_KEY=your-youtube-api-key-here
+> ```
+>
+> **Production**: Add `VITE_YOUTUBE_API_KEY` to Azure Static Web App environment variables (see deployment section).
+
 ### Responsive Design
 
 - Mobile-first approach
@@ -469,6 +492,13 @@ mvn verify          # Run tests + integration tests
 - Platform: Azure Static Web Apps (planned)
 - Build: Vite production build
 - CDN: Azure CDN for static assets
+- **Environment Variables**: Set in Azure Static Web App configuration:
+  - `VITE_API_BASE_URL` - Production API URL
+  - `VITE_ASSETS_BASE_URL` - Azure Blob Storage URL for images
+  - `VITE_GA_MEASUREMENT_ID` - Google Analytics ID
+  - `VITE_YOUTUBE_API_KEY` - YouTube Data API key (TODO: Add before production deployment)
+
+> **⚠️ TODO**: Before deploying to production, add `VITE_YOUTUBE_API_KEY` to Azure Static Web App environment variables to enable YouTube video metadata fetching.
 
 ### Backend
 
