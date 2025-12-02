@@ -31,28 +31,11 @@ export interface Message {
   timestamp: Date;
 }
 
-const STORAGE_KEY = "rag-chat-history";
 const SETTINGS_KEY = "rag-chat-settings";
 
 export function RagChatInterface() {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState<Message[]>(() => {
-    // Load messages from sessionStorage on mount
-    try {
-      const stored = sessionStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        // Convert timestamp strings back to Date objects
-        return parsed.map((msg: any) => ({
-          ...msg,
-          timestamp: new Date(msg.timestamp),
-        }));
-      }
-    } catch (error) {
-      console.error("Failed to load chat history:", error);
-    }
-    return [];
-  });
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [tierStatus, setTierStatus] = useState<TierStatus | null>(null);
@@ -105,15 +88,6 @@ export function RagChatInterface() {
     const interval = setInterval(loadStatus, 30000);
     return () => clearInterval(interval);
   }, []);
-
-  // Save messages to sessionStorage whenever they change
-  useEffect(() => {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-    } catch (error) {
-      console.error("Failed to save chat history:", error);
-    }
-  }, [messages]);
 
   // Auto-scroll to bottom when new messages added
   useEffect(() => {
