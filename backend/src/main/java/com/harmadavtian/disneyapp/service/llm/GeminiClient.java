@@ -87,7 +87,7 @@ public class GeminiClient implements LLMClient {
     @Override
     @Retryable(retryFor = {
             HttpServerErrorException.class }, maxAttempts = 3, backoff = @Backoff(delay = 1000, multiplier = 2))
-    public float[] generateEmbedding(String text) {
+    public float[] generateEmbedding(String text, String taskType) {
         if (text == null || text.isBlank()) {
             throw new IllegalArgumentException("Text cannot be null or empty");
         }
@@ -98,18 +98,19 @@ public class GeminiClient implements LLMClient {
         try {
             String url = String.format("%s/%s:embedContent?key=%s", BASE_URL, EMBEDDING_MODEL, apiKey);
 
-            // Build request body
+            // Build request body WITH task_type for proper RAG optimization
             Map<String, Object> requestBody = Map.of(
                     "model", "models/" + EMBEDDING_MODEL,
                     "content", Map.of(
-                            "parts", new Object[] { Map.of("text", text) }));
+                            "parts", new Object[] { Map.of("text", text) }),
+                    "taskType", taskType); // CRITICAL: Use RETRIEVAL_DOCUMENT for docs, RETRIEVAL_QUERY for queries
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
-            logger.debug("Generating embedding for text: {} chars", text.length());
+            logger.debug("Generating embedding for text ({} chars) with task type: {}", text.length(), taskType);
 
             ResponseEntity<String> response = restTemplate.exchange(
                     url,

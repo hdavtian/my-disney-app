@@ -112,7 +112,9 @@ public class RagService {
         String normalizedQuery = normalizeForEmbedding(request.getQuery());
         logger.debug("Normalized for embedding: '{}' -> '{}'", request.getQuery(), normalizedQuery);
 
-        float[] queryEmbedding = llmClient.generateEmbedding(normalizedQuery);
+        // Use RETRIEVAL_QUERY task type - optimized for searching against
+        // RETRIEVAL_DOCUMENT embeddings
+        float[] queryEmbedding = llmClient.generateEmbedding(normalizedQuery, "RETRIEVAL_QUERY");
         logger.debug("Generated query embedding: {} dimensions", queryEmbedding.length);
 
         // Step 2: Retrieve similar embeddings
@@ -345,6 +347,14 @@ public class RagService {
         }
 
         String trimmed = query.trim();
+
+        // If it's already a "tell me about X" format, extract the name and title-case
+        // it
+        if (trimmed.toLowerCase().startsWith("tell me about ")) {
+            String namePart = trimmed.substring("tell me about ".length());
+            String titleCasedName = toTitleCase(namePart);
+            return "Tell me about " + titleCasedName;
+        }
 
         // If it's already a question or full sentence (has question mark, ends with
         // period, or > 8 words), use as-is

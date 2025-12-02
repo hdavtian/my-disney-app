@@ -155,8 +155,9 @@ public class EmbeddingService {
         // Build text content for embedding
         String textContent = buildCharacterText(character);
 
-        // Generate embedding
-        float[] embedding = llmClient.generateEmbedding(textContent);
+        // Generate embedding with RETRIEVAL_DOCUMENT task type for optimal RAG
+        // performance
+        float[] embedding = llmClient.generateEmbedding(textContent, "RETRIEVAL_DOCUMENT");
 
         // Save to database
         ContentEmbedding contentEmbedding = new ContentEmbedding();
@@ -228,7 +229,7 @@ public class EmbeddingService {
         }
 
         String textContent = buildMovieText(movie);
-        float[] embedding = llmClient.generateEmbedding(textContent);
+        float[] embedding = llmClient.generateEmbedding(textContent, "RETRIEVAL_DOCUMENT");
 
         ContentEmbedding contentEmbedding = new ContentEmbedding();
         contentEmbedding.setContentType("movie");
@@ -299,7 +300,7 @@ public class EmbeddingService {
         }
 
         String textContent = buildParkText(park);
-        float[] embedding = llmClient.generateEmbedding(textContent);
+        float[] embedding = llmClient.generateEmbedding(textContent, "RETRIEVAL_DOCUMENT");
 
         ContentEmbedding contentEmbedding = new ContentEmbedding();
         contentEmbedding.setContentType("park");
