@@ -68,10 +68,13 @@ public class RagService {
         String cacheKey = request.getQuery() + "_" + request.getContentType();
         Cache cache = cacheManager.getCache("rag-queries");
 
+        logger.info("Cache key generated: '{}' (query='{}', contentType='{}')",
+                cacheKey, request.getQuery(), request.getContentType());
+
         if (cache != null) {
             Cache.ValueWrapper cachedValue = cache.get(cacheKey);
             if (cachedValue != null && cachedValue.get() != null) {
-                logger.info("RAG query cache HIT: '{}'", request.getQuery());
+                logger.info("RAG query cache HIT: '{}' (cacheKey: '{}')", request.getQuery(), cacheKey);
                 RagQueryResponseDto cachedResult = (RagQueryResponseDto) cachedValue.get();
                 // Return cached result with cached flag set to true
                 return new RagQueryResponseDto(
@@ -82,7 +85,7 @@ public class RagService {
             }
         }
 
-        logger.info("RAG query cache MISS: '{}'", request.getQuery());
+        logger.info("RAG query cache MISS: '{}' (cacheKey: '{}')", request.getQuery(), cacheKey);
         // Execute query and manually cache result
         RagQueryResponseDto response = executeQuery(request);
 
@@ -103,8 +106,12 @@ public class RagService {
     private RagQueryResponseDto executeQuery(RagQueryRequestDto request) {
         logger.info("Processing RAG query: '{}' (type: {})", request.getQuery(), request.getContentType());
 
-        // Step 1: Generate embedding for query
-        float[] queryEmbedding = llmClient.generateEmbedding(request.getQuery());
+        // Step 1: Generate embeddings for BOTH original and normalized queries
+        // This ensures we find the right content regardless of how the user types
+        String normalizedQuery = normalizeForEmbedding(request.getQuery());
+        logger.debug("Normalized for embedding: '{}' -> '{}'", request.getQuery(), normalizedQuery);
+
+        float[] queryEmbedding = llmClient.generateEmbedding(normalizedQuery);
         logger.debug("Generated query embedding: {} dimensions", queryEmbedding.length);
 
         // Step 2: Retrieve similar embeddings
@@ -310,5 +317,82 @@ public class RagService {
         }
 
         return firstLine.trim();
+    }
+
+    /**
+     * Normalize query for embedding generation to ensure consistent results.
+     * 
+     * Problem: Gemini embeddings are HIGHLY sensitive to formatting:
+     * - "mickey mouse" → Returns Daisy Duck (0.49 similarity)
+     * - "Tell me about Mickey Mouse" → Returns Mickey Mouse (0.78 similarity)
+     * 
+     * Solution: Normalize ALL queries to a consistent format that works well with
+     * embeddings.
+     * 
+     * Rules:
+     * 1. Trim whitespace
+     * 2. Ensure proper capitalization (title case for names)
+     * 3. Wrap short queries in full sentence structure
+     * 4. Preserve questions and longer queries as-is
+     * 
+     * @param query User's original query (can be messy)
+     * @return Normalized query optimized for embedding accuracy
+     */
+    private String normalizeForEmbedding(String query) {
+        if (query == null || query.isBlank()) {
+            return query;
+        }
+
+        String trimmed = query.trim();
+
+        // If it's already a question or full sentence (has question mark, ends with
+        // period, or > 8 words), use as-is
+        // Just capitalize first letter if needed
+        boolean isQuestion = trimmed.contains("?");
+        boolean isSentence = trimmed.endsWith(".") || trimmed.endsWith("!") || trimmed.split("\\s+").length > 8;
+
+        if (isQuestion || isSentence) {
+            // Just ensure first letter is capitalized
+            if (Character.isLowerCase(trimmed.charAt(0))) {
+                return Character.toUpperCase(trimmed.charAt(0)) + trimmed.substring(1);
+            }
+            return trimmed;
+        }
+
+        // Short query: wrap in proper sentence for better embeddings
+        // Apply title case to likely character/movie names
+        String titleCased = toTitleCase(trimmed);
+
+        return "Tell me about " + titleCased;
+    }
+
+    /**
+     * Convert string to title case (capitalize first letter of each word).
+     * Handles names like "mickey mouse" → "Mickey Mouse"
+     */
+    private String toTitleCase(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        String[] words = input.split("\\s+");
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < words.length; i++) {
+            if (i > 0) {
+                result.append(" ");
+            }
+
+            String word = words[i];
+            if (word.length() > 0) {
+                // Capitalize first letter, lowercase the rest
+                result.append(Character.toUpperCase(word.charAt(0)));
+                if (word.length() > 1) {
+                    result.append(word.substring(1).toLowerCase());
+                }
+            }
+        }
+
+        return result.toString();
     }
 }

@@ -1,22 +1,25 @@
 package com.harmadavtian.disneyapp.config;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Spring Cache configuration for RAG queries.
  * 
- * Uses in-memory caching to reduce LLM API calls for frequently asked
- * questions.
+ * Uses Caffeine in-memory cache with TTL to prevent stale results.
  * Cache key format: {query}_{contentType}
  * 
  * Cache strategy:
  * - Cache name: "rag-queries"
- * - Eviction: Manual via admin endpoint (future)
- * - TTL: Not enforced (relies on restart to clear stale data)
+ * - TTL: 5 minutes (balances freshness vs API cost)
+ * - Max size: 500 entries
+ * - Eviction: LRU (Least Recently Used)
  * 
  * Production considerations:
  * - For high traffic, consider Redis cache
@@ -30,18 +33,22 @@ import org.springframework.context.annotation.Configuration;
 public class CacheConfig {
 
     /**
-     * Create cache manager with rag-queries cache.
+     * Create cache manager with TTL-enabled rag-queries cache.
      * 
-     * ConcurrentMapCacheManager:
+     * Caffeine cache:
      * - Thread-safe in-memory cache
-     * - No size limit (grows with heap)
-     * - No TTL support (manual eviction only)
-     * - Good for < 1000 queries
+     * - Automatic expiration after 5 minutes
+     * - Max 500 entries (prevents memory bloat)
+     * - LRU eviction policy
      * 
      * @return Cache manager instance
      */
     @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager("rag-queries");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("rag-queries");
+        cacheManager.setCaffeine(Caffeine.newBuilder()
+                .expireAfterWrite(5, TimeUnit.MINUTES)
+                .maximumSize(500));
+        return cacheManager;
     }
 }
