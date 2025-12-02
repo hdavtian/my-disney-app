@@ -25,14 +25,18 @@ public interface LLMClient {
      * - Gemini: 768 dimensions (text-embedding-004)
      * - OpenAI: 1536 dimensions (text-embedding-3-small)
      * 
-     * @param text Text to embed (max 10,000 tokens)
+     * @param text     Text to embed (max 10,000 tokens)
+     * @param taskType Task type for embedding optimization:
+     *                 RETRIEVAL_DOCUMENT for stored content (characters, movies,
+     *                 parks)
+     *                 RETRIEVAL_QUERY for user search queries
      * @return Vector embedding (normalized to unit length)
      * @throws IllegalArgumentException if text is null, empty, or exceeds token
      *                                  limit
      * @throws LLMRateLimitException    if rate limit exceeded
      * @throws LLMServiceException      if API call fails after retries
      */
-    float[] generateEmbedding(String text);
+    float[] generateEmbedding(String text, String taskType);
 
     /**
      * Generate text response from prompt.
