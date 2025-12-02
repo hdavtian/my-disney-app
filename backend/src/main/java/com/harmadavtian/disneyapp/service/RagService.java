@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * Service for RAG (Retrieval-Augmented Generation) queries.
  * 
  * Implements standard RAG workflow:
- * 1. Generate embedding for user query
+ * 1. Generate embedding for user query (with normalization for consistency)
  * 2. Retrieve top K similar embeddings from database
  * 3. Build prompt with retrieved context
  * 4. Generate response using LLM
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
  * Features:
  * - Content type filtering (character, movie, park, attraction)
  * - Similarity score normalization (0.0-1.0)
+ * - Query normalization for robust embedding generation
  * - Query result caching (reduces API calls)
  * - Structured citations with excerpts
  * 
