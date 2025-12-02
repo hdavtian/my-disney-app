@@ -68,6 +68,13 @@ public class EmbeddingService {
     public EmbeddingGenerationResult generateAllEmbeddings(boolean forceRegenerate) {
         logger.info("Starting batch embedding generation (force={})...", forceRegenerate);
 
+        // If force regenerate, delete all existing embeddings first
+        if (forceRegenerate) {
+            logger.info("Force regenerate enabled - deleting all existing embeddings...");
+            embeddingRepository.deleteAll();
+            logger.info("All existing embeddings deleted");
+        }
+
         EmbeddingGenerationResult result = new EmbeddingGenerationResult();
 
         // Generate character embeddings
