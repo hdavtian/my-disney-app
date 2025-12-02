@@ -115,4 +115,14 @@ public interface ContentEmbeddingRepository
      * @return List of embeddings
      */
     List<ContentEmbedding> findByContentTypeAndModelVersion(String contentType, String modelVersion);
+
+    /**
+     * Delete all embeddings efficiently using native SQL.
+     * Much faster than deleteAll() which deletes one by one.
+     * 
+     * @return Number of embeddings deleted
+     */
+    @Query(value = "DELETE FROM content_embeddings", nativeQuery = true)
+    @org.springframework.data.jpa.repository.Modifying
+    int deleteAllEmbeddings();
 }

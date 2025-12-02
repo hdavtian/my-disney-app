@@ -71,8 +71,8 @@ public class EmbeddingService {
         // If force regenerate, delete all existing embeddings first
         if (forceRegenerate) {
             logger.info("Force regenerate enabled - deleting all existing embeddings...");
-            embeddingRepository.deleteAll();
-            logger.info("All existing embeddings deleted");
+            int deleted = embeddingRepository.deleteAllEmbeddings();
+            logger.info("Deleted {} existing embeddings", deleted);
         }
 
         EmbeddingGenerationResult result = new EmbeddingGenerationResult();
