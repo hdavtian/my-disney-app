@@ -25,6 +25,9 @@ dist/
 backend/src/main/resources/application-local.properties
 backend/src/main/resources/application-local-prod-db.properties
 
+# Testing cookies from curl commands
+cookies.txt
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
