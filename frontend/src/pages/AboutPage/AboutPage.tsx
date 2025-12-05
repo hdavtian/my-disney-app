@@ -6,16 +6,56 @@ import { video_content } from "../../types/video.types";
 // Static video data for About page
 const aboutPageVideos: video_content[] = [
   {
-    youtube_url: "https://www.youtube.com/watch?v=V6JKLQj50ro",
-    title: "Disney App Demo - Part 1",
+    youtube_url: "https://youtu.be/I18i2cvdNjo",
+    title: "Disney App Demo - Introduction",
     description:
       "Overview of the Disney App architecture and features, showcasing the modern React frontend with Redux state management, SCSS styling, and cinematic design patterns.",
   },
   {
-    youtube_url: "https://www.youtube.com/watch?v=d5vAGeplOGE",
-    title: "Disney App Demo - Part 2",
+    youtube_url: "https://youtu.be/umRbyRVrqq8",
+    title: "Homepage",
     description:
-      "Deep dive into the technical implementation, covering the Spring Boot backend, PostgreSQL database, Azure cloud hosting, and full-stack integration.",
+      "Quick walkthrough of the Disney App homepage, highlighting the dynamic carousels, responsive layout, and theme system built with React and Framer Motion.",
+  },
+  {
+    youtube_url: "https://youtu.be/KvcDGnVBQBI",
+    title: "Movies and Characters",
+    description:
+      "Demonstration of the movie and character catalog features, including grid/list views, detail pages, and favorites system implemented using Redux Toolkit for state management.",
+  },
+  {
+    youtube_url: "https://youtu.be/topct8eq7yM",
+    title: "Parks and Attractions",
+    description:
+      "Showcase of the Disney Parks section, featuring park detail pages, attraction filtering, and interactive maps, all built with a clean architecture using React and TypeScript.",
+  },
+  {
+    youtube_url: "https://youtu.be/0yYAG5KQMCc",
+    title: "Favorites",
+    description:
+      "Showing the favorites system for movies, characters and parks",
+  },
+  {
+    youtube_url: "https://youtu.be/ISZj4sodlKc",
+    title: "Games",
+    description: "Showcasing the interactive games available in the app",
+  },
+  {
+    youtube_url: "https://youtu.be/t_z_lcq4moE",
+    title: "AI Assistant RAG",
+    description:
+      "Demonstration of the AI Assistant using Retrieval-Augmented Generation (RAG) techniques.",
+  },
+  {
+    youtube_url: "https://youtu.be/y3G-xj7eBBo",
+    title: "Search Page",
+    description: "Showing the Disney search page which unifies all content",
+  },
+  {
+    youtube_url: "https://youtu.be/-h2NB0blBbs",
+    title: "Theme System",
+    description:
+      "Demonstration of the Disney App's theme system with light and dark modes",
   },
 ];
 
