@@ -67,17 +67,9 @@ export const getYouTubeEmbedUrl = (
   videoId: string,
   autoplay: boolean = false
 ): string => {
-  const params = new URLSearchParams({
-    autoplay: autoplay ? "1" : "0",
-    rel: "0", // Don't show related videos from other channels
-    modestbranding: "1", // Minimal YouTube branding
-    controls: "1", // Show player controls
-    showinfo: "0", // Hide video title/uploader
-    fs: "1", // Allow fullscreen
-    playsinline: "1", // Play inline on iOS
-  });
-
-  return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+  // Use minimal or no parameters to avoid cross-origin console errors
+  // Plain embed URL works just like Angular implementation
+  return `https://www.youtube.com/embed/${videoId}`;
 };
 
 /**
