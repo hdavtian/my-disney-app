@@ -4,9 +4,9 @@ A modern, cinematic Disney character catalog web application combining **React**
 
 <div align="center">
 
-<a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/React-19-61DAFB?logo=react" alt="React"></a>
+<a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/React-18.3-61DAFB?logo=react" alt="React"></a>
 <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.3.0-6DB33F?logo=springboot" alt="Spring Boot"></a>
-<a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript" alt="TypeScript"></a>
+<a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript" alt="TypeScript"></a>
 <a href="https://openjdk.org/" target="_blank"><img src="https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk" alt="Java"></a>
 <a href="https://www.postgresql.org/" target="_blank"><img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql" alt="PostgreSQL"></a>
 <a href="https://swagger.io/" target="_blank"><img src="https://img.shields.io/badge/OpenAPI-3.0-85EA2D?logo=swagger" alt="Swagger"></a>
@@ -46,7 +46,7 @@ Disney App is a creative and technical showcase demonstrating modern full-stack 
 
 ```
 my-disney-app/
-├── frontend/          # React 19 + Vite 7.2 + TypeScript + Redux Toolkit
+├── frontend/          # React 18.3 + Vite 7.2 + TypeScript + Redux Toolkit
 ├── backend/           # Spring Boot 3.3 + JPA + PostgreSQL
 ├── database/          # Data files and migration scripts
 ├── docs/              # Technical documentation
@@ -57,10 +57,10 @@ my-disney-app/
 
 #### Frontend
 
-- **Framework**: React 19 with Vite 7.2
-- **Language**: TypeScript 5.x
+- **Framework**: React 18.3 with Vite 7.2
+- **Language**: TypeScript 5.5
 - **State Management**: Redux Toolkit
-- **Styling**: SCSS 1.94 + Bootstrap + CSS Variables
+- **Styling**: SCSS 1.77 + Bootstrap + CSS Variables
 - **Animations**: Framer Motion
 - **Build Tool**: Vite 7.2
 
@@ -91,7 +91,6 @@ my-disney-app/
 
 - Node.js 18+ and npm
 - Visual Studio Code (recommended)
-- **YouTube Data API Key** (optional but recommended for video components)
 
 **Backend**:
 
@@ -114,7 +113,6 @@ npm install
 # Create .env.local file with environment variables
 # Copy .env.local.example if available or create manually:
 # VITE_API_BASE_URL=http://localhost:8080
-# VITE_YOUTUBE_API_KEY=your-youtube-api-key-here (optional)
 
 # Start development server
 npm run dev
@@ -123,7 +121,7 @@ npm run dev
 npm run storybook
 ```
 
-Frontend will be available at: **http://localhost:5173**
+Frontend will be available at: **http://localhost:3000**
 
 Storybook will be available at: **http://localhost:6006** 🎨
 
@@ -150,124 +148,21 @@ Backend will be available at: **http://localhost:8080**
 
 ## 📚 API Documentation
 
-### Interactive Swagger UI
-
-Explore and test the API interactively:
+The Disney App backend follows OpenAPI 3.0 standards and provides comprehensive API documentation through Swagger UI.
 
 **Production (Live)**: <a href="https://api.movie-app.disney.harma.dev/swagger-ui/index.html" target="_blank">https://api.movie-app.disney.harma.dev/swagger-ui/index.html</a> 🌐
 
 **Local Development**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
-Features:
-
-- ✅ Try out endpoints directly in browser
-- ✅ Complete request/response documentation
-- ✅ Example values and schemas
-- ✅ No Postman required
-
-### Available Endpoints
-
-**Characters API**:
-
-- `GET /api/characters` - Get all Disney characters
-- `GET /api/characters/{id}` - Get character by ID
-- `GET /api/characters/ids` - Get all character IDs
-- `GET /api/characters/random-except/{excludeId}?count=3` - Get random characters
-
-**Movies API**:
-
-- `GET /api/movies` - Get all Disney movies
-- `GET /api/movies/{id}` - Get movie by ID
-- `GET /api/movies/batch?ids=1,5,12` - Batch fetch movies by IDs
-
-**Batch Fetch Endpoints** (Performance Optimized):
-
-- `GET /api/movies/batch?ids=1,5,12,23,45` - Fetch multiple movies in one request
-- `GET /api/characters/batch?ids=1,3,8,15,27` - Fetch multiple characters in one request
-- `GET /api/attractions/batch?ids=1,2,7,45,88` - Fetch multiple attractions in one request
-
-> **⚡ Performance**: Batch endpoints are optimized for loading favorites and related items. Instead of fetching all 800+ movies to display 3 favorites, batch endpoints fetch only what you need in a single HTTP request. This results in 10x faster load times and 100x smaller payloads.
-
-**Disney Search API** (Unified Search):
-
-- `GET /api/search?query={term}&categories=movies,characters,parks` - Aggregate search across all content
-- `GET /api/search/capabilities` - Get available search scopes and fields
-- **Match Modes**: Exact word matching or partial substring matching
-- **Search Scopes**: Basic (titles/descriptions) or Extended (metadata, tags, years)
-- **Field Highlighting**: Returns matched snippets with position markers for UI highlighting
-- **Category Filtering**: Search movies, characters, parks/attractions independently or together
-
-> **🔍 Smart Search**: The Disney Search API supports advanced features like word boundary matching, multi-field search (titles, descriptions, metadata), and intelligent highlighting. Search can target specific fields like creation year, movie rating, character type, park location, and more in extended mode.
-
-**Carousel API**:
-
-- `GET /api/carousels?location=homepage` - Get carousel items
-
-**Disney Parks API**:
-
-- `GET /api/parks` - Get all Disney parks worldwide
-- `GET /api/parks/{urlId}` - Get park by URL ID
-- `GET /api/parks/country/{country}` - Get parks by country
-- `GET /api/parks/resort/{resort}` - Get parks by resort name
-- `GET /api/parks/castle-parks` - Get all castle parks
-
-**Disney Attractions API**:
-
-- `GET /api/attractions` - Get all park attractions
-- `GET /api/attractions/{urlId}` - Get attraction by URL ID
-- `GET /api/attractions/park/{parkUrlId}` - Get attractions by park
-- `GET /api/attractions/type/{type}` - Get attractions by type
-- `GET /api/attractions/thrill-level/{level}` - Get attractions by thrill level
-- `GET /api/attractions/operational/{isOperational}` - Get operational/closed attractions
-- `GET /api/attractions/search?q={query}` - Search attractions by keyword
-
-**Admin API** (Data Management):
-
-- `POST /api/admin/reseed-characters` - Reseed character data
-- `POST /api/admin/reseed-movies` - Reseed movie data
-- `POST /api/admin/reseed-parks` - Reseed parks and attractions
-- `POST /api/admin/reseed-attractions` - Reseed attractions only
-- `POST /api/admin/reseed-all` - Reseed entire database
-
-**OpenAPI Specification**:
-
-- JSON: `http://localhost:8080/v3/api-docs`
-- YAML: `http://localhost:8080/v3/api-docs.yaml`
-
 ---
 
-## � Component Documentation (Storybook)
+## 📚 Component Documentation (Storybook)
 
-### Interactive Component Library
+Explore all React components in an isolated, interactive environment.
 
-Explore all React components in an isolated, interactive environment:
-
-**🔗 Live Storybook**: <a href="https://hdavtian.github.io/my-disney-app/" target="_blank">https://hdavtian.github.io/my-disney-app/</a> (Coming Soon)
+**🔗 Live Storybook**: <a href="https://hdavtian.github.io/my-disney-app/" target="_blank">https://hdavtian.github.io/my-disney-app/</a>
 
 **Local Development**: `http://localhost:6006`
-
-Features:
-
-- ✅ Browse all 7+ documented React components
-- ✅ Interactive component playground
-- ✅ View all component states and variants
-- ✅ Copy-paste ready code examples
-- ✅ Accessibility testing built-in
-- ✅ Responsive viewport testing
-
-### Documented Components
-
-**Phase 1** (Current):
-
-- `CharacterCard` - Display character information with favorite toggle
-- `MovieCard` - Display movie details with poster and metadata
-- `FavoriteButton` - Toggle favorites for characters and movies
-- `SearchInput` - Generic search input with autocomplete
-- `Navigation` - Main navigation bar with responsive mobile menu
-- `Footer` - Site footer with links
-- `ViewModeToggle` - Switch between grid and list views
-
-**Phase 2-4** (Planned): Carousels, Grid Views, Quiz components, and more
 
 ### Run Storybook Locally
 
@@ -287,46 +182,6 @@ Manual deployment:
 ```bash
 cd frontend
 npm run deploy-storybook
-```
-
----
-
-## �📂 Project Structure
-
-### Frontend (`/frontend`)
-
-```
-frontend/
-├── src/
-│   ├── components/        # Reusable React components
-│   ├── pages/            # Page components (routing)
-│   ├── store/            # Redux state management
-│   ├── hooks/            # Custom React hooks
-│   ├── styles/           # SCSS stylesheets
-│   ├── types/            # TypeScript type definitions
-│   ├── utils/            # Utility functions
-│   └── config/           # Configuration files
-├── public/               # Static assets
-└── vite.config.ts        # Vite configuration
-```
-
-### Backend (`/backend`)
-
-```
-backend/
-├── src/main/java/com/harmadavtian/disneyapp/
-│   ├── controller/       # REST API controllers
-│   ├── service/          # Business logic
-│   ├── repository/       # Data access layer
-│   ├── model/            # Entity classes
-│   └── config/           # Spring configuration
-├── src/main/resources/
-│   ├── application.properties              # Shared config
-│   ├── application-local.properties        # Local dev
-│   ├── application-prod.properties         # Production
-│   └── db/migration/                       # Flyway migrations
-├── Dockerfile            # Multi-stage Docker build
-└── pom.xml              # Maven dependencies
 ```
 
 ---
@@ -400,17 +255,8 @@ backend/
 - **Video showcase** on About page
 - **Modal player** with theater mode
 - **2-column slider** layout with video thumbnails and descriptions
-- **YouTube Data API** integration for video metadata (optional)
 - **Keyboard navigation** and accessibility support
 - **"Watch on YouTube"** and fullscreen options
-
-> **🎥 Note**: YouTube video components work without an API key using public thumbnail URLs. To fetch video metadata (title, description, duration) from YouTube, obtain a free API key from [Google Cloud Console](https://console.cloud.google.com/) and add to `.env.local`:
->
-> ```bash
-> VITE_YOUTUBE_API_KEY=your-youtube-api-key-here
-> ```
->
-> **Production**: Add `VITE_YOUTUBE_API_KEY` to Azure Static Web App environment variables (see deployment section).
 
 ### Responsive Design
 
@@ -452,60 +298,26 @@ docker-compose down  # Stop containers
 
 ---
 
-## 📖 Documentation
-
-Comprehensive documentation available in `/docs`:
-
-- **[DISNEY_PARKS_ATTRACTIONS_IMPLEMENTATION_PLAN.md](docs/DISNEY_PARKS_ATTRACTIONS_IMPLEMENTATION_PLAN.md)** - Disney Parks feature documentation
-- **[STORYBOOK_INTEGRATION_GUIDE.md](docs/STORYBOOK_INTEGRATION_GUIDE.md)** - Storybook setup and usage
-- **[SWAGGER_OPENAPI_INTEGRATION.md](docs/SWAGGER_OPENAPI_INTEGRATION.md)** - Swagger implementation guide
-- **[DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md)** - Deployment instructions
-- **[CHARACTER_QUIZ_GAME.md](docs/CHARACTER_QUIZ_GAME.md)** - Quiz feature documentation
-- **[IMAGE_SERVING_STRATEGY.md](docs/IMAGE_SERVING_STRATEGY.md)** - Image optimization
-- **[PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md)** - Performance tuning
-
----
-
-## 🧪 Testing
-
-### Frontend Testing
-
-```bash
-cd frontend
-npm run test         # Run unit tests (when configured)
-```
-
-### Backend Testing
-
-```bash
-cd backend
-mvn test            # Run all tests
-mvn verify          # Run tests + integration tests
-```
-
----
-
 ## 🚢 Deployment
 
 ### Frontend
 
-- Platform: Azure Static Web Apps (planned)
-- Build: Vite production build
-- CDN: Azure CDN for static assets
+- **Platform**: Azure Static Web Apps
+- **Build**: Vite production build
+- **CDN**: Azure CDN for static assets
+- **Live URL**: <a href="https://movie-app.disney.harma.dev" target="_blank">https://movie-app.disney.harma.dev</a>
 - **Environment Variables**: Set in Azure Static Web App configuration:
   - `VITE_API_BASE_URL` - Production API URL
   - `VITE_ASSETS_BASE_URL` - Azure Blob Storage URL for images
   - `VITE_GA_MEASUREMENT_ID` - Google Analytics ID
-  - `VITE_YOUTUBE_API_KEY` - YouTube Data API key (TODO: Add before production deployment)
-
-> **⚠️ TODO**: Before deploying to production, add `VITE_YOUTUBE_API_KEY` to Azure Static Web App environment variables to enable YouTube video metadata fetching.
 
 ### Backend
 
-- Platform: Azure Container Apps
-- Database: Neon PostgreSQL (cloud)
-- CI/CD: GitHub Actions
-- Container Registry: GitHub Container Registry (GHCR)
+- **Platform**: Azure Container Apps
+- **Database**: Neon PostgreSQL (cloud)
+- **CI/CD**: GitHub Actions
+- **Container Registry**: GitHub Container Registry (GHCR)
+- **Live API**: <a href="https://api.movie-app.disney.harma.dev" target="_blank">https://api.movie-app.disney.harma.dev</a>
 - **Monitoring**: Azure Application Insights (5GB/month free tier)
 
 #### Monitoring & Observability
@@ -585,29 +397,6 @@ DATABASE_USERNAME=neondb_owner
 DATABASE_PASSWORD=your-secure-password
 SPRING_PROFILES_ACTIVE=prod
 ```
-
----
-
-## 🤝 Contributing
-
-This is a personal portfolio project, but feedback and suggestions are welcome!
-
-### Development Guidelines
-
-**Frontend** (VS Code):
-
-- Follow React 19 conventions
-- Use functional components with hooks
-- TypeScript for type safety
-- SCSS modules for styling
-- Named exports preferred
-
-**Backend** (IntelliJ IDEA):
-
-- Follow Spring Boot best practices
-- Java 21 features encouraged
-- Javadoc for all public APIs
-- Package structure: `controller`, `service`, `repository`, `model`, `config`
 
 ---
 
