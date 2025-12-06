@@ -65,7 +65,7 @@ export const VideoModal = ({
     window.open(getYouTubeWatchUrl(videoId), "_blank", "noopener,noreferrer");
   };
 
-  const embedUrl = getYouTubeEmbedUrl(videoId, true); // Autoplay when modal opens
+  const embedUrl = getYouTubeEmbedUrl(videoId);
 
   return (
     <AnimatePresence>

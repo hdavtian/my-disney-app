@@ -57,18 +57,14 @@ export const getYouTubeThumbnail = (
 };
 
 /**
- * Generate YouTube embed URL with optimal parameters
+ * Generate YouTube embed URL (plain format to avoid cross-origin errors)
  *
  * @param videoId - YouTube video ID
- * @param autoplay - Auto-play video when loaded
- * @returns Embed URL with parameters
+ * @returns Embed URL without parameters
  */
-export const getYouTubeEmbedUrl = (
-  videoId: string,
-  autoplay: boolean = false
-): string => {
-  // Use minimal or no parameters to avoid cross-origin console errors
-  // Plain embed URL works just like Angular implementation
+export const getYouTubeEmbedUrl = (videoId: string): string => {
+  // Use plain embed URL without parameters to avoid cross-origin console errors
+  // This matches the Angular implementation pattern
   return `https://www.youtube.com/embed/${videoId}`;
 };
 
